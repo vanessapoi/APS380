@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1130" viewBox="0 0 800 1130" role="img" aria-labelledby="title desc">
+  <title id="title">Race engine state machine</title>
+  <desc id="desc">The main sequence is CONFIG, EVENT_INIT, PRE_RACE, RACE_START, RACE, RACE_END, POST_RACE, EVENT_SHUTDOWN and SHUTDOWN. RACE repeats its update until finished or interrupted. RACE_STOP opens the stop menu; its resume callback returns to RACE. Repeat paths return from RACE_END to RACE_START for the next qualification driver, from POST_RACE to PRE_RACE for the next race, and from EVENT_SHUTDOWN to EVENT_INIT for the next track. Interactive shutdown returns to CONFIG; console shutdown returns to its caller. Optional restart, abort, error and exit paths are described below the diagram.</desc>
+  <!-- SPDX-License-Identifier: GFDL-1.2-or-later -->
+  <defs>
+    <marker id="blue-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#397591" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="teal-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#168376" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="amber-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#c47a35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #243c4b; }
+    .title { font-size: 26px; font-weight: bold; }
+    .state { font-size: 18px; font-weight: bold; }
+    .body { font-size: 16px; }
+    .small { font-size: 15px; fill: #526774; }
+    .card { fill: white; stroke: #dfe6e7; stroke-width: 1.5; }
+    .flow, .repeat, .control { fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .flow { stroke: #397591; marker-end: url(#blue-arrow); }
+    .repeat { stroke: #168376; marker-end: url(#teal-arrow); }
+    .control { stroke: #c47a35; marker-end: url(#amber-arrow); }
+  </style>
+  <rect width="800" height="1130" fill="#fffdfa"/>
+  <text x="32" y="42" class="title">Race engine state machine</text>
+  <text x="32" y="70" class="body">Read down the main lifecycle; follow labelled branches to repeat a stage.</text>
+
+  <!-- Main lifecycle. State labels omit their common RE_STATE_ prefix. -->
+  <g text-anchor="middle">
+    <rect x="280" y="106" width="220" height="58" rx="12" class="card"/>
+    <text x="390" y="130" class="state">CONFIG</text><text x="390" y="151" class="small">Race manager menu</text>
+    <rect x="280" y="194" width="220" height="58" rx="12" class="card"/>
+    <text x="390" y="218" class="state">EVENT_INIT</text><text x="390" y="239" class="small">Load track and driver list</text>
+    <rect x="280" y="282" width="220" height="58" rx="12" class="card"/>
+    <text x="390" y="306" class="state">PRE_RACE</text><text x="390" y="327" class="small">Prepare the session</text>
+    <rect x="280" y="370" width="220" height="58" rx="12" class="card"/>
+    <text x="390" y="394" class="state">RACE_START</text><text x="390" y="415" class="small">Initialize the race</text>
+    <rect x="280" y="458" width="220" height="58" rx="12" fill="#eef5f8" stroke="#397591" stroke-width="1.5"/>
+    <text x="390" y="482" class="state">RACE</text><text x="390" y="503" class="small">ReUpdate()</text>
+    <rect x="590" y="458" width="154" height="58" rx="12" fill="#fff5e9" stroke="#c47a35" stroke-width="1.5"/>
+    <text x="667" y="482" class="state">RACE_STOP</text><text x="667" y="503" class="small">Stop menu</text>
+    <rect x="280" y="650" width="220" height="58" rx="12" class="card"/>
+    <text x="390" y="674" class="state">RACE_END</text><text x="390" y="695" class="small">Cleanup and results</text>
+    <rect x="280" y="738" width="220" height="58" rx="12" class="card"/>
+    <text x="390" y="762" class="state">POST_RACE</text><text x="390" y="783" class="small">Advance the race list</text>
+    <rect x="280" y="826" width="220" height="58" rx="12" class="card"/>
+    <text x="390" y="850" class="state">EVENT_SHUTDOWN</text><text x="390" y="871" class="small">Finish the event</text>
+    <rect x="280" y="914" width="220" height="58" rx="12" class="card"/>
+    <text x="390" y="938" class="state">SHUTDOWN</text><text x="390" y="959" class="small">Finish the lifecycle</text>
+  </g>
+  <path d="M390 164 V194" class="flow"/>
+  <path d="M390 252 V282" class="flow"/>
+  <path d="M390 340 V370" class="flow"/>
+  <path d="M390 428 V458" class="flow"/>
+  <path d="M390 516 V650" class="flow"/>
+  <text x="407" y="583" class="small">race finished</text>
+  <path d="M390 708 V738" class="flow"/>
+  <path d="M390 796 V826" class="flow"/>
+  <path d="M390 884 V914" class="flow"/>
+
+  <!-- Update loop and stop-menu callbacks. -->
+  <path d="M280 496 H244 Q232 496 232 484 V458 Q232 446 244 446 H302 V458" class="flow"/>
+  <text x="221" y="541" class="small">update loop</text>
+  <path d="M500 473 H590" class="control"/>
+  <text x="545" y="459" class="small" text-anchor="middle">interrupt</text>
+  <path d="M590 500 H500" class="control"/>
+  <text x="545" y="528" class="small" text-anchor="middle">resume</text>
+  <path d="M667 516 V616 Q667 628 655 628 H482 Q470 628 470 640 V650" class="control"/>
+  <text x="550" y="596" class="small">end / cleanup</text>
+  <text x="550" y="616" class="small">if not resumed</text>
+
+  <!-- Nested repeat paths: the return levels avoid each other's connectors. -->
+  <path d="M500 679 H760 Q772 679 772 667 V411 Q772 399 760 399 H500" class="repeat"/>
+  <text x="548" y="365" class="small">next driver</text>
+  <text x="548" y="385" class="small">(qualification)</text>
+  <path d="M280 767 H212 Q200 767 200 755 V323 Q200 311 212 311 H280" class="repeat"/>
+  <text x="211" y="281" class="small">next</text><text x="211" y="300" class="small">race</text>
+  <path d="M280 855 H142 Q130 855 130 843 V235 Q130 223 142 223 H280" class="repeat"/>
+  <text x="146" y="208" class="small">next track</text>
+  <path d="M280 943 H72 Q60 943 60 931 V147 Q60 135 72 135 H280" class="repeat"/>
+  <text x="76" y="119" class="small">race menu (GUI)</text>
+  <path d="M500 943 H628" class="flow"/>
+  <text x="534" y="925" class="small">console mode</text>
+  <circle cx="636" cy="943" r="7" fill="#243c4b"/>
+  <text x="654" y="948" class="small">return</text>
+
+  <rect x="24" y="1000" width="752" height="106" rx="12" class="card"/>
+  <path d="M44 1027 H76" class="flow"/><text x="86" y="1032" class="small">Progress / update</text>
+  <path d="M284 1027 H316" class="repeat"/><text x="326" y="1032" class="small">Repeat / return</text>
+  <path d="M526 1027 H558" class="control"/><text x="568" y="1032" class="small">Stop / resume</text>
+  <text x="44" y="1064" class="small">State names omit RE_STATE_. Main lifecycle and repeat paths are shown.</text>
+  <text x="44" y="1088" class="small">Optional restart, abort, error and exit paths are explained in the text below.</text>
+</svg>

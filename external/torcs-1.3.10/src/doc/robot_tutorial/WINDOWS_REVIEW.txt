@@ -1,0 +1,95 @@
+Robot Tutorial native Windows verification -- 2026-09-29
+======================================================
+
+Scope
+-----
+Executed the reader-facing PowerShell blocks in windows.md from Chapter 2
+through Appendix C, including MSBuild discovery, Chapter 5 helper assembly,
+both Chapter 5 module builds, and the optional XML/image Copy-Item commands.
+Chapter 1 had already been checked by the maintainer; its working copy was
+preserved. This check used the existing TORCS development installation.
+
+Platform: Windows, Visual Studio 2022 Professional, v143, Release/x64.
+MSBuild: 17.14.60; compiler: MSVC 14.44.35207; language: C++14.
+All nine module builds succeeded with zero warnings and zero errors.
+No tutorial source/project/documentation correction was needed.
+
+Native execution
+----------------
+Ran the freshly installed, uninstrumented DLLs through runtime/wtorcs.exe -r,
+with runtime as the working directory, simuv2 and g-track-1. Every invocation
+returned zero. Each case used a unique race configuration filename and a
+previously nonexistent results directory. Checked fresh result XML for the
+expected module/index entries and completed laps; copied results into evidence.
+
+Case                         Laps completed       Damage / penalty time
+Chapter 2                    3                   29 / 0.0890769 s
+Chapter 3                    3                   0 / 0
+Chapter 4                    3                   0 / 0
+Chapter 5 solo               3                   0 / 0
+Chapter 5 with pace driver   3 main, 2 pace       0 / 0 for both
+Chapter 6 default            6                   0 / 0
+Chapter 6 demonstration      6, one pit stop      0 / 0
+Appendix A                   6                   0 / 0
+Appendix B                   6                   0 / 0
+Appendix C Red               6                   0 / 0
+Appendix C Teal              6                   0 / 0
+Appendix C both entries      6 each              0 / 0 for both
+
+Chapter 2 includes its supplied deliberate starting mistake. The pace driver
+was lapped in the mixed race. Chapter 6's demonstration used the documented
+DEMONSTRATION_STOP=true edit and a native incremental rebuild. Afterwards,
+restored false and rebuilt/reinstalled the default checkpoint.
+
+Deployment and downloads
+------------------------
+Verified installed XML/RGB/artwork-notice files against their working sources.
+Removed those generated runtime assets and reran the normal build commands:
+all were restored. Appendix A/B/C required no C++ compilation or relinking
+and still executed InstallTutorial, including C's index 1 and 2 folders.
+Asset counts: Chapter 6: 1; Appendix A: 3; B: 6; C: 11.
+Compared every file in tutorial6.zip, tutoriala.zip, tutorialb.zip and
+tutorialc.zip with the tested working sources (COPYING against root COPYING).
+All matched byte-for-byte: 24, 28, 34 and 45 archive files respectively.
+
+Evidence and limits
+-------------------
+Local evidence directory:
+C:\Users\berni\AppData\Local\Temp\opencode\tutorial-windows-_v1jgcv6
+
+report.json and numbered .ps1/.log files: executed documentation blocks/builds.
+races.json: eleven baseline race cases, DLL/executable/physics/config hashes,
+exit codes and result rows. races-ch6-demo.json: demonstration race evidence.
+*-race.log, *-result.xml and race configuration XML: fresh runtime evidence.
+deployment.json and *-redeploy.log: asset/archive and incremental build checks.
+Scratch runners are in the parent opencode directory:
+verify_tutorial_windows.py, run_tutorial_windows.py,
+check_tutorial_deployment.py.
+
+This establishes native Release/x64 build, installation and headless execution.
+It does not establish GUI appearance, in-menu unload/reload, Debug/Win32,
+or exhaustive driving-experiment/performance correctness. Linux verification
+was outside this run. Existing user edits were preserved. The new reader
+working copies remain in src/drivers/tutorial2..6 and tutoriala..c, with their
+modules/assets installed in runtime/drivers for subsequent manual use.
+
+Maintained verification runner -- 2026-09-29
+------------------------------------------
+The scratch checks above have been consolidated into
+test/robot_tutorial/check_windows.py. See that directory's README for the
+command, prerequisites, platform boundary and profile/result isolation.
+This runner builds in a private tree rather than the reader working copies.
+It shares archive/reporting helpers and race XML/entry/result helpers with
+the existing Linux checks, and reuses supported scenarios.json definitions.
+
+Full Release/x64 run passed: nine DLL builds, zero warnings/errors, archive
+and deployment checks, and eleven native race cases (the separate Chapter 5
+solo smoke case from the initial session is redundant with the pace case).
+Evidence: C:\Users\berni\AppData\Local\Temp\opencode\win-sz_g5rb_
+
+test_verification.py: all ten portable infrastructure tests passed, including
+failure/timeout reporting and negative result checks. The refactored race XML
+was also compared with the previous Linux generator: all 29 existing scenario
+configurations remained byte-identical. Verified that all three Linux native
+execution entry points reject Windows before launching native tools.
+No native Linux build/race was rerun during this Windows maintenance session.

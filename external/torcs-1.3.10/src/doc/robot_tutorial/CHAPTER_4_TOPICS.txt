@@ -1,0 +1,43 @@
+CHAPTER 4 — ORIGINAL-TOPIC COVERAGE AND TEACHING OUTLINE
+
+This edition is independent of the historical tutorial directory. Historical
+page names below identify material audited during the rewrite, not dependencies.
+
+Original topic                  New location / treatment
+vector1: constructors/copy      geometry.md: value initialization and default copy
+vector1: +, -, negation, scale  geometry.md; geometry4.h/.cpp
+vector1: dot, length, distance  geometry.md; geometry4.h/.cpp
+vector1: normalize, cosalpha    geometry.md: zero vectors and clamped cosine
+vector1: rotate around center  geometry.md; straight/curve target construction
+vector2: point + direction     geometry.md: parametric Line2, unit direction
+vector2: intersection          geometry.md: cross product; parallel status
+vector2: point-line distance   geometry.md: projection and infinite-line domain
+steer: speed-based lookahead   chapter_4.md: L0 + T v; correct T unit is seconds
+steer: segment traversal       chapter_4.md: metres/radians, bounded lap wrap
+steer: straight target         chapter_4.md + geometry.md: centerline interpolation
+steer: curved target           chapter_4.md + geometry.md: signed rotation
+steer: atan2, yaw, steer lock  chapter_4.md: normalized heading-error heuristic
+fast: joined same-side bends   trajectories.md; bounded effective-radius experiment
+fast: outside radius / sqrt   trajectories.md: normalized arc, finite boost limit
+fast: lap-time experiment      chapter_4.md: steering baseline before speed changes
+stability: throttle filter     chapter_4.md: road footprint, lift plus speed feedback
+stability: inside vs outside   trajectories.md: explain original heuristic and limits
+stability: low-speed bypass    chapter_4.md: allow rejoining; recovery takes precedence
+trajectories: optimal path     trajectories.md: specify model and constraints
+trajectories: heuristics       trajectories.md: track-dependent compromises
+trajectories: K1999/curvature   trajectories.md: geometric smoothing and vehicle model
+trajectories: splines          trajectories.md: containment between sample points
+trajectories: clothoids/arcs    trajectories.md: curvature continuity and transitions
+trajectories: machine learning trajectories.md: measured comparison and generalization
+
+Main teaching sequence
+1. Observe Chapter 3 with its existing speed settings.
+2. Change steering only; target ahead on the centerline, then heading error.
+3. Tune lookahead one constant at a time; observe anticipation and cutting.
+4. Add road-edge feedback; distinguish center, footprint and swept trajectory.
+5. Try higher speed and the bounded short-turn heuristic separately.
+6. Explore vector/line mathematics and alternative trajectory approaches.
+
+Implementation order: geometry and target tests -> simulator baseline comparison
+-> tune default settings -> text and diagrams -> independent download checks.
+Private automation, telemetry and simulator fixtures are not teaching requirements.

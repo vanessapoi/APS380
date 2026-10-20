@@ -1,0 +1,124 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torcs-track-tools"
+version = "0.1.0"
+description = "TORCS track authoring and conversion helper tools"
+requires-python = ">=3.12"
+dependencies = [
+  "defusedxml>=0.7,<1",
+  "numpy>=2.4,<2.5",
+  "Pillow",
+  "rasterio>=1.4,<2",
+  "scikit-image>=0.26,<0.27",
+]
+
+[project.optional-dependencies]
+repair = ["scipy>=1.13,<2"]
+dev = [
+  "bandit",
+  "coverage",
+  "flake8",
+  "flake8-cognitive-complexity",
+  "pytest",
+  "pytest-cov",
+  "radon",
+  "ruff",
+  "vulture",
+  "xenon",
+]
+
+[project.scripts]
+torcs-audit-track-radii = "torcs_track_tools.cli.audit_track_radii:main"
+torcs-batch-repair-track-radii = "torcs_track_tools.cli.batch_repair_track_radii:main"
+torcs-repair-track-radii = "torcs_track_tools.cli.repair_track_radii:main"
+torcs-apply-segments = "torcs_track_tools.cli.apply_segments:main"
+torcs-apply-elevation = "torcs_track_tools.cli.apply_elevation:main"
+torcs-adjust-side-clearance = "torcs_track_tools.cli.adjust_side_clearance:main"
+torcs-adjust-side-overlap = "torcs_track_tools.cli.adjust_side_overlap:main"
+torcs-auto-elevation = "torcs_track_tools.cli.auto_elevation:main"
+torcs-close-loop = "torcs_track_tools.cli.close_loop:main"
+torcs-close-loop2 = "torcs_track_tools.cli.close_loop_geometric:main"
+torcs-compare-overlay = "torcs_track_tools.cli.compare_overlay:main"
+torcs-compose-road-surface-profile = "torcs_track_tools.cli.compose_road_surface_profile:main"
+torcs-describe-lrs-fit = "torcs_track_tools.cli.describe_lrs_fit:main"
+torcs-draft-segments = "torcs_track_tools.cli.draft_segments:main"
+torcs-fetch-centerline = "torcs_track_tools.cli.fetch_centerline:main"
+torcs-fetch-elevation = "torcs_track_tools.cli.fetch_elevation:main"
+torcs-fetch-track-layout = "torcs_track_tools.cli.fetch_track_layout:main"
+torcs-georeference-centerline = "torcs_track_tools.cli.georeference_centerline:main"
+torcs-georeference-track = "torcs_track_tools.cli.georeference_track:main"
+torcs-image-to-centerline = "torcs_track_tools.cli.image_to_centerline:main"
+torcs-import-banking-zones = "torcs_track_tools.cli.import_banking_zones:main"
+torcs-import-elevation-raster = "torcs_track_tools.cli.import_elevation_raster:main"
+torcs-import-road-surface-raster = "torcs_track_tools.cli.import_road_surface_raster:main"
+torcs-integrate-pitlane = "torcs_track_tools.cli.integrate_pitlane:main"
+torcs-place-curbs = "torcs_track_tools.cli.place_curbs:main"
+torcs-polyline-to-torcs = "torcs_track_tools.cli.polyline_to_torcs:main"
+torcs-prepare-raster = "torcs_track_tools.cli.prepare_raster:main"
+torcs-prepare-loop-polyline = "torcs_track_tools.cli.prepare_loop_polyline:main"
+torcs-rebuild-mainline = "torcs_track_tools.cli.rebuild_mainline:main"
+torcs-reverse-centerline = "torcs_track_tools.cli.reverse_centerline:main"
+torcs-svg-to-centerline = "torcs_track_tools.cli.svg_to_centerline:main"
+torcs-render-cached-polyline-svg = "torcs_track_tools.cli.render_cached_polyline_svg:main"
+torcs-render-elevation-diff-svg = "torcs_track_tools.cli.render_elevation_diff_svg:main"
+torcs-render-labeled-segments-svg = "torcs_track_tools.cli.render_labeled_segments_svg:main"
+torcs-render-road-surface-diff-svg = "torcs_track_tools.cli.render_road_surface_diff_svg:main"
+torcs-render-seam-debug-svg = "torcs_track_tools.cli.render_seam_debug_svg:main"
+torcs-render-terrain-elevation-diff-png = "torcs_track_tools.cli.render_terrain_elevation_diff_png:main"
+torcs-render-track-map = "torcs_track_tools.cli.render_track_map:main"
+torcs-render-track-maps = "torcs_track_tools.cli.render_track_maps:main"
+torcs-render-trackgen-seam-debug = "torcs_track_tools.cli.render_trackgen_seam_debug:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+torcs_track_tools = ["templates/*.xml", "templates/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+branch = true
+source = ["torcs_track_tools"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+  'if __name__ == .__main__.',
+  'raise SystemExit\(main\(\)\)',
+]
+
+[tool.coverage.html]
+directory = "build/quality/coverage-html"
+
+[tool.coverage.xml]
+output = "build/quality/coverage.xml"
+
+[tool.ruff]
+line-length = 140
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[dependency-groups]
+dev = [
+  "bandit",
+  "coverage",
+  "flake8",
+  "flake8-cognitive-complexity",
+  "pytest",
+  "pytest-cov",
+  "radon",
+  "ruff",
+  "vulture",
+  "xenon",
+]

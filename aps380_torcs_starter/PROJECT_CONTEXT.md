@@ -241,9 +241,17 @@ Do not simply multiply all steering, throttle and brake inputs by one common fac
 
 The physical current command and TORCS power limitation must derive from the same allowable battery power calculation so the simulation and battery test remain consistent.
 
-### 9. Current Python starter code
+### 9. Python starter origin and current implementation
 
-We already have an initial software-only starter repository:
+The repository began as an initial software-only starter. Its current implemented status is summarized below and supersedes the original expected-file list:
+
+- Genuine public TORCS CSV ingestion through a separate adapter, with source preservation, unit conversion, exclusions and independent lap/continuity segments. This is not yet this team’s live TORCS/G29 integration.
+- Separate configurable EV model, energy-based cell scaling, signed fixed current limits, CSV processing and plotting.
+- Optional offline local-linear conditioning and explicit experiment scaling, assessed using comparisons and sensitivity/braking diagnostics. Neither establishes physical calibration.
+- Nineteen passing software tests at the October 8 review; architecture diagrams and explanatory documentation.
+- No implemented hardware communication, measured SOC/SOP, live simulator feedback or physical battery control.
+
+Repository:
 
 `aps380_torcs_starter/`
 
@@ -399,3 +407,88 @@ Avoid:
 - Unnecessary abstraction or complex design patterns.
 
 Keep the first milestone achievable, then expand the implementation incrementally.
+
+### 14. Team coordination update — October 8, 2026
+
+These notes reconcile the team's proposed hardware/firmware plan with the existing architecture. Proposed options and dates below are not completed work or finalized component selections.
+
+#### Immediate bench proof of concept
+
+- Proposed bench meeting: Friday, October 9, 2026. Time, attendees, lab access and meeting booking remain unconfirmed; recording this plan does not schedule or contact anyone.
+- Objective: demonstrate bidirectional **net cell-path current** using a sourcing PSU and sinking electronic load, both intended to operate in constant-current (CC) mode where their operating envelopes permit.
+- Use “CC mode” for this instrument behavior; “CCM” can also mean continuous-conduction mode in converter design and is ambiguous here.
+- First validate the concept without a lithium-ion cell using a supervisor-approved battery substitute / bench configuration that supports the intended source/sink conditions. Do not assume a resistor alone reproduces a bidirectional cell interface.
+- Independently measure PSU branch current, eLoad branch current and net test-path current; compare commanded and achieved current during discharge, neutral and charging requests and transitions.
+- Confirm whether the PSU actually maintains constant bias, including voltage compliance, mode changes and instrument synchronization. The ideal relation remains `I_cell = I_eLoad - I_PSU`; bias shifting remains conditional.
+- Assess instrument operating limits at the intended cell voltage, current tracking/settling, measurement accuracy and behavior when either instrument or controller stops. Capture evidence before claiming the bias concept is validated.
+- This is a separate hardware workstream; Milestone 1 Python remains offline.
+
+#### Cell, mechanical partition and BOM decisions
+
+The exact 18650 model remains unspecified. Record datasheet-backed minimum/maximum voltage, charge and discharge current limits separately, continuous versus pulse ratings (including pulse duration), capacity, and separate charge/discharge temperature ranges. “18650” specifies a form factor, not an operating envelope.
+
+A movable cell/protection daughterboard for temperature-chamber testing is a proposed option. Decide where sensing, independent protection, disconnects and connectors belong, and ensure moving the cell does not bypass protection or invalidate sensing. A separate BMS IC/board is not yet selected; it must have an explicitly defined role rather than silently replacing Python or ESP32 responsibilities.
+
+Relay/MOSFET/mechanical isolation, latching or resettable protection, precharge, discharge/bleed resistors, and any PSU-associated resistor are unresolved electrical design choices. Specify the purpose and circuit topology before choosing values or ordering application-specific parts. Evaluate precharge only after identifying capacitance, inrush and switch/instrument constraints; it is not automatically required for every single-cell setup.
+
+No BMS IC, capacitor, inductor, switch or resistor value is approved by these notes. The October 9 ordering list remains a candidate BOM, dependent on requirements, chosen topology and component ratings. Component reuse from perfboard to PCB is a cost-saving option, not a guaranteed assembly plan.
+
+#### Protection and monitoring responsibilities
+
+Maintain three separate layers:
+
+1. Python: high-level demand, measured SOC/SOP, operating limits and reporting.
+2. ESP32: local sensing, command validation, instrument coordination, current-tracking/mismatch monitoring, communication timeout and firmware supervision.
+3. Independent hardware: cell isolation and protection that do not rely on Python or normal ESP32 execution.
+
+Monitor cell voltage, net current and temperature; protect against over/undervoltage, overcurrent/short circuit and excessive temperature. Address host freeze, firmware freeze, reset, communication loss and PSU/eLoad mismatch. Specify fault detection thresholds, permitted transient duration, action, reset policy and verification separately. Software freezing is not the only failure mode: instrument outputs and the sourcing PSU can persist after command loss.
+
+Independent disconnection must interrupt hazardous paths in either current direction. An eLoad shutdown or a zero-current request is not sufficient isolation. A resettable fuse alone is not equivalent to complete controllable isolation; exact device capabilities must be evaluated. A current-sensing IC plus an automotive relay is one candidate, not an approved design; a sensor alone does not establish an independent trip mechanism.
+
+Temperature monitoring and isolation address overheating risk but do not guarantee that an internally initiated thermal runaway can be stopped. The lab's cell-handling/test procedures must address residual hazards independently of software estimates.
+
+SOC/SOP are operating estimates, not substitutes for direct trips. SOC uses measured net current, measurement elapsed time, capacity and initial SOC; voltage can inform/reference the estimate. SOP uses measured voltage/current/temperature, SOC and approved cell limits, with a conservative model initially.
+
+#### Ownership clarification for firmware planning
+
+The notes proposing firmware SOC/SOP work do **not** transfer primary estimator ownership: Python remains responsible for the project SOC/SOP estimates and the common allowable-power / TORCS feedback calculation. ESP32 owns sensing, fast local supervision and execution. Optional local conservative bounds or cross-check estimates may supplement the host, but must have defined authority and be reported so conflicting limits are reconciled explicitly.
+
+The ESP32 is more than a passive monitor: it also controls instruments and isolation requests. Independent protection remains separate. RTOS setup and JTAG/breakpoint debugging are firmware investigation tasks, not new Python dependencies or a finalized board/toolchain selection.
+
+#### Communication scope
+
+“I²C most likely” applies to compatible selected sensing ICs, not the entire system:
+
+| Link | Intended interface |
+| --- | --- |
+| TORCS ↔ Python | CSV replay now; proposed localhost UDP for live exchange |
+| Python ↔ ESP32 | Proposed USB serial |
+| ESP32 ↔ selected sensing ICs | I²C / ADC acquisition as supported by the chosen devices |
+| ESP32 ↔ BK Precision 8500 | Verified compatible serial interface; electrical compatibility/isolation unresolved |
+| ESP32 ↔ PSU | Optional model-dependent remote interface; manual setup initially |
+| ESP32 → isolation driver | GPIO through suitable driver circuitry |
+
+#### Tentative parallel work and timeline
+
+Parallel work means team workstreams with shared interfaces and test evidence; it does not require creating extra software frameworks.
+
+| Period | Proposed work | Dependencies / qualification |
+| --- | --- | --- |
+| October 9 | Bidirectional bench POC; start appropriate breadboard/perfboard prototyping | Approved bench configuration and instrument availability; prototype current paths must be suitable for their ratings |
+| Through end of October | Software independently develops own telemetry extraction, meaningful driver/power profiles, live processing mocks, feedback-hook investigation, monitoring/logging and software fault behavior | Public CSV ingestion already works; live telemetry modification/feedback is not yet implemented |
+| October, in parallel | Firmware sensing, serial protocol, instrument control, local faults, RTOS/debugging investigation alongside electrical prototyping | Board/toolchain and hardware interfaces need confirmation; define units/sign/timestamps/state contract early |
+| October design phase | Evaluate optional PLECS battery/circuit simulation; resolve precharge, bleed, resistors, switches and protection | Simulation is optional supporting evidence, not proof of bench protection or timing |
+| First week of November | If PCB is ready, connect/flash the ESP32 firmware and test in stages, beginning with protection before meaningful cell load | Manufacturing and delivery are not guaranteed; MCU may remain a DevKit connected to the custom PCB |
+| Within one week of PCB availability | Target HW/FW integration and decide whether to use the validated perfboard fallback | Target rather than demonstrated feasibility; fallback must still meet protection and measurement requirements |
+| By end of second week of November | Begin full SW/HW/FW integration | Compatible protocol, calibrated sensing, independently validated protection and instrument behavior |
+| Third week of November | Basic closed-loop functionality and refinement | Measured SOC/SOP and TORCS feedback must be verified together |
+| Fourth week of November | Video and final reports | Preserve validation evidence and limitations |
+| First week of December | Contingency buffer | Confirm against course submission dates |
+
+Consulting Professor Trescases and outside papers is proposed team research; access/contact and source verification remain pending. These notes do not authorize automated scheduling, emails or hardware operation.
+
+#### Milestone 1 alignment and acceptance boundary
+
+The implemented offline software aligns with the team tasks of creating meaningful driving/power/current profiles and with the Python host architecture. It does not implement physical POC control, a BMS, measured monitoring, independent protection, SOC/SOP or live telemetry feedback. Fixed clipping and passing equation tests are software evidence, not bench safety validation.
+
+The demonstrated source-informed smoothed/reduced profile is an engineering comparison: source-car association is inferred, nominal voltage/capacity and pack energy are assumptions, and experiment scale 0.2 deliberately reduces C-rate. Final profile and cell-specific bounds must be justified after cell selection and current-tracking POC evidence. Centered offline smoothing must be replaced or explicitly redesigned before real-time control.

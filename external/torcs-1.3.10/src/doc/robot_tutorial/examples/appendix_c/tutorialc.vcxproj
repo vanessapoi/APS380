@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2026 Bernhard Wymann. GPL-2.0-or-later. -->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32"><Configuration>Release</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E1A6BE78-887F-437E-A9EA-9D782CEAF751}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <SolutionDir Condition="'$(SolutionDir)'=='' Or '$(SolutionDir)'=='*Undefined*'">$(MSBuildThisFileDirectory)..\..\..\</SolutionDir>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType><PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Debug'">true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <TargetName>tutorialc</TargetName>
+    <OutDir>$(MSBuildThisFileDirectory)build\$(Platform)\$(Configuration)\</OutDir><IntDir>$(OutDir)obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp14</LanguageStandard><WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>$(SolutionDir)export\include;$(SolutionDir)src\windows\include;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary><RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>tgf.lib;robottools.lib;sg.lib;ul.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TorcsExportLibDir);$(TorcsLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>tutorialc.def</ModuleDefinitionFile>
+      <IgnoreSpecificDefaultLibraries Condition="'$(Configuration)'=='Debug'">LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="driver.cpp"/><ClCompile Include="settings.cpp"/><ClCompile Include="tutorialc.cpp"/><ClCompile Include="pit.cpp"/><ClCompile Include="spline.cpp"/><ClCompile Include="traffic.cpp"/>
+    <ClCompile Include="speed.cpp"/><ClCompile Include="braking.cpp"/><ClCompile Include="recovery.cpp"/><ClCompile Include="steering.cpp"/><ClCompile Include="geometry.cpp"/>
+    <ClInclude Include="driver.h"/><ClInclude Include="settings.h"/><ClInclude Include="pit.h"/><ClInclude Include="spline.h"/><ClInclude Include="traffic.h"/><ClInclude Include="speed.h"/><ClInclude Include="braking.h"/><ClInclude Include="recovery.h"/><ClInclude Include="steering.h"/><ClInclude Include="geometry.h"/>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="InstallTutorial" AfterTargets="Build">
+    <MakeDir Directories="$(TorcsRuntimeDir)drivers\tutorialc" />
+    <MakeDir Directories="$(TorcsRuntimeDir)drivers\tutorialc\1;$(TorcsRuntimeDir)drivers\tutorialc\2" />
+    <Copy SourceFiles="$(TargetPath);$(MSBuildThisFileDirectory)tutorialc.xml;$(MSBuildThisFileDirectory)default.xml;$(MSBuildThisFileDirectory)g-track-1.xml;$(MSBuildThisFileDirectory)logo.rgb;$(MSBuildThisFileDirectory)ARTWORK.txt" DestinationFolder="$(TorcsRuntimeDir)drivers\tutorialc" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)1\default.xml;$(MSBuildThisFileDirectory)1\g-track-1.xml;$(MSBuildThisFileDirectory)1\car1-stock1.rgb" DestinationFolder="$(TorcsRuntimeDir)drivers\tutorialc\1" />
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)2\default.xml;$(MSBuildThisFileDirectory)2\g-track-1.xml;$(MSBuildThisFileDirectory)2\car1-stock1.rgb" DestinationFolder="$(TorcsRuntimeDir)drivers\tutorialc\2" />
+  </Target>
+</Project>

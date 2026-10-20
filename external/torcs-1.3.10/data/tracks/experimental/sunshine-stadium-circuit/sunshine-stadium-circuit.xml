@@ -1,0 +1,2723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : sunshine-stadium-circuit.xml
+    created              : 14 Aug 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Sunshine Stadium Circuit" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Sunshine Stadium Circuit" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Sunshine Stadium Circuit for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="sunshine-stadium-circuit.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="sunshine-stadium-circuit-relief.ac" />
+			<attstr name="elevation map" val="sunshine-stadium-circuit-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-1.0223" unit="m" />
+			<attnum name="maximum altitude" val="16.7242" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="right" />
+			<attstr name="entry" val="Miami International Autodrome-39" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="Miami International Autodrome-51" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="14.5" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="145" />
+				<attnum name="z end" unit="m" val="-0.6588" />
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.0229" unit="deg" />
+				<attnum name="banking end" val="1.015" unit="deg" />
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="-0.1831" unit="%" />
+				<attnum name="profil end tangent" val="0.243" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-46">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.45433124" />
+				<attnum name="z end" unit="m" val="-0.3605" />
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="12.1498" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.015" unit="deg" />
+				<attnum name="banking end" val="1.0151" unit="deg" />
+				<attnum name="z start" val="-0.6588" unit="m" />
+				<attnum name="profil start tangent" val="0.243" unit="%" />
+				<attnum name="profil end tangent" val="0.7281" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-47">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.151438" />
+				<attnum name="z end" unit="m" val="-0.2153" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.1498" unit="m" />
+					<attnum name="end width" val="10.5076" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.0151" unit="deg" />
+				<attnum name="banking end" val="1.0024" unit="deg" />
+				<attnum name="z start" val="-0.3605" unit="m" />
+				<attnum name="profil start tangent" val="0.7281" unit="%" />
+				<attnum name="profil end tangent" val="-0.0778" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-48">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="537.567" />
+				<attnum name="arc" unit="deg" val="1.96939496" />
+				<attnum name="z end" unit="m" val="-0.3393" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.5076" unit="m" />
+					<attnum name="end width" val="9.4297" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.0024" unit="deg" />
+				<attnum name="banking end" val="0.9931" unit="deg" />
+				<attnum name="z start" val="-0.2153" unit="m" />
+				<attnum name="profil start tangent" val="-0.0778" unit="%" />
+				<attnum name="profil end tangent" val="-0.9235" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-49">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="20.130" />
+				<attnum name="arc" unit="deg" val="49.31001542" />
+				<attnum name="z end" unit="m" val="-0.543" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="9.4297" unit="m" />
+					<attnum name="end width" val="8.4192" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.9931" unit="deg" />
+				<attnum name="banking end" val="0.981" unit="deg" />
+				<attnum name="z start" val="-0.3393" unit="m" />
+				<attnum name="profil start tangent" val="-0.9235" unit="%" />
+				<attnum name="profil end tangent" val="-0.6545" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-50">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="22.376" />
+				<attnum name="arc" unit="deg" val="58.71582981" />
+				<attnum name="z end" unit="m" val="-0.5736" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="8.4192" unit="m" />
+					<attnum name="end width" val="7.0815" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.981" unit="deg" />
+				<attnum name="banking end" val="0.9581" unit="deg" />
+				<attnum name="z start" val="-0.543" unit="m" />
+				<attnum name="profil start tangent" val="-0.6545" unit="%" />
+				<attnum name="profil end tangent" val="0.084" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-51">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1997.935" />
+				<attnum name="arc" unit="deg" val="0.72077459" />
+				<attnum name="z end" unit="m" val="-0.4978" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7.0815" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.9581" unit="deg" />
+				<attnum name="banking end" val="0.9363" unit="deg" />
+				<attnum name="z start" val="-0.5736" unit="m" />
+				<attnum name="profil start tangent" val="0.084" unit="%" />
+				<attnum name="profil end tangent" val="0.2916" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-52">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="265.703" />
+				<attnum name="arc" unit="deg" val="3.07588201592" />
+				<attnum name="z end" unit="m" val="-0.4576" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.9363" unit="deg" />
+				<attnum name="banking end" val="0.931" unit="deg" />
+				<attnum name="z start" val="-0.4978" unit="m" />
+				<attnum name="profil start tangent" val="0.2916" unit="%" />
+				<attnum name="profil end tangent" val="0.1595" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-52-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="265.703" />
+				<attnum name="arc" unit="deg" val="4.82168099408" />
+				<attnum name="z end" unit="m" val="-0.4493" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.931" unit="deg" />
+				<attnum name="banking end" val="0.9322" unit="deg" />
+				<attnum name="z start" val="-0.4576" unit="m" />
+				<attnum name="profil start tangent" val="0.1595" unit="%" />
+				<attnum name="profil end tangent" val="-0.1964" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-53">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="45.170" />
+				<attnum name="arc" unit="deg" val="44.19918784" />
+				<attnum name="z end" unit="m" val="-0.5991" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.9322" unit="deg" />
+				<attnum name="banking end" val="0.9284" unit="deg" />
+				<attnum name="z start" val="-0.4493" unit="m" />
+				<attnum name="profil start tangent" val="-0.1964" unit="%" />
+				<attnum name="profil end tangent" val="-0.0659" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-54">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="53.981" />
+				<attnum name="arc" unit="deg" val="14.83326472" />
+				<attnum name="z end" unit="m" val="-0.5575" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.9284" unit="deg" />
+				<attnum name="banking end" val="0.9131" unit="deg" />
+				<attnum name="z start" val="-0.5991" unit="m" />
+				<attnum name="profil start tangent" val="-0.0659" unit="%" />
+				<attnum name="profil end tangent" val="0.2043" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-55">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="102.883" />
+				<attnum name="arc" unit="deg" val="7.81446322" />
+				<attnum name="z end" unit="m" val="-0.542" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.9131" unit="deg" />
+				<attnum name="banking end" val="0.89" unit="deg" />
+				<attnum name="z start" val="-0.5575" unit="m" />
+				<attnum name="profil start tangent" val="0.2043" unit="%" />
+				<attnum name="profil end tangent" val="-0.105" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-56">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="78.042" />
+				<attnum name="arc" unit="deg" val="31.41330918554" />
+				<attnum name="z end" unit="m" val="-0.6791" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.89" unit="deg" />
+				<attnum name="banking end" val="0.8387" unit="deg" />
+				<attnum name="z start" val="-0.542" unit="m" />
+				<attnum name="profil start tangent" val="-0.105" unit="%" />
+				<attnum name="profil end tangent" val="-0.07" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-56-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="78.042" />
+				<attnum name="arc" unit="deg" val="30.34134440446" />
+				<attnum name="z end" unit="m" val="-0.6045" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8387" unit="deg" />
+				<attnum name="banking end" val="0.8142" unit="deg" />
+				<attnum name="z start" val="-0.6791" unit="m" />
+				<attnum name="profil start tangent" val="-0.07" unit="%" />
+				<attnum name="profil end tangent" val="0.7161" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-57-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="216.370" />
+				<attnum name="arc" unit="deg" val="8.12218387452" />
+				<attnum name="z end" unit="m" val="-0.2206" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8142" unit="deg" />
+				<attnum name="banking end" val="0.8024" unit="deg" />
+				<attnum name="z start" val="-0.6045" unit="m" />
+				<attnum name="profil start tangent" val="0.7161" unit="%" />
+				<attnum name="profil end tangent" val="1.3879" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-57-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="216.370" />
+				<attnum name="arc" unit="deg" val="9.53296696617" />
+				<attnum name="z end" unit="m" val="0.3281" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.8024" unit="deg" />
+				<attnum name="banking end" val="0.8037" unit="deg" />
+				<attnum name="z start" val="-0.2206" unit="m" />
+				<attnum name="profil start tangent" val="1.3879" unit="%" />
+				<attnum name="profil end tangent" val="1.2905" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-57-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="216.370" />
+				<attnum name="arc" unit="deg" val="6.68626565931" />
+				<attnum name="z end" unit="m" val="0.595" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="6.1052" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8037" unit="deg" />
+				<attnum name="banking end" val="0.8209" unit="deg" />
+				<attnum name="z start" val="0.3281" unit="m" />
+				<attnum name="profil start tangent" val="1.2905" unit="%" />
+				<attnum name="profil end tangent" val="0.694" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-58">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="202.521" />
+				<attnum name="arc" unit="deg" val="11.31272325" />
+				<attnum name="z end" unit="m" val="0.7274" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attnum name="start width" val="6.1052" unit="m" />
+					<attnum name="end width" val="5.4052" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8209" unit="deg" />
+				<attnum name="banking end" val="0.8605" unit="deg" />
+				<attnum name="z start" val="0.595" unit="m" />
+				<attnum name="profil start tangent" val="0.694" unit="%" />
+				<attnum name="profil end tangent" val="-0.1005" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-59">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="196.434" />
+				<attnum name="arc" unit="deg" val="11.66086735" />
+				<attnum name="z end" unit="m" val="0.5146" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attnum name="start width" val="5.4052" unit="m" />
+					<attnum name="end width" val="5.4052" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8605" unit="deg" />
+				<attnum name="banking end" val="0.7916" unit="deg" />
+				<attnum name="z start" val="0.7274" unit="m" />
+				<attnum name="profil start tangent" val="-0.1005" unit="%" />
+				<attnum name="profil end tangent" val="-0.7876" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-60">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="217.020" />
+				<attnum name="arc" unit="deg" val="17.87377320" />
+				<attnum name="z end" unit="m" val="-0.1915" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attnum name="start width" val="5.4052" unit="m" />
+					<attnum name="end width" val="5.4052" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.7916" unit="deg" />
+				<attnum name="banking end" val="-0.7496" unit="deg" />
+				<attnum name="z start" val="0.5146" unit="m" />
+				<attnum name="profil start tangent" val="-0.7876" unit="%" />
+				<attnum name="profil end tangent" val="-0.591" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-61">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2983.299" />
+				<attnum name="arc" unit="deg" val="1.31081640" />
+				<attnum name="z end" unit="m" val="-0.2864" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attnum name="start width" val="5.4052" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.7496" unit="deg" />
+				<attnum name="banking end" val="-0.8026" unit="deg" />
+				<attnum name="z start" val="-0.1915" unit="m" />
+				<attnum name="profil start tangent" val="-0.591" unit="%" />
+				<attnum name="profil end tangent" val="0.1526" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-62">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="84.019988" />
+				<attnum name="z end" unit="m" val="0.087" />
+				<attnum name="banking start" val="-0.8026" unit="deg" />
+				<attnum name="banking end" val="-0.8311" unit="deg" />
+				<attnum name="z start" val="-0.2864" unit="m" />
+				<attnum name="profil start tangent" val="0.1526" unit="%" />
+				<attnum name="profil end tangent" val="0.025" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-63-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2693.014" />
+				<attnum name="arc" unit="deg" val="0.48535020806" />
+				<attnum name="z end" unit="m" val="-0.003" />
+				<attnum name="banking start" val="-0.8311" unit="deg" />
+				<attnum name="banking end" val="-0.8179" unit="deg" />
+				<attnum name="z start" val="0.087" unit="m" />
+				<attnum name="profil start tangent" val="0.025" unit="%" />
+				<attnum name="profil end tangent" val="-0.4947" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-63-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2693.014" />
+				<attnum name="arc" unit="deg" val="0.85102832014" />
+				<attnum name="z end" unit="m" val="-0.241" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.8179" unit="deg" />
+				<attnum name="banking end" val="-0.7802" unit="deg" />
+				<attnum name="z start" val="-0.003" unit="m" />
+				<attnum name="profil start tangent" val="-0.4947" unit="%" />
+				<attnum name="profil end tangent" val="-0.577" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-63-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2693.014" />
+				<attnum name="arc" unit="deg" val="0.56538377181" />
+				<attnum name="z end" unit="m" val="-0.3895" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.7802" unit="deg" />
+				<attnum name="banking end" val="-0.7891" unit="deg" />
+				<attnum name="z start" val="-0.241" unit="m" />
+				<attnum name="profil start tangent" val="-0.577" unit="%" />
+				<attnum name="profil end tangent" val="-0.5359" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-64-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="85.478" />
+				<attnum name="arc" unit="deg" val="28.4379884125" />
+				<attnum name="z end" unit="m" val="-0.607" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.7891" unit="deg" />
+				<attnum name="banking end" val="-0.805" unit="deg" />
+				<attnum name="z start" val="-0.3895" unit="m" />
+				<attnum name="profil start tangent" val="-0.5359" unit="%" />
+				<attnum name="profil end tangent" val="-0.3743" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-64-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="85.478" />
+				<attnum name="arc" unit="deg" val="26.7729889675" />
+				<attnum name="z end" unit="m" val="-0.7012" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.805" unit="deg" />
+				<attnum name="banking end" val="-0.6717" unit="deg" />
+				<attnum name="z start" val="-0.607" unit="m" />
+				<attnum name="profil start tangent" val="-0.3743" unit="%" />
+				<attnum name="profil end tangent" val="0.4639" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-65">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="116.452" />
+				<attnum name="arc" unit="deg" val="13.77070455" />
+				<attnum name="z end" unit="m" val="-0.3756" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.6717" unit="deg" />
+				<attnum name="banking end" val="0.0105" unit="deg" />
+				<attnum name="z start" val="-0.7012" unit="m" />
+				<attnum name="profil start tangent" val="0.4639" unit="%" />
+				<attnum name="profil end tangent" val="1.3793" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-66">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="160.475" />
+				<attnum name="arc" unit="deg" val="10.01585085" />
+				<attnum name="z end" unit="m" val="0.0718" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0105" unit="deg" />
+				<attnum name="banking end" val="0.7289" unit="deg" />
+				<attnum name="z start" val="-0.3756" unit="m" />
+				<attnum name="profil start tangent" val="1.3793" unit="%" />
+				<attnum name="profil end tangent" val="1.3289" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-67">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="79.575" />
+				<attnum name="arc" unit="deg" val="34.47250990" />
+				<attnum name="z end" unit="m" val="0.5807" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.7289" unit="deg" />
+				<attnum name="banking end" val="0.8636" unit="deg" />
+				<attnum name="z start" val="0.0718" unit="m" />
+				<attnum name="profil start tangent" val="1.3289" unit="%" />
+				<attnum name="profil end tangent" val="0.3937" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-68">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="79.156" />
+				<attnum name="arc" unit="deg" val="34.64411517" />
+				<attnum name="z end" unit="m" val="0.4489" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8636" unit="deg" />
+				<attnum name="banking end" val="0.6461" unit="deg" />
+				<attnum name="z start" val="0.5807" unit="m" />
+				<attnum name="profil start tangent" val="0.3937" unit="%" />
+				<attnum name="profil end tangent" val="-0.7327" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-69">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="206.789" />
+				<attnum name="arc" unit="deg" val="6.65131202" />
+				<attnum name="z end" unit="m" val="0.1632" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.6461" unit="deg" />
+				<attnum name="banking end" val="0.0015" unit="deg" />
+				<attnum name="z start" val="0.4489" unit="m" />
+				<attnum name="profil start tangent" val="-0.7327" unit="%" />
+				<attnum name="profil end tangent" val="-1.1539" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-70">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="225.438" />
+				<attnum name="arc" unit="deg" val="6.10218620" />
+				<attnum name="z end" unit="m" val="-0.1051" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0015" unit="deg" />
+				<attnum name="banking end" val="-0.715" unit="deg" />
+				<attnum name="z start" val="0.1632" unit="m" />
+				<attnum name="profil start tangent" val="-1.1539" unit="%" />
+				<attnum name="profil end tangent" val="-0.804" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-71">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="83.877" />
+				<attnum name="arc" unit="deg" val="26.81997224778" />
+				<attnum name="z end" unit="m" val="-0.2976" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.715" unit="deg" />
+				<attnum name="banking end" val="-1.0316" unit="deg" />
+				<attnum name="z start" val="-0.1051" unit="m" />
+				<attnum name="profil start tangent" val="-0.804" unit="%" />
+				<attnum name="profil end tangent" val="-0.4674" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-71-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="83.877" />
+				<attnum name="arc" unit="deg" val="19.02488903222" />
+				<attnum name="z end" unit="m" val="-0.4214" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.0316" unit="deg" />
+				<attnum name="banking end" val="-1.0443" unit="deg" />
+				<attnum name="z start" val="-0.2976" unit="m" />
+				<attnum name="profil start tangent" val="-0.4674" unit="%" />
+				<attnum name="profil end tangent" val="-0.4485" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-72">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="141.438" />
+				<attnum name="arc" unit="deg" val="28.15646445" />
+				<attnum name="z end" unit="m" val="-0.7358" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.0443" unit="deg" />
+				<attnum name="banking end" val="-1.0947" unit="deg" />
+				<attnum name="z start" val="-0.4214" unit="m" />
+				<attnum name="profil start tangent" val="-0.4485" unit="%" />
+				<attnum name="profil end tangent" val="-0.2555" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-73-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="99.492" />
+				<attnum name="arc" unit="deg" val="10.73619775744" />
+				<attnum name="z end" unit="m" val="-0.7468" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.0947" unit="deg" />
+				<attnum name="banking end" val="-1.1046" unit="deg" />
+				<attnum name="z start" val="-0.7358" unit="m" />
+				<attnum name="profil start tangent" val="-0.2555" unit="%" />
+				<attnum name="profil end tangent" val="-0.0224" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-73-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="99.492" />
+				<attnum name="arc" unit="deg" val="23.03533128818" />
+				<attnum name="z end" unit="m" val="-0.7412" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-1.1046" unit="deg" />
+				<attnum name="banking end" val="-1.1125" unit="deg" />
+				<attnum name="z start" val="-0.7468" unit="m" />
+				<attnum name="profil start tangent" val="-0.0224" unit="%" />
+				<attnum name="profil end tangent" val="0.0173" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-73-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="99.492" />
+				<attnum name="arc" unit="deg" val="18.63466493438" />
+				<attnum name="z end" unit="m" val="-0.7345" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.1125" unit="deg" />
+				<attnum name="banking end" val="-1.0861" unit="deg" />
+				<attnum name="z start" val="-0.7412" unit="m" />
+				<attnum name="profil start tangent" val="0.0173" unit="%" />
+				<attnum name="profil end tangent" val="0.0448" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-74-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="42.788" />
+				<attnum name="arc" unit="deg" val="28.97943372102" />
+				<attnum name="z end" unit="m" val="-0.7196" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.0861" unit="deg" />
+				<attnum name="banking end" val="-1.0498" unit="deg" />
+				<attnum name="z start" val="-0.7345" unit="m" />
+				<attnum name="profil start tangent" val="0.0448" unit="%" />
+				<attnum name="profil end tangent" val="0.0142" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-74-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="42.788" />
+				<attnum name="arc" unit="deg" val="48.2062275047" />
+				<attnum name="z end" unit="m" val="-0.7343" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.0498" unit="deg" />
+				<attnum name="banking end" val="-0.948" unit="deg" />
+				<attnum name="z start" val="-0.7196" unit="m" />
+				<attnum name="profil start tangent" val="0.0142" unit="%" />
+				<attnum name="profil end tangent" val="0.0324" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-74-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="42.788" />
+				<attnum name="arc" unit="deg" val="20.51188332429" />
+				<attnum name="z end" unit="m" val="-0.7181" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.948" unit="deg" />
+				<attnum name="banking end" val="-0.7794" unit="deg" />
+				<attnum name="z start" val="-0.7343" unit="m" />
+				<attnum name="profil start tangent" val="0.0324" unit="%" />
+				<attnum name="profil end tangent" val="0.3422" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-75">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="137.544" />
+				<attnum name="arc" unit="deg" val="4.99985908" />
+				<attnum name="z end" unit="m" val="-0.6486" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.7794" unit="deg" />
+				<attnum name="banking end" val="-0.5136" unit="deg" />
+				<attnum name="z start" val="-0.7181" unit="m" />
+				<attnum name="profil start tangent" val="0.3422" unit="%" />
+				<attnum name="profil end tangent" val="0.8434" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-76">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="270.732" />
+				<attnum name="arc" unit="deg" val="2.54134488" />
+				<attnum name="z end" unit="m" val="-0.5156" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.5136" unit="deg" />
+				<attnum name="banking end" val="-0.1416" unit="deg" />
+				<attnum name="z start" val="-0.6486" unit="m" />
+				<attnum name="profil start tangent" val="0.8434" unit="%" />
+				<attnum name="profil end tangent" val="1.1245" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-77">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="210.727" />
+				<attnum name="arc" unit="deg" val="11.05826922044" />
+				<attnum name="z end" unit="m" val="-0.0515" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.1416" unit="deg" />
+				<attnum name="banking end" val="0.8595" unit="deg" />
+				<attnum name="z start" val="-0.5156" unit="m" />
+				<attnum name="profil start tangent" val="1.1245" unit="%" />
+				<attnum name="profil end tangent" val="0.6161" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-77-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="210.727" />
+				<attnum name="arc" unit="deg" val="8.95776684956" />
+				<attnum name="z end" unit="m" val="-0.0214" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8595" unit="deg" />
+				<attnum name="banking end" val="0.9428" unit="deg" />
+				<attnum name="z start" val="-0.0515" unit="m" />
+				<attnum name="profil start tangent" val="0.6161" unit="%" />
+				<attnum name="profil end tangent" val="-0.2632" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-78">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3108.422" />
+				<attnum name="arc" unit="deg" val="1.37083574" />
+				<attnum name="z end" unit="m" val="-0.4807" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.9428" unit="deg" />
+				<attnum name="banking end" val="0.8951" unit="deg" />
+				<attnum name="z start" val="-0.0214" unit="m" />
+				<attnum name="profil start tangent" val="-0.2632" unit="%" />
+				<attnum name="profil end tangent" val="-0.3761" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-79">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="336.021" />
+				<attnum name="arc" unit="deg" val="1.82167982071" />
+				<attnum name="z end" unit="m" val="-0.4951" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.8951" unit="deg" />
+				<attnum name="banking end" val="0.8857" unit="deg" />
+				<attnum name="z start" val="-0.4807" unit="m" />
+				<attnum name="profil start tangent" val="-0.3761" unit="%" />
+				<attnum name="profil end tangent" val="-0.0486" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-79-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="336.021" />
+				<attnum name="arc" unit="deg" val="12.11845708929" />
+				<attnum name="z end" unit="m" val="-0.4685" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.8857" unit="deg" />
+				<attnum name="banking end" val="0.8606" unit="deg" />
+				<attnum name="z start" val="-0.4951" unit="m" />
+				<attnum name="profil start tangent" val="-0.0486" unit="%" />
+				<attnum name="profil end tangent" val="0.0532" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-80">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="37.651326" />
+				<attnum name="z end" unit="m" val="-0.4425" />
+				<attnum name="banking start" val="0.8606" unit="deg" />
+				<attnum name="banking end" val="0.8799" unit="deg" />
+				<attnum name="z start" val="-0.4685" unit="m" />
+				<attnum name="profil start tangent" val="0.0532" unit="%" />
+				<attnum name="profil end tangent" val="0.0857" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-81">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.09822605" />
+				<attnum name="z end" unit="m" val="-0.4355" />
+				<attnum name="banking start" val="0.8799" unit="deg" />
+				<attnum name="banking end" val="0.8792" unit="deg" />
+				<attnum name="z start" val="-0.4425" unit="m" />
+				<attnum name="profil start tangent" val="0.0857" unit="%" />
+				<attnum name="profil end tangent" val="0.1042" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-82">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="169.26186564" />
+				<attnum name="z end" unit="m" val="-0.2562" />
+				<attnum name="banking start" val="0.8792" unit="deg" />
+				<attnum name="banking end" val="0.7986" unit="deg" />
+				<attnum name="z start" val="-0.4355" unit="m" />
+				<attnum name="profil start tangent" val="0.1042" unit="%" />
+				<attnum name="profil end tangent" val="0.0671" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-83">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="281.746" />
+				<attnum name="arc" unit="deg" val="8.51939039" />
+				<attnum name="z end" unit="m" val="-0.2444" />
+				<section name="Left Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="5.5153" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.7986" unit="deg" />
+				<attnum name="banking end" val="0.8249" unit="deg" />
+				<attnum name="z start" val="-0.2562" unit="m" />
+				<attnum name="profil start tangent" val="0.0671" unit="%" />
+				<attnum name="profil end tangent" val="0.1124" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-84">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="215.099" />
+				<attnum name="arc" unit="deg" val="11.14442170" />
+				<attnum name="z end" unit="m" val="-0.1621" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attnum name="start width" val="5.5153" unit="m" />
+					<attnum name="end width" val="5.4052" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8249" unit="deg" />
+				<attnum name="banking end" val="0.8131" unit="deg" />
+				<attnum name="z start" val="-0.2444" unit="m" />
+				<attnum name="profil start tangent" val="0.1124" unit="%" />
+				<attnum name="profil end tangent" val="-0.0493" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-85">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2280.303" />
+				<attnum name="arc" unit="deg" val="1.30686679" />
+				<attnum name="z end" unit="m" val="-0.3157" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attnum name="start width" val="5.4052" unit="m" />
+					<attnum name="end width" val="5.4052" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8131" unit="deg" />
+				<attnum name="banking end" val="0.8127" unit="deg" />
+				<attnum name="z start" val="-0.1621" unit="m" />
+				<attnum name="profil start tangent" val="-0.0493" unit="%" />
+				<attnum name="profil end tangent" val="0.0672" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-86">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3416.730" />
+				<attnum name="arc" unit="deg" val="0.87221510" />
+				<attnum name="z end" unit="m" val="-0.0922" />
+				<section name="Left Side">
+					<attnum name="start width" val="5.4052" unit="m" />
+					<attnum name="end width" val="5.4052" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8127" unit="deg" />
+				<attnum name="banking end" val="1.2248" unit="deg" />
+				<attnum name="z start" val="-0.3157" unit="m" />
+				<attnum name="profil start tangent" val="0.0672" unit="%" />
+				<attnum name="profil end tangent" val="0.0793" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-87">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="635.352" />
+				<attnum name="arc" unit="deg" val="6.86031296" />
+				<attnum name="z end" unit="m" val="-0.2984" />
+				<section name="Left Side">
+					<attnum name="start width" val="5.4052" unit="m" />
+					<attnum name="end width" val="5.4052" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.2248" unit="deg" />
+				<attnum name="banking end" val="1.0801" unit="deg" />
+				<attnum name="z start" val="-0.0922" unit="m" />
+				<attnum name="profil start tangent" val="0.0793" unit="%" />
+				<attnum name="profil end tangent" val="-0.3143" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-88">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="395.895" />
+				<attnum name="arc" unit="deg" val="10.98914535" />
+				<attnum name="z end" unit="m" val="-0.5698" />
+				<section name="Left Side">
+					<attnum name="start width" val="5.4052" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.0801" unit="deg" />
+				<attnum name="banking end" val="0.8133" unit="deg" />
+				<attnum name="z start" val="-0.2984" unit="m" />
+				<attnum name="profil start tangent" val="-0.3143" unit="%" />
+				<attnum name="profil end tangent" val="-0.2764" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-89">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="392.573" />
+				<attnum name="arc" unit="deg" val="12.82531461" />
+				<attnum name="z end" unit="m" val="-0.7415" />
+				<attnum name="banking start" val="0.8133" unit="deg" />
+				<attnum name="banking end" val="0.7014" unit="deg" />
+				<attnum name="z start" val="-0.5698" unit="m" />
+				<attnum name="profil start tangent" val="-0.2764" unit="%" />
+				<attnum name="profil end tangent" val="0.4001" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-90">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="523.671" />
+				<attnum name="arc" unit="deg" val="9.63218057" />
+				<attnum name="z end" unit="m" val="0.135" />
+				<attnum name="banking start" val="0.7014" unit="deg" />
+				<attnum name="banking end" val="-0.8176" unit="deg" />
+				<attnum name="z start" val="-0.7415" unit="m" />
+				<attnum name="profil start tangent" val="0.4001" unit="%" />
+				<attnum name="profil end tangent" val="0.5921" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-91">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="38.438350" />
+				<attnum name="z end" unit="m" val="0.2075" />
+				<attnum name="banking start" val="-0.8176" unit="deg" />
+				<attnum name="banking end" val="-0.8327" unit="deg" />
+				<attnum name="z start" val="0.135" unit="m" />
+				<attnum name="profil start tangent" val="0.5921" unit="%" />
+				<attnum name="profil end tangent" val="-0.034" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-92">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.18826512" />
+				<attnum name="z end" unit="m" val="0.1738" />
+				<attnum name="banking start" val="-0.8327" unit="deg" />
+				<attnum name="banking end" val="-0.845" unit="deg" />
+				<attnum name="z start" val="0.2075" unit="m" />
+				<attnum name="profil start tangent" val="-0.034" unit="%" />
+				<attnum name="profil end tangent" val="-0.5894" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-93">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="77.125347" />
+				<attnum name="z end" unit="m" val="-0.5376" />
+				<attnum name="banking start" val="-0.845" unit="deg" />
+				<attnum name="banking end" val="-0.885" unit="deg" />
+				<attnum name="z start" val="0.1738" unit="m" />
+				<attnum name="profil start tangent" val="-0.5894" unit="%" />
+				<attnum name="profil end tangent" val="-1.0122" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-94">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.18114194" />
+				<attnum name="z end" unit="m" val="-0.677" />
+				<attnum name="banking start" val="-0.885" unit="deg" />
+				<attnum name="banking end" val="-0.8843" unit="deg" />
+				<attnum name="z start" val="-0.5376" unit="m" />
+				<attnum name="profil start tangent" val="-1.0122" unit="%" />
+				<attnum name="profil end tangent" val="-0.9238" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-95">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.29579024" />
+				<attnum name="z end" unit="m" val="-0.8879" />
+				<attnum name="banking start" val="-0.8843" unit="deg" />
+				<attnum name="banking end" val="-0.894" unit="deg" />
+				<attnum name="z start" val="-0.677" unit="m" />
+				<attnum name="profil start tangent" val="-0.9238" unit="%" />
+				<attnum name="profil end tangent" val="-0.3447" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-96">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1480.099" />
+				<attnum name="arc" unit="deg" val="3.33149230" />
+				<attnum name="z end" unit="m" val="-0.8397" />
+				<attnum name="banking start" val="-0.894" unit="deg" />
+				<attnum name="banking end" val="-0.88" unit="deg" />
+				<attnum name="z start" val="-0.8879" unit="m" />
+				<attnum name="profil start tangent" val="-0.3447" unit="%" />
+				<attnum name="profil end tangent" val="0.0067" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-97">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="660.712" />
+				<attnum name="arc" unit="deg" val="7.45463841" />
+				<attnum name="z end" unit="m" val="-0.8762" />
+				<attnum name="banking start" val="-0.88" unit="deg" />
+				<attnum name="banking end" val="-0.875" unit="deg" />
+				<attnum name="z start" val="-0.8397" unit="m" />
+				<attnum name="profil start tangent" val="0.0067" unit="%" />
+				<attnum name="profil end tangent" val="0.0744" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-98-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="48.407874174" />
+				<attnum name="z end" unit="m" val="-0.7836" />
+				<attnum name="banking start" val="-0.875" unit="deg" />
+				<attnum name="banking end" val="-0.8654" unit="deg" />
+				<attnum name="z start" val="-0.8762" unit="m" />
+				<attnum name="profil start tangent" val="0.0744" unit="%" />
+				<attnum name="profil end tangent" val="0.2837" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-98-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="31.826373186" />
+				<attnum name="z end" unit="m" val="-0.6639" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.8654" unit="deg" />
+				<attnum name="banking end" val="-0.8518" unit="deg" />
+				<attnum name="z start" val="-0.7836" unit="m" />
+				<attnum name="profil start tangent" val="0.2837" unit="%" />
+				<attnum name="profil end tangent" val="0.3918" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-99">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1851.448" />
+				<attnum name="arc" unit="deg" val="0.2529448949" />
+				<attnum name="z end" unit="m" val="-0.6306" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.8518" unit="deg" />
+				<attnum name="banking end" val="-0.8508" unit="deg" />
+				<attnum name="z start" val="-0.6639" unit="m" />
+				<attnum name="profil start tangent" val="0.3918" unit="%" />
+				<attnum name="profil end tangent" val="0.3807" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-99-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1851.448" />
+				<attnum name="arc" unit="deg" val="0.3888137051" />
+				<attnum name="z end" unit="m" val="-0.5861" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.8508" unit="deg" />
+				<attnum name="banking end" val="-0.8516" unit="deg" />
+				<attnum name="z start" val="-0.6306" unit="m" />
+				<attnum name="profil start tangent" val="0.3807" unit="%" />
+				<attnum name="profil end tangent" val="0.3866" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-100">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="22.650" />
+				<attnum name="arc" unit="deg" val="49.19486934" />
+				<attnum name="z end" unit="m" val="-0.5046" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8516" unit="deg" />
+				<attnum name="banking end" val="-0.8562" unit="deg" />
+				<attnum name="z start" val="-0.5861" unit="m" />
+				<attnum name="profil start tangent" val="0.3866" unit="%" />
+				<attnum name="profil end tangent" val="0.4004" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-101">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="16.131" />
+				<attnum name="arc" unit="deg" val="35.477688446" />
+				<attnum name="z end" unit="m" val="-0.4665" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8562" unit="deg" />
+				<attnum name="banking end" val="-0.8592" unit="deg" />
+				<attnum name="z start" val="-0.5046" unit="m" />
+				<attnum name="profil start tangent" val="0.4004" unit="%" />
+				<attnum name="profil end tangent" val="0.2525" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-101-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="16.131" />
+				<attnum name="arc" unit="deg" val="30.317149404" />
+				<attnum name="z end" unit="m" val="-0.4559" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8592" unit="deg" />
+				<attnum name="banking end" val="-0.8614" unit="deg" />
+				<attnum name="z start" val="-0.4665" unit="m" />
+				<attnum name="profil start tangent" val="0.2525" unit="%" />
+				<attnum name="profil end tangent" val="0.0219" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-102">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="737.947" />
+				<attnum name="arc" unit="deg" val="1.62022284" />
+				<attnum name="z end" unit="m" val="-0.4726" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.8614" unit="deg" />
+				<attnum name="banking end" val="-0.8631" unit="deg" />
+				<attnum name="z start" val="-0.4559" unit="m" />
+				<attnum name="profil start tangent" val="0.0219" unit="%" />
+				<attnum name="profil end tangent" val="-0.1097" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-103">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="339.543" />
+				<attnum name="arc" unit="deg" val="4.08285105" />
+				<attnum name="z end" unit="m" val="-0.5064" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.8631" unit="deg" />
+				<attnum name="banking end" val="-0.8568" unit="deg" />
+				<attnum name="z start" val="-0.4726" unit="m" />
+				<attnum name="profil start tangent" val="-0.1097" unit="%" />
+				<attnum name="profil end tangent" val="-0.1269" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-104">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="47.044" />
+				<attnum name="arc" unit="deg" val="28.85476073" />
+				<attnum name="z end" unit="m" val="-0.5334" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.8568" unit="deg" />
+				<attnum name="banking end" val="-0.8491" unit="deg" />
+				<attnum name="z start" val="-0.5064" unit="m" />
+				<attnum name="profil start tangent" val="-0.1269" unit="%" />
+				<attnum name="profil end tangent" val="-0.1212" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-105">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="57.702" />
+				<attnum name="arc" unit="deg" val="43.03792359" />
+				<attnum name="z end" unit="m" val="-0.589" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.8491" unit="deg" />
+				<attnum name="banking end" val="-0.8393" unit="deg" />
+				<attnum name="z start" val="-0.5334" unit="m" />
+				<attnum name="profil start tangent" val="-0.1212" unit="%" />
+				<attnum name="profil end tangent" val="-0.1225" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-106">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="36.841" />
+				<attnum name="arc" unit="deg" val="63.39571515" />
+				<attnum name="z end" unit="m" val="-0.6366" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.8393" unit="deg" />
+				<attnum name="banking end" val="-0.8251" unit="deg" />
+				<attnum name="z start" val="-0.589" unit="m" />
+				<attnum name="profil start tangent" val="-0.1225" unit="%" />
+				<attnum name="profil end tangent" val="-0.1137" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-107">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="44.722" />
+				<attnum name="arc" unit="deg" val="15.33790137" />
+				<attnum name="z end" unit="m" val="-0.6499" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.8251" unit="deg" />
+				<attnum name="banking end" val="-0.8276" unit="deg" />
+				<attnum name="z start" val="-0.6366" unit="m" />
+				<attnum name="profil start tangent" val="-0.1137" unit="%" />
+				<attnum name="profil end tangent" val="-0.1384" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-108">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="756.934" />
+				<attnum name="arc" unit="deg" val="0.91163272" />
+				<attnum name="z end" unit="m" val="-0.6699" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.8276" unit="deg" />
+				<attnum name="banking end" val="-0.8372" unit="deg" />
+				<attnum name="z start" val="-0.6499" unit="m" />
+				<attnum name="profil start tangent" val="-0.1384" unit="%" />
+				<attnum name="profil end tangent" val="-0.163" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-109">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="134.187" />
+				<attnum name="arc" unit="deg" val="8.45735950" />
+				<attnum name="z end" unit="m" val="-0.7015" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8372" unit="deg" />
+				<attnum name="banking end" val="-0.8716" unit="deg" />
+				<attnum name="z start" val="-0.6699" unit="m" />
+				<attnum name="profil start tangent" val="-0.163" unit="%" />
+				<attnum name="profil end tangent" val="-0.1303" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-110">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="81.802" />
+				<attnum name="arc" unit="deg" val="13.83096432" />
+				<attnum name="z end" unit="m" val="-0.7214" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8716" unit="deg" />
+				<attnum name="banking end" val="-0.9272" unit="deg" />
+				<attnum name="z start" val="-0.7015" unit="m" />
+				<attnum name="profil start tangent" val="-0.1303" unit="%" />
+				<attnum name="profil end tangent" val="-0.0937" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="48.939" />
+				<attnum name="arc" unit="deg" val="17.60077293018" />
+				<attnum name="z end" unit="m" val="-0.7345" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.9272" unit="deg" />
+				<attnum name="banking end" val="-1.0039" unit="deg" />
+				<attnum name="z start" val="-0.7214" unit="m" />
+				<attnum name="profil start tangent" val="-0.0937" unit="%" />
+				<attnum name="profil end tangent" val="0.0316" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="48.939" />
+				<attnum name="arc" unit="deg" val="23.35894272982" />
+				<attnum name="z end" unit="m" val="-0.7045" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.0039" unit="deg" />
+				<attnum name="banking end" val="-1.1652" unit="deg" />
+				<attnum name="z start" val="-0.7345" unit="m" />
+				<attnum name="profil start tangent" val="0.0316" unit="%" />
+				<attnum name="profil end tangent" val="1.2195" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-2-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="436.133" />
+				<attnum name="arc" unit="deg" val="2.63375594662" />
+				<attnum name="z end" unit="m" val="-0.2456" />
+				<section name="Left Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="3.7504" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.1652" unit="deg" />
+				<attnum name="banking end" val="-1.3838" unit="deg" />
+				<attnum name="z start" val="-0.7045" unit="m" />
+				<attnum name="profil start tangent" val="1.2195" unit="%" />
+				<attnum name="profil end tangent" val="3.7325" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-2-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="436.133" />
+				<attnum name="arc" unit="deg" val="2.16587592338" />
+				<attnum name="z end" unit="m" val="0.6077" />
+				<section name="Left Side">
+					<attnum name="start width" val="3.7504" unit="m" />
+					<attnum name="end width" val="1.078" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-1.3838" unit="deg" />
+				<attnum name="banking end" val="-1.5554" unit="deg" />
+				<attnum name="z start" val="-0.2456" unit="m" />
+				<attnum name="profil start tangent" val="3.7325" unit="%" />
+				<attnum name="profil end tangent" val="5.7166" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1472.860" />
+				<attnum name="arc" unit="deg" val="0.57672864" />
+				<attnum name="z end" unit="m" val="1.5354" />
+				<section name="Left Side">
+					<attnum name="start width" val="1.078" unit="m" />
+					<attnum name="end width" val="1.078" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="5.955" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.5554" unit="deg" />
+				<attnum name="banking end" val="-1.6293" unit="deg" />
+				<attnum name="z start" val="0.6077" unit="m" />
+				<attnum name="profil start tangent" val="5.7166" unit="%" />
+				<attnum name="profil end tangent" val="5.2307" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="11.022" />
+				<attnum name="arc" unit="deg" val="67.84321219" />
+				<attnum name="z end" unit="m" val="2.084" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="1.078" unit="m" />
+					<attnum name="end width" val="1.078" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attnum name="start width" val="5.955" unit="m" />
+					<attnum name="end width" val="5.0351" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.6293" unit="deg" />
+				<attnum name="banking end" val="-1.5892" unit="deg" />
+				<attnum name="z start" val="1.5354" unit="m" />
+				<attnum name="profil start tangent" val="5.2307" unit="%" />
+				<attnum name="profil end tangent" val="2.9683" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-5">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="8.578" />
+				<attnum name="arc" unit="deg" val="53.53509229" />
+				<attnum name="z end" unit="m" val="2.2229" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="1.078" unit="m" />
+					<attnum name="end width" val="1.078" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attnum name="start width" val="5.0351" unit="m" />
+					<attnum name="end width" val="4.533" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.5892" unit="deg" />
+				<attnum name="banking end" val="-1.504" unit="deg" />
+				<attnum name="z start" val="2.084" unit="m" />
+				<attnum name="profil start tangent" val="2.9683" unit="%" />
+				<attnum name="profil end tangent" val="0.8239" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-6">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="12.033" />
+				<attnum name="arc" unit="deg" val="39.55418040" />
+				<attnum name="z end" unit="m" val="2.2159" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="1.078" unit="m" />
+					<attnum name="end width" val="2.4835" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attnum name="start width" val="4.533" unit="m" />
+					<attnum name="end width" val="4.533" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.504" unit="deg" />
+				<attnum name="banking end" val="-1.35" unit="deg" />
+				<attnum name="z start" val="2.2229" unit="m" />
+				<attnum name="profil start tangent" val="0.8239" unit="%" />
+				<attnum name="profil end tangent" val="-0.3306" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-7">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="13.032" />
+				<attnum name="arc" unit="deg" val="64.21528500" />
+				<attnum name="z end" unit="m" val="2.1317" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="2.4835" unit="m" />
+					<attnum name="end width" val="4.9549" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attnum name="start width" val="4.533" unit="m" />
+					<attnum name="end width" val="4.533" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-1.35" unit="deg" />
+				<attnum name="banking end" val="-0.9072" unit="deg" />
+				<attnum name="z start" val="2.2159" unit="m" />
+				<attnum name="profil start tangent" val="-0.3306" unit="%" />
+				<attnum name="profil end tangent" val="-2.0403" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="275.972" />
+				<attnum name="arc" unit="deg" val="3.39457793" />
+				<attnum name="z end" unit="m" val="1.5587" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.9549" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attnum name="start width" val="4.533" unit="m" />
+					<attnum name="end width" val="5.6855" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.9072" unit="deg" />
+				<attnum name="banking end" val="-0.2086" unit="deg" />
+				<attnum name="z start" val="2.1317" unit="m" />
+				<attnum name="profil start tangent" val="-2.0403" unit="%" />
+				<attnum name="profil end tangent" val="-2.5718" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-9">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3364.785" />
+				<attnum name="arc" unit="deg" val="0.37470740" />
+				<attnum name="z end" unit="m" val="1.198" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.6855" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.2086" unit="deg" />
+				<attnum name="banking end" val="0.6134" unit="deg" />
+				<attnum name="z start" val="1.5587" unit="m" />
+				<attnum name="profil start tangent" val="-2.5718" unit="%" />
+				<attnum name="profil end tangent" val="-0.9689" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-10">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3076.483" />
+				<attnum name="arc" unit="deg" val="0.40982160" />
+				<attnum name="z end" unit="m" val="1.1323" />
+				<attnum name="banking start" val="0.6134" unit="deg" />
+				<attnum name="banking end" val="0.7951" unit="deg" />
+				<attnum name="z start" val="1.198" unit="m" />
+				<attnum name="profil start tangent" val="-0.9689" unit="%" />
+				<attnum name="profil end tangent" val="-0.5729" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-11">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="80.002" />
+				<attnum name="arc" unit="deg" val="5.81665593" />
+				<attnum name="z end" unit="m" val="1.0635" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.7951" unit="deg" />
+				<attnum name="banking end" val="0.7149" unit="deg" />
+				<attnum name="z start" val="1.1323" unit="m" />
+				<attnum name="profil start tangent" val="-0.5729" unit="%" />
+				<attnum name="profil end tangent" val="-0.8911" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-12">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="17.095" />
+				<attnum name="arc" unit="deg" val="26.74824487" />
+				<attnum name="z end" unit="m" val="0.9889" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.7149" unit="deg" />
+				<attnum name="banking end" val="0.5893" unit="deg" />
+				<attnum name="z start" val="1.0635" unit="m" />
+				<attnum name="profil start tangent" val="-0.8911" unit="%" />
+				<attnum name="profil end tangent" val="-1.1866" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-13">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="16.624" />
+				<attnum name="arc" unit="deg" val="49.09861653309" />
+				<attnum name="z end" unit="m" val="0.784" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.5893" unit="deg" />
+				<attnum name="banking end" val="0.2956" unit="deg" />
+				<attnum name="z start" val="0.9889" unit="m" />
+				<attnum name="profil start tangent" val="-1.1866" unit="%" />
+				<attnum name="profil end tangent" val="-1.6256" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-13-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="16.624" />
+				<attnum name="arc" unit="deg" val="31.63031241691" />
+				<attnum name="z end" unit="m" val="0.6176" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.2956" unit="deg" />
+				<attnum name="banking end" val="0.0773" unit="deg" />
+				<attnum name="z start" val="0.784" unit="m" />
+				<attnum name="profil start tangent" val="-1.6256" unit="%" />
+				<attnum name="profil end tangent" val="-1.1873" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-14-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3292.073" />
+				<attnum name="arc" unit="deg" val="0.2231678446" />
+				<attnum name="z end" unit="m" val="0.5456" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0773" unit="deg" />
+				<attnum name="banking end" val="-0.1794" unit="deg" />
+				<attnum name="z start" val="0.6176" unit="m" />
+				<attnum name="profil start tangent" val="-1.1873" unit="%" />
+				<attnum name="profil end tangent" val="-0.6782" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-14-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3292.073" />
+				<attnum name="arc" unit="deg" val="0.2686937354" />
+				<attnum name="z end" unit="m" val="0.4229" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.1794" unit="deg" />
+				<attnum name="banking end" val="-0.276" unit="deg" />
+				<attnum name="z start" val="0.5456" unit="m" />
+				<attnum name="profil start tangent" val="-0.6782" unit="%" />
+				<attnum name="profil end tangent" val="-3.2755" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="24.561526187" />
+				<attnum name="z end" unit="m" val="-0.991" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.276" unit="deg" />
+				<attnum name="banking end" val="0.0607" unit="deg" />
+				<attnum name="z start" val="0.4229" unit="m" />
+				<attnum name="profil start tangent" val="-3.2755" unit="%" />
+				<attnum name="profil end tangent" val="-2.712" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="169.471545313" />
+				<attnum name="z end" unit="m" val="-0.4275" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0607" unit="deg" />
+				<attnum name="banking end" val="3.786" unit="deg" />
+				<attnum name="z start" val="-0.991" unit="m" />
+				<attnum name="profil start tangent" val="-2.712" unit="%" />
+				<attnum name="profil end tangent" val="0.1573" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="97.20554675" />
+				<attnum name="z end" unit="m" val="-0.4449" />
+				<attnum name="banking start" val="3.786" unit="deg" />
+				<attnum name="banking end" val="3.2612" unit="deg" />
+				<attnum name="z start" val="-0.4275" unit="m" />
+				<attnum name="profil start tangent" val="0.1573" unit="%" />
+				<attnum name="profil end tangent" val="-0.0522" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-15">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="97.02308175" />
+				<attnum name="z end" unit="m" val="-0.5289" />
+				<attnum name="banking start" val="3.2612" unit="deg" />
+				<attnum name="banking end" val="1.3684" unit="deg" />
+				<attnum name="z start" val="-0.4449" unit="m" />
+				<attnum name="profil start tangent" val="-0.0522" unit="%" />
+				<attnum name="profil end tangent" val="-0.0673" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-16">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1157.321" />
+				<attnum name="arc" unit="deg" val="0.89122151" />
+				<attnum name="z end" unit="m" val="-0.5375" />
+				<attnum name="banking start" val="1.3684" unit="deg" />
+				<attnum name="banking end" val="1.1924" unit="deg" />
+				<attnum name="z start" val="-0.5289" unit="m" />
+				<attnum name="profil start tangent" val="-0.0673" unit="%" />
+				<attnum name="profil end tangent" val="0.1339" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-17">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="603.294" />
+				<attnum name="arc" unit="deg" val="1.70957106" />
+				<attnum name="z end" unit="m" val="-0.4807" />
+				<attnum name="banking start" val="1.1924" unit="deg" />
+				<attnum name="banking end" val="1.1242" unit="deg" />
+				<attnum name="z start" val="-0.5375" unit="m" />
+				<attnum name="profil start tangent" val="0.1339" unit="%" />
+				<attnum name="profil end tangent" val="0.1917" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-18">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="84.019988" />
+				<attnum name="z end" unit="m" val="-0.424" />
+				<attnum name="banking start" val="1.1242" unit="deg" />
+				<attnum name="banking end" val="0.9155" unit="deg" />
+				<attnum name="z start" val="-0.4807" unit="m" />
+				<attnum name="profil start tangent" val="0.1917" unit="%" />
+				<attnum name="profil end tangent" val="0.0698" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-19">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="794.161" />
+				<attnum name="arc" unit="deg" val="1.29868606" />
+				<attnum name="z end" unit="m" val="-0.411" />
+				<attnum name="banking start" val="0.9155" unit="deg" />
+				<attnum name="banking end" val="0.9046" unit="deg" />
+				<attnum name="z start" val="-0.424" unit="m" />
+				<attnum name="profil start tangent" val="0.0698" unit="%" />
+				<attnum name="profil end tangent" val="0.0436" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-20">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="661.640" />
+				<attnum name="arc" unit="deg" val="1.55877445" />
+				<attnum name="z end" unit="m" val="-0.4083" />
+				<attnum name="banking start" val="0.9046" unit="deg" />
+				<attnum name="banking end" val="0.9004" unit="deg" />
+				<attnum name="z start" val="-0.411" unit="m" />
+				<attnum name="profil start tangent" val="0.0436" unit="%" />
+				<attnum name="profil end tangent" val="0.0029" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-21">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="348.77146255" />
+				<attnum name="z end" unit="m" val="-0.4401" />
+				<section name="Left Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="4.6616" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.9004" unit="deg" />
+				<attnum name="banking end" val="0.8203" unit="deg" />
+				<attnum name="z start" val="-0.4083" unit="m" />
+				<attnum name="profil start tangent" val="0.0029" unit="%" />
+				<attnum name="profil end tangent" val="0.0036" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-22">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.34356134" />
+				<attnum name="z end" unit="m" val="-0.4362" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.6616" unit="m" />
+					<attnum name="end width" val="4.6616" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8203" unit="deg" />
+				<attnum name="banking end" val="0.8072" unit="deg" />
+				<attnum name="z start" val="-0.4401" unit="m" />
+				<attnum name="profil start tangent" val="0.0036" unit="%" />
+				<attnum name="profil end tangent" val="0.0116" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-23">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="60.616131" />
+				<attnum name="z end" unit="m" val="-0.4321" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.6616" unit="m" />
+					<attnum name="end width" val="4.6616" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8072" unit="deg" />
+				<attnum name="banking end" val="0.839" unit="deg" />
+				<attnum name="z start" val="-0.4362" unit="m" />
+				<attnum name="profil start tangent" val="0.0116" unit="%" />
+				<attnum name="profil end tangent" val="-0.0004" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-24">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.44152999" />
+				<attnum name="z end" unit="m" val="-0.4344" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.6616" unit="m" />
+					<attnum name="end width" val="4.6616" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.839" unit="deg" />
+				<attnum name="banking end" val="0.8781" unit="deg" />
+				<attnum name="z start" val="-0.4321" unit="m" />
+				<attnum name="profil start tangent" val="-0.0004" unit="%" />
+				<attnum name="profil end tangent" val="-0.0125" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-25">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="80.610544" />
+				<attnum name="z end" unit="m" val="-0.4485" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.6616" unit="m" />
+					<attnum name="end width" val="4.6616" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8781" unit="deg" />
+				<attnum name="banking end" val="0.9394" unit="deg" />
+				<attnum name="z start" val="-0.4344" unit="m" />
+				<attnum name="profil start tangent" val="-0.0125" unit="%" />
+				<attnum name="profil end tangent" val="0.04" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-26">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2174.499" />
+				<attnum name="arc" unit="deg" val="0.36896881" />
+				<attnum name="z end" unit="m" val="-0.4349" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.6616" unit="m" />
+					<attnum name="end width" val="5.3893" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.9394" unit="deg" />
+				<attnum name="banking end" val="0.9455" unit="deg" />
+				<attnum name="z start" val="-0.4485" unit="m" />
+				<attnum name="profil start tangent" val="0.04" unit="%" />
+				<attnum name="profil end tangent" val="0.0439" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-27">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2710.084" />
+				<attnum name="arc" unit="deg" val="0.29605110" />
+				<attnum name="z end" unit="m" val="-0.4362" />
+				<section name="Left Side">
+					<attnum name="start width" val="5.3893" unit="m" />
+					<attnum name="end width" val="6.1169" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.9455" unit="deg" />
+				<attnum name="banking end" val="0.943" unit="deg" />
+				<attnum name="z start" val="-0.4349" unit="m" />
+				<attnum name="profil start tangent" val="0.0439" unit="%" />
+				<attnum name="profil end tangent" val="0.001" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-28-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="92.140093182" />
+				<attnum name="z end" unit="m" val="-0.4255" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.1169" unit="m" />
+					<attnum name="end width" val="6.8432" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.943" unit="deg" />
+				<attnum name="banking end" val="0.8272" unit="deg" />
+				<attnum name="z start" val="-0.4362" unit="m" />
+				<attnum name="profil start tangent" val="0.001" unit="%" />
+				<attnum name="profil end tangent" val="-0.0424" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-28-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="19.886557818" />
+				<attnum name="z end" unit="m" val="-0.4447" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.8432" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8272" unit="deg" />
+				<attnum name="banking end" val="0.831" unit="deg" />
+				<attnum name="z start" val="-0.4255" unit="m" />
+				<attnum name="profil start tangent" val="-0.0424" unit="%" />
+				<attnum name="profil end tangent" val="-0.1337" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-29">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="743.127" />
+				<attnum name="arc" unit="deg" val="1.55076500852" />
+				<attnum name="z end" unit="m" val="-0.4791" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.831" unit="deg" />
+				<attnum name="banking end" val="0.8496" unit="deg" />
+				<attnum name="z start" val="-0.4447" unit="m" />
+				<attnum name="profil start tangent" val="-0.1337" unit="%" />
+				<attnum name="profil end tangent" val="-0.1959" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-29-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="743.127" />
+				<attnum name="arc" unit="deg" val="1.00856621148" />
+				<attnum name="z end" unit="m" val="-0.508" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.8496" unit="deg" />
+				<attnum name="banking end" val="0.861" unit="deg" />
+				<attnum name="z start" val="-0.4791" unit="m" />
+				<attnum name="profil start tangent" val="-0.1959" unit="%" />
+				<attnum name="profil end tangent" val="-0.2122" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-30">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="16.163" />
+				<attnum name="arc" unit="deg" val="91.52896844" />
+				<attnum name="z end" unit="m" val="-0.5606" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.861" unit="deg" />
+				<attnum name="banking end" val="0.795" unit="deg" />
+				<attnum name="z start" val="-0.508" unit="m" />
+				<attnum name="profil start tangent" val="-0.2122" unit="%" />
+				<attnum name="profil end tangent" val="-0.1084" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-31">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="22.812" />
+				<attnum name="arc" unit="deg" val="44.00332481" />
+				<attnum name="z end" unit="m" val="-0.5629" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.795" unit="deg" />
+				<attnum name="banking end" val="0.4853" unit="deg" />
+				<attnum name="z start" val="-0.5606" unit="m" />
+				<attnum name="profil start tangent" val="-0.1084" unit="%" />
+				<attnum name="profil end tangent" val="0.5434" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-32">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="116.965" />
+				<attnum name="arc" unit="deg" val="9.01167028" />
+				<attnum name="z end" unit="m" val="-0.3606" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.4853" unit="deg" />
+				<attnum name="banking end" val="-0.0946" unit="deg" />
+				<attnum name="z start" val="-0.5629" unit="m" />
+				<attnum name="profil start tangent" val="0.5434" unit="%" />
+				<attnum name="profil end tangent" val="0.817" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-33">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3659.923" />
+				<attnum name="arc" unit="deg" val="0.55077835972" />
+				<attnum name="z end" unit="m" val="-0.1726" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0946" unit="deg" />
+				<attnum name="banking end" val="-0.8493" unit="deg" />
+				<attnum name="z start" val="-0.3606" unit="m" />
+				<attnum name="profil start tangent" val="0.817" unit="%" />
+				<attnum name="profil end tangent" val="0.5205" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-33-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3659.923" />
+				<attnum name="arc" unit="deg" val="0.44127936028" />
+				<attnum name="z end" unit="m" val="-0.0298" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.8493" unit="deg" />
+				<attnum name="banking end" val="-0.8989" unit="deg" />
+				<attnum name="z start" val="-0.1726" unit="m" />
+				<attnum name="profil start tangent" val="0.5205" unit="%" />
+				<attnum name="profil end tangent" val="0.6082" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-34">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="82.598" />
+				<attnum name="arc" unit="deg" val="41.97513909" />
+				<attnum name="z end" unit="m" val="0.3996" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8989" unit="deg" />
+				<attnum name="banking end" val="-0.8921" unit="deg" />
+				<attnum name="z start" val="-0.0298" unit="m" />
+				<attnum name="profil start tangent" val="0.6082" unit="%" />
+				<attnum name="profil end tangent" val="0.2661" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-35">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="80.158" />
+				<attnum name="arc" unit="deg" val="17.04363510" />
+				<attnum name="z end" unit="m" val="0.3573" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8921" unit="deg" />
+				<attnum name="banking end" val="-0.8683" unit="deg" />
+				<attnum name="z start" val="0.3996" unit="m" />
+				<attnum name="profil start tangent" val="0.2661" unit="%" />
+				<attnum name="profil end tangent" val="-0.5098" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-36">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1110.478" />
+				<attnum name="arc" unit="deg" val="1.23937416" />
+				<attnum name="z end" unit="m" val="0.155" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.8683" unit="deg" />
+				<attnum name="banking end" val="-0.7304" unit="deg" />
+				<attnum name="z start" val="0.3573" unit="m" />
+				<attnum name="profil start tangent" val="-0.5098" unit="%" />
+				<attnum name="profil end tangent" val="-1.0429" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-37-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="634.600" />
+				<attnum name="arc" unit="deg" val="0.85186156546" />
+				<attnum name="z end" unit="m" val="0.0376" />
+				<section name="Left Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="6.7112" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.7304" unit="deg" />
+				<attnum name="banking end" val="-0.5782" unit="deg" />
+				<attnum name="z start" val="0.155" unit="m" />
+				<attnum name="profil start tangent" val="-1.0429" unit="%" />
+				<attnum name="profil end tangent" val="-1.3515" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-37-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="634.600" />
+				<attnum name="arc" unit="deg" val="3.61145789556" />
+				<attnum name="z end" unit="m" val="-0.5462" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.7112" unit="m" />
+					<attnum name="end width" val="5.4869" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.5782" unit="deg" />
+				<attnum name="banking end" val="0.5336" unit="deg" />
+				<attnum name="z start" val="0.0376" unit="m" />
+				<attnum name="profil start tangent" val="-1.3515" unit="%" />
+				<attnum name="profil end tangent" val="-0.874" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-37-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="634.600" />
+				<attnum name="arc" unit="deg" val="2.43423709897" />
+				<attnum name="z end" unit="m" val="-0.624" />
+				<section name="Left Side">
+					<attnum name="start width" val="5.4869" unit="m" />
+					<attnum name="end width" val="4.6616" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.5336" unit="deg" />
+				<attnum name="banking end" val="0.8734" unit="deg" />
+				<attnum name="z start" val="-0.5462" unit="m" />
+				<attnum name="profil start tangent" val="-0.874" unit="%" />
+				<attnum name="profil end tangent" val="-0.0554" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-38">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="175.076" />
+				<attnum name="arc" unit="deg" val="24.64481601" />
+				<attnum name="z end" unit="m" val="-0.4901" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.6616" unit="m" />
+					<attnum name="end width" val="4.6616" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8734" unit="deg" />
+				<attnum name="banking end" val="0.9565" unit="deg" />
+				<attnum name="z start" val="-0.624" unit="m" />
+				<attnum name="profil start tangent" val="-0.0554" unit="%" />
+				<attnum name="profil end tangent" val="0.211" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-39">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="157.226" />
+				<attnum name="arc" unit="deg" val="24.56311679" />
+				<attnum name="z end" unit="m" val="-0.3254" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.6616" unit="m" />
+					<attnum name="end width" val="4.6616" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="10.9319" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.9565" unit="deg" />
+				<attnum name="banking end" val="1.0422" unit="deg" />
+				<attnum name="z start" val="-0.4901" unit="m" />
+				<attnum name="profil start tangent" val="0.211" unit="%" />
+				<attnum name="profil end tangent" val="0.2664" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Miami International Autodrome-40">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3483.203" />
+				<attnum name="arc" unit="deg" val="1.12600034" />
+				<attnum name="z end" unit="m" val="-0.1279" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.6616" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.9319" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.0422" unit="deg" />
+				<attnum name="banking end" val="1.0417" unit="deg" />
+				<attnum name="z start" val="-0.3254" unit="m" />
+				<attnum name="profil start tangent" val="0.2664" unit="%" />
+				<attnum name="profil end tangent" val="0.1884" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="145" />
+				<attnum name="z end" unit="m" val="-0" />
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.0417" unit="deg" />
+				<attnum name="banking end" val="1.023" unit="deg" />
+				<attnum name="z start" val="-0.1279" unit="m" />
+				<attnum name="profil start tangent" val="0.1884" unit="%" />
+				<attnum name="profil end tangent" val="-0.1831" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-3">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="-0" />
+				<attnum name="lg" val="0.10000000" unit="m" />
+				<attnum name="banking start" val="1.023" unit="deg" />
+				<attnum name="banking end" val="1.0229" unit="deg" />
+				<attnum name="z start" val="-0" unit="m" />
+				<attnum name="profil start tangent" val="-0.1831" unit="%" />
+				<attnum name="profil end tangent" val="-0.1831" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-4">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.10000000" unit="m" />
+				<attnum name="banking start" val="1.0229" unit="deg" />
+				<attnum name="banking end" val="1.0229" unit="deg" />
+				<attnum name="z start" val="-0" unit="m" />
+				<attnum name="profil start tangent" val="-0.1831" unit="%" />
+				<attnum name="profil end tangent" val="-0.1831" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="25.959051386" />
+    <attnum name="longitude" unit="deg" val="-80.237320656" />
+    <attnum name="altitude" unit="m" val="2.044871516" />
+    <attnum name="heading" unit="deg" val="120.744571009" />
+  </section>
+</params>

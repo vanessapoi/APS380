@@ -1,0 +1,1481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : montseny-circuit-classic.xml
+    created              : 15 May 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Montseny Circuit Classic" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Montseny Circuit Classic" />
+		<attstr name="category" val="road" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Montseny Circuit Classic track layout generated for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="montseny-circuit-classic.ac" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="tangent" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="tangent" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="right" />
+			<attstr name="entry" val="pit_host_pre" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="pit_host_post" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="0.5" unit="m" />
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+			</section>
+
+<section name="pit_host_post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="253.6395" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+			</section>
+
+<section name="pit_host_post-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="100" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-17">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="118.2393" />
+				<attnum name="arc" unit="deg" val="12.3829" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-18-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="33.346" />
+				<attnum name="arc" unit="deg" val="18.25900096935" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-18-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="33.346" />
+				<attnum name="arc" unit="deg" val="21.86413565065" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-19">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="40.784" />
+				<attnum name="arc" unit="deg" val="15.83996765662" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-19-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="40.784" />
+				<attnum name="arc" unit="deg" val="14.60212692338" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-20">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="164.845" />
+				<attnum name="arc" unit="deg" val="7.70235817" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-21-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="110.540" />
+				<attnum name="arc" unit="deg" val="10.07917638595" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-21-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="110.540" />
+				<attnum name="arc" unit="deg" val="4.43664082405" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-22">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="58.084" />
+				<attnum name="arc" unit="deg" val="27.24814967" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-23">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="48.999" />
+				<attnum name="arc" unit="deg" val="25.44227169" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-24">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="694.227" />
+				<attnum name="arc" unit="deg" val="1.82568848" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-25">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="27.938327953" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-25-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="34.971408047" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-26">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="102.679" />
+				<attnum name="arc" unit="deg" val="34.06395829" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-27">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="112.255" />
+				<attnum name="arc" unit="deg" val="45.41006361" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-28">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="130.069" />
+				<attnum name="arc" unit="deg" val="39.71001142" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-29">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="194.808" />
+				<attnum name="arc" unit="deg" val="23.99116675" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-30">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="304.749" />
+				<attnum name="arc" unit="deg" val="15.46950287" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-31">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="191669.268" />
+				<attnum name="arc" unit="deg" val="0.00837147" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-32">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3210.896" />
+				<attnum name="arc" unit="deg" val="0.49971826" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-33-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="95.007187328" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-33-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="37.015117672" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-34">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2334.071" />
+				<attnum name="arc" unit="deg" val="0.64453225" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-35">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="50.340" />
+				<attnum name="arc" unit="deg" val="29.23381456" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-36">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="55.042" />
+				<attnum name="arc" unit="deg" val="69.51301346" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-37">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="92.301" />
+				<attnum name="arc" unit="deg" val="44.95874322" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-38">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="109.797" />
+				<attnum name="arc" unit="deg" val="34.88701246" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-39-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4103.814" />
+				<attnum name="arc" unit="deg" val="0.34881355995" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-39-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4103.814" />
+				<attnum name="arc" unit="deg" val="0.36300140975" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-39-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4103.814" />
+				<attnum name="arc" unit="deg" val="0.2515123803" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-40-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="63.985409113" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-40-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="20.028784887" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-41">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1596.893" />
+				<attnum name="arc" unit="deg" val="0.35776256932" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-41-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1596.893" />
+				<attnum name="arc" unit="deg" val="0.59553596068" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-42">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="34.590" />
+				<attnum name="arc" unit="deg" val="42.02121558" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-43">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="35.209" />
+				<attnum name="arc" unit="deg" val="35.62426728" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-44">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="33.170" />
+				<attnum name="arc" unit="deg" val="37.66352055" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-45">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="38.782" />
+				<attnum name="arc" unit="deg" val="29.11245678" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-46">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1039.136" />
+				<attnum name="arc" unit="deg" val="1.11048326" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-47">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.49167548" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-47-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="64.25168549" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-48">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="252.280" />
+				<attnum name="arc" unit="deg" val="18.03856304" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-49">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="296.349" />
+				<attnum name="arc" unit="deg" val="15.39098824" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-50-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="17.895014381" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-50-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="18.111068619" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-51">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="909.842" />
+				<attnum name="arc" unit="deg" val="0.74868558611" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-51-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="909.842" />
+				<attnum name="arc" unit="deg" val="1.18205304389" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-52-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="38.433" />
+				<attnum name="arc" unit="deg" val="28.66698191502" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-52-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="38.433" />
+				<attnum name="arc" unit="deg" val="14.82835522498" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-53">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="34.927" />
+				<attnum name="arc" unit="deg" val="23.05381315179" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-53-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="34.927" />
+				<attnum name="arc" unit="deg" val="15.29192086821" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-54">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="180.191" />
+				<attnum name="arc" unit="deg" val="7.71150770" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-55">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="115.559" />
+				<attnum name="arc" unit="deg" val="21.03543678" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-55-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="115.559" />
+				<attnum name="arc" unit="deg" val="14.91712276" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-56">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="44577.861" />
+				<attnum name="arc" unit="deg" val="0.09638301" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-57-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="37220.004" />
+				<attnum name="arc" unit="deg" val="0.03067211459" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-57-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="37220.004" />
+				<attnum name="arc" unit="deg" val="0.06157525347" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-57-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="37220.004" />
+				<attnum name="arc" unit="deg" val="0.04891193194" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-58">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="85.283" />
+				<attnum name="arc" unit="deg" val="56.52631922" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-59">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="90.181" />
+				<attnum name="arc" unit="deg" val="23.93279468" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-60">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="380.789" />
+				<attnum name="arc" unit="deg" val="5.74698472" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-61">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="47.22482215" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-61-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="20.78666885" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-62">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="5734.590" />
+				<attnum name="arc" unit="deg" val="0.13990091" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-63">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4154.854" />
+				<attnum name="arc" unit="deg" val="0.19309321" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-64">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="52.008787" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-65">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="9691.026" />
+				<attnum name="arc" unit="deg" val="0.53219746" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-66">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="5477.558" />
+				<attnum name="arc" unit="deg" val="0.94156207" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-67-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="75.90170675" />
+				<attnum name="z end" unit="m" val="0.0" />
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-67-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="26.848400478" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-68">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1042.813" />
+				<attnum name="arc" unit="deg" val="0.72259469958" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-68-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1042.813" />
+				<attnum name="arc" unit="deg" val="0.99336489042" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-69">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="29.266" />
+				<attnum name="arc" unit="deg" val="56.17064234" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-70">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="31.847" />
+				<attnum name="arc" unit="deg" val="42.04132513" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-71">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="62.652" />
+				<attnum name="arc" unit="deg" val="22.19731840" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-72">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="100.191" />
+				<attnum name="arc" unit="deg" val="15.77686780811" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-72-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="100.191" />
+				<attnum name="arc" unit="deg" val="18.39832351189" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-73-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="108.971" />
+				<attnum name="arc" unit="deg" val="20.94088972261" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-73-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="108.971" />
+				<attnum name="arc" unit="deg" val="10.62342523739" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-74">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="149.315" />
+				<attnum name="arc" unit="deg" val="9.24939206" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-75">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="80.229" />
+				<attnum name="arc" unit="deg" val="17.12295054" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-76">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="58.311" />
+				<attnum name="arc" unit="deg" val="43.93592356711" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-76-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="58.311" />
+				<attnum name="arc" unit="deg" val="28.71588735289" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-77">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="56.677" />
+				<attnum name="arc" unit="deg" val="74.21216561" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-78">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="52.478" />
+				<attnum name="arc" unit="deg" val="21.68119638" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-79-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="25.506495226" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-79-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-79-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="78.700630774" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Classic final-corner bypass">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="75.937" />
+				<attnum name="arc" unit="deg" val="18.02898487" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Classic final-corner bypass-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="83.737" />
+				<attnum name="arc" unit="deg" val="53.96982039" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Classic final-corner bypass-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="35708.782" />
+				<attnum name="arc" unit="deg" val="0.13682855" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="9063.410" />
+				<attnum name="arc" unit="deg" val="0.27342456352" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="9063.410" />
+				<attnum name="arc" unit="deg" val="0.20701616648" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="83.777" />
+				<attnum name="arc" unit="deg" val="48.79647743" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="84.676" />
+				<attnum name="arc" unit="deg" val="27.99825433" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+			</section>
+
+<section name="Circuit de Barcelona-Catalunya-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="201.1336" />
+				<attnum name="arc" unit="deg" val="11.8072" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+			</section>
+
+<section name="pit_host_pre-1">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="70" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+			</section>
+
+<section name="pit_host_pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="283.6395" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+			</section>
+
+<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<section name="Right Border">
+					<attnum name="width" val="0.5" unit="m" />
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+			</section>
+
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0.0" />
+				<attnum name="lg" val="0.03000000" unit="m" />
+			</section>
+		</section>
+	</section>
+</params>

@@ -1,0 +1,2546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : ciudad-del-sol-circuit.xml
+    created              : 15 Aug 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Ciudad del Sol Circuit" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Ciudad del Sol Circuit" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="A high-altitude road circuit for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="ciudad-del-sol-circuit.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="ciudad-del-sol-circuit-relief.ac" />
+			<attstr name="elevation map" val="ciudad-del-sol-circuit-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-1.5646" unit="m" />
+			<attnum name="maximum altitude" val="3.9801" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="right" />
+			<attstr name="entry" val="Autódromo Hermanos Rodríguez-7" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="Autódromo Hermanos Rodríguez-15" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.0979" />
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.1595" unit="deg" />
+				<attnum name="banking end" val="0.5703" unit="deg" />
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="-0.0286" unit="%" />
+				<attnum name="profil end tangent" val="-0.1018" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="27.9164" />
+				<attnum name="z end" unit="m" val="0.0229" />
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="12.3715" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.5703" unit="deg" />
+				<attnum name="banking end" val="0.1842" unit="deg" />
+				<attnum name="z start" val="0.0979" unit="m" />
+				<attnum name="profil start tangent" val="-0.1018" unit="%" />
+				<attnum name="profil end tangent" val="-0.1621" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-13">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1169.762" />
+				<attnum name="arc" unit="deg" val="0.78382808" />
+				<attnum name="z end" unit="m" val="0.014" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.3715" unit="m" />
+					<attnum name="end width" val="11.438" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.1842" unit="deg" />
+				<attnum name="banking end" val="0.1784" unit="deg" />
+				<attnum name="z start" val="0.0229" unit="m" />
+				<attnum name="profil start tangent" val="-0.1621" unit="%" />
+				<attnum name="profil end tangent" val="-0.0947" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-14">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="894.144" />
+				<attnum name="arc" unit="deg" val="1.02542998" />
+				<attnum name="z end" unit="m" val="-0.0074" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="11.438" unit="m" />
+					<attnum name="end width" val="10.5046" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.1784" unit="deg" />
+				<attnum name="banking end" val="0.1526" unit="deg" />
+				<attnum name="z start" val="0.014" unit="m" />
+				<attnum name="profil start tangent" val="-0.0947" unit="%" />
+				<attnum name="profil end tangent" val="-0.0034" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-15">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="80.020069" />
+				<attnum name="z end" unit="m" val="0.0943" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.5046" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.1526" unit="deg" />
+				<attnum name="banking end" val="0.295" unit="deg" />
+				<attnum name="z start" val="-0.0074" unit="m" />
+				<attnum name="profil start tangent" val="-0.0034" unit="%" />
+				<attnum name="profil end tangent" val="0.1708" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-16">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2931.262" />
+				<attnum name="arc" unit="deg" val="0.60707633809" />
+				<attnum name="z end" unit="m" val="0.1609" />
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.295" unit="deg" />
+				<attnum name="banking end" val="0.5321" unit="deg" />
+				<attnum name="z start" val="0.0943" unit="m" />
+				<attnum name="profil start tangent" val="0.1708" unit="%" />
+				<attnum name="profil end tangent" val="-0.1289" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-16-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2931.262" />
+				<attnum name="arc" unit="deg" val="0.31952317191" />
+				<attnum name="z end" unit="m" val="0.0837" />
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.5321" unit="deg" />
+				<attnum name="banking end" val="0.4831" unit="deg" />
+				<attnum name="z start" val="0.1609" unit="m" />
+				<attnum name="profil start tangent" val="-0.1289" unit="%" />
+				<attnum name="profil end tangent" val="-0.5932" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-17-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="26.076" />
+				<attnum name="arc" unit="deg" val="29.99951117691" />
+				<attnum name="z end" unit="m" val="-0.0138" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4831" unit="deg" />
+				<attnum name="banking end" val="0.3481" unit="deg" />
+				<attnum name="z start" val="0.0837" unit="m" />
+				<attnum name="profil start tangent" val="-0.5932" unit="%" />
+				<attnum name="profil end tangent" val="-0.5147" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-17-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="26.076" />
+				<attnum name="arc" unit="deg" val="54.54174734309" />
+				<attnum name="z end" unit="m" val="-0.092" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.3481" unit="deg" />
+				<attnum name="banking end" val="0.2051" unit="deg" />
+				<attnum name="z start" val="-0.0138" unit="m" />
+				<attnum name="profil start tangent" val="-0.5147" unit="%" />
+				<attnum name="profil end tangent" val="-0.3197" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-18">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="187.020" />
+				<attnum name="arc" unit="deg" val="4.90303718" />
+				<attnum name="z end" unit="m" val="-0.1439" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.2051" unit="deg" />
+				<attnum name="banking end" val="0.2428" unit="deg" />
+				<attnum name="z start" val="-0.092" unit="m" />
+				<attnum name="profil start tangent" val="-0.3197" unit="%" />
+				<attnum name="profil end tangent" val="-0.2587" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-19">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="744.287" />
+				<attnum name="arc" unit="deg" val="1.23271099" />
+				<attnum name="z end" unit="m" val="-0.1749" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.2428" unit="deg" />
+				<attnum name="banking end" val="0.1072" unit="deg" />
+				<attnum name="z start" val="-0.1439" unit="m" />
+				<attnum name="profil start tangent" val="-0.2587" unit="%" />
+				<attnum name="profil end tangent" val="-0.2535" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-20">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="381.143" />
+				<attnum name="arc" unit="deg" val="3.64181263" />
+				<attnum name="z end" unit="m" val="-0.2509" />
+				<attnum name="banking start" val="0.1072" unit="deg" />
+				<attnum name="banking end" val="-0.5425" unit="deg" />
+				<attnum name="z start" val="-0.1749" unit="m" />
+				<attnum name="profil start tangent" val="-0.2535" unit="%" />
+				<attnum name="profil end tangent" val="-0.2828" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-21">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="19.872" />
+				<attnum name="arc" unit="deg" val="62.74736448" />
+				<attnum name="z end" unit="m" val="-0.3057" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.5425" unit="deg" />
+				<attnum name="banking end" val="-0.5418" unit="deg" />
+				<attnum name="z start" val="-0.2509" unit="m" />
+				<attnum name="profil start tangent" val="-0.2828" unit="%" />
+				<attnum name="profil end tangent" val="-0.0606" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-22">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="74.243" />
+				<attnum name="arc" unit="deg" val="12.41400857" />
+				<attnum name="z end" unit="m" val="-0.2847" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.5418" unit="deg" />
+				<attnum name="banking end" val="-0.3413" unit="deg" />
+				<attnum name="z start" val="-0.3057" unit="m" />
+				<attnum name="profil start tangent" val="-0.0606" unit="%" />
+				<attnum name="profil end tangent" val="0.0381" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-23">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="51.884" />
+				<attnum name="arc" unit="deg" val="17.69137330" />
+				<attnum name="z end" unit="m" val="-0.2934" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.3413" unit="deg" />
+				<attnum name="banking end" val="-0.0579" unit="deg" />
+				<attnum name="z start" val="-0.2847" unit="m" />
+				<attnum name="profil start tangent" val="0.0381" unit="%" />
+				<attnum name="profil end tangent" val="-0.0366" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-24">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="18.929" />
+				<attnum name="arc" unit="deg" val="56.16837374" />
+				<attnum name="z end" unit="m" val="-0.2969" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0579" unit="deg" />
+				<attnum name="banking end" val="0.4279" unit="deg" />
+				<attnum name="z start" val="-0.2934" unit="m" />
+				<attnum name="profil start tangent" val="-0.0366" unit="%" />
+				<attnum name="profil end tangent" val="0.0092" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-25">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="190.840" />
+				<attnum name="arc" unit="deg" val="6.05920053" />
+				<attnum name="z end" unit="m" val="-0.2894" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4279" unit="deg" />
+				<attnum name="banking end" val="0.3323" unit="deg" />
+				<attnum name="z start" val="-0.2969" unit="m" />
+				<attnum name="profil start tangent" val="0.0092" unit="%" />
+				<attnum name="profil end tangent" val="-0.0003" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-26">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="393.693" />
+				<attnum name="arc" unit="deg" val="5.86889020036" />
+				<attnum name="z end" unit="m" val="-0.3045" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.3323" unit="deg" />
+				<attnum name="banking end" val="-0.1468" unit="deg" />
+				<attnum name="z start" val="-0.2894" unit="m" />
+				<attnum name="profil start tangent" val="-0.0003" unit="%" />
+				<attnum name="profil end tangent" val="-0.0111" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-26-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="393.693" />
+				<attnum name="arc" unit="deg" val="5.75842402964" />
+				<attnum name="z end" unit="m" val="-0.2985" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.1468" unit="deg" />
+				<attnum name="banking end" val="0.0016" unit="deg" />
+				<attnum name="z start" val="-0.3045" unit="m" />
+				<attnum name="profil start tangent" val="-0.0111" unit="%" />
+				<attnum name="profil end tangent" val="-0.0038" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-27">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="477.085" />
+				<attnum name="arc" unit="deg" val="9.60541263" />
+				<attnum name="z end" unit="m" val="-0.3168" />
+				<attnum name="banking start" val="0.0016" unit="deg" />
+				<attnum name="banking end" val="0.1666" unit="deg" />
+				<attnum name="z start" val="-0.2985" unit="m" />
+				<attnum name="profil start tangent" val="-0.0038" unit="%" />
+				<attnum name="profil end tangent" val="-0.0121" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-28">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="123.36860931" />
+				<attnum name="z end" unit="m" val="-0.3184" />
+				<attnum name="banking start" val="0.1666" unit="deg" />
+				<attnum name="banking end" val="0.3624" unit="deg" />
+				<attnum name="z start" val="-0.3168" unit="m" />
+				<attnum name="profil start tangent" val="-0.0121" unit="%" />
+				<attnum name="profil end tangent" val="-0.027" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-29">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.16898078" />
+				<attnum name="z end" unit="m" val="-0.3247" />
+				<attnum name="banking start" val="0.3624" unit="deg" />
+				<attnum name="banking end" val="0.3287" unit="deg" />
+				<attnum name="z start" val="-0.3184" unit="m" />
+				<attnum name="profil start tangent" val="-0.027" unit="%" />
+				<attnum name="profil end tangent" val="-0.0211" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-30">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="70.715131" />
+				<attnum name="z end" unit="m" val="-0.3173" />
+				<attnum name="banking start" val="0.3287" unit="deg" />
+				<attnum name="banking end" val="0.3257" unit="deg" />
+				<attnum name="z start" val="-0.3247" unit="m" />
+				<attnum name="profil start tangent" val="-0.0211" unit="%" />
+				<attnum name="profil end tangent" val="0.002" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-31">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.38413807" />
+				<attnum name="z end" unit="m" val="-0.319" />
+				<attnum name="banking start" val="0.3257" unit="deg" />
+				<attnum name="banking end" val="0.3149" unit="deg" />
+				<attnum name="z start" val="-0.3173" unit="m" />
+				<attnum name="profil start tangent" val="0.002" unit="%" />
+				<attnum name="profil end tangent" val="0.0168" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-32">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="71.612374" />
+				<attnum name="z end" unit="m" val="-0.2903" />
+				<attnum name="banking start" val="0.3149" unit="deg" />
+				<attnum name="banking end" val="0.7109" unit="deg" />
+				<attnum name="z start" val="-0.319" unit="m" />
+				<attnum name="profil start tangent" val="0.0168" unit="%" />
+				<attnum name="profil end tangent" val="0.4474" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-33">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3121.766" />
+				<attnum name="arc" unit="deg" val="1.17510209" />
+				<attnum name="z end" unit="m" val="0.257" />
+				<attnum name="banking start" val="0.7109" unit="deg" />
+				<attnum name="banking end" val="0.967" unit="deg" />
+				<attnum name="z start" val="-0.2903" unit="m" />
+				<attnum name="profil start tangent" val="0.4474" unit="%" />
+				<attnum name="profil end tangent" val="0.8694" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-34">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1279.561" />
+				<attnum name="arc" unit="deg" val="2.86641875" />
+				<attnum name="z end" unit="m" val="0.8229" />
+				<attnum name="banking start" val="0.967" unit="deg" />
+				<attnum name="banking end" val="0.9516" unit="deg" />
+				<attnum name="z start" val="0.257" unit="m" />
+				<attnum name="profil start tangent" val="0.8694" unit="%" />
+				<attnum name="profil end tangent" val="0.8919" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-35">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1865.764" />
+				<attnum name="arc" unit="deg" val="0.86024762" />
+				<attnum name="z end" unit="m" val="1.075" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.9516" unit="deg" />
+				<attnum name="banking end" val="0.3233" unit="deg" />
+				<attnum name="z start" val="0.8229" unit="m" />
+				<attnum name="profil start tangent" val="0.8919" unit="%" />
+				<attnum name="profil end tangent" val="0.9846" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-36">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="530.549" />
+				<attnum name="arc" unit="deg" val="1.87064522225" />
+				<attnum name="z end" unit="m" val="1.2602" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.3233" unit="deg" />
+				<attnum name="banking end" val="0.1271" unit="deg" />
+				<attnum name="z start" val="1.075" unit="m" />
+				<attnum name="profil start tangent" val="0.9846" unit="%" />
+				<attnum name="profil end tangent" val="1.1136" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-36-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="530.549" />
+				<attnum name="arc" unit="deg" val="1.15391292775" />
+				<attnum name="z end" unit="m" val="1.3839" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.1271" unit="deg" />
+				<attnum name="banking end" val="0.1079" unit="deg" />
+				<attnum name="z start" val="1.2602" unit="m" />
+				<attnum name="profil start tangent" val="1.1136" unit="%" />
+				<attnum name="profil end tangent" val="1.1406" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-37">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="529.892" />
+				<attnum name="arc" unit="deg" val="0.87360332" />
+				<attnum name="z end" unit="m" val="1.4747" />
+				<attnum name="banking start" val="0.1079" unit="deg" />
+				<attnum name="banking end" val="0.1258" unit="deg" />
+				<attnum name="z start" val="1.3839" unit="m" />
+				<attnum name="profil start tangent" val="1.1406" unit="%" />
+				<attnum name="profil end tangent" val="0.993" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-38">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="16.494" />
+				<attnum name="arc" unit="deg" val="27.52366916" />
+				<attnum name="z end" unit="m" val="1.5431" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.1258" unit="deg" />
+				<attnum name="banking end" val="0.1288" unit="deg" />
+				<attnum name="z start" val="1.4747" unit="m" />
+				<attnum name="profil start tangent" val="0.993" unit="%" />
+				<attnum name="profil end tangent" val="0.8563" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-39">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="17.056" />
+				<attnum name="arc" unit="deg" val="62.92125643" />
+				<attnum name="z end" unit="m" val="1.7023" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.1288" unit="deg" />
+				<attnum name="banking end" val="-0.0468" unit="deg" />
+				<attnum name="z start" val="1.5431" unit="m" />
+				<attnum name="profil start tangent" val="0.8563" unit="%" />
+				<attnum name="profil end tangent" val="0.8338" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-40">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="288.226" />
+				<attnum name="arc" unit="deg" val="4.14729955" />
+				<attnum name="z end" unit="m" val="1.8729" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0468" unit="deg" />
+				<attnum name="banking end" val="-0.0962" unit="deg" />
+				<attnum name="z start" val="1.7023" unit="m" />
+				<attnum name="profil start tangent" val="0.8338" unit="%" />
+				<attnum name="profil end tangent" val="0.6642" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-41">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1615.261" />
+				<attnum name="arc" unit="deg" val="0.83982356" />
+				<attnum name="z end" unit="m" val="1.9938" />
+				<section name="Right Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="5.892" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.0962" unit="deg" />
+				<attnum name="banking end" val="0.0403" unit="deg" />
+				<attnum name="z start" val="1.8729" unit="m" />
+				<attnum name="profil start tangent" val="0.6642" unit="%" />
+				<attnum name="profil end tangent" val="0.1544" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-42">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="16.119" />
+				<attnum name="arc" unit="deg" val="72.59054575" />
+				<attnum name="z end" unit="m" val="1.9525" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.892" unit="m" />
+					<attnum name="end width" val="5.362" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.0403" unit="deg" />
+				<attnum name="banking end" val="-0.0391" unit="deg" />
+				<attnum name="z start" val="1.9938" unit="m" />
+				<attnum name="profil start tangent" val="0.1544" unit="%" />
+				<attnum name="profil end tangent" val="-0.0655" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-43">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="12.862" />
+				<attnum name="arc" unit="deg" val="34.64665688" />
+				<attnum name="z end" unit="m" val="1.9581" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.362" unit="m" />
+					<attnum name="end width" val="5.362" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0391" unit="deg" />
+				<attnum name="banking end" val="-0.0408" unit="deg" />
+				<attnum name="z start" val="1.9525" unit="m" />
+				<attnum name="profil start tangent" val="-0.0655" unit="%" />
+				<attnum name="profil end tangent" val="0.2706" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-44">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="145.719" />
+				<attnum name="arc" unit="deg" val="3.15405712" />
+				<attnum name="z end" unit="m" val="1.9958" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.362" unit="m" />
+					<attnum name="end width" val="5.7374" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0408" unit="deg" />
+				<attnum name="banking end" val="-0.0109" unit="deg" />
+				<attnum name="z start" val="1.9581" unit="m" />
+				<attnum name="profil start tangent" val="0.2706" unit="%" />
+				<attnum name="profil end tangent" val="0.5473" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-45">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="265.000" />
+				<attnum name="arc" unit="deg" val="5.19005285" />
+				<attnum name="z end" unit="m" val="2.1456" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.7374" unit="m" />
+					<attnum name="end width" val="6.8608" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0109" unit="deg" />
+				<attnum name="banking end" val="0.0305" unit="deg" />
+				<attnum name="z start" val="1.9958" unit="m" />
+				<attnum name="profil start tangent" val="0.5473" unit="%" />
+				<attnum name="profil end tangent" val="0.4686" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-46">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="940.953" />
+				<attnum name="arc" unit="deg" val="1.46259114" />
+				<attnum name="z end" unit="m" val="2.2208" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.8608" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.0305" unit="deg" />
+				<attnum name="banking end" val="-0.1908" unit="deg" />
+				<attnum name="z start" val="2.1456" unit="m" />
+				<attnum name="profil start tangent" val="0.4686" unit="%" />
+				<attnum name="profil end tangent" val="0.2183" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-47">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.007024" />
+				<attnum name="z end" unit="m" val="2.2554" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.1908" unit="deg" />
+				<attnum name="banking end" val="-0.1659" unit="deg" />
+				<attnum name="z start" val="2.2208" unit="m" />
+				<attnum name="profil start tangent" val="0.2183" unit="%" />
+				<attnum name="profil end tangent" val="0.083" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-48">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="593.298" />
+				<attnum name="arc" unit="deg" val="2.36493867" />
+				<attnum name="z end" unit="m" val="2.2658" />
+				<attnum name="banking start" val="-0.1659" unit="deg" />
+				<attnum name="banking end" val="0.0292" unit="deg" />
+				<attnum name="z start" val="2.2554" unit="m" />
+				<attnum name="profil start tangent" val="0.083" unit="%" />
+				<attnum name="profil end tangent" val="0.0579" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-49">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="21.981" />
+				<attnum name="arc" unit="deg" val="58.24752607" />
+				<attnum name="z end" unit="m" val="2.2822" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.0292" unit="deg" />
+				<attnum name="banking end" val="-0.0158" unit="deg" />
+				<attnum name="z start" val="2.2658" unit="m" />
+				<attnum name="profil start tangent" val="0.0579" unit="%" />
+				<attnum name="profil end tangent" val="-0.0573" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-50">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="23.270" />
+				<attnum name="arc" unit="deg" val="62.78645196" />
+				<attnum name="z end" unit="m" val="2.2343" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0158" unit="deg" />
+				<attnum name="banking end" val="-0.1787" unit="deg" />
+				<attnum name="z start" val="2.2822" unit="m" />
+				<attnum name="profil start tangent" val="-0.0573" unit="%" />
+				<attnum name="profil end tangent" val="-0.8364" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-51-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="176.260" />
+				<attnum name="arc" unit="deg" val="5.99907203488" />
+				<attnum name="z end" unit="m" val="1.9602" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.1787" unit="deg" />
+				<attnum name="banking end" val="-0.0378" unit="deg" />
+				<attnum name="z start" val="2.2343" unit="m" />
+				<attnum name="profil start tangent" val="-0.8364" unit="%" />
+				<attnum name="profil end tangent" val="-1.3384" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-51-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="176.260" />
+				<attnum name="arc" unit="deg" val="3.21321193512" />
+				<attnum name="z end" unit="m" val="1.8424" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.0378" unit="deg" />
+				<attnum name="banking end" val="-0.0799" unit="deg" />
+				<attnum name="z start" val="1.9602" unit="m" />
+				<attnum name="profil start tangent" val="-1.3384" unit="%" />
+				<attnum name="profil end tangent" val="-0.9732" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-52">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2687.136" />
+				<attnum name="arc" unit="deg" val="0.55451398" />
+				<attnum name="z end" unit="m" val="1.6462" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0799" unit="deg" />
+				<attnum name="banking end" val="-0.3317" unit="deg" />
+				<attnum name="z start" val="1.8424" unit="m" />
+				<attnum name="profil start tangent" val="-0.9732" unit="%" />
+				<attnum name="profil end tangent" val="-0.8111" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-53">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3150.319" />
+				<attnum name="arc" unit="deg" val="0.47298631" />
+				<attnum name="z end" unit="m" val="1.4205" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.3317" unit="deg" />
+				<attnum name="banking end" val="-0.1423" unit="deg" />
+				<attnum name="z start" val="1.6462" unit="m" />
+				<attnum name="profil start tangent" val="-0.8111" unit="%" />
+				<attnum name="profil end tangent" val="-0.7715" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-54">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="107.49310702" />
+				<attnum name="z end" unit="m" val="0.6946" />
+				<attnum name="banking start" val="-0.1423" unit="deg" />
+				<attnum name="banking end" val="0.2488" unit="deg" />
+				<attnum name="z start" val="1.4205" unit="m" />
+				<attnum name="profil start tangent" val="-0.7715" unit="%" />
+				<attnum name="profil end tangent" val="-0.5599" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-55-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1766.040" />
+				<attnum name="arc" unit="deg" val="1.32453663467" />
+				<attnum name="z end" unit="m" val="0.5131" />
+				<attnum name="banking start" val="0.2488" unit="deg" />
+				<attnum name="banking end" val="0.4916" unit="deg" />
+				<attnum name="z start" val="0.6946" unit="m" />
+				<attnum name="profil start tangent" val="-0.5599" unit="%" />
+				<attnum name="profil end tangent" val="-0.3376" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-55-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1766.040" />
+				<attnum name="arc" unit="deg" val="0.36412835533" />
+				<attnum name="z end" unit="m" val="0.4872" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4916" unit="deg" />
+				<attnum name="banking end" val="0.5276" unit="deg" />
+				<attnum name="z start" val="0.5131" unit="m" />
+				<attnum name="profil start tangent" val="-0.3376" unit="%" />
+				<attnum name="profil end tangent" val="-0.2216" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-56">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="530.708" />
+				<attnum name="arc" unit="deg" val="3.10672901084" />
+				<attnum name="z end" unit="m" val="0.4261" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.5276" unit="deg" />
+				<attnum name="banking end" val="0.0965" unit="deg" />
+				<attnum name="z start" val="0.4872" unit="m" />
+				<attnum name="profil start tangent" val="-0.2216" unit="%" />
+				<attnum name="profil end tangent" val="-0.7632" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-56-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="530.708" />
+				<attnum name="arc" unit="deg" val="2.50856279916" />
+				<attnum name="z end" unit="m" val="0.1208" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0965" unit="deg" />
+				<attnum name="banking end" val="0.2356" unit="deg" />
+				<attnum name="z start" val="0.4261" unit="m" />
+				<attnum name="profil start tangent" val="-0.7632" unit="%" />
+				<attnum name="profil end tangent" val="-1.3134" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-57-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="34.092" />
+				<attnum name="arc" unit="deg" val="28.17425890252" />
+				<attnum name="z end" unit="m" val="-0.0993" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.2356" unit="deg" />
+				<attnum name="banking end" val="0.4113" unit="deg" />
+				<attnum name="z start" val="0.1208" unit="m" />
+				<attnum name="profil start tangent" val="-1.3134" unit="%" />
+				<attnum name="profil end tangent" val="-0.2077" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-57-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="34.092" />
+				<attnum name="arc" unit="deg" val="28.48697749748" />
+				<attnum name="z end" unit="m" val="0.0528" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.4113" unit="deg" />
+				<attnum name="banking end" val="0.184" unit="deg" />
+				<attnum name="z start" val="-0.0993" unit="m" />
+				<attnum name="profil start tangent" val="-0.2077" unit="%" />
+				<attnum name="profil end tangent" val="1.012" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-58">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="332.325" />
+				<attnum name="arc" unit="deg" val="6.33127292" />
+				<attnum name="z end" unit="m" val="0.4666" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.184" unit="deg" />
+				<attnum name="banking end" val="-0.1789" unit="deg" />
+				<attnum name="z start" val="0.0528" unit="m" />
+				<attnum name="profil start tangent" val="1.012" unit="%" />
+				<attnum name="profil end tangent" val="1.0328" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-59">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="306.260" />
+				<attnum name="arc" unit="deg" val="6.00762645" />
+				<attnum name="z end" unit="m" val="0.7681" />
+				<attnum name="banking start" val="-0.1789" unit="deg" />
+				<attnum name="banking end" val="0.0143" unit="deg" />
+				<attnum name="z start" val="0.4666" unit="m" />
+				<attnum name="profil start tangent" val="1.0328" unit="%" />
+				<attnum name="profil end tangent" val="0.1286" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-60">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="74.077" />
+				<attnum name="arc" unit="deg" val="24.48107238" />
+				<attnum name="z end" unit="m" val="0.5523" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.0143" unit="deg" />
+				<attnum name="banking end" val="-0.1392" unit="deg" />
+				<attnum name="z start" val="0.7681" unit="m" />
+				<attnum name="profil start tangent" val="0.1286" unit="%" />
+				<attnum name="profil end tangent" val="-0.3775" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-61">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="87.546" />
+				<attnum name="arc" unit="deg" val="10.45047803" />
+				<attnum name="z end" unit="m" val="0.5406" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.1392" unit="deg" />
+				<attnum name="banking end" val="-0.265" unit="deg" />
+				<attnum name="z start" val="0.5523" unit="m" />
+				<attnum name="profil start tangent" val="-0.3775" unit="%" />
+				<attnum name="profil end tangent" val="-0.4721" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-62">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="252.353" />
+				<attnum name="arc" unit="deg" val="3.63434531" />
+				<attnum name="z end" unit="m" val="0.4012" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.265" unit="deg" />
+				<attnum name="banking end" val="-0.2032" unit="deg" />
+				<attnum name="z start" val="0.5406" unit="m" />
+				<attnum name="profil start tangent" val="-0.4721" unit="%" />
+				<attnum name="profil end tangent" val="-0.6399" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-63-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="83.380" />
+				<attnum name="arc" unit="deg" val="9.33770908791" />
+				<attnum name="z end" unit="m" val="0.3457" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.2032" unit="deg" />
+				<attnum name="banking end" val="-0.024" unit="deg" />
+				<attnum name="z start" val="0.4012" unit="m" />
+				<attnum name="profil start tangent" val="-0.6399" unit="%" />
+				<attnum name="profil end tangent" val="-0.3197" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-63-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="83.380" />
+				<attnum name="arc" unit="deg" val="27.48658168054" />
+				<attnum name="z end" unit="m" val="0.2534" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.024" unit="deg" />
+				<attnum name="banking end" val="0.1585" unit="deg" />
+				<attnum name="z start" val="0.3457" unit="m" />
+				<attnum name="profil start tangent" val="-0.3197" unit="%" />
+				<attnum name="profil end tangent" val="0.0902" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-63-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="83.380" />
+				<attnum name="arc" unit="deg" val="21.96441186155" />
+				<attnum name="z end" unit="m" val="0.3847" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.1585" unit="deg" />
+				<attnum name="banking end" val="-0.383" unit="deg" />
+				<attnum name="z start" val="0.2534" unit="m" />
+				<attnum name="profil start tangent" val="0.0902" unit="%" />
+				<attnum name="profil end tangent" val="0.1113" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-64-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2699.123" />
+				<attnum name="arc" unit="deg" val="1.67774453589" />
+				<attnum name="z end" unit="m" val="0.2359" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.383" unit="deg" />
+				<attnum name="banking end" val="-0.18" unit="deg" />
+				<attnum name="z start" val="0.3847" unit="m" />
+				<attnum name="profil start tangent" val="0.1113" unit="%" />
+				<attnum name="profil end tangent" val="-0.1603" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-64-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2699.123" />
+				<attnum name="arc" unit="deg" val="0.31623930411" />
+				<attnum name="z end" unit="m" val="0.2162" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.18" unit="deg" />
+				<attnum name="banking end" val="-0.1001" unit="deg" />
+				<attnum name="z start" val="0.2359" unit="m" />
+				<attnum name="profil start tangent" val="-0.1603" unit="%" />
+				<attnum name="profil end tangent" val="-0.1313" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-65">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="465.365" />
+				<attnum name="arc" unit="deg" val="1.61317040845" />
+				<attnum name="z end" unit="m" val="0.1991" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.1001" unit="deg" />
+				<attnum name="banking end" val="0.0313" unit="deg" />
+				<attnum name="z start" val="0.2162" unit="m" />
+				<attnum name="profil start tangent" val="-0.1313" unit="%" />
+				<attnum name="profil end tangent" val="0.1061" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-65-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="465.365" />
+				<attnum name="arc" unit="deg" val="2.95095177155" />
+				<attnum name="z end" unit="m" val="0.2812" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0313" unit="deg" />
+				<attnum name="banking end" val="0.2364" unit="deg" />
+				<attnum name="z start" val="0.1991" unit="m" />
+				<attnum name="profil start tangent" val="0.1061" unit="%" />
+				<attnum name="profil end tangent" val="0.555" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-66-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="38.832" />
+				<attnum name="arc" unit="deg" val="20.70379970982" />
+				<attnum name="z end" unit="m" val="0.3889" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.2364" unit="deg" />
+				<attnum name="banking end" val="0.2416" unit="deg" />
+				<attnum name="z start" val="0.2812" unit="m" />
+				<attnum name="profil start tangent" val="0.555" unit="%" />
+				<attnum name="profil end tangent" val="0.4145" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-66-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="38.832" />
+				<attnum name="arc" unit="deg" val="30.35128781018" />
+				<attnum name="z end" unit="m" val="0.4016" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.2416" unit="deg" />
+				<attnum name="banking end" val="0.1349" unit="deg" />
+				<attnum name="z start" val="0.3889" unit="m" />
+				<attnum name="profil start tangent" val="0.4145" unit="%" />
+				<attnum name="profil end tangent" val="-0.035" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-67">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="67.174" />
+				<attnum name="arc" unit="deg" val="17.04245813" />
+				<attnum name="z end" unit="m" val="0.3753" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.1349" unit="deg" />
+				<attnum name="banking end" val="-0.0249" unit="deg" />
+				<attnum name="z start" val="0.4016" unit="m" />
+				<attnum name="profil start tangent" val="-0.035" unit="%" />
+				<attnum name="profil end tangent" val="-0.2686" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-68">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="213.338" />
+				<attnum name="arc" unit="deg" val="5.40211142" />
+				<attnum name="z end" unit="m" val="0.2937" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0249" unit="deg" />
+				<attnum name="banking end" val="-0.1115" unit="deg" />
+				<attnum name="z start" val="0.3753" unit="m" />
+				<attnum name="profil start tangent" val="-0.2686" unit="%" />
+				<attnum name="profil end tangent" val="-0.3189" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-69">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="88.731" />
+				<attnum name="arc" unit="deg" val="26.69058810951" />
+				<attnum name="z end" unit="m" val="0.1977" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.1115" unit="deg" />
+				<attnum name="banking end" val="-0.0876" unit="deg" />
+				<attnum name="z start" val="0.2937" unit="m" />
+				<attnum name="profil start tangent" val="-0.3189" unit="%" />
+				<attnum name="profil end tangent" val="0.157" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-69-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="88.731" />
+				<attnum name="arc" unit="deg" val="23.09282294049" />
+				<attnum name="z end" unit="m" val="0.3931" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.0876" unit="deg" />
+				<attnum name="banking end" val="-0.1984" unit="deg" />
+				<attnum name="z start" val="0.1977" unit="m" />
+				<attnum name="profil start tangent" val="0.157" unit="%" />
+				<attnum name="profil end tangent" val="0.4819" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-70-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="935.936" />
+				<attnum name="arc" unit="deg" val="1.36131737579" />
+				<attnum name="z end" unit="m" val="0.4859" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.1984" unit="deg" />
+				<attnum name="banking end" val="-0.0041" unit="deg" />
+				<attnum name="z start" val="0.3931" unit="m" />
+				<attnum name="profil start tangent" val="0.4819" unit="%" />
+				<attnum name="profil end tangent" val="0.1249" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-70-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="935.936" />
+				<attnum name="arc" unit="deg" val="1.95896401508" />
+				<attnum name="z end" unit="m" val="0.4322" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0041" unit="deg" />
+				<attnum name="banking end" val="0.0649" unit="deg" />
+				<attnum name="z start" val="0.4859" unit="m" />
+				<attnum name="profil start tangent" val="0.1249" unit="%" />
+				<attnum name="profil end tangent" val="-0.3727" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-70-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="935.936" />
+				<attnum name="arc" unit="deg" val="1.71734703913" />
+				<attnum name="z end" unit="m" val="0.2702" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0649" unit="deg" />
+				<attnum name="banking end" val="-0.3228" unit="deg" />
+				<attnum name="z start" val="0.4322" unit="m" />
+				<attnum name="profil start tangent" val="-0.3727" unit="%" />
+				<attnum name="profil end tangent" val="-0.2312" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-71">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="268.604" />
+				<attnum name="arc" unit="deg" val="11.90580557" />
+				<attnum name="z end" unit="m" val="0.3345" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="-0.3228" unit="deg" />
+				<attnum name="banking end" val="-1.008" unit="deg" />
+				<attnum name="z start" val="0.2702" unit="m" />
+				<attnum name="profil start tangent" val="-0.2312" unit="%" />
+				<attnum name="profil end tangent" val="-0.0269" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-72">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="324.138" />
+				<attnum name="arc" unit="deg" val="9.87712972" />
+				<attnum name="z end" unit="m" val="0.24" />
+				<attnum name="banking start" val="-1.008" unit="deg" />
+				<attnum name="banking end" val="-0.1074" unit="deg" />
+				<attnum name="z start" val="0.3345" unit="m" />
+				<attnum name="profil start tangent" val="-0.0269" unit="%" />
+				<attnum name="profil end tangent" val="0.0639" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-73">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="60.686239" />
+				<attnum name="z end" unit="m" val="0.4202" />
+				<attnum name="banking start" val="-0.1074" unit="deg" />
+				<attnum name="banking end" val="-1.1286" unit="deg" />
+				<attnum name="z start" val="0.24" unit="m" />
+				<attnum name="profil start tangent" val="0.0639" unit="%" />
+				<attnum name="profil end tangent" val="0.1932" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-74">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.23866860" />
+				<attnum name="z end" unit="m" val="0.4351" />
+				<attnum name="banking start" val="-1.1286" unit="deg" />
+				<attnum name="banking end" val="-1.3558" unit="deg" />
+				<attnum name="z start" val="0.4202" unit="m" />
+				<attnum name="profil start tangent" val="0.1932" unit="%" />
+				<attnum name="profil end tangent" val="-0.0149" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-75">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="194.719950" />
+				<attnum name="z end" unit="m" val="0.2028" />
+				<attnum name="banking start" val="-1.3558" unit="deg" />
+				<attnum name="banking end" val="-0.0025" unit="deg" />
+				<attnum name="z start" val="0.4351" unit="m" />
+				<attnum name="profil start tangent" val="-0.0149" unit="%" />
+				<attnum name="profil end tangent" val="-0.1433" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-76">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="270.832" />
+				<attnum name="arc" unit="deg" val="5.10451688" />
+				<attnum name="z end" unit="m" val="0.1624" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.0025" unit="deg" />
+				<attnum name="banking end" val="-0.0126" unit="deg" />
+				<attnum name="z start" val="0.2028" unit="m" />
+				<attnum name="profil start tangent" val="-0.1433" unit="%" />
+				<attnum name="profil end tangent" val="-0.1385" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-77">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="91.405" />
+				<attnum name="arc" unit="deg" val="15.04757334" />
+				<attnum name="z end" unit="m" val="0.1361" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0126" unit="deg" />
+				<attnum name="banking end" val="0.1059" unit="deg" />
+				<attnum name="z start" val="0.1624" unit="m" />
+				<attnum name="profil start tangent" val="-0.1385" unit="%" />
+				<attnum name="profil end tangent" val="0.1471" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-78">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="20.281" />
+				<attnum name="arc" unit="deg" val="62.11765151" />
+				<attnum name="z end" unit="m" val="0.2249" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.1059" unit="deg" />
+				<attnum name="banking end" val="0.5" unit="deg" />
+				<attnum name="z start" val="0.1361" unit="m" />
+				<attnum name="profil start tangent" val="0.1471" unit="%" />
+				<attnum name="profil end tangent" val="-0.466" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-79">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="213.513" />
+				<attnum name="arc" unit="deg" val="6.54821974" />
+				<attnum name="z end" unit="m" val="-0.1011" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.5" unit="deg" />
+				<attnum name="banking end" val="0.7416" unit="deg" />
+				<attnum name="z start" val="0.2249" unit="m" />
+				<attnum name="profil start tangent" val="-0.466" unit="%" />
+				<attnum name="profil end tangent" val="-0.9151" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-80">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="23.662073942" />
+				<attnum name="z end" unit="m" val="-0.2181" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.7416" unit="deg" />
+				<attnum name="banking end" val="0.3301" unit="deg" />
+				<attnum name="z start" val="-0.1011" unit="m" />
+				<attnum name="profil start tangent" val="-0.9151" unit="%" />
+				<attnum name="profil end tangent" val="-0.1906" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-80-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="24.879697988" />
+				<attnum name="z end" unit="m" val="-0.1899" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.3301" unit="deg" />
+				<attnum name="banking end" val="-0.4083" unit="deg" />
+				<attnum name="z start" val="-0.2181" unit="m" />
+				<attnum name="profil start tangent" val="-0.1906" unit="%" />
+				<attnum name="profil end tangent" val="0.0499" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-81">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="507.225" />
+				<attnum name="arc" unit="deg" val="3.83843282" />
+				<attnum name="z end" unit="m" val="-0.1945" />
+				<attnum name="banking start" val="-0.4083" unit="deg" />
+				<attnum name="banking end" val="-0.7189" unit="deg" />
+				<attnum name="z start" val="-0.1899" unit="m" />
+				<attnum name="profil start tangent" val="0.0499" unit="%" />
+				<attnum name="profil end tangent" val="0.2677" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-82-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="371.392" />
+				<attnum name="arc" unit="deg" val="2.33563702652" />
+				<attnum name="z end" unit="m" val="-0.1114" />
+				<section name="Left Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="6.6955" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.7189" unit="deg" />
+				<attnum name="banking end" val="-0.9837" unit="deg" />
+				<attnum name="z start" val="-0.1945" unit="m" />
+				<attnum name="profil start tangent" val="0.2677" unit="%" />
+				<attnum name="profil end tangent" val="0.4228" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-82-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="371.392" />
+				<attnum name="arc" unit="deg" val="2.90498074348" />
+				<attnum name="z end" unit="m" val="-0.0555" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.6955" unit="m" />
+					<attnum name="end width" val="6.3167" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.9837" unit="deg" />
+				<attnum name="banking end" val="-0.5627" unit="deg" />
+				<attnum name="z start" val="-0.1114" unit="m" />
+				<attnum name="profil start tangent" val="0.4228" unit="%" />
+				<attnum name="profil end tangent" val="0.5417" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-83">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="156.078" />
+				<attnum name="arc" unit="deg" val="6.03316416" />
+				<attnum name="z end" unit="m" val="0.0738" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.3167" unit="m" />
+					<attnum name="end width" val="6.296" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.5627" unit="deg" />
+				<attnum name="banking end" val="-0.0636" unit="deg" />
+				<attnum name="z start" val="-0.0555" unit="m" />
+				<attnum name="profil start tangent" val="0.5417" unit="%" />
+				<attnum name="profil end tangent" val="0.6489" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-82">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="13.796" />
+				<attnum name="arc" unit="deg" val="61.66932998" />
+				<attnum name="z end" unit="m" val="0.1497" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.296" unit="m" />
+					<attnum name="end width" val="6.296" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.0636" unit="deg" />
+				<attnum name="banking end" val="0.0461" unit="deg" />
+				<attnum name="z start" val="0.0738" unit="m" />
+				<attnum name="profil start tangent" val="0.6489" unit="%" />
+				<attnum name="profil end tangent" val="0.5315" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-83">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="15.402" />
+				<attnum name="arc" unit="deg" val="56.34435334" />
+				<attnum name="z end" unit="m" val="0.2333" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.296" unit="m" />
+					<attnum name="end width" val="6.6007" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.0461" unit="deg" />
+				<attnum name="banking end" val="-0.0517" unit="deg" />
+				<attnum name="z start" val="0.1497" unit="m" />
+				<attnum name="profil start tangent" val="0.5315" unit="%" />
+				<attnum name="profil end tangent" val="0.5466" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-84">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="108.658" />
+				<attnum name="arc" unit="deg" val="8.68266314" />
+				<attnum name="z end" unit="m" val="0.3224" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.6007" unit="m" />
+					<attnum name="end width" val="6.9319" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.0517" unit="deg" />
+				<attnum name="banking end" val="-0.0989" unit="deg" />
+				<attnum name="z start" val="0.2333" unit="m" />
+				<attnum name="profil start tangent" val="0.5466" unit="%" />
+				<attnum name="profil end tangent" val="0.5206" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-85">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="165.319" />
+				<attnum name="arc" unit="deg" val="2.78642041" />
+				<attnum name="z end" unit="m" val="0.3626" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.9319" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0989" unit="deg" />
+				<attnum name="banking end" val="-0.0865" unit="deg" />
+				<attnum name="z start" val="0.3224" unit="m" />
+				<attnum name="profil start tangent" val="0.5206" unit="%" />
+				<attnum name="profil end tangent" val="0.3619" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-86">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="23.104" />
+				<attnum name="arc" unit="deg" val="19.74436796" />
+				<attnum name="z end" unit="m" val="0.3804" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0865" unit="deg" />
+				<attnum name="banking end" val="-0.0833" unit="deg" />
+				<attnum name="z start" val="0.3626" unit="m" />
+				<attnum name="profil start tangent" val="0.3619" unit="%" />
+				<attnum name="profil end tangent" val="0.1032" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-87">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="21.179" />
+				<attnum name="arc" unit="deg" val="46.30978747" />
+				<attnum name="z end" unit="m" val="0.3774" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0833" unit="deg" />
+				<attnum name="banking end" val="-0.1357" unit="deg" />
+				<attnum name="z start" val="0.3804" unit="m" />
+				<attnum name="profil start tangent" val="0.1032" unit="%" />
+				<attnum name="profil end tangent" val="0.0744" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-88">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="55.829" />
+				<attnum name="arc" unit="deg" val="18.43058724" />
+				<attnum name="z end" unit="m" val="0.4073" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.1357" unit="deg" />
+				<attnum name="banking end" val="-0.2399" unit="deg" />
+				<attnum name="z start" val="0.3774" unit="m" />
+				<attnum name="profil start tangent" val="0.0744" unit="%" />
+				<attnum name="profil end tangent" val="0.3649" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-89">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="78.087" />
+				<attnum name="arc" unit="deg" val="18.88839758" />
+				<attnum name="z end" unit="m" val="0.5523" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.2399" unit="deg" />
+				<attnum name="banking end" val="-0.2133" unit="deg" />
+				<attnum name="z start" val="0.4073" unit="m" />
+				<attnum name="profil start tangent" val="0.3649" unit="%" />
+				<attnum name="profil end tangent" val="0.0532" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-90">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="925.899" />
+				<attnum name="arc" unit="deg" val="1.60745821" />
+				<attnum name="z end" unit="m" val="0.4336" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.2133" unit="deg" />
+				<attnum name="banking end" val="0.0863" unit="deg" />
+				<attnum name="z start" val="0.5523" unit="m" />
+				<attnum name="profil start tangent" val="0.0532" unit="%" />
+				<attnum name="profil end tangent" val="-1.1698" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-91">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="633.582" />
+				<attnum name="arc" unit="deg" val="2.89649517" />
+				<attnum name="z end" unit="m" val="-0.1694" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0863" unit="deg" />
+				<attnum name="banking end" val="0.4848" unit="deg" />
+				<attnum name="z start" val="0.4336" unit="m" />
+				<attnum name="profil start tangent" val="-1.1698" unit="%" />
+				<attnum name="profil end tangent" val="-1.0172" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-92-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="20.062" />
+				<attnum name="arc" unit="deg" val="26.97841377372" />
+				<attnum name="z end" unit="m" val="-0.1837" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4848" unit="deg" />
+				<attnum name="banking end" val="0.4839" unit="deg" />
+				<attnum name="z start" val="-0.1694" unit="m" />
+				<attnum name="profil start tangent" val="-1.0172" unit="%" />
+				<attnum name="profil end tangent" val="0.154" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-92-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="20.062" />
+				<attnum name="arc" unit="deg" val="50.23549328628" />
+				<attnum name="z end" unit="m" val="-0.1028" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4839" unit="deg" />
+				<attnum name="banking end" val="0.5509" unit="deg" />
+				<attnum name="z start" val="-0.1837" unit="m" />
+				<attnum name="profil start tangent" val="0.154" unit="%" />
+				<attnum name="profil end tangent" val="0.6783" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-93">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="32.452" />
+				<attnum name="arc" unit="deg" val="21.16313088" />
+				<attnum name="z end" unit="m" val="0.0047" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.5509" unit="deg" />
+				<attnum name="banking end" val="0.5738" unit="deg" />
+				<attnum name="z start" val="-0.1028" unit="m" />
+				<attnum name="profil start tangent" val="0.6783" unit="%" />
+				<attnum name="profil end tangent" val="0.5446" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-94">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="303.573" />
+				<attnum name="arc" unit="deg" val="2.28808187" />
+				<attnum name="z end" unit="m" val="0.028" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.5738" unit="deg" />
+				<attnum name="banking end" val="0.4515" unit="deg" />
+				<attnum name="z start" val="0.0047" unit="m" />
+				<attnum name="profil start tangent" val="0.5446" unit="%" />
+				<attnum name="profil end tangent" val="0.1269" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-95">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="151.690" />
+				<attnum name="arc" unit="deg" val="12.20039169899" />
+				<attnum name="z end" unit="m" val="0.0478" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.4515" unit="deg" />
+				<attnum name="banking end" val="-0.0231" unit="deg" />
+				<attnum name="z start" val="0.028" unit="m" />
+				<attnum name="profil start tangent" val="0.1269" unit="%" />
+				<attnum name="profil end tangent" val="0.4042" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-95-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="151.690" />
+				<attnum name="arc" unit="deg" val="16.12702220101" />
+				<attnum name="z end" unit="m" val="0.3668" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0231" unit="deg" />
+				<attnum name="banking end" val="0.0568" unit="deg" />
+				<attnum name="z start" val="0.0478" unit="m" />
+				<attnum name="profil start tangent" val="0.4042" unit="%" />
+				<attnum name="profil end tangent" val="0.1393" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-96">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="96.050" />
+				<attnum name="arc" unit="deg" val="43.46000926" />
+				<attnum name="z end" unit="m" val="0.0255" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.0568" unit="deg" />
+				<attnum name="banking end" val="0.4583" unit="deg" />
+				<attnum name="z start" val="0.3668" unit="m" />
+				<attnum name="profil start tangent" val="0.1393" unit="%" />
+				<attnum name="profil end tangent" val="-0.1754" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-97">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="194.651" />
+				<attnum name="arc" unit="deg" val="5.88638730" />
+				<attnum name="z end" unit="m" val="0.049" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4583" unit="deg" />
+				<attnum name="banking end" val="0.1533" unit="deg" />
+				<attnum name="z start" val="0.0255" unit="m" />
+				<attnum name="profil start tangent" val="-0.1754" unit="%" />
+				<attnum name="profil end tangent" val="0.0432" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-98">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1110.569" />
+				<attnum name="arc" unit="deg" val="1.03259419" />
+				<attnum name="z end" unit="m" val="0.0428" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.1533" unit="deg" />
+				<attnum name="banking end" val="-0.0343" unit="deg" />
+				<attnum name="z start" val="0.049" unit="m" />
+				<attnum name="profil start tangent" val="0.0432" unit="%" />
+				<attnum name="profil end tangent" val="-0.124" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-99-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="19.435310346" />
+				<attnum name="z end" unit="m" val="0.0006" />
+				<attnum name="banking start" val="-0.0343" unit="deg" />
+				<attnum name="banking end" val="-0.0415" unit="deg" />
+				<attnum name="z start" val="0.0428" unit="m" />
+				<attnum name="profil start tangent" val="-0.124" unit="%" />
+				<attnum name="profil end tangent" val="-0.1375" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-99-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="18.095477654" />
+				<attnum name="z end" unit="m" val="-0.0099" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.0415" unit="deg" />
+				<attnum name="banking end" val="-0.0578" unit="deg" />
+				<attnum name="z start" val="0.0006" unit="m" />
+				<attnum name="profil start tangent" val="-0.1375" unit="%" />
+				<attnum name="profil end tangent" val="0.1193" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-100">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.31375917067" />
+				<attnum name="z end" unit="m" val="0.0551" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.0578" unit="deg" />
+				<attnum name="banking end" val="-0.0599" unit="deg" />
+				<attnum name="z start" val="-0.0099" unit="m" />
+				<attnum name="profil start tangent" val="0.1193" unit="%" />
+				<attnum name="profil end tangent" val="0.2465" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-100-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.47363522933" />
+				<attnum name="z end" unit="m" val="0.1199" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0599" unit="deg" />
+				<attnum name="banking end" val="0.0933" unit="deg" />
+				<attnum name="z start" val="0.0551" unit="m" />
+				<attnum name="profil start tangent" val="0.2465" unit="%" />
+				<attnum name="profil end tangent" val="0.105" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-101">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="51.502757" />
+				<attnum name="z end" unit="m" val="0.1271" />
+				<attnum name="banking start" val="0.0933" unit="deg" />
+				<attnum name="banking end" val="-0.164" unit="deg" />
+				<attnum name="z start" val="0.1199" unit="m" />
+				<attnum name="profil start tangent" val="0.105" unit="%" />
+				<attnum name="profil end tangent" val="0.0018" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-102">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.31611335" />
+				<attnum name="z end" unit="m" val="0.1248" />
+				<attnum name="banking start" val="-0.164" unit="deg" />
+				<attnum name="banking end" val="-0.1811" unit="deg" />
+				<attnum name="z start" val="0.1271" unit="m" />
+				<attnum name="profil start tangent" val="0.0018" unit="%" />
+				<attnum name="profil end tangent" val="0.2091" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-103">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="126.000067" />
+				<attnum name="z end" unit="m" val="0.665" />
+				<attnum name="banking start" val="-0.1811" unit="deg" />
+				<attnum name="banking end" val="0.1065" unit="deg" />
+				<attnum name="z start" val="0.1248" unit="m" />
+				<attnum name="profil start tangent" val="0.2091" unit="%" />
+				<attnum name="profil end tangent" val="-0.0402" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-104">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1699.821" />
+				<attnum name="arc" unit="deg" val="1.82058854" />
+				<attnum name="z end" unit="m" val="0.39" />
+				<attnum name="banking start" val="0.1065" unit="deg" />
+				<attnum name="banking end" val="0.2762" unit="deg" />
+				<attnum name="z start" val="0.665" unit="m" />
+				<attnum name="profil start tangent" val="-0.0402" unit="%" />
+				<attnum name="profil end tangent" val="-0.2453" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-105">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1991.856" />
+				<attnum name="arc" unit="deg" val="1.55369880" />
+				<attnum name="z end" unit="m" val="0.4" />
+				<attnum name="banking start" val="0.2762" unit="deg" />
+				<attnum name="banking end" val="0.3004" unit="deg" />
+				<attnum name="z start" val="0.39" unit="m" />
+				<attnum name="profil start tangent" val="-0.2453" unit="%" />
+				<attnum name="profil end tangent" val="0.0829" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="35.772089" />
+				<attnum name="z end" unit="m" val="0.4526" />
+				<attnum name="banking start" val="0.3004" unit="deg" />
+				<attnum name="banking end" val="1.0274" unit="deg" />
+				<attnum name="z start" val="0.4" unit="m" />
+				<attnum name="profil start tangent" val="0.0829" unit="%" />
+				<attnum name="profil end tangent" val="-0.0815" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.26468347" />
+				<attnum name="z end" unit="m" val="0.3953" />
+				<attnum name="banking start" val="1.0274" unit="deg" />
+				<attnum name="banking end" val="0.9432" unit="deg" />
+				<attnum name="z start" val="0.4526" unit="m" />
+				<attnum name="profil start tangent" val="-0.0815" unit="%" />
+				<attnum name="profil end tangent" val="-0.3307" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-3">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40.016430" />
+				<attnum name="z end" unit="m" val="0.2548" />
+				<attnum name="banking start" val="0.9432" unit="deg" />
+				<attnum name="banking end" val="0.2504" unit="deg" />
+				<attnum name="z start" val="0.3953" unit="m" />
+				<attnum name="profil start tangent" val="-0.3307" unit="%" />
+				<attnum name="profil end tangent" val="-0.1917" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="1.16784693" />
+				<attnum name="z end" unit="m" val="0.2286" />
+				<attnum name="banking start" val="0.2504" unit="deg" />
+				<attnum name="banking end" val="-0.2605" unit="deg" />
+				<attnum name="z start" val="0.2548" unit="m" />
+				<attnum name="profil start tangent" val="-0.1917" unit="%" />
+				<attnum name="profil end tangent" val="0.0331" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-5">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.558456" />
+				<attnum name="z end" unit="m" val="0.2566" />
+				<attnum name="banking start" val="-0.2605" unit="deg" />
+				<attnum name="banking end" val="-0.4505" unit="deg" />
+				<attnum name="z start" val="0.2286" unit="m" />
+				<attnum name="profil start tangent" val="0.0331" unit="%" />
+				<attnum name="profil end tangent" val="0.0187" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.42100034" />
+				<attnum name="z end" unit="m" val="0.2387" />
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.4505" unit="deg" />
+				<attnum name="banking end" val="-0.1618" unit="deg" />
+				<attnum name="z start" val="0.2566" unit="m" />
+				<attnum name="profil start tangent" val="0.0187" unit="%" />
+				<attnum name="profil end tangent" val="-0.1702" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-7">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="53.198739" />
+				<attnum name="z end" unit="m" val="0.09" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="10.1033" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.1618" unit="deg" />
+				<attnum name="banking end" val="-0.7894" unit="deg" />
+				<attnum name="z start" val="0.2387" unit="m" />
+				<attnum name="profil start tangent" val="-0.1702" unit="%" />
+				<attnum name="profil end tangent" val="-0.201" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.29006616" />
+				<attnum name="z end" unit="m" val="0.0652" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.1033" unit="m" />
+					<attnum name="end width" val="11.2845" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.7894" unit="deg" />
+				<attnum name="banking end" val="-0.5509" unit="deg" />
+				<attnum name="z start" val="0.09" unit="m" />
+				<attnum name="profil start tangent" val="-0.201" unit="%" />
+				<attnum name="profil end tangent" val="0.0385" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-9">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.884624" />
+				<attnum name="z end" unit="m" val="0.1228" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="11.2845" unit="m" />
+					<attnum name="end width" val="12.9695" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.5509" unit="deg" />
+				<attnum name="banking end" val="0.0551" unit="deg" />
+				<attnum name="z start" val="0.0652" unit="m" />
+				<attnum name="profil start tangent" val="0.0385" unit="%" />
+				<attnum name="profil end tangent" val="0.2118" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-10">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="683.677" />
+				<attnum name="arc" unit="deg" val="1.00582241" />
+				<attnum name="z end" unit="m" val="0.1497" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.9695" unit="m" />
+					<attnum name="end width" val="13.6696" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.0551" unit="deg" />
+				<attnum name="banking end" val="0.2331" unit="deg" />
+				<attnum name="z start" val="0.1228" unit="m" />
+				<attnum name="profil start tangent" val="0.2118" unit="%" />
+				<attnum name="profil end tangent" val="0.2553" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Autódromo Hermanos Rodríguez-11">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1116.324" />
+				<attnum name="arc" unit="deg" val="0.61601106" />
+				<attnum name="z end" unit="m" val="0.184" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="13.6696" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.2331" unit="deg" />
+				<attnum name="banking end" val="0.2138" unit="deg" />
+				<attnum name="z start" val="0.1497" unit="m" />
+				<attnum name="profil start tangent" val="0.2553" unit="%" />
+				<attnum name="profil end tangent" val="0.0819" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.0004" />
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.2138" unit="deg" />
+				<attnum name="banking end" val="-0.1619" unit="deg" />
+				<attnum name="z start" val="0.184" unit="m" />
+				<attnum name="profil start tangent" val="0.0819" unit="%" />
+				<attnum name="profil end tangent" val="-0.0286" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0.0002" />
+				<attnum name="lg" val="0.10000000" unit="m" />
+				<attnum name="banking start" val="-0.1619" unit="deg" />
+				<attnum name="banking end" val="-0.1607" unit="deg" />
+				<attnum name="z start" val="0.0004" unit="m" />
+				<attnum name="profil start tangent" val="-0.0286" unit="%" />
+				<attnum name="profil end tangent" val="-0.0286" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-2">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.10000000" unit="m" />
+				<attnum name="banking start" val="-0.1607" unit="deg" />
+				<attnum name="banking end" val="-0.1595" unit="deg" />
+				<attnum name="z start" val="0.0002" unit="m" />
+				<attnum name="profil start tangent" val="-0.0286" unit="%" />
+				<attnum name="profil end tangent" val="-0.0286" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="19.405295793" />
+    <attnum name="longitude" unit="deg" val="-99.086804964" />
+    <attnum name="altitude" unit="m" val="2226.997581238" />
+    <attnum name="heading" unit="deg" val="97.858850992" />
+  </section>
+</params>

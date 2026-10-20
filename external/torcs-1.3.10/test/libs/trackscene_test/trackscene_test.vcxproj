@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32"><Configuration>Release</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7A5AF1D8-5FD7-45D2-934D-8F20E645A149}</ProjectGuid>
+    <RootNamespace>trackscenetest</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType><UseDebugLibraries>true</UseDebugLibraries><PlatformToolset>v143</PlatformToolset><CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType><UseDebugLibraries>false</UseDebugLibraries><PlatformToolset>v143</PlatformToolset><WholeProgramOptimization>false</WholeProgramOptimization><CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets"><Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" /></ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup><OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir><IntDir>$(Platform)\$(Configuration)\trackscene_test\</IntDir></PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel><ConformanceMode>false</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)test\libs\googletest\googletest\include;$(SolutionDir)src\tools\trackgen;$(SolutionDir)export\include;$(SolutionDir)src\windows\include;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard><BufferSecurityCheck>false</BufferSecurityCheck>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;TRACKSCENE_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4244;4305;4996</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem><GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)test\libs\googletest\$(Configuration)\;$(TorcsExportLibDir);$(TorcsLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>googletest.lib;robottools.lib;tgf.lib;ul.lib;sg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'"><ClCompile><RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary><PreprocessorDefinitions>_DEBUG;DEBUG;DEBUG_OUT;%(PreprocessorDefinitions)</PreprocessorDefinitions></ClCompile><Link><IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries></Link></ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'"><ClCompile><RuntimeLibrary>MultiThreaded</RuntimeLibrary><PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions></ClCompile></ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\tools\trackgen\trackscene.cpp" />
+    <ClCompile Include="..\..\..\src\tools\trackgen\trackscenecommon.cpp" />
+    <ClCompile Include="..\..\..\src\tools\trackgen\trackscenemain.cpp" />
+    <ClCompile Include="..\..\..\src\tools\trackgen\tracksceneborder.cpp" />
+    <ClCompile Include="..\..\..\src\tools\trackgen\tracksceneside.cpp" />
+    <ClCompile Include="..\..\..\src\tools\trackgen\trackscenebarrier.cpp" />
+    <ClCompile Include="..\..\..\src\tools\trackgen\trackscenefurniture.cpp" />
+    <ClCompile Include="..\..\..\src\tools\trackgen\tracksceneoutput.cpp" />
+    <ClCompile Include="..\..\..\src\tools\trackgen\raceline.cpp" />
+    <ClCompile Include="..\simuv2_test\gtest_setup_test.cpp" />
+    <ClCompile Include="trackscene_test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\tools\trackgen\trackscene.h" />
+    <ClInclude Include="..\..\..\src\tools\trackgen\tracksceneprivate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\libs\robottools\robottools.vcxproj"><Project>{EACC0870-5315-41F9-AE61-B93C77334EAE}</Project><ReferenceOutputAssembly>false</ReferenceOutputAssembly></ProjectReference>
+    <ProjectReference Include="..\..\..\src\libs\tgf\tgf.vcxproj"><Project>{ACB16B61-2F7D-4E87-AD15-C95F16431137}</Project><ReferenceOutputAssembly>false</ReferenceOutputAssembly></ProjectReference>
+    <ProjectReference Include="..\googletest\googletest.vcxproj"><Project>{D3F7E9A4-6BA7-40F6-99AD-59A70E8109E8}</Project><ReferenceOutputAssembly>false</ReferenceOutputAssembly></ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

@@ -1,0 +1,44 @@
+CHAPTER 6 — COMPLETE DRIVER, PIT STOPS, STRATEGY AND SPLINES
+
+Final main chapter: a reproducible complete race, not an isolated pit helper.
+The checkpoint includes every helper source it needs in its own directory.
+
+Main sequence
+1. One deliberately requested stop before automatic strategy.
+2. Assigned pit, occupancy, entry/start/end/exit, capture region and no-pit case.
+3. Seven-knot distance/offset route, signed side and unwrapped lap coordinates.
+4. Entry braking, pit speed cap, stopping and capture, service callback.
+5. Exit route, waiting for merge space, traffic/recovery ownership and resets.
+6. Lap fuel accounting, actual refuelling, remaining distance, tank and repair limits.
+7. Integrated update cycle and a longer race with repeated service visits.
+
+Spline companion — retain the complete mathematical route
+- Values and slopes at both endpoints determine a cubic.
+- Normalize each interval; chain-rule factor h for derivatives.
+- Solve all four coefficients, present the four Hermite basis functions.
+- Map to nested/Horner evaluation and binary interval search.
+- C1 versus C2 continuity, signed slopes, zero-slope transitions, overshoot.
+- Duplicate knots, finite input, endpoint policy and out-of-domain evaluation.
+- Offset graph versus world path; target point and actual body trajectory.
+- Worked numerical example, plots and endpoint/derivative checks.
+
+Current engine audit
+- Side pits may be shared; pitCarIndex controls occupancy. Separate-path pits
+  are not assigned by the current race initializer.
+- Service requires RM_CMD_PIT_ASKED, a free assigned pit, longitudinal capture
+  bounds, lateral placement and both body-frame speeds below 1 m/s.
+- The engine clears the request during service. A cleared request does not mean
+  the car has left the pit lane.
+- Capture bounds and current pit metadata must be used, not driver-index formulas.
+- Fuel and repair requests are normalized by the engine; tire-change support
+  exists and must not be described as universally absent.
+- Pit road-side travel intentionally leaves the main-road corridor: ordinary
+  edge feedback and overtaking must not overwrite the pit route.
+
+Verification
+- Hermite endpoint values/slopes, independent basis comparison, duplicate and
+  boundary cases; route ordering and start-line wrap.
+- Solo service, fuel/damage strategy, repeated stops with corrected fuel accounting.
+- Entry and exit rules, stopping capture, pit occupancy, absent/unsupported pits.
+- Traffic-aware rejoining and ordinary opponents; recovery inhibited in service.
+- Build and run the complete checkpoint with no earlier source folders present.

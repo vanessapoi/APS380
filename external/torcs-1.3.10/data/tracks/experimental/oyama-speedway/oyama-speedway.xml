@@ -1,0 +1,1985 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : oyama-speedway.xml
+    created              : 25 May 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Oyama Speedway" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Oyama Speedway" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Oyama Speedway for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="oyama-speedway.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="oyama-speedway-relief.ac" />
+			<attstr name="elevation map" val="oyama-speedway-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-39.4308" unit="m" />
+			<attnum name="maximum altitude" val="75.972" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="right" />
+			<attstr name="entry" val="pit_host_pre" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="pit_host_post" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.0105" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.6221" unit="deg" />
+				<attnum name="banking end" val="1.554" unit="deg" />
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="0.0006" unit="%" />
+				<attnum name="profil end tangent" val="-0.2143" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="589.3294" />
+				<attnum name="z end" unit="m" val="-2.557" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.554" unit="deg" />
+				<attnum name="banking end" val="1.5537" unit="deg" />
+				<attnum name="z start" val="0.0105" unit="m" />
+				<attnum name="profil start tangent" val="-0.2143" unit="%" />
+				<attnum name="profil end tangent" val="-0.5986" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-69">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="789.3647" />
+				<attnum name="arc" unit="deg" val="1.5218" />
+				<attnum name="z end" unit="m" val="-2.7166" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.5537" unit="deg" />
+				<attnum name="banking end" val="1.6349" unit="deg" />
+				<attnum name="z start" val="-2.557" unit="m" />
+				<attnum name="profil start tangent" val="-0.5986" unit="%" />
+				<attnum name="profil end tangent" val="-0.8345" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-70">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="75.83932781" />
+				<attnum name="arc" unit="deg" val="4.55311170" />
+				<attnum name="z end" unit="m" val="-2.7713" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.6349" unit="deg" />
+				<attnum name="banking end" val="1.654" unit="deg" />
+				<attnum name="z start" val="-2.7166" unit="m" />
+				<attnum name="profil start tangent" val="-0.8345" unit="%" />
+				<attnum name="profil end tangent" val="-1.0516" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="231.52427116" />
+				<attnum name="arc" unit="deg" val="3.99387266" />
+				<attnum name="z end" unit="m" val="-2.9643" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.654" unit="deg" />
+				<attnum name="banking end" val="1.6378" unit="deg" />
+				<attnum name="z start" val="-2.7713" unit="m" />
+				<attnum name="profil start tangent" val="-1.0516" unit="%" />
+				<attnum name="profil end tangent" val="-1.5662" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="64.45906088" />
+				<attnum name="arc" unit="deg" val="14.27666038" />
+				<attnum name="z end" unit="m" val="-3.2754" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.6378" unit="deg" />
+				<attnum name="banking end" val="1.5159" unit="deg" />
+				<attnum name="z start" val="-2.9643" unit="m" />
+				<attnum name="profil start tangent" val="-1.5662" unit="%" />
+				<attnum name="profil end tangent" val="-2.6235" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="30.36946829" />
+				<attnum name="arc" unit="deg" val="37.62104450" />
+				<attnum name="z end" unit="m" val="-3.9355" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.5159" unit="deg" />
+				<attnum name="banking end" val="1.2768" unit="deg" />
+				<attnum name="z start" val="-3.2754" unit="m" />
+				<attnum name="profil start tangent" val="-2.6235" unit="%" />
+				<attnum name="profil end tangent" val="-4.2957" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="26.81300936" />
+				<attnum name="arc" unit="deg" val="42.19426556" />
+				<attnum name="z end" unit="m" val="-4.9782" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.2768" unit="deg" />
+				<attnum name="banking end" val="1.0993" unit="deg" />
+				<attnum name="z start" val="-3.9355" unit="m" />
+				<attnum name="profil start tangent" val="-4.2957" unit="%" />
+				<attnum name="profil end tangent" val="-6.3242" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="27.99983444" />
+				<attnum name="arc" unit="deg" val="47.86009924" />
+				<attnum name="z end" unit="m" val="-6.7014" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.0993" unit="deg" />
+				<attnum name="banking end" val="1.123" unit="deg" />
+				<attnum name="z start" val="-4.9782" unit="m" />
+				<attnum name="profil start tangent" val="-6.3242" unit="%" />
+				<attnum name="profil end tangent" val="-8.0144" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-6-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="975.99795864" />
+				<attnum name="arc" unit="deg" val="0.89611693878" />
+				<attnum name="z end" unit="m" val="-8.0235" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.123" unit="deg" />
+				<attnum name="banking end" val="1.2221" unit="deg" />
+				<attnum name="z start" val="-6.7014" unit="m" />
+				<attnum name="profil start tangent" val="-8.0144" unit="%" />
+				<attnum name="profil end tangent" val="-8.8591" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-6-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="975.99795864" />
+				<attnum name="arc" unit="deg" val="0.56264073122" />
+				<attnum name="z end" unit="m" val="-8.8916" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.2221" unit="deg" />
+				<attnum name="banking end" val="1.2753" unit="deg" />
+				<attnum name="z start" val="-8.0235" unit="m" />
+				<attnum name="profil start tangent" val="-8.8591" unit="%" />
+				<attnum name="profil end tangent" val="-9.0571" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-7">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1955.47506189" />
+				<attnum name="arc" unit="deg" val="0.71538641714" />
+				<attnum name="z end" unit="m" val="-11.1029" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.2753" unit="deg" />
+				<attnum name="banking end" val="1.2706" unit="deg" />
+				<attnum name="z start" val="-8.8916" unit="m" />
+				<attnum name="profil start tangent" val="-9.0571" unit="%" />
+				<attnum name="profil end tangent" val="-8.6171" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-7-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1955.47506189" />
+				<attnum name="arc" unit="deg" val="1.23343472286" />
+				<attnum name="z end" unit="m" val="-14.5451" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.2706" unit="deg" />
+				<attnum name="banking end" val="1.0974" unit="deg" />
+				<attnum name="z start" val="-11.1029" unit="m" />
+				<attnum name="profil start tangent" val="-8.6171" unit="%" />
+				<attnum name="profil end tangent" val="-7.0971" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="129.28963216" />
+				<attnum name="arc" unit="deg" val="28.85279733" />
+				<attnum name="z end" unit="m" val="-18.4628" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.0974" unit="deg" />
+				<attnum name="banking end" val="0.807" unit="deg" />
+				<attnum name="z start" val="-14.5451" unit="m" />
+				<attnum name="profil start tangent" val="-7.0971" unit="%" />
+				<attnum name="profil end tangent" val="-4.8165" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-9-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="48.796320308" />
+				<attnum name="z end" unit="m" val="-20.2271" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.807" unit="deg" />
+				<attnum name="banking end" val="-1.0203" unit="deg" />
+				<attnum name="z start" val="-18.4628" unit="m" />
+				<attnum name="profil start tangent" val="-4.8165" unit="%" />
+				<attnum name="profil end tangent" val="-2.8954" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-9-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36" />
+				<attnum name="z end" unit="m" val="-21.0101" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.0203" unit="deg" />
+				<attnum name="banking end" val="-1.6013" unit="deg" />
+				<attnum name="z start" val="-20.2271" unit="m" />
+				<attnum name="profil start tangent" val="-2.8954" unit="%" />
+				<attnum name="profil end tangent" val="-0.83" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-9-post-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="190" />
+				<attnum name="z end" unit="m" val="-20.0317" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.6013" unit="deg" />
+				<attnum name="banking end" val="-1.5076" unit="deg" />
+				<attnum name="z start" val="-21.0101" unit="m" />
+				<attnum name="profil start tangent" val="-0.83" unit="%" />
+				<attnum name="profil end tangent" val="0.8264" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-9-post-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="42.611305062" />
+				<attnum name="z end" unit="m" val="-19.5469" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-1.5076" unit="deg" />
+				<attnum name="banking end" val="-1.4591" unit="deg" />
+				<attnum name="z start" val="-20.0317" unit="m" />
+				<attnum name="profil start tangent" val="0.8264" unit="%" />
+				<attnum name="profil end tangent" val="0.6191" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-10">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="335.98897659" />
+				<attnum name="arc" unit="deg" val="4.84649190" />
+				<attnum name="z end" unit="m" val="-19.5183" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.4591" unit="deg" />
+				<attnum name="banking end" val="-1.4367" unit="deg" />
+				<attnum name="z start" val="-19.5469" unit="m" />
+				<attnum name="profil start tangent" val="0.6191" unit="%" />
+				<attnum name="profil end tangent" val="-0.3724" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-11">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="35.32662179" />
+				<attnum name="arc" unit="deg" val="43.85008285" />
+				<attnum name="z end" unit="m" val="-19.7469" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.4367" unit="deg" />
+				<attnum name="banking end" val="-1.2759" unit="deg" />
+				<attnum name="z start" val="-19.5183" unit="m" />
+				<attnum name="profil start tangent" val="-0.3724" unit="%" />
+				<attnum name="profil end tangent" val="-1.284" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-12">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="92.74104241" />
+				<attnum name="arc" unit="deg" val="16.08730983" />
+				<attnum name="z end" unit="m" val="-20.1954" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.2759" unit="deg" />
+				<attnum name="banking end" val="-1.3478" unit="deg" />
+				<attnum name="z start" val="-19.7469" unit="m" />
+				<attnum name="profil start tangent" val="-1.284" unit="%" />
+				<attnum name="profil end tangent" val="-2.0504" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-13-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1304.83887451" />
+				<attnum name="arc" unit="deg" val="0.69783647697" />
+				<attnum name="z end" unit="m" val="-20.5734" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.3478" unit="deg" />
+				<attnum name="banking end" val="-1.3174" unit="deg" />
+				<attnum name="z start" val="-20.1954" unit="m" />
+				<attnum name="profil start tangent" val="-2.0504" unit="%" />
+				<attnum name="profil end tangent" val="-2.5767" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-13-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1304.83887451" />
+				<attnum name="arc" unit="deg" val="0.45309801303" />
+				<attnum name="z end" unit="m" val="-20.8598" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-1.3174" unit="deg" />
+				<attnum name="banking end" val="-1.1945" unit="deg" />
+				<attnum name="z start" val="-20.5734" unit="m" />
+				<attnum name="profil start tangent" val="-2.5767" unit="%" />
+				<attnum name="profil end tangent" val="-3.0724" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-14">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="29.681266118" />
+				<attnum name="z end" unit="m" val="-21.8599" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-1.1945" unit="deg" />
+				<attnum name="banking end" val="-0.4634" unit="deg" />
+				<attnum name="z start" val="-20.8598" unit="m" />
+				<attnum name="profil start tangent" val="-3.0724" unit="%" />
+				<attnum name="profil end tangent" val="-3.6807" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-14-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="14.514732482" />
+				<attnum name="z end" unit="m" val="-22.4393" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.4634" unit="deg" />
+				<attnum name="banking end" val="-0.0287" unit="deg" />
+				<attnum name="z start" val="-21.8599" unit="m" />
+				<attnum name="profil start tangent" val="-3.6807" unit="%" />
+				<attnum name="profil end tangent" val="-4.4035" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-15">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="207.42629990" />
+				<attnum name="arc" unit="deg" val="24.94710642" />
+				<attnum name="z end" unit="m" val="-26.788" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0287" unit="deg" />
+				<attnum name="banking end" val="1.425" unit="deg" />
+				<attnum name="z start" val="-22.4393" unit="m" />
+				<attnum name="profil start tangent" val="-4.4035" unit="%" />
+				<attnum name="profil end tangent" val="-4.3841" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-16">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="204.74740876" />
+				<attnum name="arc" unit="deg" val="25.26307918" />
+				<attnum name="z end" unit="m" val="-30.3569" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.425" unit="deg" />
+				<attnum name="banking end" val="2.4746" unit="deg" />
+				<attnum name="z start" val="-26.788" unit="m" />
+				<attnum name="profil start tangent" val="-4.3841" unit="%" />
+				<attnum name="profil end tangent" val="-2.4165" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-17">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="92.73903424" />
+				<attnum name="arc" unit="deg" val="40.26840569" />
+				<attnum name="z end" unit="m" val="-30.9303" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="2.4746" unit="deg" />
+				<attnum name="banking end" val="2.5872" unit="deg" />
+				<attnum name="z start" val="-30.3569" unit="m" />
+				<attnum name="profil start tangent" val="-2.4165" unit="%" />
+				<attnum name="profil end tangent" val="0.4842" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-18">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="191.08687130" />
+				<attnum name="arc" unit="deg" val="20.17838000" />
+				<attnum name="z end" unit="m" val="-29.6865" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="2.5872" unit="deg" />
+				<attnum name="banking end" val="2.8661" unit="deg" />
+				<attnum name="z start" val="-30.9303" unit="m" />
+				<attnum name="profil start tangent" val="0.4842" unit="%" />
+				<attnum name="profil end tangent" val="3.3069" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-19">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="86.36411676" />
+				<attnum name="arc" unit="deg" val="37.85404701" />
+				<attnum name="z end" unit="m" val="-26.9673" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="2.8661" unit="deg" />
+				<attnum name="banking end" val="2.4163" unit="deg" />
+				<attnum name="z start" val="-29.6865" unit="m" />
+				<attnum name="profil start tangent" val="3.3069" unit="%" />
+				<attnum name="profil end tangent" val="5.4376" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-20">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="149.62028725" />
+				<attnum name="arc" unit="deg" val="22.39170816" />
+				<attnum name="z end" unit="m" val="-23.3948" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="2.4163" unit="deg" />
+				<attnum name="banking end" val="1.4166" unit="deg" />
+				<attnum name="z start" val="-26.9673" unit="m" />
+				<attnum name="profil start tangent" val="5.4376" unit="%" />
+				<attnum name="profil end tangent" val="5.247" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-21-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="90.90054347" />
+				<attnum name="z end" unit="m" val="-19.4095" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.4166" unit="deg" />
+				<attnum name="banking end" val="-2.596" unit="deg" />
+				<attnum name="z start" val="-23.3948" unit="m" />
+				<attnum name="profil start tangent" val="5.247" unit="%" />
+				<attnum name="profil end tangent" val="3.5401" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-21-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="17.582210407" />
+				<attnum name="z end" unit="m" val="-18.9355" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-2.596" unit="deg" />
+				<attnum name="banking end" val="-3.2965" unit="deg" />
+				<attnum name="z start" val="-19.4095" unit="m" />
+				<attnum name="profil start tangent" val="3.5401" unit="%" />
+				<attnum name="profil end tangent" val="2.4121" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-22">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3877.50515190" />
+				<attnum name="arc" unit="deg" val="0.12438508722" />
+				<attnum name="z end" unit="m" val="-18.7563" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-3.2965" unit="deg" />
+				<attnum name="banking end" val="-3.5778" unit="deg" />
+				<attnum name="z start" val="-18.9355" unit="m" />
+				<attnum name="profil start tangent" val="2.4121" unit="%" />
+				<attnum name="profil end tangent" val="1.7951" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-22-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3877.50515190" />
+				<attnum name="arc" unit="deg" val="0.24150074278" />
+				<attnum name="z end" unit="m" val="-18.5174" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-3.5778" unit="deg" />
+				<attnum name="banking end" val="-3.9224" unit="deg" />
+				<attnum name="z start" val="-18.7563" unit="m" />
+				<attnum name="profil start tangent" val="1.7951" unit="%" />
+				<attnum name="profil end tangent" val="0.864" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-23">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="27.11222584" />
+				<attnum name="arc" unit="deg" val="49.08810346" />
+				<attnum name="z end" unit="m" val="-18.4556" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-3.9224" unit="deg" />
+				<attnum name="banking end" val="-3.9748" unit="deg" />
+				<attnum name="z start" val="-18.5174" unit="m" />
+				<attnum name="profil start tangent" val="0.864" unit="%" />
+				<attnum name="profil end tangent" val="-0.3124" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-24">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="25.24965347" />
+				<attnum name="arc" unit="deg" val="44.16904924" />
+				<attnum name="z end" unit="m" val="-18.629" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-3.9748" unit="deg" />
+				<attnum name="banking end" val="-3.9545" unit="deg" />
+				<attnum name="z start" val="-18.4556" unit="m" />
+				<attnum name="profil start tangent" val="-0.3124" unit="%" />
+				<attnum name="profil end tangent" val="-1.2131" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-25">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="75.52203786" />
+				<attnum name="arc" unit="deg" val="15.45058289" />
+				<attnum name="z end" unit="m" val="-18.9417" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-3.9545" unit="deg" />
+				<attnum name="banking end" val="-4.0292" unit="deg" />
+				<attnum name="z start" val="-18.629" unit="m" />
+				<attnum name="profil start tangent" val="-1.2131" unit="%" />
+				<attnum name="profil end tangent" val="-1.6606" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-26">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="142.29751623" />
+				<attnum name="arc" unit="deg" val="17.95713595404" />
+				<attnum name="z end" unit="m" val="-19.7381" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-4.0292" unit="deg" />
+				<attnum name="banking end" val="-4.0836" unit="deg" />
+				<attnum name="z start" val="-18.9417" unit="m" />
+				<attnum name="profil start tangent" val="-1.6606" unit="%" />
+				<attnum name="profil end tangent" val="-1.7807" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-26-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="142.29751623" />
+				<attnum name="arc" unit="deg" val="10.05754706596" />
+				<attnum name="z end" unit="m" val="-20.1816" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-4.0836" unit="deg" />
+				<attnum name="banking end" val="-3.9163" unit="deg" />
+				<attnum name="z start" val="-19.7381" unit="m" />
+				<attnum name="profil start tangent" val="-1.7807" unit="%" />
+				<attnum name="profil end tangent" val="-1.7248" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-27">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="299.81290131" />
+				<attnum name="arc" unit="deg" val="13.50491497" />
+				<attnum name="z end" unit="m" val="-21.3646" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-3.9163" unit="deg" />
+				<attnum name="banking end" val="-2.5177" unit="deg" />
+				<attnum name="z start" val="-20.1816" unit="m" />
+				<attnum name="profil start tangent" val="-1.7248" unit="%" />
+				<attnum name="profil end tangent" val="-1.7708" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-28">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="56.26680575" />
+				<attnum name="z end" unit="m" val="-22.4155" />
+				<attnum name="banking start" val="-2.5177" unit="deg" />
+				<attnum name="banking end" val="0.4069" unit="deg" />
+				<attnum name="z start" val="-21.3646" unit="m" />
+				<attnum name="profil start tangent" val="-1.7708" unit="%" />
+				<attnum name="profil end tangent" val="-1.9613" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-29">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="259.91067723" />
+				<attnum name="arc" unit="deg" val="14.51313034" />
+				<attnum name="z end" unit="m" val="-23.7684" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="0.4069" unit="deg" />
+				<attnum name="banking end" val="0.7642" unit="deg" />
+				<attnum name="z start" val="-22.4155" unit="m" />
+				<attnum name="profil start tangent" val="-1.9613" unit="%" />
+				<attnum name="profil end tangent" val="-2.2699" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-30">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="199.86355325" />
+				<attnum name="arc" unit="deg" val="18.80444723" />
+				<attnum name="z end" unit="m" val="-25.3983" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.7642" unit="deg" />
+				<attnum name="banking end" val="1.0906" unit="deg" />
+				<attnum name="z start" val="-23.7684" unit="m" />
+				<attnum name="profil start tangent" val="-2.2699" unit="%" />
+				<attnum name="profil end tangent" val="-2.7796" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-31-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="32.673562321" />
+				<attnum name="z end" unit="m" val="-26.4028" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.0906" unit="deg" />
+				<attnum name="banking end" val="1.1614" unit="deg" />
+				<attnum name="z start" val="-25.3983" unit="m" />
+				<attnum name="profil start tangent" val="-2.7796" unit="%" />
+				<attnum name="profil end tangent" val="-3.301" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-31-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="34" />
+				<attnum name="z end" unit="m" val="-27.6022" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.1614" unit="deg" />
+				<attnum name="banking end" val="1.3738" unit="deg" />
+				<attnum name="z start" val="-26.4028" unit="m" />
+				<attnum name="profil start tangent" val="-3.301" unit="%" />
+				<attnum name="profil end tangent" val="-3.7674" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-31-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="33.771888669" />
+				<attnum name="z end" unit="m" val="-28.9555" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.3738" unit="deg" />
+				<attnum name="banking end" val="1.2607" unit="deg" />
+				<attnum name="z start" val="-27.6022" unit="m" />
+				<attnum name="profil start tangent" val="-3.7674" unit="%" />
+				<attnum name="profil end tangent" val="-4.3379" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-32">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="242.46575420" />
+				<attnum name="arc" unit="deg" val="16.01160761" />
+				<attnum name="z end" unit="m" val="-32.1189" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.2607" unit="deg" />
+				<attnum name="banking end" val="0.9272" unit="deg" />
+				<attnum name="z start" val="-28.9555" unit="m" />
+				<attnum name="profil start tangent" val="-4.3379" unit="%" />
+				<attnum name="profil end tangent" val="-4.4228" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-33">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="326.37689830" />
+				<attnum name="arc" unit="deg" val="11.92977066" />
+				<attnum name="z end" unit="m" val="-34.9575" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.9272" unit="deg" />
+				<attnum name="banking end" val="1.3737" unit="deg" />
+				<attnum name="z start" val="-32.1189" unit="m" />
+				<attnum name="profil start tangent" val="-4.4228" unit="%" />
+				<attnum name="profil end tangent" val="-2.4948" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-34-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="156.513611473" />
+				<attnum name="z end" unit="m" val="-36.2293" />
+				<section name="Right Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="6.4131" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.3737" unit="deg" />
+				<attnum name="banking end" val="1.2942" unit="deg" />
+				<attnum name="z start" val="-34.9575" unit="m" />
+				<attnum name="profil start tangent" val="-2.4948" unit="%" />
+				<attnum name="profil end tangent" val="0.1333" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-34-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="24.288200507" />
+				<attnum name="z end" unit="m" val="-35.9672" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.4131" unit="m" />
+					<attnum name="end width" val="6.322" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.2942" unit="deg" />
+				<attnum name="banking end" val="1.198" unit="deg" />
+				<attnum name="z start" val="-36.2293" unit="m" />
+				<attnum name="profil start tangent" val="0.1333" unit="%" />
+				<attnum name="profil end tangent" val="1.1818" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-35">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="361.27076069" />
+				<attnum name="arc" unit="deg" val="2.49181472034" />
+				<attnum name="z end" unit="m" val="-35.7654" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.322" unit="m" />
+					<attnum name="end width" val="6.322" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.198" unit="deg" />
+				<attnum name="banking end" val="1.1674" unit="deg" />
+				<attnum name="z start" val="-35.9672" unit="m" />
+				<attnum name="profil start tangent" val="1.1818" unit="%" />
+				<attnum name="profil end tangent" val="1.362" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-35-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="361.27076069" />
+				<attnum name="arc" unit="deg" val="2.05700503966" />
+				<attnum name="z end" unit="m" val="-35.5786" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.322" unit="m" />
+					<attnum name="end width" val="6.322" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.1674" unit="deg" />
+				<attnum name="banking end" val="1.2598" unit="deg" />
+				<attnum name="z start" val="-35.7654" unit="m" />
+				<attnum name="profil start tangent" val="1.362" unit="%" />
+				<attnum name="profil end tangent" val="1.4982" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-36-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="13.87842328" />
+				<attnum name="arc" unit="deg" val="37.27882940514" />
+				<attnum name="z end" unit="m" val="-35.4381" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.322" unit="m" />
+					<attnum name="end width" val="6.322" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.2598" unit="deg" />
+				<attnum name="banking end" val="1.4211" unit="deg" />
+				<attnum name="z start" val="-35.5786" unit="m" />
+				<attnum name="profil start tangent" val="1.4982" unit="%" />
+				<attnum name="profil end tangent" val="1.6253" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-36-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="13.87842328" />
+				<attnum name="arc" unit="deg" val="54.62985954" />
+				<attnum name="z end" unit="m" val="-35.2139" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.322" unit="m" />
+					<attnum name="end width" val="6.322" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.4211" unit="deg" />
+				<attnum name="banking end" val="1.7376" unit="deg" />
+				<attnum name="z start" val="-35.4381" unit="m" />
+				<attnum name="profil start tangent" val="1.6253" unit="%" />
+				<attnum name="profil end tangent" val="1.7829" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-37">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="16.14965708" />
+				<attnum name="arc" unit="deg" val="28.29037681" />
+				<attnum name="z end" unit="m" val="-35.0647" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.322" unit="m" />
+					<attnum name="end width" val="6.4758" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.7376" unit="deg" />
+				<attnum name="banking end" val="1.8549" unit="deg" />
+				<attnum name="z start" val="-35.2139" unit="m" />
+				<attnum name="profil start tangent" val="1.7829" unit="%" />
+				<attnum name="profil end tangent" val="1.9714" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-38">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="271.78194032" />
+				<attnum name="arc" unit="deg" val="1.71593651" />
+				<attnum name="z end" unit="m" val="-34.8961" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.4758" unit="m" />
+					<attnum name="end width" val="6.6329" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.8549" unit="deg" />
+				<attnum name="banking end" val="1.82" unit="deg" />
+				<attnum name="z start" val="-35.0647" unit="m" />
+				<attnum name="profil start tangent" val="1.9714" unit="%" />
+				<attnum name="profil end tangent" val="2.2063" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-39">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="82.99742936" />
+				<attnum name="arc" unit="deg" val="5.55576071" />
+				<attnum name="z end" unit="m" val="-34.7076" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.6329" unit="m" />
+					<attnum name="end width" val="6.7881" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.82" unit="deg" />
+				<attnum name="banking end" val="1.5823" unit="deg" />
+				<attnum name="z start" val="-34.8961" unit="m" />
+				<attnum name="profil start tangent" val="2.2063" unit="%" />
+				<attnum name="profil end tangent" val="2.5157" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-40">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="50.12880064" />
+				<attnum name="arc" unit="deg" val="9.18611990" />
+				<attnum name="z end" unit="m" val="-34.4915" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.7881" unit="m" />
+					<attnum name="end width" val="6.9432" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.5823" unit="deg" />
+				<attnum name="banking end" val="1.1384" unit="deg" />
+				<attnum name="z start" val="-34.7076" unit="m" />
+				<attnum name="profil start tangent" val="2.5157" unit="%" />
+				<attnum name="profil end tangent" val="3.0851" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-41">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="35.26336462" />
+				<attnum name="arc" unit="deg" val="32.43188966" />
+				<attnum name="z end" unit="m" val="-33.7967" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.9432" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.1384" unit="deg" />
+				<attnum name="banking end" val="-0.3517" unit="deg" />
+				<attnum name="z start" val="-34.4915" unit="m" />
+				<attnum name="profil start tangent" val="3.0851" unit="%" />
+				<attnum name="profil end tangent" val="4.1355" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-42">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="24.50060820" />
+				<attnum name="arc" unit="deg" val="45.44072590" />
+				<attnum name="z end" unit="m" val="-32.8659" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.3517" unit="deg" />
+				<attnum name="banking end" val="-1.4425" unit="deg" />
+				<attnum name="z start" val="-33.7967" unit="m" />
+				<attnum name="profil start tangent" val="4.1355" unit="%" />
+				<attnum name="profil end tangent" val="5.3716" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-43">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="35.34569935" />
+				<attnum name="arc" unit="deg" val="25.90558063" />
+				<attnum name="z end" unit="m" val="-31.9146" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.4425" unit="deg" />
+				<attnum name="banking end" val="-1.7892" unit="deg" />
+				<attnum name="z start" val="-32.8659" unit="m" />
+				<attnum name="profil start tangent" val="5.3716" unit="%" />
+				<attnum name="profil end tangent" val="6.3876" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-44">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="118.36722668" />
+				<attnum name="arc" unit="deg" val="7.85780214" />
+				<attnum name="z end" unit="m" val="-30.807" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.7892" unit="deg" />
+				<attnum name="banking end" val="-1.6926" unit="deg" />
+				<attnum name="z start" val="-31.9146" unit="m" />
+				<attnum name="profil start tangent" val="6.3876" unit="%" />
+				<attnum name="profil end tangent" val="7.1895" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-45">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="78.54432509" />
+				<attnum name="arc" unit="deg" val="18.20937154962" />
+				<attnum name="z end" unit="m" val="-28.9208" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-1.6926" unit="deg" />
+				<attnum name="banking end" val="-0.7147" unit="deg" />
+				<attnum name="z start" val="-30.807" unit="m" />
+				<attnum name="profil start tangent" val="7.1895" unit="%" />
+				<attnum name="profil end tangent" val="7.765" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-45-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="78.54432509" />
+				<attnum name="arc" unit="deg" val="19.22844068038" />
+				<attnum name="z end" unit="m" val="-26.819" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.7147" unit="deg" />
+				<attnum name="banking end" val="0.7005" unit="deg" />
+				<attnum name="z start" val="-28.9208" unit="m" />
+				<attnum name="profil start tangent" val="7.765" unit="%" />
+				<attnum name="profil end tangent" val="8.0169" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-46-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="324.08357470" />
+				<attnum name="arc" unit="deg" val="7.18497484409" />
+				<attnum name="z end" unit="m" val="-23.5433" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.7005" unit="deg" />
+				<attnum name="banking end" val="1.3808" unit="deg" />
+				<attnum name="z start" val="-26.819" unit="m" />
+				<attnum name="profil start tangent" val="8.0169" unit="%" />
+				<attnum name="profil end tangent" val="8.0216" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-46-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="324.08357470" />
+				<attnum name="arc" unit="deg" val="2.20456406591" />
+				<attnum name="z end" unit="m" val="-22.5478" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.3808" unit="deg" />
+				<attnum name="banking end" val="1.377" unit="deg" />
+				<attnum name="z start" val="-23.5433" unit="m" />
+				<attnum name="profil start tangent" val="8.0216" unit="%" />
+				<attnum name="profil end tangent" val="7.8417" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-47">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="236.47640426" />
+				<attnum name="arc" unit="deg" val="6.67029838484" />
+				<attnum name="z end" unit="m" val="-20.4279" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.377" unit="deg" />
+				<attnum name="banking end" val="1.3264" unit="deg" />
+				<attnum name="z start" val="-22.5478" unit="m" />
+				<attnum name="profil start tangent" val="7.8417" unit="%" />
+				<attnum name="profil end tangent" val="7.2829" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-47-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="236.47640426" />
+				<attnum name="arc" unit="deg" val="5.58132296516" />
+				<attnum name="z end" unit="m" val="-18.8464" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.3264" unit="deg" />
+				<attnum name="banking end" val="1.6065" unit="deg" />
+				<attnum name="z start" val="-20.4279" unit="m" />
+				<attnum name="profil start tangent" val="7.2829" unit="%" />
+				<attnum name="profil end tangent" val="5.8114" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-48">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="42.29695998" />
+				<attnum name="arc" unit="deg" val="61.93126880" />
+				<attnum name="z end" unit="m" val="-16.6714" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.6065" unit="deg" />
+				<attnum name="banking end" val="1.602" unit="deg" />
+				<attnum name="z start" val="-18.8464" unit="m" />
+				<attnum name="profil start tangent" val="5.8114" unit="%" />
+				<attnum name="profil end tangent" val="3.4271" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-49">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="47.32339515" />
+				<attnum name="arc" unit="deg" val="38.14328247" />
+				<attnum name="z end" unit="m" val="-16.0108" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.602" unit="deg" />
+				<attnum name="banking end" val="0.4573" unit="deg" />
+				<attnum name="z start" val="-16.6714" unit="m" />
+				<attnum name="profil start tangent" val="3.4271" unit="%" />
+				<attnum name="profil end tangent" val="1.1861" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-50">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="279.70013205" />
+				<attnum name="arc" unit="deg" val="6.69533333" />
+				<attnum name="z end" unit="m" val="-15.9208" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.4573" unit="deg" />
+				<attnum name="banking end" val="-0.8466" unit="deg" />
+				<attnum name="z start" val="-16.0108" unit="m" />
+				<attnum name="profil start tangent" val="1.1861" unit="%" />
+				<attnum name="profil end tangent" val="-0.0959" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-51-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="336.52114012" />
+				<attnum name="arc" unit="deg" val="2.05270076117" />
+				<attnum name="z end" unit="m" val="-15.9771" />
+				<attnum name="banking start" val="-0.8466" unit="deg" />
+				<attnum name="banking end" val="-1.2679" unit="deg" />
+				<attnum name="z start" val="-15.9208" unit="m" />
+				<attnum name="profil start tangent" val="-0.0959" unit="%" />
+				<attnum name="profil end tangent" val="-0.4962" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-51-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="336.52114012" />
+				<attnum name="arc" unit="deg" val="2.74612588883" />
+				<attnum name="z end" unit="m" val="-16.0619" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.2679" unit="deg" />
+				<attnum name="banking end" val="-1.8002" unit="deg" />
+				<attnum name="z start" val="-15.9771" unit="m" />
+				<attnum name="profil start tangent" val="-0.4962" unit="%" />
+				<attnum name="profil end tangent" val="-0.2849" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-52">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="114.56577172" />
+				<attnum name="arc" unit="deg" val="14.03357504" />
+				<attnum name="z end" unit="m" val="-16.0743" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.8002" unit="deg" />
+				<attnum name="banking end" val="-2.5999" unit="deg" />
+				<attnum name="z start" val="-16.0619" unit="m" />
+				<attnum name="profil start tangent" val="-0.2849" unit="%" />
+				<attnum name="profil end tangent" val="1.0583" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-53">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="72.10012594" />
+				<attnum name="arc" unit="deg" val="48.23587530" />
+				<attnum name="z end" unit="m" val="-14.7627" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-2.5999" unit="deg" />
+				<attnum name="banking end" val="-3.545" unit="deg" />
+				<attnum name="z start" val="-16.0743" unit="m" />
+				<attnum name="profil start tangent" val="1.0583" unit="%" />
+				<attnum name="profil end tangent" val="3.6524" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-54-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="117.43142213" />
+				<attnum name="arc" unit="deg" val="15.17921292291" />
+				<attnum name="z end" unit="m" val="-13.1624" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-3.545" unit="deg" />
+				<attnum name="banking end" val="-2.848" unit="deg" />
+				<attnum name="z start" val="-14.7627" unit="m" />
+				<attnum name="profil start tangent" val="3.6524" unit="%" />
+				<attnum name="profil end tangent" val="5.7498" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-54-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="117.43142213" />
+				<attnum name="arc" unit="deg" val="15.56004406709" />
+				<attnum name="z end" unit="m" val="-11.1355" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-2.848" unit="deg" />
+				<attnum name="banking end" val="-1.711" unit="deg" />
+				<attnum name="z start" val="-13.1624" unit="m" />
+				<attnum name="profil start tangent" val="5.7498" unit="%" />
+				<attnum name="profil end tangent" val="6.0344" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-55">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="75.19470708" />
+				<attnum name="arc" unit="deg" val="12.36256576" />
+				<attnum name="z end" unit="m" val="-10.2085" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.711" unit="deg" />
+				<attnum name="banking end" val="-1.3462" unit="deg" />
+				<attnum name="z start" val="-11.1355" unit="m" />
+				<attnum name="profil start tangent" val="6.0344" unit="%" />
+				<attnum name="profil end tangent" val="5.0511" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-56">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="20.64593688" />
+				<attnum name="arc" unit="deg" val="43.05381155" />
+				<attnum name="z end" unit="m" val="-9.5276" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.3462" unit="deg" />
+				<attnum name="banking end" val="-1.2115" unit="deg" />
+				<attnum name="z start" val="-10.2085" unit="m" />
+				<attnum name="profil start tangent" val="5.0511" unit="%" />
+				<attnum name="profil end tangent" val="3.4149" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-57">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="25.54083729" />
+				<attnum name="arc" unit="deg" val="48.04735328" />
+				<attnum name="z end" unit="m" val="-9.0049" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.2115" unit="deg" />
+				<attnum name="banking end" val="-1.06" unit="deg" />
+				<attnum name="z start" val="-9.5276" unit="m" />
+				<attnum name="profil start tangent" val="3.4149" unit="%" />
+				<attnum name="profil end tangent" val="1.3928" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-58">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.4777006000" />
+				<attnum name="z end" unit="m" val="-8.9284835421" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" unit="m" val="-9.0049000000" />
+				<attnum name="banking start" unit="deg" val="-1.0600000000" />
+				<attnum name="profil start tangent left" unit="%" val="1.3928000000" />
+				<attnum name="profil start tangent right" unit="%" val="1.3928000000" />
+				<attnum name="banking end" unit="deg" val="-0.8956349974" />
+				<attnum name="profil end tangent left" unit="%" val="0.8091274652" />
+				<attnum name="profil end tangent right" unit="%" val="0.1308716521" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-58:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.103491048494" />
+				<attnum name="z end" unit="m" val="-8.9145480755" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" unit="m" val="-8.9284835421" />
+				<attnum name="banking start" unit="deg" val="-0.8956349974" />
+				<attnum name="profil start tangent left" unit="%" val="0.8091274652" />
+				<attnum name="profil start tangent right" unit="%" val="0.1308716521" />
+				<attnum name="banking end" unit="deg" val="-0.7115450575" />
+				<attnum name="profil end tangent left" unit="%" val="0.4140073174" />
+				<attnum name="profil end tangent right" unit="%" val="-0.2762715074" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-58:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.8740841605" />
+				<attnum name="z end" unit="m" val="-8.9264000000" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" unit="m" val="-8.9145480755" />
+				<attnum name="banking start" unit="deg" val="-0.7115450575" />
+				<attnum name="profil start tangent left" unit="%" val="0.4140073174" />
+				<attnum name="profil start tangent right" unit="%" val="-0.2762715074" />
+				<attnum name="banking end" unit="deg" val="-0.5342000000" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2702000000" />
+				<attnum name="profil end tangent right" unit="%" val="-0.2702000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-59">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="32.14254480" />
+				<attnum name="z end" unit="m" val="-9.2109" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.5342" unit="deg" />
+				<attnum name="banking end" val="0.6176" unit="deg" />
+				<attnum name="z start" val="-8.9264" unit="m" />
+				<attnum name="profil start tangent" val="-0.2702" unit="%" />
+				<attnum name="profil end tangent" val="0.1083" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-60">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="312.38601782" />
+				<attnum name="arc" unit="deg" val="15.17661906" />
+				<attnum name="z end" unit="m" val="-8.2993" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.6176" unit="deg" />
+				<attnum name="banking end" val="1.4302" unit="deg" />
+				<attnum name="z start" val="-9.2109" unit="m" />
+				<attnum name="profil start tangent" val="0.1083" unit="%" />
+				<attnum name="profil end tangent" val="3.5391" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-61">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="85.03772426" />
+				<attnum name="arc" unit="deg" val="52.15318188" />
+				<attnum name="z end" unit="m" val="-3.6732" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.4302" unit="deg" />
+				<attnum name="banking end" val="2.8744" unit="deg" />
+				<attnum name="z start" val="-8.2993" unit="m" />
+				<attnum name="profil start tangent" val="3.5391" unit="%" />
+				<attnum name="profil end tangent" val="6.3284" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-62">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="46.34140282" />
+				<attnum name="arc" unit="deg" val="37.41040288" />
+				<attnum name="z end" unit="m" val="-1.6519" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="2.8744" unit="deg" />
+				<attnum name="banking end" val="3.4314" unit="deg" />
+				<attnum name="z start" val="-3.6732" unit="m" />
+				<attnum name="profil start tangent" val="6.3284" unit="%" />
+				<attnum name="profil end tangent" val="5.6019" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-63">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="32.75416336" />
+				<attnum name="arc" unit="deg" val="51.19121376" />
+				<attnum name="z end" unit="m" val="-0.3281" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="3.4314" unit="deg" />
+				<attnum name="banking end" val="3.4499" unit="deg" />
+				<attnum name="z start" val="-1.6519" unit="m" />
+				<attnum name="profil start tangent" val="5.6019" unit="%" />
+				<attnum name="profil end tangent" val="3.4418" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-64">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="34.33258048" />
+				<attnum name="arc" unit="deg" val="32.98375545" />
+				<attnum name="z end" unit="m" val="0.1384" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="3.4499" unit="deg" />
+				<attnum name="banking end" val="3.2509" unit="deg" />
+				<attnum name="z start" val="-0.3281" unit="m" />
+				<attnum name="profil start tangent" val="3.4418" unit="%" />
+				<attnum name="profil end tangent" val="1.8885" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Fuji Speedway-65">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1000" />
+				<attnum name="arc" unit="deg" val="0.3091" />
+				<attnum name="z end" unit="m" val="0.2148" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="banking start" val="3.2509" unit="deg" />
+				<attnum name="banking end" val="3.162" unit="deg" />
+				<attnum name="z start" val="0.1384" unit="m" />
+				<attnum name="profil start tangent" val="1.8885" unit="%" />
+				<attnum name="profil end tangent" val="0.691" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_pre-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="289.3294" />
+				<attnum name="z end" unit="m" val="0.12" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="3.162" unit="deg" />
+				<attnum name="banking end" val="2.3489" unit="deg" />
+				<attnum name="z start" val="0.2148" unit="m" />
+				<attnum name="profil start tangent" val="0.691" unit="%" />
+				<attnum name="profil end tangent" val="0.34" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="300.0" />
+				<attnum name="z end" unit="m" val="0.0087" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="2.3489" unit="deg" />
+				<attnum name="banking end" val="1.5057" unit="deg" />
+				<attnum name="z start" val="0.12" unit="m" />
+				<attnum name="profil start tangent" val="0.34" unit="%" />
+				<attnum name="profil end tangent" val="-0.0204" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.5057" unit="deg" />
+				<attnum name="banking end" val="1.6221" unit="deg" />
+				<attnum name="z start" val="0.0087" unit="m" />
+				<attnum name="profil start tangent" val="-0.0204" unit="%" />
+				<attnum name="profil end tangent" val="0.0006" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.01500000" unit="m" />
+				<attnum name="banking start" val="1.6221" unit="deg" />
+				<attnum name="banking end" val="1.6221" unit="deg" />
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="0.0006" unit="%" />
+				<attnum name="profil end tangent" val="0.0006" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="35.371813565" />
+    <attnum name="longitude" unit="deg" val="138.926511003" />
+    <attnum name="altitude" unit="m" val="580.961631185" />
+    <attnum name="heading" unit="deg" val="51.405562011" />
+  </section>
+</params>

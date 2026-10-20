@@ -1,0 +1,2620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : old-dominion-full.xml
+    created              : 15 Aug 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Old Dominion Full" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Old Dominion Full" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Old Dominion Full track for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="old-dominion-full.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="old-dominion-full-relief.ac" />
+			<attstr name="elevation map" val="old-dominion-full-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-8.7837" unit="m" />
+			<attnum name="maximum altitude" val="45.1898" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="right" />
+			<attstr name="entry" val="Hog Pen-5" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="Virginia International Raceway-11" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.6933" />
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-1.3782" unit="deg" />
+				<attnum name="banking end" val="-0.5178" unit="deg" />
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="0.8959" unit="%" />
+				<attnum name="profil end tangent" val="0.7893" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.782" />
+				<attnum name="z end" unit="m" val="0.836" />
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="13.2544" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.5178" unit="deg" />
+				<attnum name="banking end" val="-0.5431" unit="deg" />
+				<attnum name="z start" val="0.6933" unit="m" />
+				<attnum name="profil start tangent" val="0.7893" unit="%" />
+				<attnum name="profil end tangent" val="0.39" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-10">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="410.3608" />
+				<attnum name="arc" unit="deg" val="13.5743" />
+				<attnum name="z end" unit="m" val="0.5088" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="13.2544" unit="m" />
+					<attnum name="end width" val="7.5832" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.5431" unit="deg" />
+				<attnum name="banking end" val="0.1772" unit="deg" />
+				<attnum name="z start" val="0.836" unit="m" />
+				<attnum name="profil start tangent" val="0.39" unit="%" />
+				<attnum name="profil end tangent" val="-1.0457" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-11">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="407.386" />
+				<attnum name="arc" unit="deg" val="7.58846620" />
+				<attnum name="z end" unit="m" val="-0.4381" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7.5832" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.1772" unit="deg" />
+				<attnum name="banking end" val="0.3359" unit="deg" />
+				<attnum name="z start" val="0.5088" unit="m" />
+				<attnum name="profil start tangent" val="-1.0457" unit="%" />
+				<attnum name="profil end tangent" val="-1.589" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-12">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="888.694" />
+				<attnum name="arc" unit="deg" val="3.48264831" />
+				<attnum name="z end" unit="m" val="-1.2068" />
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.3359" unit="deg" />
+				<attnum name="banking end" val="-0.4747" unit="deg" />
+				<attnum name="z start" val="-0.4381" unit="m" />
+				<attnum name="profil start tangent" val="-1.589" unit="%" />
+				<attnum name="profil end tangent" val="-0.2789" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-13">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1939.908" />
+				<attnum name="arc" unit="deg" val="1.83152262" />
+				<attnum name="z end" unit="m" val="-0.6703" />
+				<attnum name="banking start" val="-0.4747" unit="deg" />
+				<attnum name="banking end" val="0.1565" unit="deg" />
+				<attnum name="z start" val="-1.2068" unit="m" />
+				<attnum name="profil start tangent" val="-0.2789" unit="%" />
+				<attnum name="profil end tangent" val="0.2209" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-14">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="740.892" />
+				<attnum name="arc" unit="deg" val="4.79316473" />
+				<attnum name="z end" unit="m" val="-0.9328" />
+				<attnum name="banking start" val="0.1565" unit="deg" />
+				<attnum name="banking end" val="0.1305" unit="deg" />
+				<attnum name="z start" val="-0.6703" unit="m" />
+				<attnum name="profil start tangent" val="0.2209" unit="%" />
+				<attnum name="profil end tangent" val="-0.7607" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-15">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2959.403" />
+				<attnum name="arc" unit="deg" val="1.74234388" />
+				<attnum name="z end" unit="m" val="-1.9208" />
+				<attnum name="banking start" val="0.1305" unit="deg" />
+				<attnum name="banking end" val="0.0653" unit="deg" />
+				<attnum name="z start" val="-0.9328" unit="m" />
+				<attnum name="profil start tangent" val="-0.7607" unit="%" />
+				<attnum name="profil end tangent" val="-1.4803" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-16">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="29.318616" />
+				<attnum name="z end" unit="m" val="-2.4669" />
+				<attnum name="banking start" val="0.0653" unit="deg" />
+				<attnum name="banking end" val="-0.2085" unit="deg" />
+				<attnum name="z start" val="-1.9208" unit="m" />
+				<attnum name="profil start tangent" val="-1.4803" unit="%" />
+				<attnum name="profil end tangent" val="-1.4113" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-17">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.44925500" />
+				<attnum name="z end" unit="m" val="-2.768" />
+				<attnum name="banking start" val="-0.2085" unit="deg" />
+				<attnum name="banking end" val="-0.3241" unit="deg" />
+				<attnum name="z start" val="-2.4669" unit="m" />
+				<attnum name="profil start tangent" val="-1.4113" unit="%" />
+				<attnum name="profil end tangent" val="-0.3865" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-18">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="29.318616" />
+				<attnum name="z end" unit="m" val="-2.7132" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.3241" unit="deg" />
+				<attnum name="banking end" val="0.0398" unit="deg" />
+				<attnum name="z start" val="-2.768" unit="m" />
+				<attnum name="profil start tangent" val="-0.3865" unit="%" />
+				<attnum name="profil end tangent" val="0.6551" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-19">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1883.859" />
+				<attnum name="arc" unit="deg" val="0.42493391616" />
+				<attnum name="z end" unit="m" val="-2.5563" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.0398" unit="deg" />
+				<attnum name="banking end" val="0.1486" unit="deg" />
+				<attnum name="z start" val="-2.7132" unit="m" />
+				<attnum name="profil start tangent" val="0.6551" unit="%" />
+				<attnum name="profil end tangent" val="1.4296" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-19-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1883.859" />
+				<attnum name="arc" unit="deg" val="0.50715969384" />
+				<attnum name="z end" unit="m" val="-2.2668" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.1486" unit="deg" />
+				<attnum name="banking end" val="0.4301" unit="deg" />
+				<attnum name="z start" val="-2.5563" unit="m" />
+				<attnum name="profil start tangent" val="1.4296" unit="%" />
+				<attnum name="profil end tangent" val="1.2717" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Horseshoe">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="44.236" />
+				<attnum name="arc" unit="deg" val="38.21307587" />
+				<attnum name="z end" unit="m" val="-2.0286" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4301" unit="deg" />
+				<attnum name="banking end" val="1.2418" unit="deg" />
+				<attnum name="z start" val="-2.2668" unit="m" />
+				<attnum name="profil start tangent" val="1.2717" unit="%" />
+				<attnum name="profil end tangent" val="-0.0965" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Horseshoe-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="32.746" />
+				<attnum name="arc" unit="deg" val="53.95697960" />
+				<attnum name="z end" unit="m" val="-2.3371" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.2418" unit="deg" />
+				<attnum name="banking end" val="0.8265" unit="deg" />
+				<attnum name="z start" val="-2.0286" unit="m" />
+				<attnum name="profil start tangent" val="-0.0965" unit="%" />
+				<attnum name="profil end tangent" val="-1.2226" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Horseshoe-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="55.340" />
+				<attnum name="arc" unit="deg" val="33.52638927" />
+				<attnum name="z end" unit="m" val="-2.8049" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8265" unit="deg" />
+				<attnum name="banking end" val="0.6559" unit="deg" />
+				<attnum name="z start" val="-2.3371" unit="m" />
+				<attnum name="profil start tangent" val="-1.2226" unit="%" />
+				<attnum name="profil end tangent" val="-0.3268" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Horseshoe-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="83.053" />
+				<attnum name="arc" unit="deg" val="51.78204958" />
+				<attnum name="z end" unit="m" val="-2.2111" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.6559" unit="deg" />
+				<attnum name="banking end" val="1.3089" unit="deg" />
+				<attnum name="z start" val="-2.8049" unit="m" />
+				<attnum name="profil start tangent" val="-0.3268" unit="%" />
+				<attnum name="profil end tangent" val="0.2273" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Horseshoe-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="251.778" />
+				<attnum name="arc" unit="deg" val="5.81235262784" />
+				<attnum name="z end" unit="m" val="-2.2971" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.3089" unit="deg" />
+				<attnum name="banking end" val="1.1085" unit="deg" />
+				<attnum name="z start" val="-2.2111" unit="m" />
+				<attnum name="profil start tangent" val="0.2273" unit="%" />
+				<attnum name="profil end tangent" val="-0.2084" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Horseshoe-5-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="251.778" />
+				<attnum name="arc" unit="deg" val="12.38049875216" />
+				<attnum name="z end" unit="m" val="-2.3408" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.1085" unit="deg" />
+				<attnum name="banking end" val="0.8475" unit="deg" />
+				<attnum name="z start" val="-2.2971" unit="m" />
+				<attnum name="profil start tangent" val="-0.2084" unit="%" />
+				<attnum name="profil end tangent" val="-0.1087" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-20">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3907.879" />
+				<attnum name="arc" unit="deg" val="1.01040146" />
+				<attnum name="z end" unit="m" val="-2.4352" />
+				<attnum name="banking start" val="0.8475" unit="deg" />
+				<attnum name="banking end" val="0.4797" unit="deg" />
+				<attnum name="z start" val="-2.3408" unit="m" />
+				<attnum name="profil start tangent" val="-0.1087" unit="%" />
+				<attnum name="profil end tangent" val="-0.0233" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-21">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="109.719" />
+				<attnum name="arc" unit="deg" val="34.87066598" />
+				<attnum name="z end" unit="m" val="-2.3749" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.4797" unit="deg" />
+				<attnum name="banking end" val="-0.0612" unit="deg" />
+				<attnum name="z start" val="-2.4352" unit="m" />
+				<attnum name="profil start tangent" val="-0.0233" unit="%" />
+				<attnum name="profil end tangent" val="0.3392" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-22-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="290.961" />
+				<attnum name="arc" unit="deg" val="4.70736061952" />
+				<attnum name="z end" unit="m" val="-2.2343" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0612" unit="deg" />
+				<attnum name="banking end" val="0.1149" unit="deg" />
+				<attnum name="z start" val="-2.3749" unit="m" />
+				<attnum name="profil start tangent" val="0.3392" unit="%" />
+				<attnum name="profil end tangent" val="0.736" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-22-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="290.961" />
+				<attnum name="arc" unit="deg" val="4.72605850377" />
+				<attnum name="z end" unit="m" val="-2.0222" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.1149" unit="deg" />
+				<attnum name="banking end" val="-0.0463" unit="deg" />
+				<attnum name="z start" val="-2.2343" unit="m" />
+				<attnum name="profil start tangent" val="0.736" unit="%" />
+				<attnum name="profil end tangent" val="0.871" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-22-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="290.961" />
+				<attnum name="arc" unit="deg" val="3.87241068672" />
+				<attnum name="z end" unit="m" val="-1.8534" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.0463" unit="deg" />
+				<attnum name="banking end" val="-0.2892" unit="deg" />
+				<attnum name="z start" val="-2.0222" unit="m" />
+				<attnum name="profil start tangent" val="0.871" unit="%" />
+				<attnum name="profil end tangent" val="0.9405" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="NASCAR Bend">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="51.553" />
+				<attnum name="arc" unit="deg" val="66.71388557" />
+				<attnum name="z end" unit="m" val="-1.2393" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.2892" unit="deg" />
+				<attnum name="banking end" val="-0.6937" unit="deg" />
+				<attnum name="z start" val="-1.8534" unit="m" />
+				<attnum name="profil start tangent" val="0.9405" unit="%" />
+				<attnum name="profil end tangent" val="1.0552" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="NASCAR Bend-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="188.812" />
+				<attnum name="arc" unit="deg" val="10.91438816" />
+				<attnum name="z end" unit="m" val="-0.8482" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.6937" unit="deg" />
+				<attnum name="banking end" val="-0.2752" unit="deg" />
+				<attnum name="z start" val="-1.2393" unit="m" />
+				<attnum name="profil start tangent" val="1.0552" unit="%" />
+				<attnum name="profil end tangent" val="1.2476" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-23">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1768.113" />
+				<attnum name="arc" unit="deg" val="1.16901336" />
+				<attnum name="z end" unit="m" val="-0.3404" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.2752" unit="deg" />
+				<attnum name="banking end" val="-0.0755" unit="deg" />
+				<attnum name="z start" val="-0.8482" unit="m" />
+				<attnum name="profil start tangent" val="1.2476" unit="%" />
+				<attnum name="profil end tangent" val="1.5592" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-24">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1259.820" />
+				<attnum name="arc" unit="deg" val="0.4213966255" />
+				<attnum name="z end" unit="m" val="-0.1819" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0755" unit="deg" />
+				<attnum name="banking end" val="0.1231" unit="deg" />
+				<attnum name="z start" val="-0.3404" unit="m" />
+				<attnum name="profil start tangent" val="1.5592" unit="%" />
+				<attnum name="profil end tangent" val="1.6997" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-24-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1259.820" />
+				<attnum name="arc" unit="deg" val="1.2163429045" />
+				<attnum name="z end" unit="m" val="0.2698" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.1231" unit="deg" />
+				<attnum name="banking end" val="0.2953" unit="deg" />
+				<attnum name="z start" val="-0.1819" unit="m" />
+				<attnum name="profil start tangent" val="1.6997" unit="%" />
+				<attnum name="profil end tangent" val="1.6517" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-25">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="331.944" />
+				<attnum name="arc" unit="deg" val="6.21001945" />
+				<attnum name="z end" unit="m" val="0.8507" />
+				<attnum name="banking start" val="0.2953" unit="deg" />
+				<attnum name="banking end" val="-0.3159" unit="deg" />
+				<attnum name="z start" val="0.2698" unit="m" />
+				<attnum name="profil start tangent" val="1.6517" unit="%" />
+				<attnum name="profil end tangent" val="1.5414" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-26">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="73.048" />
+				<attnum name="arc" unit="deg" val="15.83994195" />
+				<attnum name="z end" unit="m" val="1.1472" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.3159" unit="deg" />
+				<attnum name="banking end" val="-1.0725" unit="deg" />
+				<attnum name="z start" val="0.8507" unit="m" />
+				<attnum name="profil start tangent" val="1.5414" unit="%" />
+				<attnum name="profil end tangent" val="1.1316" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Left Hook">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="22.764" />
+				<attnum name="arc" unit="deg" val="48.11294748" />
+				<attnum name="z end" unit="m" val="1.2991" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.0725" unit="deg" />
+				<attnum name="banking end" val="-1.6663" unit="deg" />
+				<attnum name="z start" val="1.1472" unit="m" />
+				<attnum name="profil start tangent" val="1.1316" unit="%" />
+				<attnum name="profil end tangent" val="0.08" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Left Hook-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="41.964" />
+				<attnum name="arc" unit="deg" val="27.15056259" />
+				<attnum name="z end" unit="m" val="1.1729" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.6663" unit="deg" />
+				<attnum name="banking end" val="-1.5988" unit="deg" />
+				<attnum name="z start" val="1.2991" unit="m" />
+				<attnum name="profil start tangent" val="0.08" unit="%" />
+				<attnum name="profil end tangent" val="-0.7478" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Left Hook-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="171.067" />
+				<attnum name="arc" unit="deg" val="6.77985223" />
+				<attnum name="z end" unit="m" val="0.9986" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-1.5988" unit="deg" />
+				<attnum name="banking end" val="-0.5017" unit="deg" />
+				<attnum name="z start" val="1.1729" unit="m" />
+				<attnum name="profil start tangent" val="-0.7478" unit="%" />
+				<attnum name="profil end tangent" val="-1.3035" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-27">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="49.462" />
+				<attnum name="arc" unit="deg" val="35.72325493416" />
+				<attnum name="z end" unit="m" val="0.4601" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.5017" unit="deg" />
+				<attnum name="banking end" val="0.4351" unit="deg" />
+				<attnum name="z start" val="0.9986" unit="m" />
+				<attnum name="profil start tangent" val="-1.3035" unit="%" />
+				<attnum name="profil end tangent" val="-1.5104" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-27-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="49.462" />
+				<attnum name="arc" unit="deg" val="29.76932042584" />
+				<attnum name="z end" unit="m" val="0.1326" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4351" unit="deg" />
+				<attnum name="banking end" val="0.4372" unit="deg" />
+				<attnum name="z start" val="0.4601" unit="m" />
+				<attnum name="profil start tangent" val="-1.5104" unit="%" />
+				<attnum name="profil end tangent" val="-0.7718" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-28-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="254.441" />
+				<attnum name="arc" unit="deg" val="4.1210503483" />
+				<attnum name="z end" unit="m" val="0.0833" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.4372" unit="deg" />
+				<attnum name="banking end" val="0.6892" unit="deg" />
+				<attnum name="z start" val="0.1326" unit="m" />
+				<attnum name="profil start tangent" val="-0.7718" unit="%" />
+				<attnum name="profil end tangent" val="-0.5064" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-28-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="254.441" />
+				<attnum name="arc" unit="deg" val="5.40439122749" />
+				<attnum name="z end" unit="m" val="-0.0951" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.6892" unit="deg" />
+				<attnum name="banking end" val="1.1238" unit="deg" />
+				<attnum name="z start" val="0.0833" unit="m" />
+				<attnum name="profil start tangent" val="-0.5064" unit="%" />
+				<attnum name="profil end tangent" val="-1.1217" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Virginia International Raceway-28-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="254.441" />
+				<attnum name="arc" unit="deg" val="4.72707507421" />
+				<attnum name="z end" unit="m" val="-0.41" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.1238" unit="deg" />
+				<attnum name="banking end" val="0.1708" unit="deg" />
+				<attnum name="z start" val="-0.0951" unit="m" />
+				<attnum name="profil start tangent" val="-1.1217" unit="%" />
+				<attnum name="profil end tangent" val="-1.202" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="63.854" />
+				<attnum name="arc" unit="deg" val="20.64479264603" />
+				<attnum name="z end" unit="m" val="-0.618" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.1708" unit="deg" />
+				<attnum name="banking end" val="0.1731" unit="deg" />
+				<attnum name="z start" val="-0.41" unit="m" />
+				<attnum name="profil start tangent" val="-1.202" unit="%" />
+				<attnum name="profil end tangent" val="-0.4928" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="63.854" />
+				<attnum name="arc" unit="deg" val="21.53504413684" />
+				<attnum name="z end" unit="m" val="-0.6375" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.1731" unit="deg" />
+				<attnum name="banking end" val="0.5452" unit="deg" />
+				<attnum name="z start" val="-0.618" unit="m" />
+				<attnum name="profil start tangent" val="-0.4928" unit="%" />
+				<attnum name="profil end tangent" val="0.2952" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="63.854" />
+				<attnum name="arc" unit="deg" val="16.20319488713" />
+				<attnum name="z end" unit="m" val="-0.5162" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.5452" unit="deg" />
+				<attnum name="banking end" val="0.3362" unit="deg" />
+				<attnum name="z start" val="-0.6375" unit="m" />
+				<attnum name="profil start tangent" val="0.2952" unit="%" />
+				<attnum name="profil end tangent" val="1.1962" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-2-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="129.047" />
+				<attnum name="arc" unit="deg" val="7.96616160119" />
+				<attnum name="z end" unit="m" val="-0.2075" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.3362" unit="deg" />
+				<attnum name="banking end" val="-0.4448" unit="deg" />
+				<attnum name="z start" val="-0.5162" unit="m" />
+				<attnum name="profil start tangent" val="1.1962" unit="%" />
+				<attnum name="profil end tangent" val="1.5854" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-2-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="129.047" />
+				<attnum name="arc" unit="deg" val="11.54378069494" />
+				<attnum name="z end" unit="m" val="0.1695" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.4448" unit="deg" />
+				<attnum name="banking end" val="-0.8848" unit="deg" />
+				<attnum name="z start" val="-0.2075" unit="m" />
+				<attnum name="profil start tangent" val="1.5854" unit="%" />
+				<attnum name="profil end tangent" val="0.3752" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-2-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="129.047" />
+				<attnum name="arc" unit="deg" val="11.39649621387" />
+				<attnum name="z end" unit="m" val="-0.0101" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8848" unit="deg" />
+				<attnum name="banking end" val="-0.004" unit="deg" />
+				<attnum name="z start" val="0.1695" unit="m" />
+				<attnum name="profil start tangent" val="0.3752" unit="%" />
+				<attnum name="profil end tangent" val="-0.7364" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-3-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="184.272" />
+				<attnum name="arc" unit="deg" val="5.69989283051" />
+				<attnum name="z end" unit="m" val="-0.1518" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.004" unit="deg" />
+				<attnum name="banking end" val="0.2608" unit="deg" />
+				<attnum name="z start" val="-0.0101" unit="m" />
+				<attnum name="profil start tangent" val="-0.7364" unit="%" />
+				<attnum name="profil end tangent" val="0.1253" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-3-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="184.272" />
+				<attnum name="arc" unit="deg" val="6.21860939406" />
+				<attnum name="z end" unit="m" val="0.0529" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.2608" unit="deg" />
+				<attnum name="banking end" val="0.3486" unit="deg" />
+				<attnum name="z start" val="-0.1518" unit="m" />
+				<attnum name="profil start tangent" val="0.1253" unit="%" />
+				<attnum name="profil end tangent" val="1.6058" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-3-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="184.272" />
+				<attnum name="arc" unit="deg" val="5.99901588543" />
+				<attnum name="z end" unit="m" val="0.4751" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.3486" unit="deg" />
+				<attnum name="banking end" val="0.0974" unit="deg" />
+				<attnum name="z start" val="0.0529" unit="m" />
+				<attnum name="profil start tangent" val="1.6058" unit="%" />
+				<attnum name="profil end tangent" val="2.027" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-4-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="158.308" />
+				<attnum name="arc" unit="deg" val="8.94183265113" />
+				<attnum name="z end" unit="m" val="0.9361" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.0974" unit="deg" />
+				<attnum name="banking end" val="-0.8517" unit="deg" />
+				<attnum name="z start" val="0.4751" unit="m" />
+				<attnum name="profil start tangent" val="2.027" unit="%" />
+				<attnum name="profil end tangent" val="1.4837" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-4-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="158.308" />
+				<attnum name="arc" unit="deg" val="11.85462301887" />
+				<attnum name="z end" unit="m" val="1.2969" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8517" unit="deg" />
+				<attnum name="banking end" val="-0.9026" unit="deg" />
+				<attnum name="z start" val="0.9361" unit="m" />
+				<attnum name="profil start tangent" val="1.4837" unit="%" />
+				<attnum name="profil end tangent" val="0.8212" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-5">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="64.000212" />
+				<attnum name="z end" unit="m" val="1.6432" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.9026" unit="deg" />
+				<attnum name="banking end" val="0.2582" unit="deg" />
+				<attnum name="z start" val="1.2969" unit="m" />
+				<attnum name="profil start tangent" val="0.8212" unit="%" />
+				<attnum name="profil end tangent" val="0.9546" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Snake-6">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="983.820" />
+				<attnum name="arc" unit="deg" val="3.61122461" />
+				<attnum name="z end" unit="m" val="2.4914" />
+				<attnum name="banking start" val="0.2582" unit="deg" />
+				<attnum name="banking end" val="1.3966" unit="deg" />
+				<attnum name="z start" val="1.6432" unit="m" />
+				<attnum name="profil start tangent" val="0.9546" unit="%" />
+				<attnum name="profil end tangent" val="1.2643" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-45">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="547.998" />
+				<attnum name="arc" unit="deg" val="6.47846443" />
+				<attnum name="z end" unit="m" val="3.2106" />
+				<attnum name="banking start" val="1.3966" unit="deg" />
+				<attnum name="banking end" val="-0.1184" unit="deg" />
+				<attnum name="z start" val="2.4914" unit="m" />
+				<attnum name="profil start tangent" val="1.2643" unit="%" />
+				<attnum name="profil end tangent" val="0.7741" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-46">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3393.377" />
+				<attnum name="arc" unit="deg" val="1.28322141" />
+				<attnum name="z end" unit="m" val="3.5052" />
+				<attnum name="banking start" val="-0.1184" unit="deg" />
+				<attnum name="banking end" val="0.3116" unit="deg" />
+				<attnum name="z start" val="3.2106" unit="m" />
+				<attnum name="profil start tangent" val="0.7741" unit="%" />
+				<attnum name="profil end tangent" val="0.7157" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-47">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2462.747" />
+				<attnum name="arc" unit="deg" val="1.76806242" />
+				<attnum name="z end" unit="m" val="4.2984" />
+				<attnum name="banking start" val="0.3116" unit="deg" />
+				<attnum name="banking end" val="-0.556" unit="deg" />
+				<attnum name="z start" val="3.5052" unit="m" />
+				<attnum name="profil start tangent" val="0.7157" unit="%" />
+				<attnum name="profil end tangent" val="1.3813" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-48">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.000119" />
+				<attnum name="z end" unit="m" val="4.9172" />
+				<attnum name="banking start" val="-0.556" unit="deg" />
+				<attnum name="banking end" val="0.4582" unit="deg" />
+				<attnum name="z start" val="4.2984" unit="m" />
+				<attnum name="profil start tangent" val="1.3813" unit="%" />
+				<attnum name="profil end tangent" val="1.3966" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-49">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="251.035" />
+				<attnum name="arc" unit="deg" val="10.44840211" />
+				<attnum name="z end" unit="m" val="5.409" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="0.4582" unit="deg" />
+				<attnum name="banking end" val="0.8804" unit="deg" />
+				<attnum name="z start" val="4.9172" unit="m" />
+				<attnum name="profil start tangent" val="1.3966" unit="%" />
+				<attnum name="profil end tangent" val="0.9888" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-50">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="321.517" />
+				<attnum name="arc" unit="deg" val="8.16675180" />
+				<attnum name="z end" unit="m" val="5.8229" />
+				<attnum name="banking start" val="0.8804" unit="deg" />
+				<attnum name="banking end" val="0.5913" unit="deg" />
+				<attnum name="z start" val="5.409" unit="m" />
+				<attnum name="profil start tangent" val="0.9888" unit="%" />
+				<attnum name="profil end tangent" val="1.7944" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-51">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="311.172" />
+				<attnum name="arc" unit="deg" val="9.55727475" />
+				<attnum name="z end" unit="m" val="7.2169" />
+				<attnum name="banking start" val="0.5913" unit="deg" />
+				<attnum name="banking end" val="0.5835" unit="deg" />
+				<attnum name="z start" val="5.8229" unit="m" />
+				<attnum name="profil start tangent" val="1.7944" unit="%" />
+				<attnum name="profil end tangent" val="3.9566" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-52">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="156.593" />
+				<attnum name="arc" unit="deg" val="10.89141694118" />
+				<attnum name="z end" unit="m" val="8.773" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.5835" unit="deg" />
+				<attnum name="banking end" val="0.5373" unit="deg" />
+				<attnum name="z start" val="7.2169" unit="m" />
+				<attnum name="profil start tangent" val="3.9566" unit="%" />
+				<attnum name="profil end tangent" val="4.1792" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-52-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="156.593" />
+				<attnum name="arc" unit="deg" val="7.97208019882" />
+				<attnum name="z end" unit="m" val="9.4551" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.5373" unit="deg" />
+				<attnum name="banking end" val="0.5349" unit="deg" />
+				<attnum name="z start" val="8.773" unit="m" />
+				<attnum name="profil start tangent" val="4.1792" unit="%" />
+				<attnum name="profil end tangent" val="2.4826" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-53">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="233.679" />
+				<attnum name="arc" unit="deg" val="8.83046789" />
+				<attnum name="z end" unit="m" val="10.1158" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.5349" unit="deg" />
+				<attnum name="banking end" val="-0.1769" unit="deg" />
+				<attnum name="z start" val="9.4551" unit="m" />
+				<attnum name="profil start tangent" val="2.4826" unit="%" />
+				<attnum name="profil end tangent" val="2.4439" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-54">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="127.492" />
+				<attnum name="arc" unit="deg" val="11.7731200268" />
+				<attnum name="z end" unit="m" val="10.9157" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.1769" unit="deg" />
+				<attnum name="banking end" val="-0.3162" unit="deg" />
+				<attnum name="z start" val="10.1158" unit="m" />
+				<attnum name="profil start tangent" val="2.4439" unit="%" />
+				<attnum name="profil end tangent" val="3.7306" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-54-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="127.492" />
+				<attnum name="arc" unit="deg" val="4.3373293732" />
+				<attnum name="z end" unit="m" val="11.3411" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.3162" unit="deg" />
+				<attnum name="banking end" val="-0.3115" unit="deg" />
+				<attnum name="z start" val="10.9157" unit="m" />
+				<attnum name="profil start tangent" val="3.7306" unit="%" />
+				<attnum name="profil end tangent" val="4.6985" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-55">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="381.728" />
+				<attnum name="arc" unit="deg" val="2.40161462" />
+				<attnum name="z end" unit="m" val="12.1394" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.3115" unit="deg" />
+				<attnum name="banking end" val="-0.3783" unit="deg" />
+				<attnum name="z start" val="11.3411" unit="m" />
+				<attnum name="profil start tangent" val="4.6985" unit="%" />
+				<attnum name="profil end tangent" val="5.2208" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-56">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="499.718" />
+				<attnum name="arc" unit="deg" val="1.83467421" />
+				<attnum name="z end" unit="m" val="13.0119" />
+				<attnum name="banking start" val="-0.3783" unit="deg" />
+				<attnum name="banking end" val="-0.0513" unit="deg" />
+				<attnum name="z start" val="12.1394" unit="m" />
+				<attnum name="profil start tangent" val="5.2208" unit="%" />
+				<attnum name="profil end tangent" val="5.6558" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-57-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="159.142" />
+				<attnum name="arc" unit="deg" val="5.88529202081" />
+				<attnum name="z end" unit="m" val="13.9696" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.0513" unit="deg" />
+				<attnum name="banking end" val="-0.1009" unit="deg" />
+				<attnum name="z start" val="13.0119" unit="m" />
+				<attnum name="profil start tangent" val="5.6558" unit="%" />
+				<attnum name="profil end tangent" val="5.7815" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-57-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="159.142" />
+				<attnum name="arc" unit="deg" val="12.96105404275" />
+				<attnum name="z end" unit="m" val="16.023" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-0.1009" unit="deg" />
+				<attnum name="banking end" val="0.4033" unit="deg" />
+				<attnum name="z start" val="13.9696" unit="m" />
+				<attnum name="profil start tangent" val="5.7815" unit="%" />
+				<attnum name="profil end tangent" val="5.6909" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-57-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="159.142" />
+				<attnum name="arc" unit="deg" val="13.08345475645" />
+				<attnum name="z end" unit="m" val="18.0864" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4033" unit="deg" />
+				<attnum name="banking end" val="0.8817" unit="deg" />
+				<attnum name="z start" val="16.023" unit="m" />
+				<attnum name="profil start tangent" val="5.6909" unit="%" />
+				<attnum name="profil end tangent" val="5.2944" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-58-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2574.878" />
+				<attnum name="arc" unit="deg" val="1.68357496884" />
+				<attnum name="z end" unit="m" val="21.8019" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.8817" unit="deg" />
+				<attnum name="banking end" val="0.6666" unit="deg" />
+				<attnum name="z start" val="18.0864" unit="m" />
+				<attnum name="profil start tangent" val="5.2944" unit="%" />
+				<attnum name="profil end tangent" val="3.1545" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-58-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2574.878" />
+				<attnum name="arc" unit="deg" val="0.34236810116" />
+				<attnum name="z end" unit="m" val="22.017" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.6666" unit="deg" />
+				<attnum name="banking end" val="0.8359" unit="deg" />
+				<attnum name="z start" val="21.8019" unit="m" />
+				<attnum name="profil start tangent" val="3.1545" unit="%" />
+				<attnum name="profil end tangent" val="1.6192" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-59">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3393.701" />
+				<attnum name="arc" unit="deg" val="0.34802475848" />
+				<attnum name="z end" unit="m" val="22.3963" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8359" unit="deg" />
+				<attnum name="banking end" val="1.251" unit="deg" />
+				<attnum name="z start" val="22.017" unit="m" />
+				<attnum name="profil start tangent" val="1.6192" unit="%" />
+				<attnum name="profil end tangent" val="2.3113" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-59-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3393.701" />
+				<attnum name="arc" unit="deg" val="0.50847614152" />
+				<attnum name="z end" unit="m" val="23.2344" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.251" unit="deg" />
+				<attnum name="banking end" val="1.1551" unit="deg" />
+				<attnum name="z start" val="22.3963" unit="m" />
+				<attnum name="profil start tangent" val="2.3113" unit="%" />
+				<attnum name="profil end tangent" val="2.7917" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="South Bend">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="82.398" />
+				<attnum name="arc" unit="deg" val="34.22190915" />
+				<attnum name="z end" unit="m" val="24.6128" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.1551" unit="deg" />
+				<attnum name="banking end" val="0.3666" unit="deg" />
+				<attnum name="z start" val="23.2344" unit="m" />
+				<attnum name="profil start tangent" val="2.7917" unit="%" />
+				<attnum name="profil end tangent" val="2.8276" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="South Bend-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="97.626" />
+				<attnum name="arc" unit="deg" val="10.54348008" />
+				<attnum name="z end" unit="m" val="25.1256" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.3666" unit="deg" />
+				<attnum name="banking end" val="0.5049" unit="deg" />
+				<attnum name="z start" val="24.6128" unit="m" />
+				<attnum name="profil start tangent" val="2.8276" unit="%" />
+				<attnum name="profil end tangent" val="2.5724" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="South Bend-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1897.828" />
+				<attnum name="arc" unit="deg" val="0.54389708" />
+				<attnum name="z end" unit="m" val="25.5382" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.5049" unit="deg" />
+				<attnum name="banking end" val="0.6822" unit="deg" />
+				<attnum name="z start" val="25.1256" unit="m" />
+				<attnum name="profil start tangent" val="2.5724" unit="%" />
+				<attnum name="profil end tangent" val="1.7504" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="South Bend-4-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="19.686554401" />
+				<attnum name="z end" unit="m" val="25.7765" />
+				<attnum name="banking start" val="0.6822" unit="deg" />
+				<attnum name="banking end" val="0.4835" unit="deg" />
+				<attnum name="z start" val="25.5382" unit="m" />
+				<attnum name="profil start tangent" val="1.7504" unit="%" />
+				<attnum name="profil end tangent" val="-0.7303" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="South Bend-4-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40" />
+				<attnum name="z end" unit="m" val="24.7081" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4835" unit="deg" />
+				<attnum name="banking end" val="0.3626" unit="deg" />
+				<attnum name="z start" val="25.7765" unit="m" />
+				<attnum name="profil start tangent" val="-0.7303" unit="%" />
+				<attnum name="profil end tangent" val="-4.7444" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="South Bend-4-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="16.313697599" />
+				<attnum name="z end" unit="m" val="23.5959" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.3626" unit="deg" />
+				<attnum name="banking end" val="0.5472" unit="deg" />
+				<attnum name="z start" val="24.7081" unit="m" />
+				<attnum name="profil start tangent" val="-4.7444" unit="%" />
+				<attnum name="profil end tangent" val="-4.9916" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="South Bend-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="413.376" />
+				<attnum name="arc" unit="deg" val="9.68036677" />
+				<attnum name="z end" unit="m" val="21.385" />
+				<attnum name="banking start" val="0.5472" unit="deg" />
+				<attnum name="banking end" val="1.1584" unit="deg" />
+				<attnum name="z start" val="23.5959" unit="m" />
+				<attnum name="profil start tangent" val="-4.9916" unit="%" />
+				<attnum name="profil end tangent" val="1.7902" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-65-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2680.387" />
+				<attnum name="arc" unit="deg" val="0.74483722183" />
+				<attnum name="z end" unit="m" val="23.7356" />
+				<attnum name="banking start" val="1.1584" unit="deg" />
+				<attnum name="banking end" val="1.239" unit="deg" />
+				<attnum name="z start" val="21.385" unit="m" />
+				<attnum name="profil start tangent" val="1.7902" unit="%" />
+				<attnum name="profil end tangent" val="7.413" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-65-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2680.387" />
+				<attnum name="arc" unit="deg" val="0.75157101817" />
+				<attnum name="z end" unit="m" val="26.5765" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.239" unit="deg" />
+				<attnum name="banking end" val="0.8257" unit="deg" />
+				<attnum name="z start" val="23.7356" unit="m" />
+				<attnum name="profil start tangent" val="7.413" unit="%" />
+				<attnum name="profil end tangent" val="7.6529" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-66">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="357.602" />
+				<attnum name="arc" unit="deg" val="4.89566212" />
+				<attnum name="z end" unit="m" val="28.7843" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.8257" unit="deg" />
+				<attnum name="banking end" val="0.1534" unit="deg" />
+				<attnum name="z start" val="26.5765" unit="m" />
+				<attnum name="profil start tangent" val="7.6529" unit="%" />
+				<attnum name="profil end tangent" val="7.3093" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-67">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="39.848" />
+				<attnum name="arc" unit="deg" val="41.97730326" />
+				<attnum name="z end" unit="m" val="30.9427" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.1534" unit="deg" />
+				<attnum name="banking end" val="0.8341" unit="deg" />
+				<attnum name="z start" val="28.7843" unit="m" />
+				<attnum name="profil start tangent" val="7.3093" unit="%" />
+				<attnum name="profil end tangent" val="5.9083" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="98.700" />
+				<attnum name="arc" unit="deg" val="27.71672456" />
+				<attnum name="z end" unit="m" val="33.0548" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8341" unit="deg" />
+				<attnum name="banking end" val="1.7385" unit="deg" />
+				<attnum name="z start" val="30.9427" unit="m" />
+				<attnum name="profil start tangent" val="5.9083" unit="%" />
+				<attnum name="profil end tangent" val="3.0205" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="26.500" />
+				<attnum name="arc" unit="deg" val="85.15584581" />
+				<attnum name="z end" unit="m" val="33.6918" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.7385" unit="deg" />
+				<attnum name="banking end" val="0.9661" unit="deg" />
+				<attnum name="z start" val="33.0548" unit="m" />
+				<attnum name="profil start tangent" val="3.0205" unit="%" />
+				<attnum name="profil end tangent" val="0.2687" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="89.474" />
+				<attnum name="arc" unit="deg" val="5.12295554" />
+				<attnum name="z end" unit="m" val="33.6054" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.9661" unit="deg" />
+				<attnum name="banking end" val="0.9591" unit="deg" />
+				<attnum name="z start" val="33.6918" unit="m" />
+				<attnum name="profil start tangent" val="0.2687" unit="%" />
+				<attnum name="profil end tangent" val="-1.8183" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="220.204" />
+				<attnum name="arc" unit="deg" val="2.08272901" />
+				<attnum name="z end" unit="m" val="33.4007" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.9591" unit="deg" />
+				<attnum name="banking end" val="1.0361" unit="deg" />
+				<attnum name="z start" val="33.6054" unit="m" />
+				<attnum name="profil start tangent" val="-1.8183" unit="%" />
+				<attnum name="profil end tangent" val="-3.5676" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-5">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="24.785348" />
+				<attnum name="z end" unit="m" val="32.2659" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.0361" unit="deg" />
+				<attnum name="banking end" val="1.3171" unit="deg" />
+				<attnum name="z start" val="33.4007" unit="m" />
+				<attnum name="profil start tangent" val="-3.5676" unit="%" />
+				<attnum name="profil end tangent" val="-4.9894" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.24592399444" />
+				<attnum name="z end" unit="m" val="31.3388" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.3171" unit="deg" />
+				<attnum name="banking end" val="1.3985" unit="deg" />
+				<attnum name="z start" val="32.2659" unit="m" />
+				<attnum name="profil start tangent" val="-4.9894" unit="%" />
+				<attnum name="profil end tangent" val="-5.3314" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-6-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.33318309556" />
+				<attnum name="z end" unit="m" val="30.1147" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.3985" unit="deg" />
+				<attnum name="banking end" val="1.2401" unit="deg" />
+				<attnum name="z start" val="31.3388" unit="m" />
+				<attnum name="profil start tangent" val="-5.3314" unit="%" />
+				<attnum name="profil end tangent" val="-4.3955" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-7">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="62.14699317" />
+				<attnum name="z end" unit="m" val="27.9219" />
+				<attnum name="banking start" val="1.2401" unit="deg" />
+				<attnum name="banking end" val="1.2561" unit="deg" />
+				<attnum name="z start" val="30.1147" unit="m" />
+				<attnum name="profil start tangent" val="-4.3955" unit="%" />
+				<attnum name="profil end tangent" val="-3.2188" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-8">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.25497730" />
+				<attnum name="z end" unit="m" val="27.404" />
+				<attnum name="banking start" val="1.2561" unit="deg" />
+				<attnum name="banking end" val="1.0556" unit="deg" />
+				<attnum name="z start" val="27.9219" unit="m" />
+				<attnum name="profil start tangent" val="-3.2188" unit="%" />
+				<attnum name="profil end tangent" val="-2.7661" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Oak Tree Curve-9">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.099770" />
+				<attnum name="z end" unit="m" val="26.4571" />
+				<attnum name="banking start" val="1.0556" unit="deg" />
+				<attnum name="banking end" val="0.8766" unit="deg" />
+				<attnum name="z start" val="27.404" unit="m" />
+				<attnum name="profil start tangent" val="-2.7661" unit="%" />
+				<attnum name="profil end tangent" val="-1.973" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-77">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3206.738" />
+				<attnum name="arc" unit="deg" val="0.92910622" />
+				<attnum name="z end" unit="m" val="25.7691" />
+				<attnum name="banking start" val="0.8766" unit="deg" />
+				<attnum name="banking end" val="1.0883" unit="deg" />
+				<attnum name="z start" val="26.4571" unit="m" />
+				<attnum name="profil start tangent" val="-1.973" unit="%" />
+				<attnum name="profil end tangent" val="-1.406" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-78">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3437.079" />
+				<attnum name="arc" unit="deg" val="0.86684306" />
+				<attnum name="z end" unit="m" val="24.9948" />
+				<attnum name="banking start" val="1.0883" unit="deg" />
+				<attnum name="banking end" val="1.198" unit="deg" />
+				<attnum name="z start" val="25.7691" unit="m" />
+				<attnum name="profil start tangent" val="-1.406" unit="%" />
+				<attnum name="profil end tangent" val="-2.0042" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-79">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="100.000331" />
+				<attnum name="z end" unit="m" val="22.4753" />
+				<attnum name="banking start" val="1.198" unit="deg" />
+				<attnum name="banking end" val="1.422" unit="deg" />
+				<attnum name="z start" val="24.9948" unit="m" />
+				<attnum name="profil start tangent" val="-2.0042" unit="%" />
+				<attnum name="profil end tangent" val="-1.1095" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-80">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="757.543" />
+				<attnum name="arc" unit="deg" val="2.87341726" />
+				<attnum name="z end" unit="m" val="22.5895" />
+				<attnum name="banking start" val="1.422" unit="deg" />
+				<attnum name="banking end" val="1.6143" unit="deg" />
+				<attnum name="z start" val="22.4753" unit="m" />
+				<attnum name="profil start tangent" val="-1.1095" unit="%" />
+				<attnum name="profil end tangent" val="1.8845" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-81">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1733.326" />
+				<attnum name="arc" unit="deg" val="1.25602730" />
+				<attnum name="z end" unit="m" val="23.9075" />
+				<attnum name="banking start" val="1.6143" unit="deg" />
+				<attnum name="banking end" val="1.6343" unit="deg" />
+				<attnum name="z start" val="22.5895" unit="m" />
+				<attnum name="profil start tangent" val="1.8845" unit="%" />
+				<attnum name="profil end tangent" val="3.3785" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-82">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="98.73841087" />
+				<attnum name="z end" unit="m" val="27.1545" />
+				<attnum name="banking start" val="1.6343" unit="deg" />
+				<attnum name="banking end" val="0.8824" unit="deg" />
+				<attnum name="z start" val="23.9075" unit="m" />
+				<attnum name="profil start tangent" val="3.3785" unit="%" />
+				<attnum name="profil end tangent" val="2.6245" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-83">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1765.982" />
+				<attnum name="arc" unit="deg" val="2.91962931" />
+				<attnum name="z end" unit="m" val="28.9187" />
+				<attnum name="banking start" val="0.8824" unit="deg" />
+				<attnum name="banking end" val="1.3155" unit="deg" />
+				<attnum name="z start" val="27.1545" unit="m" />
+				<attnum name="profil start tangent" val="2.6245" unit="%" />
+				<attnum name="profil end tangent" val="2.799" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-84">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="38.905591" />
+				<attnum name="z end" unit="m" val="30.3339" />
+				<attnum name="banking start" val="1.3155" unit="deg" />
+				<attnum name="banking end" val="1.6247" unit="deg" />
+				<attnum name="z start" val="28.9187" unit="m" />
+				<attnum name="profil start tangent" val="2.799" unit="%" />
+				<attnum name="profil end tangent" val="3.5682" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-85">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.17471915" />
+				<attnum name="z end" unit="m" val="30.7607" />
+				<attnum name="banking start" val="1.6247" unit="deg" />
+				<attnum name="banking end" val="1.6783" unit="deg" />
+				<attnum name="z start" val="30.3339" unit="m" />
+				<attnum name="profil start tangent" val="3.5682" unit="%" />
+				<attnum name="profil end tangent" val="3.777" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-86">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="38.905591" />
+				<attnum name="z end" unit="m" val="32.3384" />
+				<attnum name="banking start" val="1.6783" unit="deg" />
+				<attnum name="banking end" val="1.574" unit="deg" />
+				<attnum name="z start" val="30.7607" unit="m" />
+				<attnum name="profil start tangent" val="3.777" unit="%" />
+				<attnum name="profil end tangent" val="4.3398" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-87">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="19.001839" />
+				<attnum name="z end" unit="m" val="33.2171" />
+				<attnum name="banking start" val="1.574" unit="deg" />
+				<attnum name="banking end" val="1.3724" unit="deg" />
+				<attnum name="z start" val="32.3384" unit="m" />
+				<attnum name="profil start tangent" val="4.3398" unit="%" />
+				<attnum name="profil end tangent" val="3.9316" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-88">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.74480094" />
+				<attnum name="z end" unit="m" val="34.9011" />
+				<attnum name="banking start" val="1.3724" unit="deg" />
+				<attnum name="banking end" val="1.3461" unit="deg" />
+				<attnum name="z start" val="33.2171" unit="m" />
+				<attnum name="profil start tangent" val="3.9316" unit="%" />
+				<attnum name="profil end tangent" val="1.7245" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-89">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="55.066929" />
+				<attnum name="z end" unit="m" val="35.017" />
+				<attnum name="banking start" val="1.3461" unit="deg" />
+				<attnum name="banking end" val="2.0198" unit="deg" />
+				<attnum name="z start" val="34.9011" unit="m" />
+				<attnum name="profil start tangent" val="1.7245" unit="%" />
+				<attnum name="profil end tangent" val="-0.7116" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-90">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.25598491" />
+				<attnum name="z end" unit="m" val="34.725" />
+				<attnum name="banking start" val="2.0198" unit="deg" />
+				<attnum name="banking end" val="2.2708" unit="deg" />
+				<attnum name="z start" val="35.017" unit="m" />
+				<attnum name="profil start tangent" val="-0.7116" unit="%" />
+				<attnum name="profil end tangent" val="-1.6168" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-91">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.065089" />
+				<attnum name="z end" unit="m" val="34.148" />
+				<attnum name="banking start" val="2.2708" unit="deg" />
+				<attnum name="banking end" val="2.1053" unit="deg" />
+				<attnum name="z start" val="34.725" unit="m" />
+				<attnum name="profil start tangent" val="-1.6168" unit="%" />
+				<attnum name="profil end tangent" val="-2.1163" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="71.99743050" />
+				<attnum name="z end" unit="m" val="32.2525" />
+				<attnum name="banking start" val="2.1053" unit="deg" />
+				<attnum name="banking end" val="0.73" unit="deg" />
+				<attnum name="z start" val="34.148" unit="m" />
+				<attnum name="profil start tangent" val="-2.1163" unit="%" />
+				<attnum name="profil end tangent" val="-3.5071" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="35.99853225" />
+				<attnum name="z end" unit="m" val="30.6752" />
+				<attnum name="banking start" val="0.73" unit="deg" />
+				<attnum name="banking end" val="1.5809" unit="deg" />
+				<attnum name="z start" val="32.2525" unit="m" />
+				<attnum name="profil start tangent" val="-3.5071" unit="%" />
+				<attnum name="profil end tangent" val="-4.0318" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-92">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.00011925" />
+				<attnum name="z end" unit="m" val="29.3497" />
+				<attnum name="banking start" val="1.5809" unit="deg" />
+				<attnum name="banking end" val="1.7077" unit="deg" />
+				<attnum name="z start" val="30.6752" unit="m" />
+				<attnum name="profil start tangent" val="-4.0318" unit="%" />
+				<attnum name="profil end tangent" val="-2.7395" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-93-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2490.894" />
+				<attnum name="arc" unit="deg" val="0.5290426906" />
+				<attnum name="z end" unit="m" val="28.9364" />
+				<attnum name="banking start" val="1.7077" unit="deg" />
+				<attnum name="banking end" val="1.1008" unit="deg" />
+				<attnum name="z start" val="29.3497" unit="m" />
+				<attnum name="profil start tangent" val="-2.7395" unit="%" />
+				<attnum name="profil end tangent" val="-0.711" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-93-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2490.894" />
+				<attnum name="arc" unit="deg" val="0.7136313894" />
+				<attnum name="z end" unit="m" val="29.0527" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.1008" unit="deg" />
+				<attnum name="banking end" val="0.6313" unit="deg" />
+				<attnum name="z start" val="28.9364" unit="m" />
+				<attnum name="profil start tangent" val="-0.711" unit="%" />
+				<attnum name="profil end tangent" val="1.5137" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-94">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="632.798" />
+				<attnum name="arc" unit="deg" val="4.88878669" />
+				<attnum name="z end" unit="m" val="30.4849" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.6313" unit="deg" />
+				<attnum name="banking end" val="0.6179" unit="deg" />
+				<attnum name="z start" val="29.0527" unit="m" />
+				<attnum name="profil start tangent" val="1.5137" unit="%" />
+				<attnum name="profil end tangent" val="3.2636" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-95">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="108.699" />
+				<attnum name="arc" unit="deg" val="15.70759700" />
+				<attnum name="z end" unit="m" val="31.6396" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.6179" unit="deg" />
+				<attnum name="banking end" val="0.395" unit="deg" />
+				<attnum name="z start" val="30.4849" unit="m" />
+				<attnum name="profil start tangent" val="3.2636" unit="%" />
+				<attnum name="profil end tangent" val="3.1736" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-96">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="288.845" />
+				<attnum name="arc" unit="deg" val="5.94308270" />
+				<attnum name="z end" unit="m" val="32.3804" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.395" unit="deg" />
+				<attnum name="banking end" val="0.9424" unit="deg" />
+				<attnum name="z start" val="31.6396" unit="m" />
+				<attnum name="profil start tangent" val="3.1736" unit="%" />
+				<attnum name="profil end tangent" val="1.2922" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2098.477" />
+				<attnum name="arc" unit="deg" val="0.83973012" />
+				<attnum name="z end" unit="m" val="32.4148" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.9424" unit="deg" />
+				<attnum name="banking end" val="1.65" unit="deg" />
+				<attnum name="z start" val="32.3804" unit="m" />
+				<attnum name="profil start tangent" val="1.2922" unit="%" />
+				<attnum name="profil end tangent" val="-0.7366" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster-2-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="36.136" />
+				<attnum name="arc" unit="deg" val="26.10723181236" />
+				<attnum name="z end" unit="m" val="32.1538" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.65" unit="deg" />
+				<attnum name="banking end" val="2.2472" unit="deg" />
+				<attnum name="z start" val="32.4148" unit="m" />
+				<attnum name="profil start tangent" val="-0.7366" unit="%" />
+				<attnum name="profil end tangent" val="-2.0293" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster-2-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="36.136" />
+				<attnum name="arc" unit="deg" val="19.99757181764" />
+				<attnum name="z end" unit="m" val="31.8418" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="2.2472" unit="deg" />
+				<attnum name="banking end" val="2.2838" unit="deg" />
+				<attnum name="z start" val="32.1538" unit="m" />
+				<attnum name="profil start tangent" val="-2.0293" unit="%" />
+				<attnum name="profil end tangent" val="-3.6907" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="35.255" />
+				<attnum name="arc" unit="deg" val="31.94880290" />
+				<attnum name="z end" unit="m" val="30.877" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="2.2838" unit="deg" />
+				<attnum name="banking end" val="1.6021" unit="deg" />
+				<attnum name="z start" val="31.8418" unit="m" />
+				<attnum name="profil start tangent" val="-3.6907" unit="%" />
+				<attnum name="profil end tangent" val="-5.9485" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="76.145" />
+				<attnum name="arc" unit="deg" val="15.09991951" />
+				<attnum name="z end" unit="m" val="29.4745" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.6021" unit="deg" />
+				<attnum name="banking end" val="1.1633" unit="deg" />
+				<attnum name="z start" val="30.877" unit="m" />
+				<attnum name="profil start tangent" val="-5.9485" unit="%" />
+				<attnum name="profil end tangent" val="-7.695" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="199.458" />
+				<attnum name="arc" unit="deg" val="4.60013599" />
+				<attnum name="z end" unit="m" val="28.1292" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.1633" unit="deg" />
+				<attnum name="banking end" val="0.4345" unit="deg" />
+				<attnum name="z start" val="29.4745" unit="m" />
+				<attnum name="profil start tangent" val="-7.695" unit="%" />
+				<attnum name="profil end tangent" val="-9.2155" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="116.511" />
+				<attnum name="arc" unit="deg" val="7.86692037" />
+				<attnum name="z end" unit="m" val="26.5246" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.4345" unit="deg" />
+				<attnum name="banking end" val="-0.5414" unit="deg" />
+				<attnum name="z start" val="28.1292" unit="m" />
+				<attnum name="profil start tangent" val="-9.2155" unit="%" />
+				<attnum name="profil end tangent" val="-10.4729" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster-7">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="53.101" />
+				<attnum name="arc" unit="deg" val="25.51848046853" />
+				<attnum name="z end" unit="m" val="23.943" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.5414" unit="deg" />
+				<attnum name="banking end" val="-1.2249" unit="deg" />
+				<attnum name="z start" val="26.5246" unit="m" />
+				<attnum name="profil start tangent" val="-10.4729" unit="%" />
+				<attnum name="profil end tangent" val="-9.7103" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Roller Coaster-7-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="53.101" />
+				<attnum name="arc" unit="deg" val="16.53003567147" />
+				<attnum name="z end" unit="m" val="22.6401" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-1.2249" unit="deg" />
+				<attnum name="banking end" val="-0.8134" unit="deg" />
+				<attnum name="z start" val="23.943" unit="m" />
+				<attnum name="profil start tangent" val="-9.7103" unit="%" />
+				<attnum name="profil end tangent" val="-6.4912" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-104">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="185.787" />
+				<attnum name="arc" unit="deg" val="12.53799975" />
+				<attnum name="z end" unit="m" val="20.8198" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8134" unit="deg" />
+				<attnum name="banking end" val="-0.3123" unit="deg" />
+				<attnum name="z start" val="22.6401" unit="m" />
+				<attnum name="profil start tangent" val="-6.4912" unit="%" />
+				<attnum name="profil end tangent" val="-5.1102" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-105">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="641.228" />
+				<attnum name="arc" unit="deg" val="3.84437889183" />
+				<attnum name="z end" unit="m" val="18.3488" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.3123" unit="deg" />
+				<attnum name="banking end" val="-0.9195" unit="deg" />
+				<attnum name="z start" val="20.8198" unit="m" />
+				<attnum name="profil start tangent" val="-5.1102" unit="%" />
+				<attnum name="profil end tangent" val="-6.6261" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-105-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="641.228" />
+				<attnum name="arc" unit="deg" val="4.30767297817" />
+				<attnum name="z end" unit="m" val="14.7288" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.9195" unit="deg" />
+				<attnum name="banking end" val="-0.2172" unit="deg" />
+				<attnum name="z start" val="18.3488" unit="m" />
+				<attnum name="profil start tangent" val="-6.6261" unit="%" />
+				<attnum name="profil end tangent" val="-7.4508" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="134.413" />
+				<attnum name="arc" unit="deg" val="14.83003259462" />
+				<attnum name="z end" unit="m" val="12.1569" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.2172" unit="deg" />
+				<attnum name="banking end" val="-0.26" unit="deg" />
+				<attnum name="z start" val="14.7288" unit="m" />
+				<attnum name="profil start tangent" val="-7.4508" unit="%" />
+				<attnum name="profil end tangent" val="-6.3663" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="134.413" />
+				<attnum name="arc" unit="deg" val="17.0506660853" />
+				<attnum name="z end" unit="m" val="10.0209" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.26" unit="deg" />
+				<attnum name="banking end" val="0.1549" unit="deg" />
+				<attnum name="z start" val="12.1569" unit="m" />
+				<attnum name="profil start tangent" val="-6.3663" unit="%" />
+				<attnum name="profil end tangent" val="-5.8361" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="134.413" />
+				<attnum name="arc" unit="deg" val="5.67049119008" />
+				<attnum name="z end" unit="m" val="9.1785" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.1549" unit="deg" />
+				<attnum name="banking end" val="0.2295" unit="deg" />
+				<attnum name="z start" val="10.0209" unit="m" />
+				<attnum name="profil start tangent" val="-5.8361" unit="%" />
+				<attnum name="profil end tangent" val="-6.9979" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.000040" />
+				<attnum name="z end" unit="m" val="8.2589" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.2295" unit="deg" />
+				<attnum name="banking end" val="0.4771" unit="deg" />
+				<attnum name="z start" val="9.1785" unit="m" />
+				<attnum name="profil start tangent" val="-6.9979" unit="%" />
+				<attnum name="profil end tangent" val="-8.0901" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-3-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="65.247" />
+				<attnum name="arc" unit="deg" val="12.90621487889" />
+				<attnum name="z end" unit="m" val="7.0072" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4771" unit="deg" />
+				<attnum name="banking end" val="1.1017" unit="deg" />
+				<attnum name="z start" val="8.2589" unit="m" />
+				<attnum name="profil start tangent" val="-8.0901" unit="%" />
+				<attnum name="profil end tangent" val="-8.6581" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-3-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="65.247" />
+				<attnum name="arc" unit="deg" val="24.58782513167" />
+				<attnum name="z end" unit="m" val="4.5433" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.1017" unit="deg" />
+				<attnum name="banking end" val="0.8113" unit="deg" />
+				<attnum name="z start" val="7.0072" unit="m" />
+				<attnum name="profil start tangent" val="-8.6581" unit="%" />
+				<attnum name="profil end tangent" val="-8.792" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-3-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="65.247" />
+				<attnum name="arc" unit="deg" val="22.49336828944" />
+				<attnum name="z end" unit="m" val="2.2931" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.8113" unit="deg" />
+				<attnum name="banking end" val="0.1742" unit="deg" />
+				<attnum name="z start" val="4.5433" unit="m" />
+				<attnum name="profil start tangent" val="-8.792" unit="%" />
+				<attnum name="profil end tangent" val="-6.4578" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-4-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="250.145" />
+				<attnum name="arc" unit="deg" val="6.04351769533" />
+				<attnum name="z end" unit="m" val="1.2032" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.1742" unit="deg" />
+				<attnum name="banking end" val="0.2917" unit="deg" />
+				<attnum name="z start" val="2.2931" unit="m" />
+				<attnum name="profil start tangent" val="-6.4578" unit="%" />
+				<attnum name="profil end tangent" val="-3.0552" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-4-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="250.145" />
+				<attnum name="arc" unit="deg" val="2.29050268896" />
+				<attnum name="z end" unit="m" val="1.0052" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0.2917" unit="deg" />
+				<attnum name="banking end" val="0.1676" unit="deg" />
+				<attnum name="z start" val="1.2032" unit="m" />
+				<attnum name="profil start tangent" val="-3.0552" unit="%" />
+				<attnum name="profil end tangent" val="-2.0101" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-4-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="250.145" />
+				<attnum name="arc" unit="deg" val="8.7899545757" />
+				<attnum name="z end" unit="m" val="0.222" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.1676" unit="deg" />
+				<attnum name="banking end" val="0.3523" unit="deg" />
+				<attnum name="z start" val="1.0052" unit="m" />
+				<attnum name="profil start tangent" val="-2.0101" unit="%" />
+				<attnum name="profil end tangent" val="-2.3135" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="72.873" />
+				<attnum name="arc" unit="deg" val="29.43922031" />
+				<attnum name="z end" unit="m" val="-0.7463" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="9.1842" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.3523" unit="deg" />
+				<attnum name="banking end" val="-0.2249" unit="deg" />
+				<attnum name="z start" val="0.222" unit="m" />
+				<attnum name="profil start tangent" val="-2.3135" unit="%" />
+				<attnum name="profil end tangent" val="-2.1785" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Hog Pen-6">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="344.4302" />
+				<attnum name="arc" unit="deg" val="13.0611" />
+				<attnum name="z end" unit="m" val="-2.1367" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="9.1842" unit="m" />
+					<attnum name="end width" val="13.7643" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.2249" unit="deg" />
+				<attnum name="banking end" val="-0.7454" unit="deg" />
+				<attnum name="z start" val="-0.7463" unit="m" />
+				<attnum name="profil start tangent" val="-2.1785" unit="%" />
+				<attnum name="profil end tangent" val="-0.3321" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.782" />
+				<attnum name="z end" unit="m" val="-1.9953" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="13.7643" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.7454" unit="deg" />
+				<attnum name="banking end" val="-0.6707" unit="deg" />
+				<attnum name="z start" val="-2.1367" unit="m" />
+				<attnum name="profil start tangent" val="-0.3321" unit="%" />
+				<attnum name="profil end tangent" val="1.2182" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="-0.0009" />
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.6707" unit="deg" />
+				<attnum name="banking end" val="-1.3738" unit="deg" />
+				<attnum name="z start" val="-1.9953" unit="m" />
+				<attnum name="profil start tangent" val="1.2182" unit="%" />
+				<attnum name="profil end tangent" val="0.8959" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-3">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.10000000" unit="m" />
+				<attnum name="banking start" val="-1.3738" unit="deg" />
+				<attnum name="banking end" val="-1.3782" unit="deg" />
+				<attnum name="z start" val="-0.0009" unit="m" />
+				<attnum name="profil start tangent" val="0.8959" unit="%" />
+				<attnum name="profil end tangent" val="0.8959" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="36.567660807" />
+    <attnum name="longitude" unit="deg" val="-79.210139004" />
+    <attnum name="altitude" unit="m" val="115.329497595" />
+    <attnum name="heading" unit="deg" val="61.236569493" />
+  </section>
+</params>

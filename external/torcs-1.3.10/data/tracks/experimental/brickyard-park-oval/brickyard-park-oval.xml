@@ -1,0 +1,1284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : brickyard-park-oval.xml
+    created              : 24 May 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Brickyard Park Oval" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Brickyard Park Oval" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="oval" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Brickyard Park oval track for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="brickyard-park-oval.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="brickyard-park-oval-relief.ac" />
+			<attstr name="elevation map" val="brickyard-park-oval-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-4.8088" unit="m" />
+			<attnum name="maximum altitude" val="9.0742" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1.0" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1.0" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="left" />
+			<attstr name="entry" val="Indianapolis Motor Speedway - Main Straight-3" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="Indianapolis Motor Speedway - Main Straigt" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="-0.3966" />
+				<section name="Left Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.8307" unit="deg" />
+				<attnum name="banking end" val="-0.6977" unit="deg" />
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="-0.2835" unit="%" />
+				<attnum name="profil end tangent" val="-0.2756" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="9.1486" />
+				<attnum name="z end" unit="m" val="-0.4228" />
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="13.5731" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.6977" unit="deg" />
+				<attnum name="banking end" val="-0.7695" unit="deg" />
+				<attnum name="z start" val="-0.3966" unit="m" />
+				<attnum name="profil start tangent" val="-0.2756" unit="%" />
+				<attnum name="profil end tangent" val="-0.2972" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-6">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.9254867888" />
+				<attnum name="z end" unit="m" val="-0.4503590129" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="13.5731000000" />
+					<attnum name="end width" unit="m" val="13.1565697082" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-0.4228000000" />
+				<attnum name="banking start" unit="deg" val="-0.7695000000" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2972000000" />
+				<attnum name="profil start tangent right" unit="%" val="-0.2972000000" />
+				<attnum name="banking end" unit="deg" val="-0.7999736012" />
+				<attnum name="profil end tangent left" unit="%" val="-0.3678698339" />
+				<attnum name="profil end tangent right" unit="%" val="-0.2600972432" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-6:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.003871730084" />
+				<attnum name="profil steps" val="4" />
+				<attnum name="z end" unit="m" val="-0.4509954718" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="13.1565697082" />
+					<attnum name="end width" unit="m" val="13.1471091149" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-0.4503590129" />
+				<attnum name="banking start" unit="deg" val="-0.7999736012" />
+				<attnum name="profil start tangent left" unit="%" val="-0.3678698339" />
+				<attnum name="profil start tangent right" unit="%" val="-0.2600972432" />
+				<attnum name="banking end" unit="deg" val="-0.8010166035" />
+				<attnum name="profil end tangent left" unit="%" val="-0.3678034453" />
+				<attnum name="profil end tangent right" unit="%" val="-0.2600407850" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-6:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.8886050987" />
+				<attnum name="z end" unit="m" val="-0.4782000000" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="13.1471091149" />
+					<attnum name="end width" unit="m" val="12.7323000000" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-0.4509954718" />
+				<attnum name="banking start" unit="deg" val="-0.8010166035" />
+				<attnum name="profil start tangent left" unit="%" val="-0.3678034453" />
+				<attnum name="profil start tangent right" unit="%" val="-0.2600407850" />
+				<attnum name="banking end" unit="deg" val="-0.8313000000" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2919000000" />
+				<attnum name="profil end tangent right" unit="%" val="-0.2919000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straigt">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="180.168218" />
+				<attnum name="z end" unit="m" val="-0.9762" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.7323" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.8313" unit="deg" />
+				<attnum name="banking end" val="-0.8628" unit="deg" />
+				<attnum name="z start" val="-0.4782" unit="m" />
+				<attnum name="profil start tangent" val="-0.2919" unit="%" />
+				<attnum name="profil end tangent" val="-0.0597" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straigt-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3423.697" />
+				<attnum name="arc" unit="deg" val="0.56953879" />
+				<attnum name="z end" unit="m" val="-0.9227" />
+				<section name="Left Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.8628" unit="deg" />
+				<attnum name="banking end" val="-1.6681" unit="deg" />
+				<attnum name="z start" val="-0.9762" unit="m" />
+				<attnum name="profil start tangent" val="-0.0597" unit="%" />
+				<attnum name="profil end tangent" val="0.2543" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 1-7">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1684.093" />
+				<attnum name="arc" unit="deg" val="1.15782046" />
+				<attnum name="z end" unit="m" val="-0.8031" />
+				<attnum name="banking start" val="-1.6681" unit="deg" />
+				<attnum name="banking end" val="-3.3074" unit="deg" />
+				<attnum name="z start" val="-0.9227" unit="m" />
+				<attnum name="profil start tangent" val="0.2543" unit="%" />
+				<attnum name="profil end tangent" val="0.4151" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 1">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="770.336" />
+				<attnum name="arc" unit="deg" val="5.69008076" />
+				<attnum name="z end" unit="m" val="-0.4369" />
+				<attnum name="banking start" val="-3.3074" unit="deg" />
+				<attnum name="banking end" val="-7.4511" unit="deg" />
+				<attnum name="z start" val="-0.8031" unit="m" />
+				<attnum name="profil start tangent" val="0.4151" unit="%" />
+				<attnum name="profil end tangent" val="0.3651" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 1-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="197.732" />
+				<attnum name="arc" unit="deg" val="21.91501451" />
+				<attnum name="z end" unit="m" val="-0.2466" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<attnum name="banking start" val="-7.4511" unit="deg" />
+				<attnum name="banking end" val="-8.3673" unit="deg" />
+				<attnum name="z start" val="-0.4369" unit="m" />
+				<attnum name="profil start tangent" val="0.3651" unit="%" />
+				<attnum name="profil end tangent" val="0.0838" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 1-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="291.632" />
+				<attnum name="arc" unit="deg" val="17.30862575" />
+				<attnum name="z end" unit="m" val="-0.3206" />
+				<attnum name="banking start" val="-8.3673" unit="deg" />
+				<attnum name="banking end" val="-8.5665" unit="deg" />
+				<attnum name="z start" val="-0.2466" unit="m" />
+				<attnum name="profil start tangent" val="0.0838" unit="%" />
+				<attnum name="profil end tangent" val="-0.1006" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 1-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="262.261" />
+				<attnum name="arc" unit="deg" val="19.21273915" />
+				<attnum name="z end" unit="m" val="-0.4237" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="-8.5665" unit="deg" />
+				<attnum name="banking end" val="-8.5406" unit="deg" />
+				<attnum name="z start" val="-0.3206" unit="m" />
+				<attnum name="profil start tangent" val="-0.1006" unit="%" />
+				<attnum name="profil end tangent" val="-0.2529" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 1-5">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="222.588" />
+				<attnum name="arc" unit="deg" val="14.37122457" />
+				<attnum name="z end" unit="m" val="-0.6406" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<attnum name="banking start" val="-8.5406" unit="deg" />
+				<attnum name="banking end" val="-7.6985" unit="deg" />
+				<attnum name="z start" val="-0.4237" unit="m" />
+				<attnum name="profil start tangent" val="-0.2529" unit="%" />
+				<attnum name="profil end tangent" val="-0.5047" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 1-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="313.172" />
+				<attnum name="arc" unit="deg" val="10.24093485" />
+				<attnum name="z end" unit="m" val="-0.9882" />
+				<attnum name="banking start" val="-7.6985" unit="deg" />
+				<attnum name="banking end" val="-5.472" unit="deg" />
+				<attnum name="z start" val="-0.6406" unit="m" />
+				<attnum name="profil start tangent" val="-0.5047" unit="%" />
+				<attnum name="profil end tangent" val="-0.5828" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="9.5685959916" />
+				<attnum name="z end" unit="m" val="-1.0455101933" />
+				<attnum name="z start" unit="m" val="-0.9882000000" />
+				<attnum name="banking start" unit="deg" val="-5.4720000000" />
+				<attnum name="profil start tangent left" unit="%" val="-0.5828000000" />
+				<attnum name="profil start tangent right" unit="%" val="-0.5828000000" />
+				<attnum name="banking end" unit="deg" val="-5.2915403635" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2347796692" />
+				<attnum name="profil end tangent right" unit="%" val="-0.9877112047" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight:radius-turn-1">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.301088399088" />
+				<attnum name="profil steps" val="6" />
+				<attnum name="z end" unit="m" val="-1.1424312402" />
+				<attnum name="z start" unit="m" val="-1.0455101933" />
+				<attnum name="banking start" unit="deg" val="-5.2915403635" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2347796692" />
+				<attnum name="profil start tangent right" unit="%" val="-0.9877112047" />
+				<attnum name="banking end" unit="deg" val="-4.4361448765" />
+				<attnum name="profil end tangent left" unit="%" val="0.1004584588" />
+				<attnum name="profil end tangent right" unit="%" val="-1.3162971428" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight:radius-pad-1">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="17.5806346513" />
+				<attnum name="z end" unit="m" val="-1.2436431718" />
+				<attnum name="z start" unit="m" val="-1.1424312402" />
+				<attnum name="banking start" unit="deg" val="-4.4361448765" />
+				<attnum name="profil start tangent left" unit="%" val="0.1004584588" />
+				<attnum name="profil start tangent right" unit="%" val="-1.3162971428" />
+				<attnum name="banking end" unit="deg" val="-3.2344879482" />
+				<attnum name="profil end tangent left" unit="%" val="0.1247354549" />
+				<attnum name="profil end tangent right" unit="%" val="-1.1858062659" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight:radius-turn-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.250906999240" />
+				<attnum name="profil steps" val="5" />
+				<attnum name="z end" unit="m" val="-1.3066870559" />
+				<attnum name="z start" unit="m" val="-1.2436431718" />
+				<attnum name="banking start" unit="deg" val="-3.2344879482" />
+				<attnum name="profil start tangent left" unit="%" val="0.1247354549" />
+				<attnum name="profil start tangent right" unit="%" val="-1.1858062659" />
+				<attnum name="banking end" unit="deg" val="-2.5956888954" />
+				<attnum name="profil end tangent left" unit="%" val="-0.0977634422" />
+				<attnum name="profil end tangent right" unit="%" val="-0.7462206372" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.0120386597" />
+				<attnum name="z end" unit="m" val="-1.3371000000" />
+				<attnum name="z start" unit="m" val="-1.3066870559" />
+				<attnum name="banking start" unit="deg" val="-2.5956888954" />
+				<attnum name="profil start tangent left" unit="%" val="-0.0977634422" />
+				<attnum name="profil start tangent right" unit="%" val="-0.7462206372" />
+				<attnum name="banking end" unit="deg" val="-2.4660000000" />
+				<attnum name="profil end tangent left" unit="%" val="-0.3345000000" />
+				<attnum name="profil end tangent right" unit="%" val="-0.3345000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.5984122321" />
+				<attnum name="z end" unit="m" val="-1.4132507274" />
+				<attnum name="z start" unit="m" val="-1.3371000000" />
+				<attnum name="banking start" unit="deg" val="-2.4660000000" />
+				<attnum name="profil start tangent left" unit="%" val="-0.3345000000" />
+				<attnum name="profil start tangent right" unit="%" val="-0.3345000000" />
+				<attnum name="banking end" unit="deg" val="-2.0242131349" />
+				<attnum name="profil end tangent left" unit="%" val="0.0780048809" />
+				<attnum name="profil end tangent right" unit="%" val="-0.4327484960" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight-2:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.120061064668" />
+				<attnum name="profil steps" val="11" />
+				<attnum name="z end" unit="m" val="-1.4228238907" />
+				<attnum name="z start" unit="m" val="-1.4132507274" />
+				<attnum name="banking start" unit="deg" val="-2.0242131349" />
+				<attnum name="profil start tangent left" unit="%" val="0.0780048809" />
+				<attnum name="profil start tangent right" unit="%" val="-0.4327484960" />
+				<attnum name="banking end" unit="deg" val="-1.8698208761" />
+				<attnum name="profil end tangent left" unit="%" val="0.1300822319" />
+				<attnum name="profil end tangent right" unit="%" val="-0.3824766417" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight-2:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="29.1685812177" />
+				<attnum name="z end" unit="m" val="-1.4167000000" />
+				<attnum name="z start" unit="m" val="-1.4228238907" />
+				<attnum name="banking start" unit="deg" val="-1.8698208761" />
+				<attnum name="profil start tangent left" unit="%" val="0.1300822319" />
+				<attnum name="profil start tangent right" unit="%" val="-0.3824766417" />
+				<attnum name="banking end" unit="deg" val="-1.4138000000" />
+				<attnum name="profil end tangent left" unit="%" val="0.1897000000" />
+				<attnum name="profil end tangent right" unit="%" val="0.1897000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - South Straight-3">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="73.11520834" />
+				<attnum name="z end" unit="m" val="-1.0484" />
+				<attnum name="banking start" val="-1.4138" unit="deg" />
+				<attnum name="banking end" val="-3.9619" unit="deg" />
+				<attnum name="z start" val="-1.4167" unit="m" />
+				<attnum name="profil start tangent" val="0.1897" unit="%" />
+				<attnum name="profil end tangent" val="0.6392" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="332.741" />
+				<attnum name="arc" unit="deg" val="13.79004820" />
+				<attnum name="z end" unit="m" val="-0.428" />
+				<attnum name="banking start" val="-3.9619" unit="deg" />
+				<attnum name="banking end" val="-8.2307" unit="deg" />
+				<attnum name="z start" val="-1.0484" unit="m" />
+				<attnum name="profil start tangent" val="0.6392" unit="%" />
+				<attnum name="profil end tangent" val="0.5482" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 2-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="227.162" />
+				<attnum name="arc" unit="deg" val="20.08904145" />
+				<attnum name="z end" unit="m" val="-0.1717" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="-8.2307" unit="deg" />
+				<attnum name="banking end" val="-8.9999" unit="deg" />
+				<attnum name="z start" val="-0.428" unit="m" />
+				<attnum name="profil start tangent" val="0.5482" unit="%" />
+				<attnum name="profil end tangent" val="0.2223" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 2-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="277.320" />
+				<attnum name="arc" unit="deg" val="18.57718923" />
+				<attnum name="z end" unit="m" val="-0.0612" />
+				<attnum name="banking start" val="-8.9999" unit="deg" />
+				<attnum name="banking end" val="-8.6907" unit="deg" />
+				<attnum name="z start" val="-0.1717" unit="m" />
+				<attnum name="profil start tangent" val="0.2223" unit="%" />
+				<attnum name="profil end tangent" val="0.037" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 2-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="273.356" />
+				<attnum name="arc" unit="deg" val="18.84147240" />
+				<attnum name="z end" unit="m" val="-0.1052" />
+				<attnum name="banking start" val="-8.6907" unit="deg" />
+				<attnum name="banking end" val="-7.7754" unit="deg" />
+				<attnum name="z start" val="-0.0612" unit="m" />
+				<attnum name="profil start tangent" val="0.037" unit="%" />
+				<attnum name="profil end tangent" val="-0.259" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 2-5">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="252.970" />
+				<attnum name="arc" unit="deg" val="20.32128104" />
+				<attnum name="z end" unit="m" val="-0.5261" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="-7.7754" unit="deg" />
+				<attnum name="banking end" val="-4.7263" unit="deg" />
+				<attnum name="z start" val="-0.1052" unit="m" />
+				<attnum name="profil start tangent" val="-0.259" unit="%" />
+				<attnum name="profil end tangent" val="-0.4425" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3681.854" />
+				<attnum name="arc" unit="deg" val="1.41098331" />
+				<attnum name="z end" unit="m" val="-0.9032" />
+				<attnum name="banking start" val="-4.7263" unit="deg" />
+				<attnum name="banking end" val="-1.509" unit="deg" />
+				<attnum name="z start" val="-0.5261" unit="m" />
+				<attnum name="profil start tangent" val="-0.4425" unit="%" />
+				<attnum name="profil end tangent" val="-0.205" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="146.136443" />
+				<attnum name="z end" unit="m" val="-0.8944" />
+				<attnum name="banking start" val="-1.509" unit="deg" />
+				<attnum name="banking end" val="-1.0282" unit="deg" />
+				<attnum name="z start" val="-0.9032" unit="m" />
+				<attnum name="profil start tangent" val="-0.205" unit="%" />
+				<attnum name="profil end tangent" val="0.0579" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-3">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="2.8597234225" />
+				<attnum name="z end" unit="m" val="-0.8921791671" />
+				<attnum name="z start" unit="m" val="-0.8944000000" />
+				<attnum name="banking start" unit="deg" val="-1.0282000000" />
+				<attnum name="profil start tangent left" unit="%" val="0.0579000000" />
+				<attnum name="profil start tangent right" unit="%" val="0.0579000000" />
+				<attnum name="banking end" unit="deg" val="-1.0231686869" />
+				<attnum name="profil end tangent left" unit="%" val="0.1290280832" />
+				<attnum name="profil end tangent right" unit="%" val="0.0611057490" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-3:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.018687397569" />
+				<attnum name="profil steps" val="3" />
+				<attnum name="z end" unit="m" val="-0.8912012507" />
+				<attnum name="z start" unit="m" val="-0.8921791671" />
+				<attnum name="banking start" unit="deg" val="-1.0231686869" />
+				<attnum name="profil start tangent left" unit="%" val="0.1290280832" />
+				<attnum name="profil start tangent right" unit="%" val="0.0611057490" />
+				<attnum name="banking end" unit="deg" val="-1.0196244373" />
+				<attnum name="profil end tangent left" unit="%" val="0.1461322513" />
+				<attnum name="profil end tangent right" unit="%" val="0.0629571827" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-3:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="10.1892635761" />
+				<attnum name="z end" unit="m" val="-0.8790000000" />
+				<attnum name="z start" unit="m" val="-0.8912012507" />
+				<attnum name="banking start" unit="deg" val="-1.0196244373" />
+				<attnum name="profil start tangent left" unit="%" val="0.1461322513" />
+				<attnum name="profil start tangent right" unit="%" val="0.0629571827" />
+				<attnum name="banking end" unit="deg" val="-0.9815000000" />
+				<attnum name="profil end tangent left" unit="%" val="0.1051000000" />
+				<attnum name="profil end tangent right" unit="%" val="0.1051000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="270.47027071" />
+				<attnum name="z end" unit="m" val="-0.6075" />
+				<attnum name="banking start" val="-0.9815" unit="deg" />
+				<attnum name="banking end" val="-1.1293" unit="deg" />
+				<attnum name="z start" val="-0.879" unit="m" />
+				<attnum name="profil start tangent" val="0.1051" unit="%" />
+				<attnum name="profil end tangent" val="0.129" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-4">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="270.25232700" />
+				<attnum name="z end" unit="m" val="-0.1817" />
+				<attnum name="banking start" val="-1.1293" unit="deg" />
+				<attnum name="banking end" val="-1.2889" unit="deg" />
+				<attnum name="z start" val="-0.6075" unit="m" />
+				<attnum name="profil start tangent" val="0.129" unit="%" />
+				<attnum name="profil end tangent" val="0.1843" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-5">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="9.8134966687" />
+				<attnum name="z end" unit="m" val="-0.1624946330" />
+				<attnum name="z start" unit="m" val="-0.1817000000" />
+				<attnum name="banking start" unit="deg" val="-1.2889000000" />
+				<attnum name="profil start tangent left" unit="%" val="0.1843000000" />
+				<attnum name="profil start tangent right" unit="%" val="0.1843000000" />
+				<attnum name="banking end" unit="deg" val="-1.2772247236" />
+				<attnum name="profil end tangent left" unit="%" val="0.2267746445" />
+				<attnum name="profil end tangent right" unit="%" val="0.1852248802" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-5:radius-in">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1105.1648891875" />
+				<attnum name="arc" unit="deg" val="0.169589155694" />
+				<attnum name="profil steps" val="3" />
+				<attnum name="z end" unit="m" val="-0.1556598724" />
+				<attnum name="z start" unit="m" val="-0.1624946330" />
+				<attnum name="banking start" unit="deg" val="-1.2772247236" />
+				<attnum name="profil start tangent left" unit="%" val="0.2267746445" />
+				<attnum name="profil start tangent right" unit="%" val="0.1852248802" />
+				<attnum name="banking end" unit="deg" val="-1.2704501318" />
+				<attnum name="profil end tangent left" unit="%" val="0.2339162874" />
+				<attnum name="profil end tangent right" unit="%" val="0.1895965389" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-5:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1076.5579674436" />
+				<attnum name="arc" unit="deg" val="0.174095576948" />
+				<attnum name="profil steps" val="4" />
+				<attnum name="z end" unit="m" val="-0.1486488777" />
+				<attnum name="z start" unit="m" val="-0.1556598724" />
+				<attnum name="banking start" unit="deg" val="-1.2704501318" />
+				<attnum name="profil start tangent left" unit="%" val="0.2339162874" />
+				<attnum name="profil start tangent right" unit="%" val="0.1895965389" />
+				<attnum name="banking end" unit="deg" val="-1.2636755044" />
+				<attnum name="profil end tangent left" unit="%" val="0.2375496445" />
+				<attnum name="profil end tangent right" unit="%" val="0.1959998802" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-5:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="9.8134966687" />
+				<attnum name="z end" unit="m" val="-0.1268000000" />
+				<attnum name="z start" unit="m" val="-0.1486488777" />
+				<attnum name="banking start" unit="deg" val="-1.2636755044" />
+				<attnum name="profil start tangent left" unit="%" val="0.2375496445" />
+				<attnum name="profil start tangent right" unit="%" val="0.1959998802" />
+				<attnum name="banking end" unit="deg" val="-1.2520000000" />
+				<attnum name="profil end tangent left" unit="%" val="0.2274000000" />
+				<attnum name="profil end tangent right" unit="%" val="0.2274000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-6">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="10.7940179323" />
+				<attnum name="z end" unit="m" val="-0.1037278985" />
+				<attnum name="z start" unit="m" val="-0.1268000000" />
+				<attnum name="banking start" unit="deg" val="-1.2520000000" />
+				<attnum name="profil start tangent left" unit="%" val="0.2274000000" />
+				<attnum name="profil start tangent right" unit="%" val="0.2274000000" />
+				<attnum name="banking end" unit="deg" val="-1.1957756420" />
+				<attnum name="profil end tangent left" unit="%" val="0.3028517526" />
+				<attnum name="profil end tangent right" unit="%" val="0.1262981733" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-6:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.083948570608" />
+				<attnum name="profil steps" val="5" />
+				<attnum name="z end" unit="m" val="-0.0939167368" />
+				<attnum name="z start" unit="m" val="-0.1037278985" />
+				<attnum name="banking start" unit="deg" val="-1.1957756420" />
+				<attnum name="profil start tangent left" unit="%" val="0.3028517526" />
+				<attnum name="profil start tangent right" unit="%" val="0.1262981733" />
+				<attnum name="banking end" unit="deg" val="-1.1579960668" />
+				<attnum name="profil end tangent left" unit="%" val="0.3225922907" />
+				<attnum name="profil end tangent right" unit="%" val="0.1458886003" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-6:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="10.8257983992" />
+				<attnum name="z end" unit="m" val="-0.0634000000" />
+				<attnum name="z start" unit="m" val="-0.0939167368" />
+				<attnum name="banking start" unit="deg" val="-1.1579960668" />
+				<attnum name="profil start tangent left" unit="%" val="0.3225922907" />
+				<attnum name="profil start tangent right" unit="%" val="0.1458886003" />
+				<attnum name="banking end" unit="deg" val="-1.1015000000" />
+				<attnum name="profil end tangent left" unit="%" val="0.3441000000" />
+				<attnum name="profil end tangent right" unit="%" val="0.3441000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-7">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="96.089716" />
+				<attnum name="z end" unit="m" val="0.3637" />
+				<attnum name="banking start" val="-1.1015" unit="deg" />
+				<attnum name="banking end" val="-1.9677" unit="deg" />
+				<attnum name="z start" val="-0.0634" unit="m" />
+				<attnum name="profil start tangent" val="0.3441" unit="%" />
+				<attnum name="profil end tangent" val="0.6684" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Backstretch-8">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3517.788" />
+				<attnum name="arc" unit="deg" val="1.11223856" />
+				<attnum name="z end" unit="m" val="0.9731" />
+				<attnum name="banking start" val="-1.9677" unit="deg" />
+				<attnum name="banking end" val="-6.2312" unit="deg" />
+				<attnum name="z start" val="0.3637" unit="m" />
+				<attnum name="profil start tangent" val="0.6684" unit="%" />
+				<attnum name="profil end tangent" val="0.8977" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="233.083" />
+				<attnum name="arc" unit="deg" val="16.66832892" />
+				<attnum name="z end" unit="m" val="1.5854" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="-6.2312" unit="deg" />
+				<attnum name="banking end" val="-9.206" unit="deg" />
+				<attnum name="z start" val="0.9731" unit="m" />
+				<attnum name="profil start tangent" val="0.8977" unit="%" />
+				<attnum name="profil end tangent" val="0.6367" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 3-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="247.346" />
+				<attnum name="arc" unit="deg" val="20.82494835" />
+				<attnum name="z end" unit="m" val="1.9184" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="-9.206" unit="deg" />
+				<attnum name="banking end" val="-9.4009" unit="deg" />
+				<attnum name="z start" val="1.5854" unit="m" />
+				<attnum name="profil start tangent" val="0.6367" unit="%" />
+				<attnum name="profil end tangent" val="0.2824" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 3-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="298.564" />
+				<attnum name="arc" unit="deg" val="17.31199385" />
+				<attnum name="z end" unit="m" val="2.0937" />
+				<attnum name="banking start" val="-9.4009" unit="deg" />
+				<attnum name="banking end" val="-9.3004" unit="deg" />
+				<attnum name="z start" val="1.9184" unit="m" />
+				<attnum name="profil start tangent" val="0.2824" unit="%" />
+				<attnum name="profil end tangent" val="0.0853" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 3-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="207.732" />
+				<attnum name="arc" unit="deg" val="21.93178506" />
+				<attnum name="z end" unit="m" val="2.0748" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<attnum name="banking start" val="-9.3004" unit="deg" />
+				<attnum name="banking end" val="-8.2912" unit="deg" />
+				<attnum name="z start" val="2.0937" unit="m" />
+				<attnum name="profil start tangent" val="0.0853" unit="%" />
+				<attnum name="profil end tangent" val="-0.2434" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 3-5">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="383.140" />
+				<attnum name="arc" unit="deg" val="11.99433308" />
+				<attnum name="z end" unit="m" val="1.7034" />
+				<attnum name="banking start" val="-8.2912" unit="deg" />
+				<attnum name="banking end" val="-4.9321" unit="deg" />
+				<attnum name="z start" val="2.0748" unit="m" />
+				<attnum name="profil start tangent" val="-0.2434" unit="%" />
+				<attnum name="profil end tangent" val="-0.186" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 3-6">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="172.96843767" />
+				<attnum name="z end" unit="m" val="1.8608" />
+				<attnum name="banking start" val="-4.9321" unit="deg" />
+				<attnum name="banking end" val="-4.0083" unit="deg" />
+				<attnum name="z start" val="1.7034" unit="m" />
+				<attnum name="profil start tangent" val="-0.186" unit="%" />
+				<attnum name="profil end tangent" val="0.4818" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - North Straight">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1213.647" />
+				<attnum name="arc" unit="deg" val="2.17635633" />
+				<attnum name="z end" unit="m" val="2.2631" />
+				<attnum name="banking start" val="-4.0083" unit="deg" />
+				<attnum name="banking end" val="-6.2092" unit="deg" />
+				<attnum name="z start" val="1.8608" unit="m" />
+				<attnum name="profil start tangent" val="0.4818" unit="%" />
+				<attnum name="profil end tangent" val="0.8201" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="194.213" />
+				<attnum name="arc" unit="deg" val="13.53844838" />
+				<attnum name="z end" unit="m" val="2.6153" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<attnum name="banking start" val="-6.2092" unit="deg" />
+				<attnum name="banking end" val="-8.43" unit="deg" />
+				<attnum name="z start" val="2.2631" unit="m" />
+				<attnum name="profil start tangent" val="0.8201" unit="%" />
+				<attnum name="profil end tangent" val="0.5393" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 4-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="278.143" />
+				<attnum name="arc" unit="deg" val="18.57644685" />
+				<attnum name="z end" unit="m" val="2.8958" />
+				<attnum name="banking start" val="-8.43" unit="deg" />
+				<attnum name="banking end" val="-8.8765" unit="deg" />
+				<attnum name="z start" val="2.6153" unit="m" />
+				<attnum name="profil start tangent" val="0.5393" unit="%" />
+				<attnum name="profil end tangent" val="0.1086" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 4-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="239.550" />
+				<attnum name="arc" unit="deg" val="21.50267413" />
+				<attnum name="z end" unit="m" val="2.8114" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="-8.8765" unit="deg" />
+				<attnum name="banking end" val="-9.0671" unit="deg" />
+				<attnum name="z start" val="2.8958" unit="m" />
+				<attnum name="profil start tangent" val="0.1086" unit="%" />
+				<attnum name="profil end tangent" val="-0.2493" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 4-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="265.999" />
+				<attnum name="arc" unit="deg" val="18.00920956" />
+				<attnum name="z end" unit="m" val="2.4729" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="-9.0671" unit="deg" />
+				<attnum name="banking end" val="-7.827" unit="deg" />
+				<attnum name="z start" val="2.8114" unit="m" />
+				<attnum name="profil start tangent" val="-0.2493" unit="%" />
+				<attnum name="profil end tangent" val="-0.5227" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 4-5">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="315.257" />
+				<attnum name="arc" unit="deg" val="15.24449393" />
+				<attnum name="z end" unit="m" val="1.9356" />
+				<attnum name="banking start" val="-7.827" unit="deg" />
+				<attnum name="banking end" val="-5.165" unit="deg" />
+				<attnum name="z start" val="2.4729" unit="m" />
+				<attnum name="profil start tangent" val="-0.5227" unit="%" />
+				<attnum name="profil end tangent" val="-0.6493" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Turn 4-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2186.325" />
+				<attnum name="arc" unit="deg" val="1.73116360" />
+				<attnum name="z end" unit="m" val="1.5009" />
+				<attnum name="banking start" val="-5.165" unit="deg" />
+				<attnum name="banking end" val="-2.3179" unit="deg" />
+				<attnum name="z start" val="1.9356" unit="m" />
+				<attnum name="profil start tangent" val="-0.6493" unit="%" />
+				<attnum name="profil end tangent" val="-0.5565" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.9369185114" />
+				<attnum name="z end" unit="m" val="1.4525494130" />
+				<attnum name="z start" unit="m" val="1.5009000000" />
+				<attnum name="banking start" unit="deg" val="-2.3179000000" />
+				<attnum name="profil start tangent left" unit="%" val="-0.5565000000" />
+				<attnum name="profil start tangent right" unit="%" val="-0.5565000000" />
+				<attnum name="banking end" unit="deg" val="-2.2628673925" />
+				<attnum name="profil end tangent left" unit="%" val="-0.4030465331" />
+				<attnum name="profil end tangent right" unit="%" val="-0.6485934688" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight:radius-turn-1">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.288354692106" />
+				<attnum name="profil steps" val="6" />
+				<attnum name="z end" unit="m" val="1.3768462748" />
+				<attnum name="z start" unit="m" val="1.4525494130" />
+				<attnum name="banking start" unit="deg" val="-2.2628673925" />
+				<attnum name="profil start tangent left" unit="%" val="-0.4030465331" />
+				<attnum name="profil start tangent right" unit="%" val="-0.6485934688" />
+				<attnum name="banking end" unit="deg" val="-1.9864601150" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2348784231" />
+				<attnum name="profil end tangent right" unit="%" val="-0.7206889511" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight:radius-pad-1">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="17.9279285460" />
+				<attnum name="z end" unit="m" val="1.2958479140" />
+				<attnum name="z start" unit="m" val="1.3768462748" />
+				<attnum name="banking start" unit="deg" val="-1.9864601150" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2348784231" />
+				<attnum name="profil start tangent right" unit="%" val="-0.7206889511" />
+				<attnum name="banking end" unit="deg" val="-1.5487693817" />
+				<attnum name="profil end tangent left" unit="%" val="-0.1837980191" />
+				<attnum name="profil end tangent right" unit="%" val="-0.6700750487" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight:radius-turn-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.288354692106" />
+				<attnum name="profil steps" val="6" />
+				<attnum name="z end" unit="m" val="1.2342870762" />
+				<attnum name="z start" unit="m" val="1.2958479140" />
+				<attnum name="banking start" unit="deg" val="-1.5487693817" />
+				<attnum name="profil start tangent left" unit="%" val="-0.1837980191" />
+				<attnum name="profil start tangent right" unit="%" val="-0.6700750487" />
+				<attnum name="banking end" unit="deg" val="-1.2715301633" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2659302004" />
+				<attnum name="profil end tangent right" unit="%" val="-0.5127293771" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.9910100346" />
+				<attnum name="z end" unit="m" val="1.2002000000" />
+				<attnum name="z start" unit="m" val="1.2342870762" />
+				<attnum name="banking start" unit="deg" val="-1.2715301633" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2659302004" />
+				<attnum name="profil start tangent right" unit="%" val="-0.5127293771" />
+				<attnum name="banking end" unit="deg" val="-1.2158000000" />
+				<attnum name="profil end tangent left" unit="%" val="-0.3692000000" />
+				<attnum name="profil end tangent right" unit="%" val="-0.3692000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="88.082240" />
+				<attnum name="z end" unit="m" val="0.9508" />
+				<section name="Left Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-1.2158" unit="deg" />
+				<attnum name="banking end" val="-1.0566" unit="deg" />
+				<attnum name="z start" val="1.2002" unit="m" />
+				<attnum name="profil start tangent" val="-0.3692" unit="%" />
+				<attnum name="profil end tangent" val="-0.2883" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-3">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="5.7196245193" />
+				<attnum name="profil steps" val="1" />
+				<attnum name="z end" unit="m" val="0.9342757044" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="7.0000000000" />
+					<attnum name="end width" unit="m" val="7.3335330009" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="0.9508000000" />
+				<attnum name="banking start" unit="deg" val="-1.0566000000" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2883000000" />
+				<attnum name="profil start tangent right" unit="%" val="-0.2883000000" />
+				<attnum name="banking end" unit="deg" val="-1.0552190032" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2845596603" />
+				<attnum name="profil end tangent right" unit="%" val="-0.2944240389" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-3:radius-entry-pad">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.2857056074" />
+				<attnum name="z end" unit="m" val="0.8517254655" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="7.3335330009" />
+					<attnum name="end width" unit="m" val="8.9829797857" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="0.9342757044" />
+				<attnum name="banking start" unit="deg" val="-1.0552190032" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2845596603" />
+				<attnum name="profil start tangent right" unit="%" val="-0.2944240389" />
+				<attnum name="banking end" unit="deg" val="-1.0198509869" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2755681638" />
+				<attnum name="profil end tangent right" unit="%" val="-0.3119132375" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-3:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.230645464901" />
+				<attnum name="profil steps" val="14" />
+				<attnum name="z end" unit="m" val="0.8161874565" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="8.9829797857" />
+					<attnum name="end width" unit="m" val="9.6872102911" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="0.8517254655" />
+				<attnum name="banking start" unit="deg" val="-1.0198509869" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2755681638" />
+				<attnum name="profil start tangent right" unit="%" val="-0.3119132375" />
+				<attnum name="banking end" unit="deg" val="-0.9985744213" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2765464886" />
+				<attnum name="profil end tangent right" unit="%" val="-0.3128954515" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-3:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="34.0192191762" />
+				<attnum name="z end" unit="m" val="0.7158000000" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="9.6872102911" />
+					<attnum name="end width" unit="m" val="11.6710000000" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="0.8161874565" />
+				<attnum name="banking start" unit="deg" val="-0.9985744213" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2765464886" />
+				<attnum name="profil start tangent right" unit="%" val="-0.3128954515" />
+				<attnum name="banking end" unit="deg" val="-0.9618000000" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2948000000" />
+				<attnum name="profil end tangent right" unit="%" val="-0.2948000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-4">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="39.0116837835" />
+				<attnum name="z end" unit="m" val="0.6001031690" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="11.6710000000" />
+					<attnum name="end width" unit="m" val="12.8063978985" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="0.7158000000" />
+				<attnum name="banking start" unit="deg" val="-0.9618000000" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2948000000" />
+				<attnum name="profil start tangent right" unit="%" val="-0.2948000000" />
+				<attnum name="banking end" unit="deg" val="-0.8612675106" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2563573414" />
+				<attnum name="profil end tangent right" unit="%" val="-0.3383355866" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-4:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.081088005826" />
+				<attnum name="profil steps" val="14" />
+				<attnum name="z end" unit="m" val="0.5874800557" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="12.8063978985" />
+					<attnum name="end width" unit="m" val="12.9299666428" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="0.6001031690" />
+				<attnum name="banking start" unit="deg" val="-0.8612675106" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2563573414" />
+				<attnum name="profil start tangent right" unit="%" val="-0.3383355866" />
+				<attnum name="banking end" unit="deg" val="-0.8446708745" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2565193036" />
+				<attnum name="profil end tangent right" unit="%" val="-0.3380089618" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Indianapolis Motor Speedway - Main Straight-4:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.7657919954" />
+				<attnum name="z end" unit="m" val="0.4787000000" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="12.9299666428" />
+					<attnum name="end width" unit="m" val="14.0000000000" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="0.5874800557" />
+				<attnum name="banking start" unit="deg" val="-0.8446708745" />
+				<attnum name="profil start tangent left" unit="%" val="-0.2565193036" />
+				<attnum name="profil start tangent right" unit="%" val="-0.3380089618" />
+				<attnum name="banking end" unit="deg" val="-0.7529000000" />
+				<attnum name="profil end tangent left" unit="%" val="-0.2936000000" />
+				<attnum name="profil end tangent right" unit="%" val="-0.2936000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="9.1486" />
+				<attnum name="z end" unit="m" val="0.4521" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.7529" unit="deg" />
+				<attnum name="banking end" val="-0.7747" unit="deg" />
+				<attnum name="z start" val="0.4787" unit="m" />
+				<attnum name="profil start tangent" val="-0.2936" unit="%" />
+				<attnum name="profil end tangent" val="-0.296" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.0006" />
+				<section name="Left Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.7747" unit="deg" />
+				<attnum name="banking end" val="-0.8309" unit="deg" />
+				<attnum name="z start" val="0.4521" unit="m" />
+				<attnum name="profil start tangent" val="-0.296" unit="%" />
+				<attnum name="profil end tangent" val="-0.3018" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-2">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.20286900" unit="m" />
+				<attnum name="banking start" val="-0.8309" unit="deg" />
+				<attnum name="banking end" val="-0.8307" unit="deg" />
+				<attnum name="z start" val="0.0006" unit="m" />
+				<attnum name="profil start tangent" val="-0.3018" unit="%" />
+				<attnum name="profil end tangent" val="-0.2835" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="39.794577182" />
+    <attnum name="longitude" unit="deg" val="-86.238907441" />
+    <attnum name="altitude" unit="m" val="222.821846485" />
+    <attnum name="heading" unit="deg" val="179.346368571" />
+  </section>
+</params>

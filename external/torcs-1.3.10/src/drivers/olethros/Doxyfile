@@ -1,0 +1,48 @@
+# Run `doxygen Doxyfile` from src/drivers/olethros.
+# Local documentation only: the top-level TORCS doc target excludes drivers.
+PROJECT_NAME           = "TORCS Olethros"
+PROJECT_BRIEF          = "BT-derived racing driver, learning and regular track planning"
+OUTPUT_DIRECTORY      = docs
+OUTPUT_LANGUAGE       = English
+INPUT_ENCODING        = UTF-8
+INPUT                 = README.md \
+                        olethros.cpp driver.h driver.cpp \
+                        PlanningMesh.h PlanningMesh.cpp Trajectory.h Trajectory.cpp \
+                        learn.h learn.cpp cardata.h cardata.cpp \
+                        opponent.h opponent.cpp pit.h pit.cpp \
+                        strategy.h strategy.cpp spline.h spline.cpp \
+                        linalg.h
+USE_MDFILE_AS_MAINPAGE = README.md
+FILE_PATTERNS         = *.h *.cpp *.md
+RECURSIVE             = NO
+MARKDOWN_SUPPORT      = YES
+JAVADOC_AUTOBRIEF     = NO
+MULTILINE_CPP_IS_BRIEF = YES
+# Include internal/legacy members as well as the documented public contracts.
+# EXTRACT_ALL intentionally provides a complete inventory, not a coverage score.
+EXTRACT_ALL           = YES
+EXTRACT_PRIVATE       = YES
+EXTRACT_STATIC        = YES
+HIDE_UNDOC_MEMBERS    = NO
+HIDE_UNDOC_CLASSES    = NO
+INLINE_SOURCES        = NO
+SOURCE_BROWSER        = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION   = YES
+FULL_PATH_NAMES       = NO
+SORT_MEMBER_DOCS      = NO
+ENABLE_PREPROCESSING  = YES
+MACRO_EXPANSION       = NO
+WARNINGS              = YES
+WARN_IF_UNDOCUMENTED  = YES
+WARN_IF_DOC_ERROR     = YES
+WARN_NO_PARAMDOC      = NO
+WARN_LOGFILE          = docs-warnings.log
+QUIET                 = NO
+GENERATE_HTML         = YES
+HTML_OUTPUT           = html
+GENERATE_LATEX        = NO
+GENERATE_MAN          = NO
+GENERATE_XML          = NO
+# Do not require Graphviz or a network service to read the API documentation.
+HAVE_DOT              = NO

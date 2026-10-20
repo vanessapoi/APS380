@@ -1,0 +1,1826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : peconic-bay-circuit.xml
+    created              : 14 May 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Peconic Bay Circuit" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Peconic Bay Circuit" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Peconic Bay Circuit for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="peconic-bay-circuit.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="peconic-bay-circuit-relief.ac" />
+			<attstr name="elevation map" val="peconic-bay-circuit-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-13.2603" unit="m" />
+			<attnum name="maximum altitude" val="45.4731" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="tangent" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="tangent" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="left" />
+			<attstr name="entry" val="Bridgehampton-20-pre" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="Bridgehampton-24" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="2.1805" />
+				<section name="Left Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="1.3986" unit="%" />
+				<attnum name="profil end tangent" val="1.5363" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="60.1448" />
+				<attnum name="z end" unit="m" val="3.1542" />
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="10.4916" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="2.1805" unit="m" />
+				<attnum name="profil start tangent" val="1.5363" unit="%" />
+				<attnum name="profil end tangent" val="1.1505" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-24">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="180.072406" />
+				<attnum name="z end" unit="m" val="4.3827" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.4916" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="3.1542" unit="m" />
+				<attnum name="profil start tangent" val="1.1505" unit="%" />
+				<attnum name="profil end tangent" val="0.2618" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="90.04169600" />
+				<attnum name="z end" unit="m" val="4.2398" />
+				<section name="Left Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="4.3827" unit="m" />
+				<attnum name="profil start tangent" val="0.2618" unit="%" />
+				<attnum name="profil end tangent" val="-0.0387" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="45.01602650" />
+				<attnum name="z end" unit="m" val="4.2764" />
+				<attnum name="z start" val="4.2398" unit="m" />
+				<attnum name="profil start tangent" val="-0.0387" unit="%" />
+				<attnum name="profil end tangent" val="0.2515" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-25">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="45.01810150" />
+				<attnum name="z end" unit="m" val="4.4663" />
+				<attnum name="z start" val="4.2764" unit="m" />
+				<attnum name="profil start tangent" val="0.2515" unit="%" />
+				<attnum name="profil end tangent" val="0.3264" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-26-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="74.963797" />
+				<attnum name="z end" unit="m" val="4.6394" />
+				<attnum name="z start" val="4.4663" unit="m" />
+				<attnum name="profil start tangent" val="0.3264" unit="%" />
+				<attnum name="profil end tangent" val="-0.488" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-26-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="32" />
+				<attnum name="z end" unit="m" val="4.2532" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="4.6394" unit="m" />
+				<attnum name="profil start tangent" val="-0.488" unit="%" />
+				<attnum name="profil end tangent" val="-2.2253" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-26-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="53.100564" />
+				<attnum name="z end" unit="m" val="2.5308" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="4.2532" unit="m" />
+				<attnum name="profil start tangent" val="-2.2253" unit="%" />
+				<attnum name="profil end tangent" val="-4.3162" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-27">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="247.627" />
+				<attnum name="arc" unit="deg" val="17.47055112" />
+				<attnum name="z end" unit="m" val="-1.538" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="2.5308" unit="m" />
+				<attnum name="profil start tangent" val="-4.3162" unit="%" />
+				<attnum name="profil end tangent" val="-5.5738" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-28">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="312.596" />
+				<attnum name="arc" unit="deg" val="13.87946940" />
+				<attnum name="z end" unit="m" val="-5.8989" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.538" unit="m" />
+				<attnum name="profil start tangent" val="-5.5738" unit="%" />
+				<attnum name="profil end tangent" val="-5.941" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-29-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="31.66933053" />
+				<attnum name="z end" unit="m" val="-7.8381" />
+				<attnum name="z start" val="-5.8989" unit="m" />
+				<attnum name="profil start tangent" val="-5.941" unit="%" />
+				<attnum name="profil end tangent" val="-6.3685" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-29-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="32.35641347" />
+				<attnum name="z end" unit="m" val="-9.9781" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-7.8381" unit="m" />
+				<attnum name="profil start tangent" val="-6.3685" unit="%" />
+				<attnum name="profil end tangent" val="-6.7241" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-30">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1122.015" />
+				<attnum name="arc" unit="deg" val="2.16535326" />
+				<attnum name="z end" unit="m" val="-12.876" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-9.9781" unit="m" />
+				<attnum name="profil start tangent" val="-6.7241" unit="%" />
+				<attnum name="profil end tangent" val="-6.5045" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-31">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="59.458" />
+				<attnum name="arc" unit="deg" val="39.25535669" />
+				<attnum name="z end" unit="m" val="-15.3914" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-12.876" unit="m" />
+				<attnum name="profil start tangent" val="-6.5045" unit="%" />
+				<attnum name="profil end tangent" val="-5.7488" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-32">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.004827" />
+				<attnum name="z end" unit="m" val="-16.0304" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-15.3914" unit="m" />
+				<attnum name="profil start tangent" val="-5.7488" unit="%" />
+				<attnum name="profil end tangent" val="-4.9233" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-33-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="29.498188329" />
+				<attnum name="z end" unit="m" val="-17.3648" />
+				<attnum name="z start" val="-16.0304" unit="m" />
+				<attnum name="profil start tangent" val="-4.9233" unit="%" />
+				<attnum name="profil end tangent" val="-3.8736" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-33-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40" />
+				<attnum name="z end" unit="m" val="-18.6543" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-17.3648" unit="m" />
+				<attnum name="profil start tangent" val="-3.8736" unit="%" />
+				<attnum name="profil end tangent" val="-2.5654" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-33-post-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="50" />
+				<attnum name="z end" unit="m" val="-19.6078" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-18.6543" unit="m" />
+				<attnum name="profil start tangent" val="-2.5654" unit="%" />
+				<attnum name="profil end tangent" val="-1.4996" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-33-post-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40" />
+				<attnum name="z end" unit="m" val="-20.0447" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-19.6078" unit="m" />
+				<attnum name="profil start tangent" val="-1.4996" unit="%" />
+				<attnum name="profil end tangent" val="-0.9835" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-33-post-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.570999671" />
+				<attnum name="z end" unit="m" val="-20.1547" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-20.0447" unit="m" />
+				<attnum name="profil start tangent" val="-0.9835" unit="%" />
+				<attnum name="profil end tangent" val="-0.8731" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-34">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="16.006436" />
+				<attnum name="z end" unit="m" val="-20.2941" />
+				<attnum name="z start" val="-20.1547" unit="m" />
+				<attnum name="profil start tangent" val="-0.8731" unit="%" />
+				<attnum name="profil end tangent" val="-1.0058" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-35">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="97.893" />
+				<attnum name="arc" unit="deg" val="28.40180025" />
+				<attnum name="z end" unit="m" val="-20.8475" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-20.2941" unit="m" />
+				<attnum name="profil start tangent" val="-1.0058" unit="%" />
+				<attnum name="profil end tangent" val="-1.448" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-36">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="65.881" />
+				<attnum name="arc" unit="deg" val="41.21406951" />
+				<attnum name="z end" unit="m" val="-21.6794" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-20.8475" unit="m" />
+				<attnum name="profil start tangent" val="-1.448" unit="%" />
+				<attnum name="profil end tangent" val="-1.8529" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-37">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.004827" />
+				<attnum name="z end" unit="m" val="-21.9136" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-21.6794" unit="m" />
+				<attnum name="profil start tangent" val="-1.8529" unit="%" />
+				<attnum name="profil end tangent" val="-1.9437" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-38-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.502094119" />
+				<attnum name="z end" unit="m" val="-22.0782" />
+				<attnum name="z start" val="-21.9136" unit="m" />
+				<attnum name="profil start tangent" val="-1.9437" unit="%" />
+				<attnum name="profil end tangent" val="-1.8936" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-38-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="23.510777881" />
+				<attnum name="z end" unit="m" val="-22.5132" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-22.0782" unit="m" />
+				<attnum name="profil start tangent" val="-1.8936" unit="%" />
+				<attnum name="profil end tangent" val="-1.7256" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-39">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="298.120" />
+				<attnum name="arc" unit="deg" val="9.20554688" />
+				<attnum name="z end" unit="m" val="-23.2801" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-22.5132" unit="m" />
+				<attnum name="profil start tangent" val="-1.7256" unit="%" />
+				<attnum name="profil end tangent" val="-1.5729" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-40">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="320.712" />
+				<attnum name="arc" unit="deg" val="8.55957072" />
+				<attnum name="z end" unit="m" val="-24.0202" />
+				<attnum name="z start" val="-23.2801" unit="m" />
+				<attnum name="profil start tangent" val="-1.5729" unit="%" />
+				<attnum name="profil end tangent" val="-1.3747" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-41">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="172.069188" />
+				<attnum name="z end" unit="m" val="-26.0929" />
+				<attnum name="z start" val="-24.0202" unit="m" />
+				<attnum name="profil start tangent" val="-1.3747" unit="%" />
+				<attnum name="profil end tangent" val="-0.9232" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-42">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="374.045" />
+				<attnum name="arc" unit="deg" val="3.67159317" />
+				<attnum name="z end" unit="m" val="-26.2468" />
+				<attnum name="z start" val="-26.0929" unit="m" />
+				<attnum name="profil start tangent" val="-0.9232" unit="%" />
+				<attnum name="profil end tangent" val="-0.6764" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-43">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="287.192" />
+				<attnum name="arc" unit="deg" val="4.78081699" />
+				<attnum name="z end" unit="m" val="-26.4171" />
+				<attnum name="z start" val="-26.2468" unit="m" />
+				<attnum name="profil start tangent" val="-0.6764" unit="%" />
+				<attnum name="profil end tangent" val="-0.8879" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-44-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="66.6770183" />
+				<attnum name="z end" unit="m" val="-27.1272" />
+				<attnum name="z start" val="-26.4171" unit="m" />
+				<attnum name="profil start tangent" val="-0.8879" unit="%" />
+				<attnum name="profil end tangent" val="-1.3203" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-44-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="45.3680347" />
+				<attnum name="z end" unit="m" val="-27.842" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-27.1272" unit="m" />
+				<attnum name="profil start tangent" val="-1.3203" unit="%" />
+				<attnum name="profil end tangent" val="-1.5196" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-45">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="189.383" />
+				<attnum name="arc" unit="deg" val="13.41206256" />
+				<attnum name="z end" unit="m" val="-28.4909" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-27.842" unit="m" />
+				<attnum name="profil start tangent" val="-1.5196" unit="%" />
+				<attnum name="profil end tangent" val="-0.8859" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-46">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="55.474" />
+				<attnum name="arc" unit="deg" val="43.74156974" />
+				<attnum name="z end" unit="m" val="-28.6214" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-28.4909" unit="m" />
+				<attnum name="profil start tangent" val="-0.8859" unit="%" />
+				<attnum name="profil end tangent" val="0.3456" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-47">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="16.006436" />
+				<attnum name="z end" unit="m" val="-28.4614" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-28.6214" unit="m" />
+				<attnum name="profil start tangent" val="0.3456" unit="%" />
+				<attnum name="profil end tangent" val="2.0079" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-48">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="84.455" />
+				<attnum name="arc" unit="deg" val="46.29224087" />
+				<attnum name="z end" unit="m" val="-26.4032" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-28.4614" unit="m" />
+				<attnum name="profil start tangent" val="2.0079" unit="%" />
+				<attnum name="profil end tangent" val="3.8556" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-49">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="167.367" />
+				<attnum name="arc" unit="deg" val="24.34613524" />
+				<attnum name="z end" unit="m" val="-23.0644" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-26.4032" unit="m" />
+				<attnum name="profil start tangent" val="3.8556" unit="%" />
+				<attnum name="profil end tangent" val="4.582" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-50-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="14.589904809" />
+				<attnum name="z end" unit="m" val="-22.4123" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-23.0644" unit="m" />
+				<attnum name="profil start tangent" val="4.582" unit="%" />
+				<attnum name="profil end tangent" val="4.3409" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-50-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="14" />
+				<attnum name="z end" unit="m" val="-21.8225" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-22.4123" unit="m" />
+				<attnum name="profil start tangent" val="4.3409" unit="%" />
+				<attnum name="profil end tangent" val="3.7704" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-50-post-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="86" />
+				<attnum name="z end" unit="m" val="-18.9603" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-21.8225" unit="m" />
+				<attnum name="profil start tangent" val="3.7704" unit="%" />
+				<attnum name="profil end tangent" val="3.0921" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-50-post-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="24" />
+				<attnum name="z end" unit="m" val="-18.2749" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-18.9603" unit="m" />
+				<attnum name="profil start tangent" val="3.0921" unit="%" />
+				<attnum name="profil end tangent" val="2.9986" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-50-post-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="21.474456191" />
+				<attnum name="z end" unit="m" val="-17.6003" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-18.2749" unit="m" />
+				<attnum name="profil start tangent" val="2.9986" unit="%" />
+				<attnum name="profil end tangent" val="3.933" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-51">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="114.386" />
+				<attnum name="arc" unit="deg" val="29.43221265" />
+				<attnum name="z end" unit="m" val="-14.8241" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-17.6003" unit="m" />
+				<attnum name="profil start tangent" val="3.933" unit="%" />
+				<attnum name="profil end tangent" val="6.1142" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-52">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="81.816" />
+				<attnum name="arc" unit="deg" val="40.32605692" />
+				<attnum name="z end" unit="m" val="-10.5031" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-14.8241" unit="m" />
+				<attnum name="profil start tangent" val="6.1142" unit="%" />
+				<attnum name="profil end tangent" val="7.7773" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-53-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2308.601" />
+				<attnum name="arc" unit="deg" val="0.45126730336" />
+				<attnum name="z end" unit="m" val="-9.0393" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-10.5031" unit="m" />
+				<attnum name="profil start tangent" val="7.7773" unit="%" />
+				<attnum name="profil end tangent" val="7.8543" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-53-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2308.601" />
+				<attnum name="arc" unit="deg" val="0.44673117236" />
+				<attnum name="z end" unit="m" val="-7.6608" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-9.0393" unit="m" />
+				<attnum name="profil start tangent" val="7.8543" unit="%" />
+				<attnum name="profil end tangent" val="7.3754" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-53-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2308.601" />
+				<attnum name="arc" unit="deg" val="0.34062376428" />
+				<attnum name="z end" unit="m" val="-6.6874" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-7.6608" unit="m" />
+				<attnum name="profil start tangent" val="7.3754" unit="%" />
+				<attnum name="profil end tangent" val="6.3189" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-54">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="121.821" />
+				<attnum name="arc" unit="deg" val="23.15343398" />
+				<attnum name="z end" unit="m" val="-3.9577" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-6.6874" unit="m" />
+				<attnum name="profil start tangent" val="6.3189" unit="%" />
+				<attnum name="profil end tangent" val="4.4921" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-55-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="27.047041259" />
+				<attnum name="z end" unit="m" val="-3.0275" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.9577" unit="m" />
+				<attnum name="profil start tangent" val="4.4921" unit="%" />
+				<attnum name="profil end tangent" val="2.5426" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-55-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40" />
+				<attnum name="z end" unit="m" val="-2.3691" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.0275" unit="m" />
+				<attnum name="profil start tangent" val="2.5426" unit="%" />
+				<attnum name="profil end tangent" val="0.6424" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-55-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="53.001229741" />
+				<attnum name="z end" unit="m" val="-2.5605" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.3691" unit="m" />
+				<attnum name="profil start tangent" val="0.6424" unit="%" />
+				<attnum name="profil end tangent" val="-1.0657" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-56">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="239.666" />
+				<attnum name="arc" unit="deg" val="6.65562445" />
+				<attnum name="z end" unit="m" val="-3.0533" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-2.5605" unit="m" />
+				<attnum name="profil start tangent" val="-1.0657" unit="%" />
+				<attnum name="profil end tangent" val="-2.2996" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-57">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="162.433" />
+				<attnum name="arc" unit="deg" val="9.80724958" />
+				<attnum name="z end" unit="m" val="-3.8398" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.0533" unit="m" />
+				<attnum name="profil start tangent" val="-2.2996" unit="%" />
+				<attnum name="profil end tangent" val="-3.8129" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-58">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="156.062752" />
+				<attnum name="z end" unit="m" val="-11.3262" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.8398" unit="m" />
+				<attnum name="profil start tangent" val="-3.8129" unit="%" />
+				<attnum name="profil end tangent" val="-4.1522" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-59">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="353.300" />
+				<attnum name="arc" unit="deg" val="4.20904967" />
+				<attnum name="z end" unit="m" val="-12.2365" />
+				<attnum name="z start" val="-11.3262" unit="m" />
+				<attnum name="profil start tangent" val="-4.1522" unit="%" />
+				<attnum name="profil end tangent" val="-3.4256" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-60">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="277.231" />
+				<attnum name="arc" unit="deg" val="5.36244730" />
+				<attnum name="z end" unit="m" val="-13.1041" />
+				<attnum name="z start" val="-12.2365" unit="m" />
+				<attnum name="profil start tangent" val="-3.4256" unit="%" />
+				<attnum name="profil end tangent" val="-3.3602" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-61-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="13.391591974" />
+				<attnum name="z end" unit="m" val="-13.5563" />
+				<attnum name="z start" val="-13.1041" unit="m" />
+				<attnum name="profil start tangent" val="-3.3602" unit="%" />
+				<attnum name="profil end tangent" val="-3.4351" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-61-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="34" />
+				<attnum name="z end" unit="m" val="-14.744" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-13.5563" unit="m" />
+				<attnum name="profil start tangent" val="-3.4351" unit="%" />
+				<attnum name="profil end tangent" val="-3.5929" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-61-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.642198026" />
+				<attnum name="z end" unit="m" val="-16.097" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-14.744" unit="m" />
+				<attnum name="profil start tangent" val="-3.5929" unit="%" />
+				<attnum name="profil end tangent" val="-3.827" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-62">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="113.175" />
+				<attnum name="arc" unit="deg" val="24.81076060" />
+				<attnum name="z end" unit="m" val="-18.0385" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-16.097" unit="m" />
+				<attnum name="profil start tangent" val="-3.827" unit="%" />
+				<attnum name="profil end tangent" val="-4.02" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-63">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="308.608" />
+				<attnum name="arc" unit="deg" val="9.22366872" />
+				<attnum name="z end" unit="m" val="-20.0647" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-18.0385" unit="m" />
+				<attnum name="profil start tangent" val="-4.02" unit="%" />
+				<attnum name="profil end tangent" val="-3.9807" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-64-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="16.668931078" />
+				<attnum name="z end" unit="m" val="-20.7119" />
+				<attnum name="z start" val="-20.0647" unit="m" />
+				<attnum name="profil start tangent" val="-3.9807" unit="%" />
+				<attnum name="profil end tangent" val="-3.7138" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-64-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="34" />
+				<attnum name="z end" unit="m" val="-21.9171" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-20.7119" unit="m" />
+				<attnum name="profil start tangent" val="-3.7138" unit="%" />
+				<attnum name="profil end tangent" val="-3.3227" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-64-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="17.358421922" />
+				<attnum name="z end" unit="m" val="-22.4554" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-21.9171" unit="m" />
+				<attnum name="profil start tangent" val="-3.3227" unit="%" />
+				<attnum name="profil end tangent" val="-2.6158" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-65">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="167.259" />
+				<attnum name="arc" unit="deg" val="19.71678373" />
+				<attnum name="z end" unit="m" val="-23.6818" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-22.4554" unit="m" />
+				<attnum name="profil start tangent" val="-2.6158" unit="%" />
+				<attnum name="profil end tangent" val="-1.2075" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-66">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="91.046" />
+				<attnum name="arc" unit="deg" val="35.41097201" />
+				<attnum name="z end" unit="m" val="-23.8417" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-23.6818" unit="m" />
+				<attnum name="profil start tangent" val="-1.2075" unit="%" />
+				<attnum name="profil end tangent" val="0.0829" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-67-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="26.814051113" />
+				<attnum name="z end" unit="m" val="-23.7211" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-23.8417" unit="m" />
+				<attnum name="profil start tangent" val="0.0829" unit="%" />
+				<attnum name="profil end tangent" val="0.0648" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-67-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="37.211692887" />
+				<attnum name="z end" unit="m" val="-23.8403" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-23.7211" unit="m" />
+				<attnum name="profil start tangent" val="0.0648" unit="%" />
+				<attnum name="profil end tangent" val="-2.077" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-68">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2073.037" />
+				<attnum name="arc" unit="deg" val="2.04422464" />
+				<attnum name="z end" unit="m" val="-26.6758" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-23.8403" unit="m" />
+				<attnum name="profil start tangent" val="-2.077" unit="%" />
+				<attnum name="profil end tangent" val="-5.0098" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-69-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="401.269" />
+				<attnum name="arc" unit="deg" val="2.11688905107" />
+				<attnum name="z end" unit="m" val="-27.5929" />
+				<attnum name="z start" val="-26.6758" unit="m" />
+				<attnum name="profil start tangent" val="-5.0098" unit="%" />
+				<attnum name="profil end tangent" val="-6.0646" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-69-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="401.269" />
+				<attnum name="arc" unit="deg" val="5.14031251472" />
+				<attnum name="z end" unit="m" val="-29.7325" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-27.5929" unit="m" />
+				<attnum name="profil start tangent" val="-6.0646" unit="%" />
+				<attnum name="profil end tangent" val="-5.1466" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-69-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="401.269" />
+				<attnum name="arc" unit="deg" val="3.2750336742" />
+				<attnum name="z end" unit="m" val="-30.7302" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-29.7325" unit="m" />
+				<attnum name="profil start tangent" val="-5.1466" unit="%" />
+				<attnum name="profil end tangent" val="-2.3245" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-70">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="52.076" />
+				<attnum name="arc" unit="deg" val="67.80264163" />
+				<attnum name="z end" unit="m" val="-30.9145" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-30.7302" unit="m" />
+				<attnum name="profil start tangent" val="-2.3245" unit="%" />
+				<attnum name="profil end tangent" val="2.1342" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-71">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="108.677" />
+				<attnum name="arc" unit="deg" val="35.69830737" />
+				<attnum name="z end" unit="m" val="-27.8218" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-30.9145" unit="m" />
+				<attnum name="profil start tangent" val="2.1342" unit="%" />
+				<attnum name="profil end tangent" val="4.8867" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-72">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="41.075" />
+				<attnum name="arc" unit="deg" val="24.7264203102" />
+				<attnum name="z end" unit="m" val="-26.899" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-27.8218" unit="m" />
+				<attnum name="profil start tangent" val="4.8867" unit="%" />
+				<attnum name="profil end tangent" val="5.0166" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-72-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="41.075" />
+				<attnum name="arc" unit="deg" val="13.2036988898" />
+				<attnum name="z end" unit="m" val="-26.442" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-26.899" unit="m" />
+				<attnum name="profil start tangent" val="5.0166" unit="%" />
+				<attnum name="profil end tangent" val="4.403" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-73">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="186.781" />
+				<attnum name="arc" unit="deg" val="8.64333523" />
+				<attnum name="z end" unit="m" val="-25.321" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="5.1725" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-26.442" unit="m" />
+				<attnum name="profil start tangent" val="4.403" unit="%" />
+				<attnum name="profil end tangent" val="3.4141" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-74">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="41.181" />
+				<attnum name="arc" unit="deg" val="17.95809493" />
+				<attnum name="z end" unit="m" val="-24.9532" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.1725" unit="m" />
+					<attnum name="end width" val="4.73" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-25.321" unit="m" />
+				<attnum name="profil start tangent" val="3.4141" unit="%" />
+				<attnum name="profil end tangent" val="2.497" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-75">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="12.230" />
+				<attnum name="arc" unit="deg" val="56.02938713" />
+				<attnum name="z end" unit="m" val="-24.6967" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="4.73" unit="m" />
+					<attnum name="end width" val="4.73" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-24.9532" unit="m" />
+				<attnum name="profil start tangent" val="2.497" unit="%" />
+				<attnum name="profil end tangent" val="1.594" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.011263" />
+				<attnum name="z end" unit="m" val="-24.4044" />
+				<section name="Right Side">
+					<attnum name="start width" val="4.73" unit="m" />
+					<attnum name="end width" val="6.5467" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-24.6967" unit="m" />
+				<attnum name="profil start tangent" val="1.594" unit="%" />
+				<attnum name="profil end tangent" val="0.3219" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="39.479325457" />
+				<attnum name="z end" unit="m" val="-24.5622" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.5467" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-24.4044" unit="m" />
+				<attnum name="profil start tangent" val="0.3219" unit="%" />
+				<attnum name="profil end tangent" val="-0.9255" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-2-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="48.55568999" />
+				<attnum name="z end" unit="m" val="-25.2668" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.5467" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-24.5622" unit="m" />
+				<attnum name="profil start tangent" val="-0.9255" unit="%" />
+				<attnum name="profil end tangent" val="-1.5696" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1053.674" />
+				<attnum name="arc" unit="deg" val="0.76152761" />
+				<attnum name="z end" unit="m" val="-25.5032" />
+				<attnum name="z start" val="-25.2668" unit="m" />
+				<attnum name="profil start tangent" val="-1.5696" unit="%" />
+				<attnum name="profil end tangent" val="-1.6435" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="753.080" />
+				<attnum name="arc" unit="deg" val="1.06547930" />
+				<attnum name="z end" unit="m" val="-25.7271" />
+				<attnum name="z start" val="-25.5032" unit="m" />
+				<attnum name="profil start tangent" val="-1.6435" unit="%" />
+				<attnum name="profil end tangent" val="-1.3167" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-5">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40.016090" />
+				<attnum name="z end" unit="m" val="-26.1411" />
+				<attnum name="z start" val="-25.7271" unit="m" />
+				<attnum name="profil start tangent" val="-1.3167" unit="%" />
+				<attnum name="profil end tangent" val="-0.4345" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="304.274" />
+				<attnum name="arc" unit="deg" val="5.25564965" />
+				<attnum name="z end" unit="m" val="-26.0949" />
+				<attnum name="z start" val="-26.1411" unit="m" />
+				<attnum name="profil start tangent" val="-0.4345" unit="%" />
+				<attnum name="profil end tangent" val="0.7294" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-7">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="221.372" />
+				<attnum name="arc" unit="deg" val="7.21933771" />
+				<attnum name="z end" unit="m" val="-25.7342" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-26.0949" unit="m" />
+				<attnum name="profil start tangent" val="0.7294" unit="%" />
+				<attnum name="profil end tangent" val="1.9607" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-8">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="144.30077716" />
+				<attnum name="z end" unit="m" val="-21.9417" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-25.7342" unit="m" />
+				<attnum name="profil start tangent" val="1.9607" unit="%" />
+				<attnum name="profil end tangent" val="3.4932" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-9">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="990.297" />
+				<attnum name="arc" unit="deg" val="1.15735907" />
+				<attnum name="z end" unit="m" val="-21.0699" />
+				<attnum name="z start" val="-21.9417" unit="m" />
+				<attnum name="profil start tangent" val="3.4932" unit="%" />
+				<attnum name="profil end tangent" val="4.9713" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-10">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="556.771" />
+				<attnum name="arc" unit="deg" val="2.05837850" />
+				<attnum name="z end" unit="m" val="-19.9529" />
+				<attnum name="z start" val="-21.0699" unit="m" />
+				<attnum name="profil start tangent" val="4.9713" unit="%" />
+				<attnum name="profil end tangent" val="6.5438" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-11">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="63.78479243" />
+				<attnum name="z end" unit="m" val="-15.167" />
+				<attnum name="z start" val="-19.9529" unit="m" />
+				<attnum name="profil start tangent" val="6.5438" unit="%" />
+				<attnum name="profil end tangent" val="7.4352" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-12">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="177.642" />
+				<attnum name="arc" unit="deg" val="8.92932469" />
+				<attnum name="z end" unit="m" val="-13.1274" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-15.167" unit="m" />
+				<attnum name="profil start tangent" val="7.4352" unit="%" />
+				<attnum name="profil end tangent" val="6.6361" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-13">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="112.263" />
+				<attnum name="arc" unit="deg" val="14.08677908" />
+				<attnum name="z end" unit="m" val="-11.4976" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-13.1274" unit="m" />
+				<attnum name="profil start tangent" val="6.6361" unit="%" />
+				<attnum name="profil end tangent" val="4.8735" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-14-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="44.240787289" />
+				<attnum name="z end" unit="m" val="-9.7978" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-11.4976" unit="m" />
+				<attnum name="profil start tangent" val="4.8735" unit="%" />
+				<attnum name="profil end tangent" val="3.2485" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-14-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="35.791393711" />
+				<attnum name="z end" unit="m" val="-8.8476" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-9.7978" unit="m" />
+				<attnum name="profil start tangent" val="3.2485" unit="%" />
+				<attnum name="profil end tangent" val="2.6925" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-15">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="418.224" />
+				<attnum name="arc" unit="deg" val="3.00273228" />
+				<attnum name="z end" unit="m" val="-8.2492" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-8.8476" unit="m" />
+				<attnum name="profil start tangent" val="2.6925" unit="%" />
+				<attnum name="profil end tangent" val="2.8796" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-16">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="73.748" />
+				<attnum name="arc" unit="deg" val="16.90859325" />
+				<attnum name="z end" unit="m" val="-7.59" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-8.2492" unit="m" />
+				<attnum name="profil start tangent" val="2.8796" unit="%" />
+				<attnum name="profil end tangent" val="3.1254" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-17">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="98.811" />
+				<attnum name="arc" unit="deg" val="9.58303620683" />
+				<attnum name="z end" unit="m" val="-7.0575" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-7.59" unit="m" />
+				<attnum name="profil start tangent" val="3.1254" unit="%" />
+				<attnum name="profil end tangent" val="3.2385" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-17-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="98.811" />
+				<attnum name="arc" unit="deg" val="7.22439798317" />
+				<attnum name="z end" unit="m" val="-6.6519" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-7.0575" unit="m" />
+				<attnum name="profil start tangent" val="3.2385" unit="%" />
+				<attnum name="profil end tangent" val="3.234" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-18-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="23.462" />
+				<attnum name="arc" unit="deg" val="23.29968289884" />
+				<attnum name="z end" unit="m" val="-6.3454" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-6.6519" unit="m" />
+				<attnum name="profil start tangent" val="3.234" unit="%" />
+				<attnum name="profil end tangent" val="3.1584" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-18-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="23.462" />
+				<attnum name="arc" unit="deg" val="40.47931091116" />
+				<attnum name="z end" unit="m" val="-5.8309" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-6.3454" unit="m" />
+				<attnum name="profil start tangent" val="3.1584" unit="%" />
+				<attnum name="profil end tangent" val="3.0341" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-19">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.004827" />
+				<attnum name="z end" unit="m" val="-5.4751" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-5.8309" unit="m" />
+				<attnum name="profil start tangent" val="3.0341" unit="%" />
+				<attnum name="profil end tangent" val="2.91" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-20-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="648.764" />
+				<attnum name="arc" unit="deg" val="1.00850180812" />
+				<attnum name="z end" unit="m" val="-5.1489" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7.6661" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-5.4751" unit="m" />
+				<attnum name="profil start tangent" val="2.91" unit="%" />
+				<attnum name="profil end tangent" val="2.8183" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-20-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="648.764" />
+				<attnum name="arc" unit="deg" val="3.53261152056" />
+				<attnum name="z end" unit="m" val="-4.0367" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7.6661" unit="m" />
+					<attnum name="end width" val="9.9995" unit="m" />
+				</section>
+				<attnum name="z start" val="-5.1489" unit="m" />
+				<attnum name="profil start tangent" val="2.8183" unit="%" />
+				<attnum name="profil end tangent" val="2.8059" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-20-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="648.764" />
+				<attnum name="arc" unit="deg" val="0.75759515133" />
+				<attnum name="z end" unit="m" val="-3.7938" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="9.9995" unit="m" />
+					<attnum name="end width" val="10.4999" unit="m" />
+				</section>
+				<attnum name="z start" val="-4.0367" unit="m" />
+				<attnum name="profil start tangent" val="2.8059" unit="%" />
+				<attnum name="profil end tangent" val="2.8178" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Bridgehampton-21">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2513.328" />
+				<attnum name="arc" unit="deg" val="1.36866305" />
+				<attnum name="z end" unit="m" val="-2.11" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.4999" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-3.7938" unit="m" />
+				<attnum name="profil start tangent" val="2.8178" unit="%" />
+				<attnum name="profil end tangent" val="2.1056" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="-0.0002" />
+				<section name="Left Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.11" unit="m" />
+				<attnum name="profil start tangent" val="2.1056" unit="%" />
+				<attnum name="profil end tangent" val="1.375" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-3">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.01500000" unit="m" />
+				<attnum name="z start" val="-0.0002" unit="m" />
+				<attnum name="profil start tangent" val="1.375" unit="%" />
+				<attnum name="profil end tangent" val="1.3986" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="40.980566340" />
+    <attnum name="longitude" unit="deg" val="-72.337200471" />
+    <attnum name="altitude" unit="m" val="62.750701506" />
+    <attnum name="heading" unit="deg" val="231.712342642" />
+  </section>
+</params>

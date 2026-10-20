@@ -1,0 +1,77 @@
+APPENDIX C — COVERAGE AND VERIFICATION MAP
+
+Reader-facing pages have no dependencies on the historical tutorial tree.
+Historical topic audit: robot/ch2/multiple1.html, multiple2.html, multiple3.html.
+Historical attribution remains in credits.md; no historical setup dependencies.
+
+appendix_c.md:
+  One module, two independently owned TutorialDriver objects.
+  Registration slots, exported indices, description XML, interface index,
+    race-array index and painted race number distinguished explicitly.
+  Metadata-only discovery, shared callback functions, checked index dispatch,
+    ordinary function-pointer wrappers vs member functions and implicit this.
+  Per-instance class state, immutable/shared code, borrowed engine pointers,
+    mutable function statics, intentionally shared resources vs accidental sharing.
+  Selected-instance construction with unique_ptr/make_unique, per-race reset,
+    per-index shutdown, loader-owned duplicated metadata strings, rbEndRace unused.
+  Five-stage per-key settings precedence and individual-file installation.
+  Per-index liveries and module-level team logo, editable XCF/SVG attribution.
+  Teal alone, Red alone, both orders, single-robot configuration edit.
+  Shared-pit race-manager setting, user-profile locations, occupancy vs reservation,
+    wait/release behavior, optional explicitly owned team coordination.
+  Final 12-lap comparison: Red 5 l / 4-lap stints; Teal 4 l / 3-lap stints;
+    demonstration off for both. Classification may include lapped finishers.
+  Source map, troubleshooting, completed-tutorial closing and community links.
+
+Current source audit:
+  interfaces/robot.h and tgf.h: callbacks, indices and registration capacity.
+  raceengineclient/{raceinit,racemain,raceengine}.cpp: interface dispatch,
+    pit assignment, lifecycle and engine-owned occupancy/service.
+  linux/linuxspec.cpp: freeing duplicated module metadata strings.
+  windows/main.cpp and linux/torcs.in: active local-profile defaults.
+  No mutable controller statics in copied helpers; settings section pointer is
+    constant in this checkpoint. The configurable offsetTarget declaration now
+    matches its inherited implementation.
+
+Maintenance:
+  snapshot_multi_helpers.py reproduces inherited helpers, configuration hooks,
+    build manifests and class method bodies; --check detects drift.
+  driver.h, tutorialc.cpp, description XML and individual files maintained directly.
+  generate_multi_artwork.py produces red 81 / teal 82 XCFs, SVGs and SGIs from
+    Appendix B's accepted artwork; not a reader prerequisite.
+  package_multi_driver.py packages 45 explicit files, including all helper sources,
+    nested installation rules, editable artwork, artwork attribution and GPL.
+
+Validation (Linux):
+  Independent extracted archive build, zero warnings, local include resolution,
+    Windows source manifests and actual nested Linux runtime installation.
+  Red alone and Teal alone: six laps, 546.794 s, one stop each, zero damage.
+  Both orders, separate boxes: six laps each, 544.102 / 551.378 s, one stop each.
+  Shared box: six laps each, 544.102 / 550.838 s, one stop each.
+  Native assertions: correct callback/car identity; no car/wall collision flags,
+    no queued penalties; positive fuel; legal pit speed; <=1 car serviced per box.
+  Shared reversed run observes 100 driving updates waiting in the occupied lane.
+  Final exercise: Red 12 laps / 2 stops, Teal classified at 11 laps / 4 stops;
+    both finished, zero damage/penalties, all service arrivals >0.5 l.
+  Only Teal's low-fuel override: Red retains 60 l and one demonstration stop;
+    Teal starts at 4 l and makes four fuel stops. Physical interaction can still
+    change Red's pit-entry timing; this is not configuration aliasing.
+  Two consecutive native races in one process with modules kept loaded: both
+    drivers independently reconstructed, reset to full fuel, stop once and shut down.
+  Private unit build: 160 numeric comparisons plus metadata re-entry, selected
+    index 2 alone, invalid index, reversed race indices, callback recovery/service,
+    independent fuel estimates, configuration precedence and 24 recreation cycles.
+  Valgrind: zero errors; no definitely, indirectly or possibly lost memory.
+  Native graphics: red 81 / teal 82 / common C sign, exact selected file paths
+    confirmed; Page Down changes focus to Tutorial C Teal and its number-82 car.
+  Screenshot: 3840x2400, native 4x MSAA; crop 2280x1260, preview 760x420.
+    A private module freezes near the assigned pit for appearance inspection;
+    production module/artwork remain unchanged. This is not driving-test evidence.
+  Doxygen: zero warnings; all local links, anchors, images, downloads and archive
+    bytes checked; callback snippets match compiled source after whitespace normalization.
+  Offline browser: all three images and the native-resolution link work at
+    1280/1024 widths; both schematic SVGs pass bounds/overlap and visual review.
+  Clipboard: 71 real copies across the tutorial, including C and platform additions.
+  Completed navigation replaces development-status references throughout the tutorial.
+  Windows compilation/runtime remains unverified.
+  Private test programs, simulator fixtures and logs remain outside the tutorial.

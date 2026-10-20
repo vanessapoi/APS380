@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Robot Tutorial — Illustration Gallery</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f3f3ef; color: #243c4b; font: 16px/1.6 Arial, Helvetica, sans-serif; }
+    main { max-width: 880px; margin: 0 auto; padding: 48px 24px 64px; }
+    header { border-top: 4px solid #db5947; padding-top: 18px; margin-bottom: 40px; }
+    .eyebrow { font-size: 12px; letter-spacing: 2px; font-weight: bold; text-transform: uppercase; }
+    h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.2; margin: 12px 0; }
+    h2 { font-size: 22px; margin: 0 0 8px; }
+    p { max-width: 690px; }
+    header p, figcaption { color: #526774; }
+    section { margin-bottom: 42px; }
+    figure { margin: 18px 0 0; }
+    img { display: block; width: 100%; height: auto; border: 1px solid #dfe6e7; border-radius: 16px; }
+    figcaption { margin-top: 12px; font-size: 14px; }
+    a { color: #176e64; text-underline-offset: 3px; }
+    footer { font-size: 13px; color: #526774; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">TORCS / Robot Tutorial / Illustrations</div>
+    <h1>Robot Tutorial illustrations</h1>
+    <p>Explore the geometry, controls, and configuration behind the tutorial's
+      drivers. Follow the chapter links for explanations and exercises, or click
+      an image to enlarge it.</p>
+  </header>
+  <section>
+    <h2>Architecture / Components and lifecycle</h2>
+    <p>The architecture diagrams use the same visual language as the tutorial.
+      Their editable SVG sources live in the shared documentation image folder.</p>
+    <figure><a href="../../images/architecture.svg"><img src="../../images/architecture.svg" alt="Orchestration, shared APIs and libraries, and runtime plugins."></a><figcaption>A responsibility map of the three component families.</figcaption></figure>
+    <figure><a href="../../images/raceenginestate.svg"><img src="../../images/raceenginestate.svg" alt="Race engine lifecycle with labelled repeat and stop/resume paths."></a><figcaption>The main lifecycle, with separate return paths for drivers, races and tracks.</figcaption></figure>
+  </section>
+  <section>
+    <h2>01 / Heading is not position</h2>
+    <p>A car can point along the road while being far from its centerline, or sit
+      on the centerline while facing the wrong direction. Steering must account
+      for both errors.</p>
+    <figure>
+      <a href="steering.svg"><img src="steering.svg" alt="Two panels compare the car's heading with the road, then show its displacement from the centerline."></a>
+      <figcaption>Chapter 1. Click the illustration to open the SVG.</figcaption>
+    </figure>
+  </section>
+  <section>
+    <h2>02 / Centerline distance is not clearance</h2>
+    <p>A barrier at the road edge can block the body even when the car's center
+      is near the middle. Three distinct poses show contact, separation, and
+      room to turn. Chapter 2 also includes a close-up of a body corner near
+      the barrier, shown below.</p>
+    <figure>
+      <a href="barrier-clearance.svg"><img src="barrier-clearance.svg" alt="Three recovery poses: nose against a barrier, reverse to make space, then turn with room for the car's corners."></a>
+      <figcaption>Reverse to make space before turning away from the barrier.</figcaption>
+    </figure>
+  </section>
+  <section>
+    <h2>03 / Choose a useful direction</h2>
+    <figure>
+      <a href="recovery-direction.svg"><img src="recovery-direction.svg" alt="Nose against the barrier: reverse. Rear against the barrier: drive forward."></a>
+      <figcaption>Choose forward or reverse according to which end of the car is blocked.</figcaption>
+    </figure>
+  </section>
+  <section>
+    <h2>04 / Look at the corner, not just the heading</h2>
+    <figure>
+      <a href="recovery-corners.svg"><img src="recovery-corners.svg" alt="A nearly parallel car pointing slightly outward, with its front corner close to the barrier."></a>
+      <figcaption>A labelled enlargement makes the small clearance visible. The dashed footprint corresponds to the four-corner approximation.</figcaption>
+    </figure>
+  </section>
+  <section>
+    <h2>Chapter 3 / Choose your speed</h2>
+    <p>Corner radius, grip, braking distance, and gearing determine how quickly
+      the car can approach a bend. <a href="../../../../doc/manual/api/robot_tutorial_chapter_3.html">Chapter 3</a>
+      connects these measurements to the speed controller.</p>
+    <figure><a href="speed-radius.svg"><img src="speed-radius.svg" alt="Two turn radii with inward force arrows and model speed estimates."></a><figcaption>Radius comparison at one scale; equal grip and the same car.</figcaption></figure>
+    <figure><a href="speed-braking.svg"><img src="speed-braking.svg" alt="Available approach distance and required braking distance."></a><figcaption>Compare the distance needed to slow down with the distance remaining before the bend.</figcaption></figure>
+    <figure><a href="speed-profile.svg"><img src="speed-profile.svg" alt="Target speed decreasing before the bend."></a><figcaption>A calculated target profile, explicitly distinguished from a measured run.</figcaption></figure>
+    <figure><a href="speed-gears.svg"><img src="speed-gears.svg" alt="Different upshift and downshift thresholds."></a><figcaption>Gear hunting explained through a shared speed axis and overlap bands.</figcaption></figure>
+  </section>
+  <section>
+    <h2>Chapter 3 / Optional deeper reading</h2>
+    <figure><a href="speed-aero.svg"><img src="speed-aero.svg" alt="Drag and downforce acting in different directions."></a><figcaption>Drag opposes motion; downforce increases the normal load on the tyres.</figcaption></figure>
+    <figure><a href="speed-corner-aero.svg"><img src="speed-corner-aero.svg" alt="Cornering speed estimates with and without downforce."></a><figcaption>The driving cap remains finite even when the model stops supplying a finite bound.</figcaption></figure>
+    <figure><a href="speed-integral.svg"><img src="speed-integral.svg" alt="An underestimated aerodynamic work integral."></a><figcaption>Why the final-speed rectangle leads to a conservative distance estimate.</figcaption></figure>
+    <figure><a href="speed-comparison.svg"><img src="speed-comparison.svg" alt="Basic, approximate, numerical and analytical braking distances."></a><figcaption>Equation-derived curves, explained in the analytical derivation.</figcaption></figure>
+    <figure><a href="speed-distance-map.svg"><img src="speed-distance-map.svg" alt="Analytical braking distance as a function of both initial and final speed."></a><figcaption>A contour map shows how braking distance depends on both speeds.</figcaption></figure>
+    <figure><a href="speed-slip.svg"><img src="speed-slip.svg" alt="Rolling, locked and spinning wheel-speed examples."></a><figcaption>Wheel circumferential speed is measured relative to the axle, not the ground.</figcaption></figure>
+  </section>
+  <section>
+    <h2>Chapter 4 / Look ahead and follow a path</h2>
+    <p>The centerline distance, target direction, car heading, and driven path
+      have different roles. These diagrams use explicit geometric constructions;
+      the paths are not simulator traces. Read <a href="../../../../doc/manual/api/robot_tutorial_chapter_4.html">Chapter 4</a> for the driving experiments.</p>
+    <figure><a href="path-anticipation.svg"><img src="path-anticipation.svg" alt="The same bend and car pose with current-position and lookahead steering."></a><figcaption>Looking ahead anticipates the bend; steering from the current tangent reacts later.</figcaption></figure>
+    <figure><a href="path-distance.svg"><img src="path-distance.svg" alt="Lookahead follows the centerline; the target vector starts at the actual car."></a><figcaption>Arc distance and straight target direction stay distinct.</figcaption></figure>
+    <figure><a href="path-construction.svg"><img src="path-construction.svg" alt="Straight interpolation and signed curve rotation."></a><figcaption>Target construction from segment geometry.</figcaption></figure>
+    <figure><a href="path-heading.svg"><img src="path-heading.svg" alt="Car yaw and target heading produce the signed steering error."></a><figcaption>All angles use the same world reference.</figcaption></figure>
+    <figure><a href="path-lookahead.svg"><img src="path-lookahead.svg" alt="Calculated lookahead versus speed for three base distances."></a><figcaption>Distance in metres; the speed coefficient is in seconds.</figcaption></figure>
+    <figure><a href="path-radius.svg"><img src="path-radius.svg" alt="A constructed candidate path has a different radius from the centerline."></a><figcaption>Different centers, entry points, and exit points.</figcaption></figure>
+    <figure><a href="path-clearance.svg"><img src="path-clearance.svg" alt="Changing car heading changes corner clearance at the same center position."></a><figcaption>The same road and scale in each panel.</figcaption></figure>
+    <figure><a href="path-projection.svg"><img src="path-projection.svg" alt="A displacement split into a line projection and perpendicular residual."></a><figcaption>Geometry companion: distance to an infinite line.</figcaption></figure>
+  </section>
+  <section>
+    <h2>Chapter 5 / Share the road</h2>
+    <p>Measure the space around both cars and follow a manoeuvre from following
+      through passing and returning. Read <a href="../../../../doc/manual/api/robot_tutorial_chapter_5.html">Chapter 5</a>
+      for the traffic-planning rules and racing exercises.</p>
+    <figure><a href="traffic-gap.svg"><img src="traffic-gap.svg" alt="Footprint gap and a worked following-speed example."></a><figcaption>The available gap excludes both car half-lengths.</figcaption></figure>
+    <figure><a href="traffic-corridor.svg"><img src="traffic-corridor.svg" alt="A free passing candidate and traffic occupying both side candidates."></a><figcaption>Check the transition as well as the destination.</figcaption></figure>
+    <figure><a href="traffic-target.svg"><img src="traffic-target.svg" alt="Offset targets along the local left normal on a straight and a bend."></a><figcaption>The target segment determines the normal direction.</figcaption></figure>
+    <figure><a href="traffic-phases.svg"><img src="traffic-phases.svg" alt="Four stages from following through passing and returning."></a><figcaption>Returning requires clearance behind the whole car.</figcaption></figure>
+    <figure><a href="traffic-hold.svg"><img src="traffic-hold.svg" alt="A frozen target keeps asking for a lane change; a holding correction withdraws that request."></a><figcaption>An interrupted manoeuvre uses actual position and lateral-velocity feedback.</figcaption></figure>
+    <figure><a href="traffic-wrap.svg"><img src="traffic-wrap.svg" alt="A twenty-metre gap across the start line."></a><figcaption>Signed nearby separation differs from race position.</figcaption></figure>
+    <figure><a href="traffic-footprint.svg"><img src="traffic-footprint.svg" alt="Body heading changes projected footprint width."></a><figcaption>Dimensions remain meaningful at zero speed.</figcaption></figure>
+    <figure><a href="traffic-closing.svg"><img src="traffic-closing.svg" alt="Constant-speed predictions of closing, unchanged and growing gaps."></a><figcaption>State the prediction assumption and handle equal speeds.</figcaption></figure>
+  </section>
+  <section>
+    <h2>Chapter 6 / Complete the driver</h2>
+    <p>Route construction, service capture, and coordinated controls come together
+      in <a href="../../../../doc/manual/api/robot_tutorial_chapter_6.html">Chapter 6</a>.
+      The spline plots show how endpoint positions and slopes shape the pit route.</p>
+    <figure><a href="pit-route.svg"><img src="pit-route.svg" alt="Seven pit-route milestones and their distance-offset graph."></a><figcaption>The plan view and function graph describe the same illustrative route.</figcaption></figure>
+    <figure><a href="pit-capture.svg"><img src="pit-capture.svg" alt="Pit stopping region, rectangular car footprint and barrier."></a><figcaption>Position, speed, request and availability all matter.</figcaption></figure>
+    <figure><a href="pit-ownership.svg"><img src="pit-ownership.svg" alt="Control ownership through racing, pit travel, service and rejoining."></a><figcaption>One owner per update; explicit state handoffs.</figcaption></figure>
+    <figure><a href="pit-basis.svg"><img src="pit-basis.svg" alt="Four calculated cubic Hermite basis functions."></a><figcaption>The full derivation explains each endpoint condition.</figcaption></figure>
+    <figure><a href="pit-worked.svg"><img src="pit-worked.svg" alt="A worked cubic and linear interpolation example."></a><figcaption>Same endpoint positions, different slopes.</figcaption></figure>
+    <figure><a href="pit-continuity.svg"><img src="pit-continuity.svg" alt="Continuous values and slopes with a second-derivative jump."></a><figcaption>Cubic Hermite interpolation supplies C1 continuity, not automatic C2 continuity.</figcaption></figure>
+  </section>
+  <section>
+    <h2>Appendix A / Follow the configuration</h2>
+    <figure><a href="setup-flow.svg"><img src="setup-flow.svg" alt="Separate physical override and private driver parameter paths through the session callbacks."></a><figcaption>Car/category bounds constrain physical settings; private parameters are copied and applied after controller initialization. Read <a href="../../../../doc/manual/api/robot_tutorial_appendix_a.html">Appendix A</a>.</figcaption></figure>
+  </section>
+  <section>
+    <h2>Appendix B / From artwork to the simulator</h2>
+    <p>Read <a href="../../../../doc/manual/api/robot_tutorial_appendix_b.html">Appendix B</a> for editable sources, SGI export, lookup rules, and in-game checks.</p>
+    <figure><a href="texture-pit-scene-hires.png"><img src="texture-pit-scene.png" alt="The red-and-cream Tutorial B car and its matching pit sign rendered in TORCS."></a><figcaption>Tutorial B's number-8 car and matching pit sign. Click the image to enlarge it.</figcaption></figure>
+    <figure><a href="texture-atlas.png"><img src="texture-atlas.png" alt="Tutorial B texture atlas over a transparency checkerboard."></a><figcaption>Artwork © 2012, 2026 Bernhard Wymann, Free Art License 1.3; editable sources and attribution are in the driver download.</figcaption></figure>
+    <figure><a href="texture-lookup.svg"><img src="texture-lookup.svg" alt="Individual robot, module-level image, then stock car fallback."></a><figcaption>The model requests a filename; the first matching body texture wins.</figcaption></figure>
+    <figure><a href="texture-pit-uv.svg"><img src="texture-pit-uv.svg" alt="Pit logo visible region, unused lower third and constant edge colour."></a><figcaption>The pixel boundary is calculated from the renderer's v = 0.33 coordinate.</figcaption></figure>
+  </section>
+  <section>
+    <h2>Appendix C / Independent robots in one module</h2>
+    <p><a href="../../../../doc/manual/api/robot_tutorial_appendix_c.html">Appendix C</a> completes the tutorial with per-robot ownership, configuration, and a shared-pit exercise.</p>
+    <figure><a href="multi-scene-hires.png"><img src="multi-scene.png" alt="Red 81 and Teal 82 rendered beside the Tutorial C team sign."></a><figcaption>Red (81) and Teal (82) use individual liveries and a common team pit sign. Click the image to enlarge it.</figcaption></figure>
+    <figure><a href="multi-ownership.svg"><img src="multi-ownership.svg" alt="Two registration indices route callbacks to independently owned driver objects."></a><figcaption>Shared code and engine observations; separate controller histories and outputs.</figcaption></figure>
+    <figure><a href="multi-settings.svg"><img src="multi-settings.svg" alt="Common configuration layers followed by separate individual default and track layers."></a><figcaption>Later valid values override earlier values for each key and each robot.</figcaption></figure>
+  </section>
+  <footer>Teaching diagrams use the GNU Free Documentation License, version 1.2 or later. See <a href="../../../../doc/manual/api/robot_tutorial_credits.html">credits and licenses</a> for artwork and simulator images.</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,2701 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : yellow-sea-circuit.xml
+    created              : 15 Aug 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Yellow Sea Circuit" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Yellow Sea Circuit" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Yellow Sea Circuit for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="yellow-sea-circuit.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="yellow-sea-circuit-relief.ac" />
+			<attstr name="elevation map" val="yellow-sea-circuit-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-4.1132" unit="m" />
+			<attnum name="maximum altitude" val="27.3782" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="right" />
+			<attstr name="entry" val="YEONGAM F1 Track-119" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="YEONGAM F1 Track-12" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="-2.2476" />
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="-0.8033" unit="%" />
+				<attnum name="profil end tangent" val="-2.5278" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_turn-1">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="300" />
+				<attnum name="arc" unit="deg" val="0.1825" />
+				<attnum name="z end" unit="m" val="-2.2816" />
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="13.9443" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.2476" unit="m" />
+				<attnum name="profil start tangent" val="-2.5278" unit="%" />
+				<attnum name="profil end tangent" val="-3.2759" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-6-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2340.690" />
+				<attnum name="arc" unit="deg" val="0.50263269171" />
+				<attnum name="z end" unit="m" val="-2.8965" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="13.9443" unit="m" />
+					<attnum name="end width" val="12.7464" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.2816" unit="m" />
+				<attnum name="profil start tangent" val="-3.2759" unit="%" />
+				<attnum name="profil end tangent" val="-2.3636" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-6-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2340.690" />
+				<attnum name="arc" unit="deg" val="0.28126431829" />
+				<attnum name="z end" unit="m" val="-3.0956" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.7464" unit="m" />
+					<attnum name="end width" val="12.0762" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.8965" unit="m" />
+				<attnum name="profil start tangent" val="-2.3636" unit="%" />
+				<attnum name="profil end tangent" val="-0.8211" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-7">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="772.660" />
+				<attnum name="arc" unit="deg" val="2.37442937" />
+				<attnum name="z end" unit="m" val="-3.0667" />
+				<section name="Left Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="3.9526" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.0762" unit="m" />
+					<attnum name="end width" val="10.2083" unit="m" />
+				</section>
+				<attnum name="z start" val="-3.0956" unit="m" />
+				<attnum name="profil start tangent" val="-0.8211" unit="%" />
+				<attnum name="profil end tangent" val="0.6886" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="102.667" />
+				<attnum name="arc" unit="deg" val="4.60639690" />
+				<attnum name="z end" unit="m" val="-2.9605" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="3.9526" unit="m" />
+					<attnum name="end width" val="3.669" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.2083" unit="m" />
+					<attnum name="end width" val="9.7268" unit="m" />
+				</section>
+				<attnum name="z start" val="-3.0667" unit="m" />
+				<attnum name="profil start tangent" val="0.6886" unit="%" />
+				<attnum name="profil end tangent" val="1.4057" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-9">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="11.169" />
+				<attnum name="arc" unit="deg" val="40.58031569" />
+				<attnum name="z end" unit="m" val="-2.8399" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="3.669" unit="m" />
+					<attnum name="end width" val="3.669" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="9.7268" unit="m" />
+					<attnum name="end width" val="9.2654" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.9605" unit="m" />
+				<attnum name="profil start tangent" val="1.4057" unit="%" />
+				<attnum name="profil end tangent" val="1.4971" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-10">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="12.647" />
+				<attnum name="arc" unit="deg" val="67.74287841" />
+				<attnum name="z end" unit="m" val="-2.6201" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="3.669" unit="m" />
+					<attnum name="end width" val="3.669" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="9.2654" unit="m" />
+					<attnum name="end width" val="8.3931" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.8399" unit="m" />
+				<attnum name="profil start tangent" val="1.4971" unit="%" />
+				<attnum name="profil end tangent" val="1.1841" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-11">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="287.000" />
+				<attnum name="arc" unit="deg" val="3.38845829" />
+				<attnum name="z end" unit="m" val="-2.4676" />
+				<section name="Left Side">
+					<attnum name="start width" val="3.669" unit="m" />
+					<attnum name="end width" val="5.2844" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="8.3931" unit="m" />
+					<attnum name="end width" val="7.403" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.6201" unit="m" />
+				<attnum name="profil start tangent" val="1.1841" unit="%" />
+				<attnum name="profil end tangent" val="0.4674" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-12">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1559.595" />
+				<attnum name="arc" unit="deg" val="0.89634362791" />
+				<attnum name="z end" unit="m" val="-2.4587" />
+				<section name="Left Side">
+					<attnum name="start width" val="5.2844" unit="m" />
+					<attnum name="end width" val="6.0767" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7.403" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.4676" unit="m" />
+				<attnum name="profil start tangent" val="0.4674" unit="%" />
+				<attnum name="profil end tangent" val="-0.3407" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-12-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1559.595" />
+				<attnum name="arc" unit="deg" val="1.04450818209" />
+				<attnum name="z end" unit="m" val="-2.6628" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.0767" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="z start" val="-2.4587" unit="m" />
+				<attnum name="profil start tangent" val="-0.3407" unit="%" />
+				<attnum name="profil end tangent" val="-0.8604" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-13">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="61.998" />
+				<attnum name="arc" unit="deg" val="46.15780046" />
+				<attnum name="z end" unit="m" val="-3.1637" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-2.6628" unit="m" />
+				<attnum name="profil start tangent" val="-0.8604" unit="%" />
+				<attnum name="profil end tangent" val="-0.9352" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-14">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1248.847" />
+				<attnum name="arc" unit="deg" val="0.82634395" />
+				<attnum name="z end" unit="m" val="-3.32" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.1637" unit="m" />
+				<attnum name="profil start tangent" val="-0.9352" unit="%" />
+				<attnum name="profil end tangent" val="-0.6416" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-15">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3744.056" />
+				<attnum name="arc" unit="deg" val="0.27563502" />
+				<attnum name="z end" unit="m" val="-3.3948" />
+				<attnum name="z start" val="-3.32" unit="m" />
+				<attnum name="profil start tangent" val="-0.6416" unit="%" />
+				<attnum name="profil end tangent" val="0.0158" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-16">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.599406793" />
+				<attnum name="z end" unit="m" val="-3.2311" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.3948" unit="m" />
+				<attnum name="profil start tangent" val="0.0158" unit="%" />
+				<attnum name="profil end tangent" val="-0.0554" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-16-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="341.56940142" />
+				<attnum name="z end" unit="m" val="-5.1373" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.2311" unit="m" />
+				<attnum name="profil start tangent" val="-0.0554" unit="%" />
+				<attnum name="profil end tangent" val="-0.0372" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-17">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.19141855" />
+				<attnum name="z end" unit="m" val="-5.0727" />
+				<attnum name="z start" val="-5.1373" unit="m" />
+				<attnum name="profil start tangent" val="-0.0372" unit="%" />
+				<attnum name="profil end tangent" val="0.4498" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-18">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="105.385176" />
+				<attnum name="z end" unit="m" val="-4.6344" />
+				<attnum name="z start" val="-5.0727" unit="m" />
+				<attnum name="profil start tangent" val="0.4498" unit="%" />
+				<attnum name="profil end tangent" val="0.2597" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-19">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.00012405" />
+				<attnum name="z end" unit="m" val="-4.6344" />
+				<attnum name="z start" val="-4.6344" unit="m" />
+				<attnum name="profil start tangent" val="0.2597" unit="%" />
+				<attnum name="profil end tangent" val="0.2597" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="168.15222650" />
+				<attnum name="z end" unit="m" val="-4.4603" />
+				<attnum name="z start" val="-4.6344" unit="m" />
+				<attnum name="profil start tangent" val="0.2597" unit="%" />
+				<attnum name="profil end tangent" val="0.6693" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="82.28381575" />
+				<attnum name="z end" unit="m" val="-3.4441" />
+				<attnum name="z start" val="-4.4603" unit="m" />
+				<attnum name="profil start tangent" val="0.6693" unit="%" />
+				<attnum name="profil end tangent" val="0.7259" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-20">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="82.28381575" />
+				<attnum name="z end" unit="m" val="-3.2656" />
+				<attnum name="z start" val="-3.4441" unit="m" />
+				<attnum name="profil start tangent" val="0.7259" unit="%" />
+				<attnum name="profil end tangent" val="1.0425" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-21">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.00195825" />
+				<attnum name="z end" unit="m" val="-3.2631" />
+				<attnum name="z start" val="-3.2656" unit="m" />
+				<attnum name="profil start tangent" val="1.0425" unit="%" />
+				<attnum name="profil end tangent" val="0.931" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-22">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="259.095637" />
+				<attnum name="z end" unit="m" val="-3.2787" />
+				<attnum name="z start" val="-3.2631" unit="m" />
+				<attnum name="profil start tangent" val="0.931" unit="%" />
+				<attnum name="profil end tangent" val="-1.2235" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-23">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="346.178" />
+				<attnum name="arc" unit="deg" val="2.65365421" />
+				<attnum name="z end" unit="m" val="-3.67" />
+				<section name="Right Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="5.0522" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.2787" unit="m" />
+				<attnum name="profil start tangent" val="-1.2235" unit="%" />
+				<attnum name="profil end tangent" val="-2.1172" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-24">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="114.841" />
+				<attnum name="arc" unit="deg" val="7.98763774" />
+				<attnum name="z end" unit="m" val="-3.9571" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.0522" unit="m" />
+					<attnum name="end width" val="3.1072" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.67" unit="m" />
+				<attnum name="profil start tangent" val="-2.1172" unit="%" />
+				<attnum name="profil end tangent" val="-1.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-25">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="231.264" />
+				<attnum name="arc" unit="deg" val="2.01830413" />
+				<attnum name="z end" unit="m" val="-4.0554" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="3.1072" unit="m" />
+					<attnum name="end width" val="2.748" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.9571" unit="m" />
+				<attnum name="profil start tangent" val="-1.5" unit="%" />
+				<attnum name="profil end tangent" val="-1.0173" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-26">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="10.248" />
+				<attnum name="arc" unit="deg" val="43.35535174" />
+				<attnum name="z end" unit="m" val="-4.1196" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="2.748" unit="m" />
+					<attnum name="end width" val="2.748" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.0554" unit="m" />
+				<attnum name="profil start tangent" val="-1.0173" unit="%" />
+				<attnum name="profil end tangent" val="-0.5882" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-27">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="11.545" />
+				<attnum name="arc" unit="deg" val="80.44680962" />
+				<attnum name="z end" unit="m" val="-4.1761" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="2.748" unit="m" />
+					<attnum name="end width" val="2.748" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.1196" unit="m" />
+				<attnum name="profil start tangent" val="-0.5882" unit="%" />
+				<attnum name="profil end tangent" val="-0.2203" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-28-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="501.455" />
+				<attnum name="arc" unit="deg" val="1.26208798592" />
+				<attnum name="z end" unit="m" val="-4.1863" />
+				<section name="Right Side">
+					<attnum name="start width" val="2.748" unit="m" />
+					<attnum name="end width" val="4.0899" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.1761" unit="m" />
+				<attnum name="profil start tangent" val="-0.2203" unit="%" />
+				<attnum name="profil end tangent" val="-0.093" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-28-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="501.455" />
+				<attnum name="arc" unit="deg" val="0.96901240408" />
+				<attnum name="z end" unit="m" val="-4.1943" />
+				<section name="Right Side">
+					<attnum name="start width" val="4.0899" unit="m" />
+					<attnum name="end width" val="5.1202" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.1863" unit="m" />
+				<attnum name="profil start tangent" val="-0.093" unit="%" />
+				<attnum name="profil end tangent" val="-0.1582" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-29">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="31.519163903" />
+				<attnum name="z end" unit="m" val="-4.2644" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.1202" unit="m" />
+					<attnum name="end width" val="6.5501" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.1943" unit="m" />
+				<attnum name="profil start tangent" val="-0.1582" unit="%" />
+				<attnum name="profil end tangent" val="-0.3204" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-29-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="9.917587097" />
+				<attnum name="z end" unit="m" val="-4.3059" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.5501" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.2644" unit="m" />
+				<attnum name="profil start tangent" val="-0.3204" unit="%" />
+				<attnum name="profil end tangent" val="-0.47" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-30">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.10289611" />
+				<attnum name="z end" unit="m" val="-4.3434" />
+				<attnum name="z start" val="-4.3059" unit="m" />
+				<attnum name="profil start tangent" val="-0.47" unit="%" />
+				<attnum name="profil end tangent" val="-0.5735" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-31">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="175.624378" />
+				<attnum name="z end" unit="m" val="-5.4413" />
+				<attnum name="z start" val="-4.3434" unit="m" />
+				<attnum name="profil start tangent" val="-0.5735" unit="%" />
+				<attnum name="profil end tangent" val="-0.0126" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-32">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.02572212" />
+				<attnum name="z end" unit="m" val="-5.4306" />
+				<attnum name="z start" val="-5.4413" unit="m" />
+				<attnum name="profil start tangent" val="-0.0126" unit="%" />
+				<attnum name="profil end tangent" val="0.3328" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-33">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="178.915925" />
+				<attnum name="z end" unit="m" val="-5.3133" />
+				<attnum name="z start" val="-5.4306" unit="m" />
+				<attnum name="profil start tangent" val="0.3328" unit="%" />
+				<attnum name="profil end tangent" val="-0.1304" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-34">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.00859933" />
+				<attnum name="z end" unit="m" val="-5.3152" />
+				<attnum name="z start" val="-5.3133" unit="m" />
+				<attnum name="profil start tangent" val="-0.1304" unit="%" />
+				<attnum name="profil end tangent" val="-0.4032" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-35">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="134.785307" />
+				<attnum name="z end" unit="m" val="-5.9623" />
+				<attnum name="z start" val="-5.3152" unit="m" />
+				<attnum name="profil start tangent" val="-0.4032" unit="%" />
+				<attnum name="profil end tangent" val="0.4682" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-36">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3570.900" />
+				<attnum name="arc" unit="deg" val="0.89924848" />
+				<attnum name="z end" unit="m" val="-5.1684" />
+				<attnum name="z start" val="-5.9623" unit="m" />
+				<attnum name="profil start tangent" val="0.4682" unit="%" />
+				<attnum name="profil end tangent" val="1.209" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-37-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1186.329" />
+				<attnum name="arc" unit="deg" val="0.63425557081" />
+				<attnum name="z end" unit="m" val="-5.0369" />
+				<attnum name="z start" val="-5.1684" unit="m" />
+				<attnum name="profil start tangent" val="1.209" unit="%" />
+				<attnum name="profil end tangent" val="0.8961" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-37-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1186.329" />
+				<attnum name="arc" unit="deg" val="2.07207160919" />
+				<attnum name="z end" unit="m" val="-4.6977" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.0369" unit="m" />
+				<attnum name="profil start tangent" val="0.8961" unit="%" />
+				<attnum name="profil end tangent" val="0.9827" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-38">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="105.234" />
+				<attnum name="arc" unit="deg" val="8.85119512" />
+				<attnum name="z end" unit="m" val="-4.5067" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.6977" unit="m" />
+				<attnum name="profil start tangent" val="0.9827" unit="%" />
+				<attnum name="profil end tangent" val="1.2514" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-39">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="24.541" />
+				<attnum name="arc" unit="deg" val="36.71973545" />
+				<attnum name="z end" unit="m" val="-4.2979" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.5067" unit="m" />
+				<attnum name="profil start tangent" val="1.2514" unit="%" />
+				<attnum name="profil end tangent" val="1.2664" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-40">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="21.686" />
+				<attnum name="arc" unit="deg" val="69.40700145" />
+				<attnum name="z end" unit="m" val="-3.9814" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.2979" unit="m" />
+				<attnum name="profil start tangent" val="1.2664" unit="%" />
+				<attnum name="profil end tangent" val="0.7785" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-41">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="35.333" />
+				<attnum name="arc" unit="deg" val="46.05044434" />
+				<attnum name="z end" unit="m" val="-3.8814" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.9814" unit="m" />
+				<attnum name="profil start tangent" val="0.7785" unit="%" />
+				<attnum name="profil end tangent" val="-0.2225" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-42">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="237.353" />
+				<attnum name="arc" unit="deg" val="7.24627028" />
+				<attnum name="z end" unit="m" val="-4.1207" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.8814" unit="m" />
+				<attnum name="profil start tangent" val="-0.2225" unit="%" />
+				<attnum name="profil end tangent" val="-1.3686" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-43">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="754.935" />
+				<attnum name="arc" unit="deg" val="2.28098162" />
+				<attnum name="z end" unit="m" val="-4.7037" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.1207" unit="m" />
+				<attnum name="profil start tangent" val="-1.3686" unit="%" />
+				<attnum name="profil end tangent" val="-2.1937" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-44">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.007598" />
+				<attnum name="z end" unit="m" val="-4.9976" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.7037" unit="m" />
+				<attnum name="profil start tangent" val="-2.1937" unit="%" />
+				<attnum name="profil end tangent" val="-2.4002" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-45">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="320.712" />
+				<attnum name="arc" unit="deg" val="2.93062090" />
+				<attnum name="z end" unit="m" val="-5.3836" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.9976" unit="m" />
+				<attnum name="profil start tangent" val="-2.4002" unit="%" />
+				<attnum name="profil end tangent" val="-2.0008" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-46">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="18.736" />
+				<attnum name="arc" unit="deg" val="47.29311890" />
+				<attnum name="z end" unit="m" val="-5.6386" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.3836" unit="m" />
+				<attnum name="profil start tangent" val="-2.0008" unit="%" />
+				<attnum name="profil end tangent" val="-0.9509" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-47">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="18.217" />
+				<attnum name="arc" unit="deg" val="48.34652047" />
+				<attnum name="z end" unit="m" val="-5.6775" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.6386" unit="m" />
+				<attnum name="profil start tangent" val="-0.9509" unit="%" />
+				<attnum name="profil end tangent" val="0.5725" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-48">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="269.104" />
+				<attnum name="arc" unit="deg" val="3.48091006" />
+				<attnum name="z end" unit="m" val="-5.4489" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.6775" unit="m" />
+				<attnum name="profil start tangent" val="0.5725" unit="%" />
+				<attnum name="profil end tangent" val="2.1749" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-49">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1770.240" />
+				<attnum name="arc" unit="deg" val="0.71257815" />
+				<attnum name="z end" unit="m" val="-4.7991" />
+				<attnum name="z start" val="-5.4489" unit="m" />
+				<attnum name="profil start tangent" val="2.1749" unit="%" />
+				<attnum name="profil end tangent" val="3.268" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-50">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="591.573" />
+				<attnum name="arc" unit="deg" val="2.13212080" />
+				<attnum name="z end" unit="m" val="-4.01" />
+				<attnum name="z start" val="-4.7991" unit="m" />
+				<attnum name="profil start tangent" val="3.268" unit="%" />
+				<attnum name="profil end tangent" val="3.3946" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-51">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="338.589" />
+				<attnum name="arc" unit="deg" val="1.71216314" />
+				<attnum name="z end" unit="m" val="-3.6857" />
+				<attnum name="z start" val="-4.01" unit="m" />
+				<attnum name="profil start tangent" val="3.3946" unit="%" />
+				<attnum name="profil end tangent" val="2.9135" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-52">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="18.112" />
+				<attnum name="arc" unit="deg" val="31.21394477" />
+				<attnum name="z end" unit="m" val="-3.427" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.6857" unit="m" />
+				<attnum name="profil start tangent" val="2.9135" unit="%" />
+				<attnum name="profil end tangent" val="2.1777" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-53">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="17.648" />
+				<attnum name="arc" unit="deg" val="71.38671878" />
+				<attnum name="z end" unit="m" val="-3.0459" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.427" unit="m" />
+				<attnum name="profil start tangent" val="2.1777" unit="%" />
+				<attnum name="profil end tangent" val="1.4094" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-54-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="213.529" />
+				<attnum name="arc" unit="deg" val="4.49998373801" />
+				<attnum name="z end" unit="m" val="-2.8638" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.0459" unit="m" />
+				<attnum name="profil start tangent" val="1.4094" unit="%" />
+				<attnum name="profil end tangent" val="1.0197" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-54-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="213.529" />
+				<attnum name="arc" unit="deg" val="2.29600986199" />
+				<attnum name="z end" unit="m" val="-2.7822" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-2.8638" unit="m" />
+				<attnum name="profil start tangent" val="1.0197" unit="%" />
+				<attnum name="profil end tangent" val="0.9253" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-55">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3711.388" />
+				<attnum name="arc" unit="deg" val="0.48541583114" />
+				<attnum name="z end" unit="m" val="-2.5002" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.7822" unit="m" />
+				<attnum name="profil start tangent" val="0.9253" unit="%" />
+				<attnum name="profil end tangent" val="0.9869" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-55-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3711.388" />
+				<attnum name="arc" unit="deg" val="0.69019868886" />
+				<attnum name="z end" unit="m" val="-2.0187" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.5002" unit="m" />
+				<attnum name="profil start tangent" val="0.9869" unit="%" />
+				<attnum name="profil end tangent" val="0.486" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-56">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="499.179" />
+				<attnum name="arc" unit="deg" val="8.72408781" />
+				<attnum name="z end" unit="m" val="-2.0985" />
+				<attnum name="z start" val="-2.0187" unit="m" />
+				<attnum name="profil start tangent" val="0.486" unit="%" />
+				<attnum name="profil end tangent" val="-0.7753" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-57">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="379.535" />
+				<attnum name="arc" unit="deg" val="12.35588381" />
+				<attnum name="z end" unit="m" val="-3.2817" />
+				<attnum name="z start" val="-2.0985" unit="m" />
+				<attnum name="profil start tangent" val="-0.7753" unit="%" />
+				<attnum name="profil end tangent" val="-0.3276" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-58-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1017.508" />
+				<attnum name="arc" unit="deg" val="1.93918163043" />
+				<attnum name="z end" unit="m" val="-3.0095" />
+				<attnum name="z start" val="-3.2817" unit="m" />
+				<attnum name="profil start tangent" val="-0.3276" unit="%" />
+				<attnum name="profil end tangent" val="0.8176" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-58-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1017.508" />
+				<attnum name="arc" unit="deg" val="2.68504833957" />
+				<attnum name="z end" unit="m" val="-2.6067" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.0095" unit="m" />
+				<attnum name="profil start tangent" val="0.8176" unit="%" />
+				<attnum name="profil end tangent" val="0.9559" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-59">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="533.281" />
+				<attnum name="arc" unit="deg" val="3.02479402" />
+				<attnum name="z end" unit="m" val="-2.3062" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.6067" unit="m" />
+				<attnum name="profil start tangent" val="0.9559" unit="%" />
+				<attnum name="profil end tangent" val="1.524" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-60">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="63.667" />
+				<attnum name="arc" unit="deg" val="24.94033322" />
+				<attnum name="z end" unit="m" val="-1.7573" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-2.3062" unit="m" />
+				<attnum name="profil start tangent" val="1.524" unit="%" />
+				<attnum name="profil end tangent" val="2.3168" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-61">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="67.747" />
+				<attnum name="arc" unit="deg" val="23.47091802" />
+				<attnum name="z end" unit="m" val="-1.0211" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.7573" unit="m" />
+				<attnum name="profil start tangent" val="2.3168" unit="%" />
+				<attnum name="profil end tangent" val="2.7051" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-62">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="352.136" />
+				<attnum name="arc" unit="deg" val="4.57733817" />
+				<attnum name="z end" unit="m" val="-0.2454" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.0211" unit="m" />
+				<attnum name="profil start tangent" val="2.7051" unit="%" />
+				<attnum name="profil end tangent" val="2.3021" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-63">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3589.100" />
+				<attnum name="arc" unit="deg" val="1.06487795" />
+				<attnum name="z end" unit="m" val="0.9865" />
+				<attnum name="z start" val="-0.2454" unit="m" />
+				<attnum name="profil start tangent" val="2.3021" unit="%" />
+				<attnum name="profil end tangent" val="0.1787" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-64">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="124.189" />
+				<attnum name="arc" unit="deg" val="30.06675217" />
+				<attnum name="z end" unit="m" val="0.016" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.9865" unit="m" />
+				<attnum name="profil start tangent" val="0.1787" unit="%" />
+				<attnum name="profil end tangent" val="-1.9866" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-65">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="108.839" />
+				<attnum name="arc" unit="deg" val="22.94762703" />
+				<attnum name="z end" unit="m" val="-1.0668" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.016" unit="m" />
+				<attnum name="profil start tangent" val="-1.9866" unit="%" />
+				<attnum name="profil end tangent" val="-1.6853" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-66">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="274.182" />
+				<attnum name="arc" unit="deg" val="9.21311329" />
+				<attnum name="z end" unit="m" val="-1.4578" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.0668" unit="m" />
+				<attnum name="profil start tangent" val="-1.6853" unit="%" />
+				<attnum name="profil end tangent" val="-0.4962" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-67-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="18.010316916" />
+				<attnum name="z end" unit="m" val="-1.4768" />
+				<attnum name="z start" val="-1.4578" unit="m" />
+				<attnum name="profil start tangent" val="-0.4962" unit="%" />
+				<attnum name="profil end tangent" val="-0.0967" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-67-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="22" />
+				<attnum name="z end" unit="m" val="-1.4961" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.4768" unit="m" />
+				<attnum name="profil start tangent" val="-0.0967" unit="%" />
+				<attnum name="profil end tangent" val="-0.1233" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-67-post-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="25" />
+				<attnum name="z end" unit="m" val="-1.5358" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.4961" unit="m" />
+				<attnum name="profil start tangent" val="-0.1233" unit="%" />
+				<attnum name="profil end tangent" val="-0.2694" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-67-post-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.82972555" />
+				<attnum name="z end" unit="m" val="-1.6757" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.5358" unit="m" />
+				<attnum name="profil start tangent" val="-0.2694" unit="%" />
+				<attnum name="profil end tangent" val="-0.6642" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-68">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="754.416" />
+				<attnum name="arc" unit="deg" val="2.76875589" />
+				<attnum name="z end" unit="m" val="-2.0215" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.6757" unit="m" />
+				<attnum name="profil start tangent" val="-0.6642" unit="%" />
+				<attnum name="profil end tangent" val="-1.5647" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-69">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="62.895" />
+				<attnum name="arc" unit="deg" val="32.33135890" />
+				<attnum name="z end" unit="m" val="-2.7955" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-2.0215" unit="m" />
+				<attnum name="profil start tangent" val="-1.5647" unit="%" />
+				<attnum name="profil end tangent" val="-2.6159" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-70">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="53.500" />
+				<attnum name="arc" unit="deg" val="29.52985355" />
+				<attnum name="z end" unit="m" val="-3.6367" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-2.7955" unit="m" />
+				<attnum name="profil start tangent" val="-2.6159" unit="%" />
+				<attnum name="profil end tangent" val="-2.9363" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-71">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="269.894" />
+				<attnum name="arc" unit="deg" val="5.98122049" />
+				<attnum name="z end" unit="m" val="-4.4318" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.6367" unit="m" />
+				<attnum name="profil start tangent" val="-2.9363" unit="%" />
+				<attnum name="profil end tangent" val="-2.1066" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-72">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="48.030392" />
+				<attnum name="z end" unit="m" val="-5.1001" />
+				<attnum name="z start" val="-4.4318" unit="m" />
+				<attnum name="profil start tangent" val="-2.1066" unit="%" />
+				<attnum name="profil end tangent" val="-0.8274" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-73">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1606.768" />
+				<attnum name="arc" unit="deg" val="1.07069362" />
+				<attnum name="z end" unit="m" val="-5.1792" />
+				<attnum name="z start" val="-5.1001" unit="m" />
+				<attnum name="profil start tangent" val="-0.8274" unit="%" />
+				<attnum name="profil end tangent" val="-0.0891" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-74">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="539.074" />
+				<attnum name="arc" unit="deg" val="2.16980308024" />
+				<attnum name="z end" unit="m" val="-5.1618" />
+				<section name="Right Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="6.5777" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.1792" unit="m" />
+				<attnum name="profil start tangent" val="-0.0891" unit="%" />
+				<attnum name="profil end tangent" val="0.2013" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-74-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="539.074" />
+				<attnum name="arc" unit="deg" val="1.02078485976" />
+				<attnum name="z end" unit="m" val="-5.1313" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.5777" unit="m" />
+					<attnum name="end width" val="6.379" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.1618" unit="m" />
+				<attnum name="profil start tangent" val="0.2013" unit="%" />
+				<attnum name="profil end tangent" val="0.4096" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-75">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="29.313" />
+				<attnum name="arc" unit="deg" val="29.06499923" />
+				<attnum name="z end" unit="m" val="-5.0567" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.379" unit="m" />
+					<attnum name="end width" val="6.276" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.1313" unit="m" />
+				<attnum name="profil start tangent" val="0.4096" unit="%" />
+				<attnum name="profil end tangent" val="0.5805" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-76">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="13.776" />
+				<attnum name="arc" unit="deg" val="57.76136723" />
+				<attnum name="z end" unit="m" val="-4.9651" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.276" unit="m" />
+					<attnum name="end width" val="6.276" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.0567" unit="m" />
+				<attnum name="profil start tangent" val="0.5805" unit="%" />
+				<attnum name="profil end tangent" val="0.7078" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-77">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="37.549" />
+				<attnum name="arc" unit="deg" val="15.12995944" />
+				<attnum name="z end" unit="m" val="-4.8902" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.276" unit="m" />
+					<attnum name="end width" val="6.4811" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.9651" unit="m" />
+				<attnum name="profil start tangent" val="0.7078" unit="%" />
+				<attnum name="profil end tangent" val="0.7929" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-78">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="360.215" />
+				<attnum name="arc" unit="deg" val="1.58626907" />
+				<attnum name="z end" unit="m" val="-4.8074" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.4811" unit="m" />
+					<attnum name="end width" val="6.6874" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.8902" unit="m" />
+				<attnum name="profil start tangent" val="0.7929" unit="%" />
+				<attnum name="profil end tangent" val="0.9473" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-79">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="31.749723405" />
+				<attnum name="z end" unit="m" val="-4.4692" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.6874" unit="m" />
+					<attnum name="end width" val="6.8645" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.8074" unit="m" />
+				<attnum name="profil start tangent" val="0.9473" unit="%" />
+				<attnum name="profil end tangent" val="1.3201" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-79-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="24.285733595" />
+				<attnum name="z end" unit="m" val="-4.0867" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.8645" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.4692" unit="m" />
+				<attnum name="profil start tangent" val="1.3201" unit="%" />
+				<attnum name="profil end tangent" val="1.6287" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-80">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="558.431" />
+				<attnum name="arc" unit="deg" val="6.97724642" />
+				<attnum name="z end" unit="m" val="-2.9427" />
+				<attnum name="z start" val="-4.0867" unit="m" />
+				<attnum name="profil start tangent" val="1.6287" unit="%" />
+				<attnum name="profil end tangent" val="1.4869" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-81-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="753.510" />
+				<attnum name="arc" unit="deg" val="1.04255005966" />
+				<attnum name="z end" unit="m" val="-2.7656" />
+				<attnum name="z start" val="-2.9427" unit="m" />
+				<attnum name="profil start tangent" val="1.4869" unit="%" />
+				<attnum name="profil end tangent" val="1.1012" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-81-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="753.510" />
+				<attnum name="arc" unit="deg" val="2.28115537338" />
+				<attnum name="z end" unit="m" val="-2.4923" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-2.7656" unit="m" />
+				<attnum name="profil start tangent" val="1.1012" unit="%" />
+				<attnum name="profil end tangent" val="0.4039" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-81-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="753.510" />
+				<attnum name="arc" unit="deg" val="1.85005742697" />
+				<attnum name="z end" unit="m" val="-2.5174" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.4923" unit="m" />
+				<attnum name="profil start tangent" val="0.4039" unit="%" />
+				<attnum name="profil end tangent" val="-1.0971" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-82">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="100.237" />
+				<attnum name="arc" unit="deg" val="28.54441465" />
+				<attnum name="z end" unit="m" val="-3.5616" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-2.5174" unit="m" />
+				<attnum name="profil start tangent" val="-1.0971" unit="%" />
+				<attnum name="profil end tangent" val="-2.7767" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-83">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="83.258" />
+				<attnum name="arc" unit="deg" val="34.05485930" />
+				<attnum name="z end" unit="m" val="-5.275" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.5616" unit="m" />
+				<attnum name="profil start tangent" val="-2.7767" unit="%" />
+				<attnum name="profil end tangent" val="-1.6912" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-84">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="111.811" />
+				<attnum name="arc" unit="deg" val="37.52767206" />
+				<attnum name="z end" unit="m" val="-5.2165" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.275" unit="m" />
+				<attnum name="profil start tangent" val="-1.6912" unit="%" />
+				<attnum name="profil end tangent" val="1.3248" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-85-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="60.087" />
+				<attnum name="arc" unit="deg" val="23.84998040394" />
+				<attnum name="z end" unit="m" val="-4.5737" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.2165" unit="m" />
+				<attnum name="profil start tangent" val="1.3248" unit="%" />
+				<attnum name="profil end tangent" val="1.7755" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-85-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="60.087" />
+				<attnum name="arc" unit="deg" val="40.74908387606" />
+				<attnum name="z end" unit="m" val="-4.1543" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.5737" unit="m" />
+				<attnum name="profil start tangent" val="1.7755" unit="%" />
+				<attnum name="profil end tangent" val="0.2374" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-86">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="76.207" />
+				<attnum name="arc" unit="deg" val="12.04826472" />
+				<attnum name="z end" unit="m" val="-4.2355" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.1543" unit="m" />
+				<attnum name="profil start tangent" val="0.2374" unit="%" />
+				<attnum name="profil end tangent" val="-0.6715" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-87">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="66.144" />
+				<attnum name="arc" unit="deg" val="13.86447350" />
+				<attnum name="z end" unit="m" val="-4.3694" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.2355" unit="m" />
+				<attnum name="profil start tangent" val="-0.6715" unit="%" />
+				<attnum name="profil end tangent" val="-0.8635" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-88">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="51.343" />
+				<attnum name="arc" unit="deg" val="37.74483878" />
+				<attnum name="z end" unit="m" val="-4.6707" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.3694" unit="m" />
+				<attnum name="profil start tangent" val="-0.8635" unit="%" />
+				<attnum name="profil end tangent" val="-0.9468" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-89">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="61.386" />
+				<attnum name="arc" unit="deg" val="8.7848153895" />
+				<attnum name="z end" unit="m" val="-4.7651" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.6707" unit="m" />
+				<attnum name="profil start tangent" val="-0.9468" unit="%" />
+				<attnum name="profil end tangent" val="-1.2301" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-89-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="61.386" />
+				<attnum name="arc" unit="deg" val="23.1268331405" />
+				<attnum name="z end" unit="m" val="-5.1262" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.7651" unit="m" />
+				<attnum name="profil start tangent" val="-1.2301" unit="%" />
+				<attnum name="profil end tangent" val="-1.8191" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-90">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="63.691" />
+				<attnum name="arc" unit="deg" val="21.46504445" />
+				<attnum name="z end" unit="m" val="-5.6466" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.1262" unit="m" />
+				<attnum name="profil start tangent" val="-1.8191" unit="%" />
+				<attnum name="profil end tangent" val="-2.0962" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-91">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2018.492" />
+				<attnum name="arc" unit="deg" val="0.68532937" />
+				<attnum name="z end" unit="m" val="-6.1323" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.6466" unit="m" />
+				<attnum name="profil start tangent" val="-2.0962" unit="%" />
+				<attnum name="profil end tangent" val="-0.7604" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-92">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="76.29295658" />
+				<attnum name="z end" unit="m" val="-5.7577" />
+				<attnum name="z start" val="-6.1323" unit="m" />
+				<attnum name="profil start tangent" val="-0.7604" unit="%" />
+				<attnum name="profil end tangent" val="0.8337" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-93">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1091.819" />
+				<attnum name="arc" unit="deg" val="0.79605296144" />
+				<attnum name="z end" unit="m" val="-5.5793" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.7577" unit="m" />
+				<attnum name="profil start tangent" val="0.8337" unit="%" />
+				<attnum name="profil end tangent" val="0.9979" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-93-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1091.819" />
+				<attnum name="arc" unit="deg" val="1.03332485856" />
+				<attnum name="z end" unit="m" val="-5.4179" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.5793" unit="m" />
+				<attnum name="profil start tangent" val="0.9979" unit="%" />
+				<attnum name="profil end tangent" val="0.6605" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-94">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="45.687" />
+				<attnum name="arc" unit="deg" val="41.76835492" />
+				<attnum name="z end" unit="m" val="-5.2509" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.4179" unit="m" />
+				<attnum name="profil start tangent" val="0.6605" unit="%" />
+				<attnum name="profil end tangent" val="0.6391" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-95">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="51.572" />
+				<attnum name="arc" unit="deg" val="26.44733735" />
+				<attnum name="z end" unit="m" val="-5.066" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.2509" unit="m" />
+				<attnum name="profil start tangent" val="0.6391" unit="%" />
+				<attnum name="profil end tangent" val="0.8964" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-96">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1710.337" />
+				<attnum name="arc" unit="deg" val="0.81191884" />
+				<attnum name="z end" unit="m" val="-4.8197" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.066" unit="m" />
+				<attnum name="profil start tangent" val="0.8964" unit="%" />
+				<attnum name="profil end tangent" val="0.9593" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-97">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="26.961642392" />
+				<attnum name="z end" unit="m" val="-4.5764" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.8197" unit="m" />
+				<attnum name="profil start tangent" val="0.9593" unit="%" />
+				<attnum name="profil end tangent" val="1.1347" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-97-post-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="84" />
+				<attnum name="z end" unit="m" val="-3.4282" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-4.5764" unit="m" />
+				<attnum name="profil start tangent" val="1.1347" unit="%" />
+				<attnum name="profil end tangent" val="1.0541" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-97-post-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="25.124467608" />
+				<attnum name="z end" unit="m" val="-3.2419" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.4282" unit="m" />
+				<attnum name="profil start tangent" val="1.0541" unit="%" />
+				<attnum name="profil end tangent" val="-0.4575" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-98">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="629.103" />
+				<attnum name="arc" unit="deg" val="2.42663391" />
+				<attnum name="z end" unit="m" val="-3.6833" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.2419" unit="m" />
+				<attnum name="profil start tangent" val="-0.4575" unit="%" />
+				<attnum name="profil end tangent" val="-2.5105" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-99-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="29.298" />
+				<attnum name="arc" unit="deg" val="23.91976447985" />
+				<attnum name="z end" unit="m" val="-4.0948" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.6833" unit="m" />
+				<attnum name="profil start tangent" val="-2.5105" unit="%" />
+				<attnum name="profil end tangent" val="-3.6615" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-99-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="29.298" />
+				<attnum name="arc" unit="deg" val="24.98993192015" />
+				<attnum name="z end" unit="m" val="-4.6006" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.0948" unit="m" />
+				<attnum name="profil start tangent" val="-3.6615" unit="%" />
+				<attnum name="profil end tangent" val="-3.9359" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-100">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="34.336" />
+				<attnum name="arc" unit="deg" val="26.41314050" />
+				<attnum name="z end" unit="m" val="-5.22" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-4.6006" unit="m" />
+				<attnum name="profil start tangent" val="-3.9359" unit="%" />
+				<attnum name="profil end tangent" val="-3.3787" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-101">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="570.166" />
+				<attnum name="arc" unit="deg" val="1.61931739" />
+				<attnum name="z end" unit="m" val="-5.6784" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.22" unit="m" />
+				<attnum name="profil start tangent" val="-3.3787" unit="%" />
+				<attnum name="profil end tangent" val="-1.9069" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-102">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="309.284" />
+				<attnum name="arc" unit="deg" val="2.830377369" />
+				<attnum name="z end" unit="m" val="-5.8265" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.6784" unit="m" />
+				<attnum name="profil start tangent" val="-1.9069" unit="%" />
+				<attnum name="profil end tangent" val="0.5839" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-102-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="309.284" />
+				<attnum name="arc" unit="deg" val="3.837228831" />
+				<attnum name="z end" unit="m" val="-5.3837" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.8265" unit="m" />
+				<attnum name="profil start tangent" val="0.5839" unit="%" />
+				<attnum name="profil end tangent" val="4.0986" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-103-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="239.609" />
+				<attnum name="arc" unit="deg" val="6.04656910147" />
+				<attnum name="z end" unit="m" val="-3.8515" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.3837" unit="m" />
+				<attnum name="profil start tangent" val="4.0986" unit="%" />
+				<attnum name="profil end tangent" val="7.0563" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-103-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="239.609" />
+				<attnum name="arc" unit="deg" val="2.55344476853" />
+				<attnum name="z end" unit="m" val="-2.9916" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.8515" unit="m" />
+				<attnum name="profil start tangent" val="7.0563" unit="%" />
+				<attnum name="profil end tangent" val="8.1937" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-104">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="224.480" />
+				<attnum name="arc" unit="deg" val="4.13179494" />
+				<attnum name="z end" unit="m" val="-1.6424" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.9916" unit="m" />
+				<attnum name="profil start tangent" val="8.1937" unit="%" />
+				<attnum name="profil end tangent" val="7.7646" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-105">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="24.432" />
+				<attnum name="arc" unit="deg" val="36.67407206" />
+				<attnum name="z end" unit="m" val="-0.5172" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-1.6424" unit="m" />
+				<attnum name="profil start tangent" val="7.7646" unit="%" />
+				<attnum name="profil end tangent" val="5.5553" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-106">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="23.795" />
+				<attnum name="arc" unit="deg" val="54.43847727" />
+				<attnum name="z end" unit="m" val="0.3681" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.5172" unit="m" />
+				<attnum name="profil start tangent" val="5.5553" unit="%" />
+				<attnum name="profil end tangent" val="1.312" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-107">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="345.228" />
+				<attnum name="arc" unit="deg" val="4.09356709" />
+				<attnum name="z end" unit="m" val="0.0495" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="0.3681" unit="m" />
+				<attnum name="profil start tangent" val="1.312" unit="%" />
+				<attnum name="profil end tangent" val="-3.5837" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-108">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.022794" />
+				<attnum name="z end" unit="m" val="-2.0671" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="0.0495" unit="m" />
+				<attnum name="profil start tangent" val="-3.5837" unit="%" />
+				<attnum name="profil end tangent" val="-6.2293" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-109">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="476.440" />
+				<attnum name="arc" unit="deg" val="2.89635528" />
+				<attnum name="z end" unit="m" val="-3.6526" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.0671" unit="m" />
+				<attnum name="profil start tangent" val="-6.2293" unit="%" />
+				<attnum name="profil end tangent" val="-5.8621" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-110">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="26.663" />
+				<attnum name="arc" unit="deg" val="48.62200282" />
+				<attnum name="z end" unit="m" val="-4.8159" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.6526" unit="m" />
+				<attnum name="profil start tangent" val="-5.8621" unit="%" />
+				<attnum name="profil end tangent" val="-4.1556" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-111">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="187.849" />
+				<attnum name="arc" unit="deg" val="10.38175440" />
+				<attnum name="z end" unit="m" val="-5.8948" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-4.8159" unit="m" />
+				<attnum name="profil start tangent" val="-4.1556" unit="%" />
+				<attnum name="profil end tangent" val="-2.4762" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-112-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="198.633" />
+				<attnum name="arc" unit="deg" val="5.32194562166" />
+				<attnum name="z end" unit="m" val="-6.2237" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.8948" unit="m" />
+				<attnum name="profil start tangent" val="-2.4762" unit="%" />
+				<attnum name="profil end tangent" val="-1.5387" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-112-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="198.633" />
+				<attnum name="arc" unit="deg" val="4.49904412834" />
+				<attnum name="z end" unit="m" val="-6.4257" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-6.2237" unit="m" />
+				<attnum name="profil start tangent" val="-1.5387" unit="%" />
+				<attnum name="profil end tangent" val="-1.0516" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-113">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="120.978" />
+				<attnum name="arc" unit="deg" val="11.55724634378" />
+				<attnum name="z end" unit="m" val="-6.6229" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-6.4257" unit="m" />
+				<attnum name="profil start tangent" val="-1.0516" unit="%" />
+				<attnum name="profil end tangent" val="-0.2399" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-113-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="120.978" />
+				<attnum name="arc" unit="deg" val="25.39511507622" />
+				<attnum name="z end" unit="m" val="-6.4468" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-6.6229" unit="m" />
+				<attnum name="profil start tangent" val="-0.2399" unit="%" />
+				<attnum name="profil end tangent" val="0.7763" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-114-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="105.509" />
+				<attnum name="arc" unit="deg" val="27.35795844591" />
+				<attnum name="z end" unit="m" val="-5.8301" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-6.4468" unit="m" />
+				<attnum name="profil start tangent" val="0.7763" unit="%" />
+				<attnum name="profil end tangent" val="0.8985" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-114-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="105.509" />
+				<attnum name="arc" unit="deg" val="14.56763425409" />
+				<attnum name="z end" unit="m" val="-5.6764" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.8301" unit="m" />
+				<attnum name="profil start tangent" val="0.8985" unit="%" />
+				<attnum name="profil end tangent" val="0.2483" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-115">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="123.954" />
+				<attnum name="arc" unit="deg" val="6.08947398235" />
+				<attnum name="z end" unit="m" val="-5.6865" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.6764" unit="m" />
+				<attnum name="profil start tangent" val="0.2483" unit="%" />
+				<attnum name="profil end tangent" val="-0.2351" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-115-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="123.954" />
+				<attnum name="arc" unit="deg" val="19.62260373765" />
+				<attnum name="z end" unit="m" val="-5.8537" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-5.6865" unit="m" />
+				<attnum name="profil start tangent" val="-0.2351" unit="%" />
+				<attnum name="profil end tangent" val="-0.1755" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-116-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="138.627" />
+				<attnum name="arc" unit="deg" val="6.83958224282" />
+				<attnum name="z end" unit="m" val="-5.8466" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.8537" unit="m" />
+				<attnum name="profil start tangent" val="-0.1755" unit="%" />
+				<attnum name="profil end tangent" val="0.4418" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-116-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="138.627" />
+				<attnum name="arc" unit="deg" val="10.746032644" />
+				<attnum name="z end" unit="m" val="-5.6281" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.8466" unit="m" />
+				<attnum name="profil start tangent" val="0.4418" unit="%" />
+				<attnum name="profil end tangent" val="1.1319" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-116-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="138.627" />
+				<attnum name="arc" unit="deg" val="5.48194989318" />
+				<attnum name="z end" unit="m" val="-5.4393" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-5.6281" unit="m" />
+				<attnum name="profil start tangent" val="1.1319" unit="%" />
+				<attnum name="profil end tangent" val="1.3803" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-117">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="50.040526" />
+				<attnum name="z end" unit="m" val="-4.7701" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-5.4393" unit="m" />
+				<attnum name="profil start tangent" val="1.3803" unit="%" />
+				<attnum name="profil end tangent" val="1.1756" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-118-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.2391512872" />
+				<attnum name="z end" unit="m" val="-4.6008" />
+				<attnum name="z start" val="-4.7701" unit="m" />
+				<attnum name="profil start tangent" val="1.1756" unit="%" />
+				<attnum name="profil end tangent" val="1.3359" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-118-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.3052451128" />
+				<attnum name="z end" unit="m" val="-4.2475" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="z start" val="-4.6008" unit="m" />
+				<attnum name="profil start tangent" val="1.3359" unit="%" />
+				<attnum name="profil end tangent" val="2.8454" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-119">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="66.340228" />
+				<attnum name="z end" unit="m" val="-1.572" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="10.8698" unit="m" />
+				</section>
+				<attnum name="z start" val="-4.2475" unit="m" />
+				<attnum name="profil start tangent" val="2.8454" unit="%" />
+				<attnum name="profil end tangent" val="4.241" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-120">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.13503449" />
+				<attnum name="z end" unit="m" val="-1.1526" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.8698" unit="m" />
+					<attnum name="end width" val="11.4198" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-1.572" unit="m" />
+				<attnum name="profil start tangent" val="4.241" unit="%" />
+				<attnum name="profil end tangent" val="3.611" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="YEONGAM F1 Track-121">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="48.160485" />
+				<attnum name="z end" unit="m" val="0.1829" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="11.4198" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-1.1526" unit="m" />
+				<attnum name="profil start tangent" val="3.611" unit="%" />
+				<attnum name="profil end tangent" val="1.3738" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_mid">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="58.7223" />
+				<attnum name="z end" unit="m" val="0.168" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0.1829" unit="m" />
+				<attnum name="profil start tangent" val="1.3738" unit="%" />
+				<attnum name="profil end tangent" val="-0.3023" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="300" />
+				<attnum name="arc" unit="deg" val="0.1825" />
+				<attnum name="z end" unit="m" val="0.1625" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0.168" unit="m" />
+				<attnum name="profil start tangent" val="-0.3023" unit="%" />
+				<attnum name="profil end tangent" val="-0.3438" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.0001" />
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0.1625" unit="m" />
+				<attnum name="profil start tangent" val="-0.3438" unit="%" />
+				<attnum name="profil end tangent" val="-0.8033" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-3">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.10000000" unit="m" />
+				<attnum name="z start" val="0.0001" unit="m" />
+				<attnum name="profil start tangent" val="-0.8033" unit="%" />
+				<attnum name="profil end tangent" val="-0.8033" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="34.730655784" />
+    <attnum name="longitude" unit="deg" val="126.418343595" />
+    <attnum name="altitude" unit="m" val="5.550703049" />
+    <attnum name="heading" unit="deg" val="110.639621074" />
+  </section>
+</params>

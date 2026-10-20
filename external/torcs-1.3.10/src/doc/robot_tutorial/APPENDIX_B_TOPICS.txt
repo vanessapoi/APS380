@@ -1,0 +1,72 @@
+APPENDIX B — COVERAGE AND VERIFICATION MAP
+
+Reader-facing pages have no dependencies on the historical tutorial tree.
+Historical coverage audit: robot/ch6/{introduction,pitlogo,carpainting}.html.
+Attribution remains in credits.md and the checkpoint's ARTWORK.txt.
+
+appendix_b.md:
+  Complete independently buildable tutorialb checkpoint and normal graphical race.
+  Layered XCF, vector SVG and runtime SGI distinction; full-page decal replacement.
+  Actual atlas mapping, UV guide, separate sides, bonnet, roof and rear wing.
+  Stock source/model location and model-requested filename; source vs installed paths.
+  Module/index/stock body lookup; index 1 distinguished from race array index 0.
+  Paint edit, text/number edit, alpha preservation, real SGI export, 8-bit channels,
+  power-of-two dimensions, RLE, readability at distance and texture seams.
+  Current pit-wall UVs, approximately top 67 percent visible, uniform border,
+  individual and shared-pit lookup, no speculative lower-third UI promises.
+  Linux/Windows installation, image-only reload workflow, troubleshooting.
+  Artwork authorship, editable source distribution and separate Free Art License.
+
+Current source audit:
+  graphic/ssggraph/grcar.cpp: body model/texture path (three directories),
+    separate helper paths for wheel resources.
+  grloadac.cpp and grssgext.h: body texture creation through loader options.
+  grtexture.cpp: SGI channel handling, alpha and power-of-two requirement.
+  grscene.cpp: side-pit logo lookup and exact u/v coordinate ranges.
+  grutil.cpp and grtexture.h: state cache and teardown.
+  raceengineclient/raceinit.cpp: team grouping, cars-per-pit assignment,
+    driver index copied from registration / descriptor.
+  car1-stock1.acc: car1-stock1.rgb body image and separate detail images.
+  car1-stock1.xcf / adjacent readme.txt: source layers and Free Art attribution.
+
+Maintenance:
+  snapshot_texture_helpers.py reproduces the Appendix A controller with module,
+  private-section, descriptor and deployment changes; --check detects drift.
+  generate_texture_artwork.py recreates baseline artwork with GIMP 3, Inkscape,
+  Pillow; not required to build/run/edit the finished checkpoint. It overwrites
+  the baseline XCF, so do not use it to export student edits.
+  package_texture_driver.py packages an explicit 34-file manifest.
+  Two schematic SVGs are maintained directly. The 640-pixel atlas preview is
+  composited over a checkerboard; the simulator image is a crop of a real render.
+
+Validation (Linux):
+  Independent extracted archive build without warnings; runtime XML/images/notices
+  installed; all local includes and Windows build/deployment manifests checked.
+  Six-lap baseline: 546.794 s, one pit stop, zero damage and penalty time.
+  SGI headers/dimensions: body 1024x1024 RGBA, logo 256x256 RGB; alpha preserved.
+  GIMP 3 SGI export of supplied XCF decodes pixel-identically to provided SGI image.
+  Native graphical renderer, software OpenGL:
+    module-level body image and pit logo rendered correctly;
+    index-1 alternate paint and logo selected ahead of module files;
+    shared pit (Tutorial B plus Tutorial A, same team, two cars per pit) uses
+      B's module logo even while B uses its individual-index body texture;
+    missing custom images select stock body and global data/textures/logo.rgb;
+    paused pixels remain unchanged after replacing the logo on disk;
+    abandoning and beginning a new session in the same process loads the edit.
+  File-open traces confirm exact selected texture paths, not just visual similarity.
+  Main screenshot uses the final short roof lettering. An earlier label crossed
+  a UV boundary and was shortened after inspecting the car in the simulator.
+  Screenshot quality update: same side camera (head 2, variant 0, default 30-degree
+    vertical FOV) and grid placement, captured at 3840x2400 with actual 4x MSAA.
+    Native crop (795,435,2280,1260), Lanczos preview 760x420, clickable native crop.
+    A private module freezes at simulation time 2.206 s for matched framing;
+    the installed production module and artwork are unchanged.
+    Capture the TORCS window itself: Xvfb root captures can return stale frames.
+  Graphical placement fixtures are appearance checks, not pit-service evidence.
+  Production installed images restored after all alternate/fallback checks.
+  Doxygen: zero warnings; local links, anchors, byte-identical downloads and images.
+  Offline browser: all four Appendix B images load at 1280/1024 widths without
+    overflow; both schematic SVGs pass text bounds/overlap checks.
+  Clipboard: 62 real copies across the tutorial including Appendix B/platforms.
+  Native Windows compilation/runtime remains unverified.
+  Private simulator checks and logs remain outside source/downloads.

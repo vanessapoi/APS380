@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2026 Bernhard Wymann. GPL-2.0-or-later. -->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32"><Configuration>Release</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F13B13A6-C709-45F6-8314-B9DDE23CAE72}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <SolutionDir Condition="'$(SolutionDir)'=='' Or '$(SolutionDir)'=='*Undefined*'">$(MSBuildThisFileDirectory)..\..\..\</SolutionDir>
+    <TutorialRobot Condition="'$(TutorialRobot)'==''">tutorial5</TutorialRobot>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType><PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Debug'">true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <TargetName>$(TutorialRobot)</TargetName>
+    <OutDir>$(MSBuildThisFileDirectory)build\$(TutorialRobot)\$(Platform)\$(Configuration)\</OutDir><IntDir>$(OutDir)obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp14</LanguageStandard><WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>$(SolutionDir)export\include;$(SolutionDir)src\windows\include;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary><RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>tgf.lib;robottools.lib;sg.lib;ul.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TorcsExportLibDir);$(TorcsLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>$(TutorialRobot).def</ModuleDefinitionFile>
+      <IgnoreSpecificDefaultLibraries Condition="'$(Configuration)'=='Debug'">LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="$(TutorialRobot).cpp"/><ClCompile Include="traffic5.cpp"/>
+    <ClCompile Include="speed4.cpp"/><ClCompile Include="braking4.cpp"/><ClCompile Include="recovery4.cpp"/><ClCompile Include="steering4.cpp"/><ClCompile Include="geometry4.cpp"/>
+    <ClInclude Include="traffic5.h"/><ClInclude Include="speed4.h"/><ClInclude Include="braking4.h"/><ClInclude Include="recovery4.h"/><ClInclude Include="steering4.h"/><ClInclude Include="geometry4.h"/>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="InstallTutorial" AfterTargets="Build">
+    <MakeDir Directories="$(TorcsRuntimeDir)drivers\$(TutorialRobot)" />
+    <Copy SourceFiles="$(TargetPath);$(MSBuildThisFileDirectory)$(TutorialRobot).xml" DestinationFolder="$(TorcsRuntimeDir)drivers\$(TutorialRobot)" />
+  </Target>
+</Project>

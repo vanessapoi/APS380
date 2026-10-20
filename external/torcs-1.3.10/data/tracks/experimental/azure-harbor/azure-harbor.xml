@@ -1,0 +1,2878 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : azure-harbor.xml
+    created              : 13 Aug 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Azure Harbor" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Azure Harbor" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="A steep harbor street circuit for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="azure-harbor.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="azure-harbor-relief.ac" />
+			<attstr name="elevation map" val="azure-harbor-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-0.4217" unit="m" />
+			<attnum name="maximum altitude" val="198.4473" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="9.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="0.25" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="0.25" />
+			<attstr name="banking type" val="level" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="left" />
+			<attstr name="entry" val="Circuit de Monaco-36" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="Circuit de Monaco-4" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="1.0623" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="lg" val="150" unit="m" />
+				<section name="Left Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="1.3196" unit="deg" />
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="-0.0705" unit="%" />
+				<attnum name="profil end tangent" val="4.8604" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Albert 1er-6-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="86.1824" />
+				<attnum name="arc" unit="deg" val="24.9525" />
+				<attnum name="z end" unit="m" val="4.445" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="9.6994" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.3196" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="1.0623" unit="m" />
+				<attnum name="profil start tangent" val="4.8604" unit="%" />
+				<attnum name="profil end tangent" val="9.7551" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="125.342" />
+				<attnum name="arc" unit="deg" val="4.53813138555" />
+				<attnum name="z end" unit="m" val="5.4872" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="9.6994" unit="m" />
+					<attnum name="end width" val="8.5618" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="4.445" unit="m" />
+				<attnum name="profil start tangent" val="9.7551" unit="%" />
+				<attnum name="profil end tangent" val="10.4988" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="125.342" />
+				<attnum name="arc" unit="deg" val="12.40124644445" />
+				<attnum name="z end" unit="m" val="8.3357" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="8.5618" unit="m" />
+					<attnum name="end width" val="5.4532" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="5.4872" unit="m" />
+				<attnum name="profil start tangent" val="10.4988" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="22.163" />
+				<attnum name="arc" unit="deg" val="80.20521085" />
+				<attnum name="z end" unit="m" val="11.5933" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="5.4532" unit="m" />
+					<attnum name="end width" val="1.8984" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0.4731" unit="deg" />
+				<attnum name="z start" val="8.3357" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-3">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="4.999516" />
+				<attnum name="z end" unit="m" val="12.1183" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="1.8984" unit="m" />
+					<attnum name="end width" val="1.3255" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.4731" unit="deg" />
+				<attnum name="banking end" val="0.7231" unit="deg" />
+				<attnum name="z start" val="11.5933" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.6137323176" />
+				<attnum name="z end" unit="m" val="16.6172" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="1.3255" unit="m" />
+					<attnum name="end width" val="0.25" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.7231" unit="deg" />
+				<attnum name="banking end" val="1.0086" unit="deg" />
+				<attnum name="z start" val="12.1183" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-4-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.2173373224" />
+				<attnum name="z end" unit="m" val="18.2103" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="0.25" unit="m" />
+					<attnum name="end width" val="0.25" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.0086" unit="deg" />
+				<attnum name="banking end" val="0.25" unit="deg" />
+				<attnum name="z start" val="16.6172" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="4.999516" />
+				<attnum name="z end" unit="m" val="18.7353" />
+				<attnum name="banking start" val="0.25" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="18.2103" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="8.7098" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="469.800" />
+				<attnum name="arc" unit="deg" val="8.28108070" />
+				<attnum name="z end" unit="m" val="23.4339" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="18.7353" unit="m" />
+				<attnum name="profil start tangent" val="8.7098" unit="%" />
+				<attnum name="profil end tangent" val="4.3988" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1421.738" />
+				<attnum name="arc" unit="deg" val="2.29696696" />
+				<attnum name="z end" unit="m" val="24.5042" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="2.8448" unit="deg" />
+				<attnum name="z start" val="23.4339" unit="m" />
+				<attnum name="profil start tangent" val="4.3988" unit="%" />
+				<attnum name="profil end tangent" val="3.2263" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="375.028" />
+				<attnum name="arc" unit="deg" val="5.947518718" />
+				<attnum name="z end" unit="m" val="26.2851" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="2.8448" unit="deg" />
+				<attnum name="banking end" val="0.8983" unit="deg" />
+				<attnum name="z start" val="24.5042" unit="m" />
+				<attnum name="profil start tangent" val="3.2263" unit="%" />
+				<attnum name="profil end tangent" val="4.9253" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-4-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="375.028" />
+				<attnum name="arc" unit="deg" val="2.744781322" />
+				<attnum name="z end" unit="m" val="27.2329" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0.8983" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="26.2851" unit="m" />
+				<attnum name="profil start tangent" val="4.9253" unit="%" />
+				<attnum name="profil end tangent" val="5.3553" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-5-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="114.422" />
+				<attnum name="arc" unit="deg" val="5.02448809442" />
+				<attnum name="z end" unit="m" val="27.7783" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="27.2329" unit="m" />
+				<attnum name="profil start tangent" val="5.3553" unit="%" />
+				<attnum name="profil end tangent" val="5.5326" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-5-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="114.422" />
+				<attnum name="arc" unit="deg" val="14.86158538558" />
+				<attnum name="z end" unit="m" val="29.4493" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="27.7783" unit="m" />
+				<attnum name="profil start tangent" val="5.5326" unit="%" />
+				<attnum name="profil end tangent" val="5.6707" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3407.991" />
+				<attnum name="arc" unit="deg" val="0.67444621" />
+				<attnum name="z end" unit="m" val="31.7404" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="29.4493" unit="m" />
+				<attnum name="profil start tangent" val="5.6707" unit="%" />
+				<attnum name="profil end tangent" val="5.5153" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-7-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="201.570" />
+				<attnum name="arc" unit="deg" val="3.18479537584" />
+				<attnum name="z end" unit="m" val="32.3364" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0.5602" unit="deg" />
+				<attnum name="z start" val="31.7404" unit="m" />
+				<attnum name="profil start tangent" val="5.5153" unit="%" />
+				<attnum name="profil end tangent" val="4.8768" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-7-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="201.570" />
+				<attnum name="arc" unit="deg" val="9.85370452416" />
+				<attnum name="z end" unit="m" val="33.8736" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.5602" unit="deg" />
+				<attnum name="banking end" val="2.2935" unit="deg" />
+				<attnum name="z start" val="32.3364" unit="m" />
+				<attnum name="profil start tangent" val="4.8768" unit="%" />
+				<attnum name="profil end tangent" val="3.5704" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue d'Ostende-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="520.469" />
+				<attnum name="arc" unit="deg" val="5.06821032" />
+				<attnum name="z end" unit="m" val="35.1197" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="2.2935" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="33.8736" unit="m" />
+				<attnum name="profil start tangent" val="3.5704" unit="%" />
+				<attnum name="profil end tangent" val="2.358" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="544.757" />
+				<attnum name="arc" unit="deg" val="2.53181482" />
+				<attnum name="z end" unit="m" val="35.6034" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="35.1197" unit="m" />
+				<attnum name="profil start tangent" val="2.358" unit="%" />
+				<attnum name="profil end tangent" val="2.0472" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="84.487" />
+				<attnum name="arc" unit="deg" val="9.64546425109" />
+				<attnum name="z end" unit="m" val="35.8999" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="35.6034" unit="m" />
+				<attnum name="profil start tangent" val="2.0472" unit="%" />
+				<attnum name="profil end tangent" val="2.1498" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-2-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="84.487" />
+				<attnum name="arc" unit="deg" val="6.57271227891" />
+				<attnum name="z end" unit="m" val="36.1146" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="35.8999" unit="m" />
+				<attnum name="profil start tangent" val="2.1498" unit="%" />
+				<attnum name="profil end tangent" val="2.3411" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="102.908" />
+				<attnum name="arc" unit="deg" val="23.83979533" />
+				<attnum name="z end" unit="m" val="37.1711" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="36.1146" unit="m" />
+				<attnum name="profil start tangent" val="2.3411" unit="%" />
+				<attnum name="profil end tangent" val="2.5033" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-4-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="52.889" />
+				<attnum name="arc" unit="deg" val="18.94704316187" />
+				<attnum name="z end" unit="m" val="37.6152" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="37.1711" unit="m" />
+				<attnum name="profil start tangent" val="2.5033" unit="%" />
+				<attnum name="profil end tangent" val="2.474" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-4-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="52.889" />
+				<attnum name="arc" unit="deg" val="12.99985543605" />
+				<attnum name="z end" unit="m" val="37.9043" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="37.6152" unit="m" />
+				<attnum name="profil start tangent" val="2.474" unit="%" />
+				<attnum name="profil end tangent" val="2.3142" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-4-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="52.889" />
+				<attnum name="arc" unit="deg" val="12.71250221209" />
+				<attnum name="z end" unit="m" val="38.1647" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="37.9043" unit="m" />
+				<attnum name="profil start tangent" val="2.3142" unit="%" />
+				<attnum name="profil end tangent" val="1.9698" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-5">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="124.682" />
+				<attnum name="arc" unit="deg" val="14.24993168" />
+				<attnum name="z end" unit="m" val="38.6981" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.1665" unit="deg" />
+				<attnum name="z start" val="38.1647" unit="m" />
+				<attnum name="profil start tangent" val="1.9698" unit="%" />
+				<attnum name="profil end tangent" val="1.4491" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-6-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="56.363" />
+				<attnum name="arc" unit="deg" val="9.40899213063" />
+				<attnum name="z end" unit="m" val="38.8072" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.1665" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="38.6981" unit="m" />
+				<attnum name="profil start tangent" val="1.4491" unit="%" />
+				<attnum name="profil end tangent" val="0.9674" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-6-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="56.363" />
+				<attnum name="arc" unit="deg" val="21.50441569937" />
+				<attnum name="z end" unit="m" val="38.9673" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="38.8072" unit="m" />
+				<attnum name="profil start tangent" val="0.9674" unit="%" />
+				<attnum name="profil end tangent" val="0.3243" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-7">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="238.783" />
+				<attnum name="arc" unit="deg" val="7.99538215" />
+				<attnum name="z end" unit="m" val="38.9312" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="1.6661" unit="deg" />
+				<attnum name="z start" val="38.9673" unit="m" />
+				<attnum name="profil start tangent" val="0.3243" unit="%" />
+				<attnum name="profil end tangent" val="-0.8684" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Place du Casino">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="29.789" />
+				<attnum name="arc" unit="deg" val="58.51456977" />
+				<attnum name="z end" unit="m" val="38.4357" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.6661" unit="deg" />
+				<attnum name="banking end" val="3.1872" unit="deg" />
+				<attnum name="z start" val="38.9312" unit="m" />
+				<attnum name="profil start tangent" val="-0.8684" unit="%" />
+				<attnum name="profil end tangent" val="-2.4588" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue de Monte-Carlo-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="58.737" />
+				<attnum name="arc" unit="deg" val="19.42058174" />
+				<attnum name="z end" unit="m" val="37.7809" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="3.1872" unit="deg" />
+				<attnum name="banking end" val="3.4174" unit="deg" />
+				<attnum name="z start" val="38.4357" unit="m" />
+				<attnum name="profil start tangent" val="-2.4588" unit="%" />
+				<attnum name="profil end tangent" val="-3.9776" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2911.402" />
+				<attnum name="arc" unit="deg" val="0.39559913" />
+				<attnum name="z end" unit="m" val="36.8429" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="3.4174" unit="deg" />
+				<attnum name="banking end" val="2.4123" unit="deg" />
+				<attnum name="z start" val="37.7809" unit="m" />
+				<attnum name="profil start tangent" val="-3.9776" unit="%" />
+				<attnum name="profil end tangent" val="-5.2857" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3882.140" />
+				<attnum name="arc" unit="deg" val="0.34079536625" />
+				<attnum name="z end" unit="m" val="35.4794" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="2.4123" unit="deg" />
+				<attnum name="banking end" val="1.2578" unit="deg" />
+				<attnum name="z start" val="36.8429" unit="m" />
+				<attnum name="profil start tangent" val="-5.2857" unit="%" />
+				<attnum name="profil end tangent" val="-6.4922" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-2-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3882.140" />
+				<attnum name="arc" unit="deg" val="0.76630548375" />
+				<attnum name="z end" unit="m" val="31.8037" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.2578" unit="deg" />
+				<attnum name="banking end" val="0.9992" unit="deg" />
+				<attnum name="z start" val="35.4794" unit="m" />
+				<attnum name="profil start tangent" val="-6.4922" unit="%" />
+				<attnum name="profil end tangent" val="-7.3671" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-3">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="32.86458392" />
+				<attnum name="z end" unit="m" val="29.2879" />
+				<attnum name="banking start" val="0.9992" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="31.8037" unit="m" />
+				<attnum name="profil start tangent" val="-7.3671" unit="%" />
+				<attnum name="profil end tangent" val="-7.7941" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.12841461" />
+				<attnum name="z end" unit="m" val="28.5767" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="29.2879" unit="m" />
+				<attnum name="profil start tangent" val="-7.7941" unit="%" />
+				<attnum name="profil end tangent" val="-8.0974" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-5">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="33.02448926" />
+				<attnum name="z end" unit="m" val="25.8484" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="28.5767" unit="m" />
+				<attnum name="profil start tangent" val="-8.0974" unit="%" />
+				<attnum name="profil end tangent" val="-8.3255" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="247.444" />
+				<attnum name="arc" unit="deg" val="1.85516106" />
+				<attnum name="z end" unit="m" val="25.1762" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="25.8484" unit="m" />
+				<attnum name="profil start tangent" val="-8.3255" unit="%" />
+				<attnum name="profil end tangent" val="-8.3283" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-7">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="61.791" />
+				<attnum name="arc" unit="deg" val="7.41927641" />
+				<attnum name="z end" unit="m" val="24.5148" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0.4001" unit="deg" />
+				<attnum name="z start" val="25.1762" unit="m" />
+				<attnum name="profil start tangent" val="-8.3283" unit="%" />
+				<attnum name="profil end tangent" val="-7.9638" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="16.566" />
+				<attnum name="arc" unit="deg" val="72.58295178" />
+				<attnum name="z end" unit="m" val="22.9071" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4001" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="24.5148" unit="m" />
+				<attnum name="profil start tangent" val="-7.9638" unit="%" />
+				<attnum name="profil end tangent" val="-6.8008" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-9">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="27.665" />
+				<attnum name="arc" unit="deg" val="47.47283046" />
+				<attnum name="z end" unit="m" val="21.5453" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="22.9071" unit="m" />
+				<attnum name="profil start tangent" val="-6.8008" unit="%" />
+				<attnum name="profil end tangent" val="-5.1792" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-10">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="26.304" />
+				<attnum name="arc" unit="deg" val="17.36212897" />
+				<attnum name="z end" unit="m" val="21.1932" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="21.5453" unit="m" />
+				<attnum name="profil start tangent" val="-5.1792" unit="%" />
+				<attnum name="profil end tangent" val="-4.0448" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-11">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="163.204" />
+				<attnum name="arc" unit="deg" val="2.81933822" />
+				<attnum name="z end" unit="m" val="20.8983" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.4015" unit="deg" />
+				<attnum name="z start" val="21.1932" unit="m" />
+				<attnum name="profil start tangent" val="-4.0448" unit="%" />
+				<attnum name="profil end tangent" val="-3.1792" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-12">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="43.685" />
+				<attnum name="arc" unit="deg" val="27.72405458141" />
+				<attnum name="z end" unit="m" val="20.3305" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.4015" unit="deg" />
+				<attnum name="banking end" val="-0.4208" unit="deg" />
+				<attnum name="z start" val="20.8983" unit="m" />
+				<attnum name="profil start tangent" val="-3.1792" unit="%" />
+				<attnum name="profil end tangent" val="-2.458" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-12-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="43.685" />
+				<attnum name="arc" unit="deg" val="11.03810620859" />
+				<attnum name="z end" unit="m" val="20.1428" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.4208" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="20.3305" unit="m" />
+				<attnum name="profil start tangent" val="-2.458" unit="%" />
+				<attnum name="profil end tangent" val="-2.2848" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-13-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="92.836" />
+				<attnum name="arc" unit="deg" val="5.91499376872" />
+				<attnum name="z end" unit="m" val="19.9186" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="20.1428" unit="m" />
+				<attnum name="profil start tangent" val="-2.2848" unit="%" />
+				<attnum name="profil end tangent" val="-2.7203" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-13-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="92.836" />
+				<attnum name="arc" unit="deg" val="12.88343388128" />
+				<attnum name="z end" unit="m" val="19.2713" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="19.9186" unit="m" />
+				<attnum name="profil start tangent" val="-2.7203" unit="%" />
+				<attnum name="profil end tangent" val="-3.6132" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-14">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="58.711" />
+				<attnum name="arc" unit="deg" val="5.91698639" />
+				<attnum name="z end" unit="m" val="19.0212" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="19.2713" unit="m" />
+				<attnum name="profil start tangent" val="-3.6132" unit="%" />
+				<attnum name="profil end tangent" val="-4.3948" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-15">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="11.389" />
+				<attnum name="arc" unit="deg" val="29.83609607" />
+				<attnum name="z end" unit="m" val="18.7446" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.2965" unit="deg" />
+				<attnum name="z start" val="19.0212" unit="m" />
+				<attnum name="profil start tangent" val="-4.3948" unit="%" />
+				<attnum name="profil end tangent" val="-5.096" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-16">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="10.412" />
+				<attnum name="arc" unit="deg" val="70.77477086" />
+				<attnum name="z end" unit="m" val="18.0336" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.2965" unit="deg" />
+				<attnum name="banking end" val="-0.6537" unit="deg" />
+				<attnum name="z start" val="18.7446" unit="m" />
+				<attnum name="profil start tangent" val="-5.096" unit="%" />
+				<attnum name="profil end tangent" val="-6.0934" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-17">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="11.205" />
+				<attnum name="arc" unit="deg" val="66.85763463" />
+				<attnum name="z end" unit="m" val="17.1629" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.6537" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="18.0336" unit="m" />
+				<attnum name="profil start tangent" val="-6.0934" unit="%" />
+				<attnum name="profil end tangent" val="-7.0496" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue des Spélugues-18">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="11.176" />
+				<attnum name="arc" unit="deg" val="40.17306796" />
+				<attnum name="z end" unit="m" val="16.5799" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="17.1629" unit="m" />
+				<attnum name="profil start tangent" val="-7.0496" unit="%" />
+				<attnum name="profil end tangent" val="-7.6839" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue Princesse Grace">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="985.245" />
+				<attnum name="arc" unit="deg" val="0.47534544" />
+				<attnum name="z end" unit="m" val="15.9319" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="16.5799" unit="m" />
+				<attnum name="profil start tangent" val="-7.6839" unit="%" />
+				<attnum name="profil end tangent" val="-8.1348" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue Princesse Grace-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="170.684" />
+				<attnum name="arc" unit="deg" val="3.08318816899" />
+				<attnum name="z end" unit="m" val="15.1657" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0.4592" unit="deg" />
+				<attnum name="z start" val="15.9319" unit="m" />
+				<attnum name="profil start tangent" val="-8.1348" unit="%" />
+				<attnum name="profil end tangent" val="-8.5301" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue Princesse Grace-2-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="170.684" />
+				<attnum name="arc" unit="deg" val="9.68554388101" />
+				<attnum name="z end" unit="m" val="12.6503" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.4592" unit="deg" />
+				<attnum name="banking end" val="1.9019" unit="deg" />
+				<attnum name="z start" val="15.1657" unit="m" />
+				<attnum name="profil start tangent" val="-8.5301" unit="%" />
+				<attnum name="profil end tangent" val="-8.404" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue Princesse Grace-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="17.125" />
+				<attnum name="arc" unit="deg" val="96.23626560" />
+				<attnum name="z end" unit="m" val="10.3233" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="1.9019" unit="deg" />
+				<attnum name="banking end" val="0.7975" unit="deg" />
+				<attnum name="z start" val="12.6503" unit="m" />
+				<attnum name="profil start tangent" val="-8.404" unit="%" />
+				<attnum name="profil end tangent" val="-7.4277" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue Princesse Grace-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="67.743" />
+				<attnum name="arc" unit="deg" val="13.49047644" />
+				<attnum name="z end" unit="m" val="9.2442" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0.7975" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="10.3233" unit="m" />
+				<attnum name="profil start tangent" val="-7.4277" unit="%" />
+				<attnum name="profil end tangent" val="-6.1452" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue Princesse Grace-5">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="93.136" />
+				<attnum name="arc" unit="deg" val="9.83375834" />
+				<attnum name="z end" unit="m" val="8.361" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="9.2442" unit="m" />
+				<attnum name="profil start tangent" val="-6.1452" unit="%" />
+				<attnum name="profil end tangent" val="-4.8338" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="536.909" />
+				<attnum name="arc" unit="deg" val="1.94858535" />
+				<attnum name="z end" unit="m" val="7.6046" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="8.361" unit="m" />
+				<attnum name="profil start tangent" val="-4.8338" unit="%" />
+				<attnum name="profil end tangent" val="-3.4881" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-6">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="35.163" />
+				<attnum name="arc" unit="deg" val="29.11330726" />
+				<attnum name="z end" unit="m" val="7.0982" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="7.6046" unit="m" />
+				<attnum name="profil start tangent" val="-3.4881" unit="%" />
+				<attnum name="profil end tangent" val="-2.369" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-7">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="11.387" />
+				<attnum name="arc" unit="deg" val="75.89195544" />
+				<attnum name="z end" unit="m" val="6.8111" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="7.0982" unit="m" />
+				<attnum name="profil start tangent" val="-2.369" unit="%" />
+				<attnum name="profil end tangent" val="-1.5886" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="124.561" />
+				<attnum name="arc" unit="deg" val="8.15488578" />
+				<attnum name="z end" unit="m" val="6.5853" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="6.8111" unit="m" />
+				<attnum name="profil start tangent" val="-1.5886" unit="%" />
+				<attnum name="profil end tangent" val="-1.0528" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2117.536" />
+				<attnum name="arc" unit="deg" val="0.79844886082" />
+				<attnum name="z end" unit="m" val="6.3397" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="6.5853" unit="m" />
+				<attnum name="profil start tangent" val="-1.0528" unit="%" />
+				<attnum name="profil end tangent" val="-0.7957" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2117.536" />
+				<attnum name="arc" unit="deg" val="1.23550769918" />
+				<attnum name="z end" unit="m" val="5.9931" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="6.3397" unit="m" />
+				<attnum name="profil start tangent" val="-0.7957" unit="%" />
+				<attnum name="profil end tangent" val="0.1698" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="294.004" />
+				<attnum name="arc" unit="deg" val="14.57187962" />
+				<attnum name="z end" unit="m" val="6.8146" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="5.9931" unit="m" />
+				<attnum name="profil start tangent" val="0.1698" unit="%" />
+				<attnum name="profil end tangent" val="0.4611" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="330.497" />
+				<attnum name="arc" unit="deg" val="27.39245516" />
+				<attnum name="z end" unit="m" val="6.5359" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="6.8146" unit="m" />
+				<attnum name="profil start tangent" val="0.4611" unit="%" />
+				<attnum name="profil end tangent" val="-0.2215" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="294.958" />
+				<attnum name="arc" unit="deg" val="14.52400410" />
+				<attnum name="z end" unit="m" val="6.3366" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="6.5359" unit="m" />
+				<attnum name="profil start tangent" val="-0.2215" unit="%" />
+				<attnum name="profil end tangent" val="-0.3707" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2508.850" />
+				<attnum name="arc" unit="deg" val="1.71661723" />
+				<attnum name="z end" unit="m" val="5.9797" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="6.3366" unit="m" />
+				<attnum name="profil start tangent" val="-0.3707" unit="%" />
+				<attnum name="profil end tangent" val="-3.2307" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-6-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="265.247" />
+				<attnum name="arc" unit="deg" val="14.17494471394" />
+				<attnum name="z end" unit="m" val="2.0511" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="5.9797" unit="m" />
+				<attnum name="profil start tangent" val="-3.2307" unit="%" />
+				<attnum name="profil end tangent" val="-4.3696" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-6-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="265.247" />
+				<attnum name="arc" unit="deg" val="1.97689553606" />
+				<attnum name="z end" unit="m" val="1.7992" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="2.0511" unit="m" />
+				<attnum name="profil start tangent" val="-4.3696" unit="%" />
+				<attnum name="profil end tangent" val="-4.9583" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-7-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3002.881" />
+				<attnum name="arc" unit="deg" val="0.77939264506" />
+				<attnum name="z end" unit="m" val="-1.1272" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="1.7992" unit="m" />
+				<attnum name="profil start tangent" val="-4.9583" unit="%" />
+				<attnum name="profil end tangent" val="-6.1789" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-7-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3002.881" />
+				<attnum name="arc" unit="deg" val="0.65676078494" />
+				<attnum name="z end" unit="m" val="-2.9149" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-1.1272" unit="m" />
+				<attnum name="profil start tangent" val="-6.1789" unit="%" />
+				<attnum name="profil end tangent" val="-2.7889" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-8">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="162.886" />
+				<attnum name="arc" unit="deg" val="4.29647711" />
+				<attnum name="z end" unit="m" val="-2.9618" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.6107" unit="deg" />
+				<attnum name="z start" val="-2.9149" unit="m" />
+				<attnum name="profil start tangent" val="-2.7889" unit="%" />
+				<attnum name="profil end tangent" val="-0.194" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Louis II-9">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="8.886" />
+				<attnum name="arc" unit="deg" val="69.02574932" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.6107" unit="deg" />
+				<attnum name="banking end" val="-0.2004" unit="deg" />
+				<attnum name="z start" val="-2.9618" unit="m" />
+				<attnum name="profil start tangent" val="-0.194" unit="%" />
+				<attnum name="profil end tangent" val="-0.002" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="draft-64">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="12.922" />
+				<attnum name="arc" unit="deg" val="17.77171189" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.2004" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0.002" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-9">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="16.492" />
+				<attnum name="arc" unit="deg" val="13.96755639" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-10">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="11.340" />
+				<attnum name="arc" unit="deg" val="75.17292461" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-11">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="27.202" />
+				<attnum name="arc" unit="deg" val="35.58192925" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-12">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="21.755" />
+				<attnum name="arc" unit="deg" val="10.54815291" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-13">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="21.086" />
+				<attnum name="arc" unit="deg" val="10.88098623" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.2002" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-14">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="21.989" />
+				<attnum name="arc" unit="deg" val="35.74271073" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.2002" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-15">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="217.382" />
+				<attnum name="arc" unit="deg" val="3.73610885" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai des États-Unis">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40.81475902" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai des États-Unis-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.11677705" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="27.50788300" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="13.77295400" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai des États-Unis-3">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="13.75610800" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai des États-Unis-4-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.56562084138" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai des États-Unis-4-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="4000.000" />
+				<attnum name="arc" unit="deg" val="0.31988575862" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai des États-Unis-5">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="14.095047" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="127.687" />
+				<attnum name="arc" unit="deg" val="3.60045711" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="39.989" />
+				<attnum name="arc" unit="deg" val="11.46178022" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.4" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="17.391" />
+				<attnum name="arc" unit="deg" val="38.49363150" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.4" unit="deg" />
+				<attnum name="banking end" val="-0.9842" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="92.014" />
+				<attnum name="arc" unit="deg" val="7.55113269" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.9842" unit="deg" />
+				<attnum name="banking end" val="-1.5905" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-5">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="211.213" />
+				<attnum name="arc" unit="deg" val="11.32242275785" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="-1.5905" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-5-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="211.213" />
+				<attnum name="arc" unit="deg" val="3.85978063215" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-6">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="194.821" />
+				<attnum name="arc" unit="deg" val="16.44283068" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-7">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="88.168" />
+				<attnum name="arc" unit="deg" val="13.06280021" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-16">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="31.478" />
+				<attnum name="arc" unit="deg" val="35.56025783" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-17">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="83.310" />
+				<attnum name="arc" unit="deg" val="5.50857343" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-18">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="57.266" />
+				<attnum name="arc" unit="deg" val="8.00687817" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-19">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="27.192" />
+				<attnum name="arc" unit="deg" val="42.88850353" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-20-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="265.290" />
+				<attnum name="arc" unit="deg" val="2.12878341008" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.4928" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-20-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="265.290" />
+				<attnum name="arc" unit="deg" val="2.48224497992" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.4928" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="-0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2264.190" />
+				<attnum name="arc" unit="deg" val="0.72136897071" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="-0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-8-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2264.190" />
+				<attnum name="arc" unit="deg" val="0.24065296929" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Route de la Piscine-9">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="557.426" />
+				<attnum name="arc" unit="deg" val="3.90618360" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-21">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="163.958" />
+				<attnum name="arc" unit="deg" val="4.26635010" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-22">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="12.664" />
+				<attnum name="arc" unit="deg" val="51.49061337" />
+				<attnum name="z end" unit="m" val="-2.9623" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0" unit="%" />
+				<attnum name="profil end tangent" val="0.0053" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-23">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="19.688" />
+				<attnum name="arc" unit="deg" val="11.58304928" />
+				<attnum name="z end" unit="m" val="-2.9618" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9623" unit="m" />
+				<attnum name="profil start tangent" val="0.0053" unit="%" />
+				<attnum name="profil end tangent" val="0.0414" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-24">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="42.470" />
+				<attnum name="arc" unit="deg" val="5.38406912" />
+				<attnum name="z end" unit="m" val="-2.959" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.9618" unit="m" />
+				<attnum name="profil start tangent" val="0.0414" unit="%" />
+				<attnum name="profil end tangent" val="0.163" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-25">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="23.259" />
+				<attnum name="arc" unit="deg" val="9.89828457" />
+				<attnum name="z end" unit="m" val="-2.9488" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.959" unit="m" />
+				<attnum name="profil start tangent" val="0.163" unit="%" />
+				<attnum name="profil end tangent" val="0.4385" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-26">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="14.311" />
+				<attnum name="arc" unit="deg" val="16.02158077" />
+				<attnum name="z end" unit="m" val="-2.9238" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.2001" unit="deg" />
+				<attnum name="z start" val="-2.9488" unit="m" />
+				<attnum name="profil start tangent" val="0.4385" unit="%" />
+				<attnum name="profil end tangent" val="1.3433" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-27">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="11.131" />
+				<attnum name="arc" unit="deg" val="62.42553594" />
+				<attnum name="z end" unit="m" val="-2.6736" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.2001" unit="deg" />
+				<attnum name="banking end" val="-0.8065" unit="deg" />
+				<attnum name="z start" val="-2.9238" unit="m" />
+				<attnum name="profil start tangent" val="1.3433" unit="%" />
+				<attnum name="profil end tangent" val="3.4556" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-28">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="110.903" />
+				<attnum name="arc" unit="deg" val="6.96065122" />
+				<attnum name="z end" unit="m" val="-2.0204" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="-0.8065" unit="deg" />
+				<attnum name="banking end" val="-0.6598" unit="deg" />
+				<attnum name="z start" val="-2.6736" unit="m" />
+				<attnum name="profil start tangent" val="3.4556" unit="%" />
+				<attnum name="profil end tangent" val="5.9851" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-29">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="291.836" />
+				<attnum name="arc" unit="deg" val="6.93151178991" />
+				<attnum name="z end" unit="m" val="0.4941" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="-0.6598" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="-2.0204" unit="m" />
+				<attnum name="profil start tangent" val="5.9851" unit="%" />
+				<attnum name="profil end tangent" val="5.661" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-29-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="291.836" />
+				<attnum name="arc" unit="deg" val="5.83548977009" />
+				<attnum name="z end" unit="m" val="1.7424" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="0.4941" unit="m" />
+				<attnum name="profil start tangent" val="5.661" unit="%" />
+				<attnum name="profil end tangent" val="4.1682" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-30-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="105.244" />
+				<attnum name="arc" unit="deg" val="19.74949123293" />
+				<attnum name="z end" unit="m" val="3.2431" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="1.7424" unit="m" />
+				<attnum name="profil start tangent" val="4.1682" unit="%" />
+				<attnum name="profil end tangent" val="6.3567" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-30-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="105.244" />
+				<attnum name="arc" unit="deg" val="14.72124927707" />
+				<attnum name="z end" unit="m" val="5.5623" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="3.2431" unit="m" />
+				<attnum name="profil start tangent" val="6.3567" unit="%" />
+				<attnum name="profil end tangent" val="9.507" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-31">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="168.922" />
+				<attnum name="arc" unit="deg" val="4.42711325" />
+				<attnum name="z end" unit="m" val="6.9246" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="5.5623" unit="m" />
+				<attnum name="profil start tangent" val="9.507" unit="%" />
+				<attnum name="profil end tangent" val="10.4687" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-32">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="49.207" />
+				<attnum name="arc" unit="deg" val="15.11705313" />
+				<attnum name="z end" unit="m" val="8.2878" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="6.9246" unit="m" />
+				<attnum name="profil start tangent" val="10.4687" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai Antoine 1er">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="18.722" />
+				<attnum name="arc" unit="deg" val="43.28431457" />
+				<attnum name="z end" unit="m" val="9.7729" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="8.2878" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai Antoine 1er-2">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="12.561" />
+				<attnum name="arc" unit="deg" val="61.20120134" />
+				<attnum name="z end" unit="m" val="11.1817" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="9.7729" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai Antoine 1er-3">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="15.054" />
+				<attnum name="arc" unit="deg" val="22.71805190" />
+				<attnum name="z end" unit="m" val="11.8084" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="11.1817" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai Antoine 1er-4">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1170.552" />
+				<attnum name="arc" unit="deg" val="0.29606405" />
+				<attnum name="z end" unit="m" val="12.4435" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="11.8084" unit="m" />
+				<attnum name="profil start tangent" val="10.5" unit="%" />
+				<attnum name="profil end tangent" val="8.5576" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Quai Antoine 1er-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="998.773" />
+				<attnum name="arc" unit="deg" val="1.38058203" />
+				<attnum name="z end" unit="m" val="14.0356" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="1.2033" unit="deg" />
+				<attnum name="z start" val="12.4435" unit="m" />
+				<attnum name="profil start tangent" val="8.5576" unit="%" />
+				<attnum name="profil end tangent" val="1.118" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-33">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="95.386" />
+				<attnum name="arc" unit="deg" val="9.17804370251" />
+				<attnum name="z end" unit="m" val="13.3664" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="banking start" val="1.2033" unit="deg" />
+				<attnum name="banking end" val="1.5005" unit="deg" />
+				<attnum name="z start" val="14.0356" unit="m" />
+				<attnum name="profil start tangent" val="1.118" unit="%" />
+				<attnum name="profil end tangent" val="-6.3806" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-33-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="95.386" />
+				<attnum name="arc" unit="deg" val="5.20257942749" />
+				<attnum name="z end" unit="m" val="12.6405" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="banking start" val="1.5005" unit="deg" />
+				<attnum name="banking end" val="1.234" unit="deg" />
+				<attnum name="z start" val="13.3664" unit="m" />
+				<attnum name="profil start tangent" val="-6.3806" unit="%" />
+				<attnum name="profil end tangent" val="-9.2449" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-34">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="47.593" />
+				<attnum name="arc" unit="deg" val="17.29017548" />
+				<attnum name="z end" unit="m" val="11.1888" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="0.25" unit="m" />
+					<attnum name="end width" val="0.25" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="1.234" unit="deg" />
+				<attnum name="banking end" val="0.8885" unit="deg" />
+				<attnum name="z start" val="12.6405" unit="m" />
+				<attnum name="profil start tangent" val="-9.2449" unit="%" />
+				<attnum name="profil end tangent" val="-10.3024" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-35">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="14.458" />
+				<attnum name="arc" unit="deg" val="53.17594438" />
+				<attnum name="z end" unit="m" val="9.7802" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="0.25" unit="m" />
+					<attnum name="end width" val="1.7875" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.8885" unit="deg" />
+				<attnum name="banking end" val="0.299" unit="deg" />
+				<attnum name="z start" val="11.1888" unit="m" />
+				<attnum name="profil start tangent" val="-10.3024" unit="%" />
+				<attnum name="profil end tangent" val="-10.4984" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Circuit de Monaco-36">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="17.680" />
+				<attnum name="arc" unit="deg" val="19.38102767" />
+				<attnum name="z end" unit="m" val="9.1523" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="1.7875" unit="m" />
+					<attnum name="end width" val="2.4728" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0.299" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="9.7802" unit="m" />
+				<attnum name="profil start tangent" val="-10.4984" unit="%" />
+				<attnum name="profil end tangent" val="-10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue du Port">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="31.091" />
+				<attnum name="arc" unit="deg" val="11.09232109" />
+				<attnum name="z end" unit="m" val="8.5203" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="2.4728" unit="m" />
+					<attnum name="end width" val="3.1625" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="9.1523" unit="m" />
+				<attnum name="profil start tangent" val="-10.5" unit="%" />
+				<attnum name="profil end tangent" val="-10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue du Port-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="44.112" />
+				<attnum name="arc" unit="deg" val="24.39629138" />
+				<attnum name="z end" unit="m" val="6.5481" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="3.1625" unit="m" />
+					<attnum name="end width" val="5.3147" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="-0.7679" unit="deg" />
+				<attnum name="z start" val="8.5203" unit="m" />
+				<attnum name="profil start tangent" val="-10.5" unit="%" />
+				<attnum name="profil end tangent" val="-10.5" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Avenue du Port-3">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="2225.016" />
+				<attnum name="arc" unit="deg" val="0.49110940" />
+				<attnum name="z end" unit="m" val="4.5456" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="5.3147" unit="m" />
+					<attnum name="end width" val="7.5" unit="m" />
+				</section>
+				<attnum name="banking start" val="-0.7679" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="6.5481" unit="m" />
+				<attnum name="profil start tangent" val="-10.5" unit="%" />
+				<attnum name="profil end tangent" val="-8.6971" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Albert 1er">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="231.439" />
+				<attnum name="arc" unit="deg" val="9.82929605465" />
+				<attnum name="z end" unit="m" val="1.8083" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7.5" unit="m" />
+					<attnum name="end width" val="12.0494" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="4.5456" unit="m" />
+				<attnum name="profil start tangent" val="-8.6971" unit="%" />
+				<attnum name="profil end tangent" val="-4.3345" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Boulevard Albert 1er-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="89.6687" />
+				<attnum name="arc" unit="deg" val="19.2074" />
+				<attnum name="z end" unit="m" val="1.2748" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.0494" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="1.8083" unit="m" />
+				<attnum name="profil start tangent" val="-4.3345" unit="%" />
+				<attnum name="profil end tangent" val="-1.312" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0.0009" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="lg" val="150" unit="m" />
+				<section name="Left Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="1.2748" unit="m" />
+				<attnum name="profil start tangent" val="-1.312" unit="%" />
+				<attnum name="profil end tangent" val="-0.0705" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-3">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.10000000" unit="m" />
+				<attnum name="banking start" val="0" unit="deg" />
+				<attnum name="banking end" val="0" unit="deg" />
+				<attnum name="z start" val="0.0009" unit="m" />
+				<attnum name="profil start tangent" val="-0.0705" unit="%" />
+				<attnum name="profil end tangent" val="-0.0705" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="43.734776704" />
+    <attnum name="longitude" unit="deg" val="7.421540836" />
+    <attnum name="altitude" unit="m" val="3.631135708" />
+    <attnum name="heading" unit="deg" val="352.795935531" />
+  </section>
+</params>

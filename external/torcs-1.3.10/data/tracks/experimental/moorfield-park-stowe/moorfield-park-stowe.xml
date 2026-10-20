@@ -1,0 +1,1619 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : moorfield-park-stowe.xml
+    created              : 17 May 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Moorfield Park Stowe" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Moorfield Park Stowe" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Moorfield Park Stowe track for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="moorfield-park-stowe.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="moorfield-park-stowe-relief.ac" />
+			<attstr name="elevation map" val="moorfield-park-stowe-terrain-elevation.png" />
+			<attnum name="minimum altitude" val="-2.4176" unit="m" />
+			<attnum name="maximum altitude" val="10.6727" unit="m" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="10.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="tangent" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="tangent" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="left" />
+			<attstr name="entry" val="Stowe Circuit-12" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="Stowe Circuit-19-post:radius-out" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="11" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="49.5" />
+				<attnum name="z end" unit="m" val="-0.6098" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="-1.2974" unit="%" />
+				<attnum name="profil end tangent" val="-1.172" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="22.0874" />
+				<attnum name="z end" unit="m" val="-0.8554" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="12.7116" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-0.6098" unit="m" />
+				<attnum name="profil start tangent" val="-1.172" unit="%" />
+				<attnum name="profil end tangent" val="-0.9839" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-18-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="31.00000000" />
+				<attnum name="z end" unit="m" val="-1.1206" />
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.7116" unit="m" />
+					<attnum name="end width" val="10.9032" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-0.8554" unit="m" />
+				<attnum name="profil start tangent" val="-0.9839" unit="%" />
+				<attnum name="profil end tangent" val="-0.7666" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-18-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.0869715" />
+				<attnum name="z end" unit="m" val="-1.311" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.9032" unit="m" />
+					<attnum name="end width" val="9.2648" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="-1.1206" unit="m" />
+				<attnum name="profil start tangent" val="-0.7666" unit="%" />
+				<attnum name="profil end tangent" val="-0.5471" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-19">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="4.0495131014" />
+				<attnum name="z end" unit="m" val="-1.3310997905" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="9.2648000000" />
+					<attnum name="end width" unit="m" val="9.0285874794" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-1.3110000000" />
+				<attnum name="profil start tangent" unit="%" val="-0.5471000000" />
+				<attnum name="profil end tangent" unit="%" val="-0.4488482823" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-19:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.072780421392" />
+				<attnum name="profil steps" val="2" />
+				<attnum name="z end" unit="m" val="-1.3467268873" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="9.0285874794" />
+					<attnum name="end width" unit="m" val="8.8063008741" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-1.3310997905" />
+				<attnum name="profil start tangent" unit="%" val="-0.4488482823" />
+				<attnum name="profil end tangent" unit="%" val="-0.3741803120" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-19:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="4.0527421426" />
+				<attnum name="z end" unit="m" val="-1.3606000000" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="8.8063008741" />
+					<attnum name="end width" unit="m" val="8.5699000000" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-1.3467268873" />
+				<attnum name="profil start tangent" unit="%" val="-0.3741803120" />
+				<attnum name="profil end tangent" unit="%" val="-0.3137000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-19-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="13.0962858042" />
+				<attnum name="z end" unit="m" val="-1.3977410698" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="8.5699000000" />
+					<attnum name="end width" unit="m" val="8.0366305097" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-1.3606000000" />
+				<attnum name="profil start tangent" unit="%" val="-0.3137000000" />
+				<attnum name="profil end tangent" unit="%" val="-0.2509704016" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-19-post:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.235540454240" />
+				<attnum name="profil steps" val="7" />
+				<attnum name="z end" unit="m" val="-1.4243328736" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="8.0366305097" />
+					<attnum name="end width" unit="m" val="7.5344466808" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-1.3977410698" />
+				<attnum name="profil start tangent" unit="%" val="-0.2509704016" />
+				<attnum name="profil end tangent" unit="%" val="-0.1780209370" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-19-post:radius-exit-pad">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="7.6174352816" />
+				<attnum name="z end" unit="m" val="-1.4359538799" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="7.5344466808" />
+					<attnum name="end width" unit="m" val="7.2242712699" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-1.4243328736" />
+				<attnum name="profil start tangent" unit="%" val="-0.1780209370" />
+				<attnum name="profil end tangent" unit="%" val="-0.1262392300" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-19-post:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="5.5077605247" />
+				<attnum name="profil steps" val="1" />
+				<attnum name="z end" unit="m" val="-1.4418000000" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" unit="m" val="7.2242712699" />
+					<attnum name="end width" unit="m" val="7.0000000000" />
+					
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" unit="m" val="-1.4359538799" />
+				<attnum name="profil start tangent" unit="%" val="-0.1262392300" />
+				<attnum name="profil end tangent" unit="%" val="-0.0856000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-20-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="104.751" />
+				<attnum name="arc" unit="deg" val="13.37107957283" />
+				<attnum name="z end" unit="m" val="-1.4322" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="z start" val="-1.4418" unit="m" />
+				<attnum name="profil start tangent" val="-0.0856" unit="%" />
+				<attnum name="profil end tangent" val="0.1265" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-20-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="104.751" />
+				<attnum name="arc" unit="deg" val="13.71714020717" />
+				<attnum name="z end" unit="m" val="-1.3787" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-1.4322" unit="m" />
+				<attnum name="profil start tangent" val="0.1265" unit="%" />
+				<attnum name="profil end tangent" val="0.2526" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-21">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="143.119" />
+				<attnum name="arc" unit="deg" val="8.85904919" />
+				<attnum name="z end" unit="m" val="-1.3141" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-1.3787" unit="m" />
+				<attnum name="profil start tangent" val="0.2526" unit="%" />
+				<attnum name="profil end tangent" val="0.3321" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-22">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="70.917" />
+				<attnum name="arc" unit="deg" val="17.77060296" />
+				<attnum name="z end" unit="m" val="-1.2322" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.3141" unit="m" />
+				<attnum name="profil start tangent" val="0.3321" unit="%" />
+				<attnum name="profil end tangent" val="0.3644" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-23">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="43.571" />
+				<attnum name="arc" unit="deg" val="37.86844752938" />
+				<attnum name="z end" unit="m" val="-1.1295" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.2322" unit="m" />
+				<attnum name="profil start tangent" val="0.3644" unit="%" />
+				<attnum name="profil end tangent" val="0.3057" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-23-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="43.571" />
+				<attnum name="arc" unit="deg" val="21.59666694062" />
+				<attnum name="z end" unit="m" val="-1.0877" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.1295" unit="m" />
+				<attnum name="profil start tangent" val="0.3057" unit="%" />
+				<attnum name="profil end tangent" val="-0.0606" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-24">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="25.294" />
+				<attnum name="arc" unit="deg" val="89.06637201" />
+				<attnum name="z end" unit="m" val="-1.2356" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.0877" unit="m" />
+				<attnum name="profil start tangent" val="-0.0606" unit="%" />
+				<attnum name="profil end tangent" val="-0.587" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-25">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="21.579" />
+				<attnum name="arc" unit="deg" val="21.18888685" />
+				<attnum name="z end" unit="m" val="-1.2993" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.2356" unit="m" />
+				<attnum name="profil start tangent" val="-0.587" unit="%" />
+				<attnum name="profil end tangent" val="-0.7934" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-26">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="132.898" />
+				<attnum name="arc" unit="deg" val="3.47922703" />
+				<attnum name="z end" unit="m" val="-1.3629" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.2993" unit="m" />
+				<attnum name="profil start tangent" val="-0.7934" unit="%" />
+				<attnum name="profil end tangent" val="-0.7825" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-27">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="378.269" />
+				<attnum name="arc" unit="deg" val="3.94991485" />
+				<attnum name="z end" unit="m" val="-1.5653" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.3629" unit="m" />
+				<attnum name="profil start tangent" val="-0.7825" unit="%" />
+				<attnum name="profil end tangent" val="-0.7701" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-28">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="152.989" />
+				<attnum name="arc" unit="deg" val="9.74655168" />
+				<attnum name="z end" unit="m" val="-1.7642" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-1.5653" unit="m" />
+				<attnum name="profil start tangent" val="-0.7701" unit="%" />
+				<attnum name="profil end tangent" val="-1.1327" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-29">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="25.274" />
+				<attnum name="arc" unit="deg" val="47.26757844" />
+				<attnum name="z end" unit="m" val="-2.0772" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-1.7642" unit="m" />
+				<attnum name="profil start tangent" val="-1.1327" unit="%" />
+				<attnum name="profil end tangent" val="-1.7006" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-30">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="258.346" />
+				<attnum name="arc" unit="deg" val="4.90256784" />
+				<attnum name="z end" unit="m" val="-2.4972" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.0772" unit="m" />
+				<attnum name="profil start tangent" val="-1.7006" unit="%" />
+				<attnum name="profil end tangent" val="-1.6386" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-31">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="31.91452222" />
+				<attnum name="z end" unit="m" val="-2.9367" />
+				<attnum name="z start" val="-2.4972" unit="m" />
+				<attnum name="profil start tangent" val="-1.6386" unit="%" />
+				<attnum name="profil end tangent" val="-1.1257" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-32">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="327.454" />
+				<attnum name="arc" unit="deg" val="3.34481991944" />
+				<attnum name="z end" unit="m" val="-3.1038" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-2.9367" unit="m" />
+				<attnum name="profil start tangent" val="-1.1257" unit="%" />
+				<attnum name="profil end tangent" val="-0.8611" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-32-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="327.454" />
+				<attnum name="arc" unit="deg" val="2.19607470056" />
+				<attnum name="z end" unit="m" val="-3.2103" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.1038" unit="m" />
+				<attnum name="profil start tangent" val="-0.8611" unit="%" />
+				<attnum name="profil end tangent" val="-0.7118" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-33-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="20.607" />
+				<attnum name="arc" unit="deg" val="31.833127739" />
+				<attnum name="z end" unit="m" val="-3.2762" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.2103" unit="m" />
+				<attnum name="profil start tangent" val="-0.7118" unit="%" />
+				<attnum name="profil end tangent" val="-0.3655" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-33-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="20.607" />
+				<attnum name="arc" unit="deg" val="43.285474111" />
+				<attnum name="z end" unit="m" val="-3.3004" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.2762" unit="m" />
+				<attnum name="profil start tangent" val="-0.3655" unit="%" />
+				<attnum name="profil end tangent" val="-0.3108" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-34">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="45.306" />
+				<attnum name="arc" unit="deg" val="22.97924700" />
+				<attnum name="z end" unit="m" val="-3.3851" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.3004" unit="m" />
+				<attnum name="profil start tangent" val="-0.3108" unit="%" />
+				<attnum name="profil end tangent" val="-0.441" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-35">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="38.950" />
+				<attnum name="arc" unit="deg" val="26.60479227" />
+				<attnum name="z end" unit="m" val="-3.4603" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.3851" unit="m" />
+				<attnum name="profil start tangent" val="-0.441" unit="%" />
+				<attnum name="profil end tangent" val="-0.4836" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-36">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="23.667" />
+				<attnum name="arc" unit="deg" val="34.31711916844" />
+				<attnum name="z end" unit="m" val="-3.5385" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.4603" unit="m" />
+				<attnum name="profil start tangent" val="-0.4836" unit="%" />
+				<attnum name="profil end tangent" val="-0.612" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-36-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="23.667" />
+				<attnum name="arc" unit="deg" val="28.95453818156" />
+				<attnum name="z end" unit="m" val="-3.6189" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-3.5385" unit="m" />
+				<attnum name="profil start tangent" val="-0.612" unit="%" />
+				<attnum name="profil end tangent" val="-0.6832" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-37-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="258.736" />
+				<attnum name="arc" unit="deg" val="3.55194009038" />
+				<attnum name="z end" unit="m" val="-3.7302" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.6189" unit="m" />
+				<attnum name="profil start tangent" val="-0.6832" unit="%" />
+				<attnum name="profil end tangent" val="-0.6614" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-37-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="258.736" />
+				<attnum name="arc" unit="deg" val="2.89868416962" />
+				<attnum name="z end" unit="m" val="-3.8125" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.7302" unit="m" />
+				<attnum name="profil start tangent" val="-0.6614" unit="%" />
+				<attnum name="profil end tangent" val="-0.5846" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-38">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.910136249" />
+				<attnum name="z end" unit="m" val="-3.8607" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.8125" unit="m" />
+				<attnum name="profil start tangent" val="-0.5846" unit="%" />
+				<attnum name="profil end tangent" val="-0.4373" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-38-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="23.23666336" />
+				<attnum name="z end" unit="m" val="-3.9384" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-3.8607" unit="m" />
+				<attnum name="profil start tangent" val="-0.4373" unit="%" />
+				<attnum name="profil end tangent" val="0.0285" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-39">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2225.762" />
+				<attnum name="arc" unit="deg" val="0.67939289" />
+				<attnum name="z end" unit="m" val="-3.8351" />
+				<attnum name="z start" val="-3.9384" unit="m" />
+				<attnum name="profil start tangent" val="0.0285" unit="%" />
+				<attnum name="profil end tangent" val="0.8607" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-40">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="44.055" />
+				<attnum name="arc" unit="deg" val="33.35006660" />
+				<attnum name="z end" unit="m" val="-3.494" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.8351" unit="m" />
+				<attnum name="profil start tangent" val="0.8607" unit="%" />
+				<attnum name="profil end tangent" val="1.462" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-41">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="43.216" />
+				<attnum name="arc" unit="deg" val="44.67224285" />
+				<attnum name="z end" unit="m" val="-2.9569" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-3.494" unit="m" />
+				<attnum name="profil start tangent" val="1.462" unit="%" />
+				<attnum name="profil end tangent" val="1.465" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-42">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="47.129" />
+				<attnum name="arc" unit="deg" val="41.28828922" />
+				<attnum name="z end" unit="m" val="-2.5032" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-2.9569" unit="m" />
+				<attnum name="profil start tangent" val="1.465" unit="%" />
+				<attnum name="profil end tangent" val="1.2838" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-43">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1585.096" />
+				<attnum name="arc" unit="deg" val="1.25062624" />
+				<attnum name="z end" unit="m" val="-2.0771" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-2.5032" unit="m" />
+				<attnum name="profil start tangent" val="1.2838" unit="%" />
+				<attnum name="profil end tangent" val="1.2607" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-44">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="54.705" />
+				<attnum name="arc" unit="deg" val="21.56370901907" />
+				<attnum name="z end" unit="m" val="-1.8116" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-2.0771" unit="m" />
+				<attnum name="profil start tangent" val="1.2607" unit="%" />
+				<attnum name="profil end tangent" val="1.2286" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-44-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="54.705" />
+				<attnum name="arc" unit="deg" val="13.53449656093" />
+				<attnum name="z end" unit="m" val="-1.6607" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.8116" unit="m" />
+				<attnum name="profil start tangent" val="1.2286" unit="%" />
+				<attnum name="profil end tangent" val="1.1383" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-45-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="40.761" />
+				<attnum name="arc" unit="deg" val="18.38241537191" />
+				<attnum name="z end" unit="m" val="-1.5156" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.6607" unit="m" />
+				<attnum name="profil start tangent" val="1.1383" unit="%" />
+				<attnum name="profil end tangent" val="1.1833" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-45-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="40.761" />
+				<attnum name="arc" unit="deg" val="19.67912743022" />
+				<attnum name="z end" unit="m" val="-1.3396" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-1.5156" unit="m" />
+				<attnum name="profil start tangent" val="1.1833" unit="%" />
+				<attnum name="profil end tangent" val="1.2867" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-45-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="40.761" />
+				<attnum name="arc" unit="deg" val="14.27429201787" />
+				<attnum name="z end" unit="m" val="-1.206" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-1.3396" unit="m" />
+				<attnum name="profil start tangent" val="1.2867" unit="%" />
+				<attnum name="profil end tangent" val="1.3272" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-46-pre">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="107.328" />
+				<attnum name="arc" unit="deg" val="9.52638090178" />
+				<attnum name="z end" unit="m" val="-0.9671" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.206" unit="m" />
+				<attnum name="profil start tangent" val="1.3272" unit="%" />
+				<attnum name="profil end tangent" val="1.3038" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-46-curb">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="107.328" />
+				<attnum name="arc" unit="deg" val="11.61456956822" />
+				<attnum name="z end" unit="m" val="-0.691" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-0.9671" unit="m" />
+				<attnum name="profil start tangent" val="1.3038" unit="%" />
+				<attnum name="profil end tangent" val="1.2459" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-47">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3356.573" />
+				<attnum name="arc" unit="deg" val="1.05957136" />
+				<attnum name="z end" unit="m" val="0.0679" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-0.691" unit="m" />
+				<attnum name="profil start tangent" val="1.2459" unit="%" />
+				<attnum name="profil end tangent" val="1.2558" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-48">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="612.340" />
+				<attnum name="arc" unit="deg" val="5.80329490" />
+				<attnum name="z end" unit="m" val="0.8674" />
+				<attnum name="z start" val="0.0679" unit="m" />
+				<attnum name="profil start tangent" val="1.2558" unit="%" />
+				<attnum name="profil end tangent" val="1.2188" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-49">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="235.511" />
+				<attnum name="arc" unit="deg" val="11.11048321" />
+				<attnum name="z end" unit="m" val="1.3919" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.8674" unit="m" />
+				<attnum name="profil start tangent" val="1.2188" unit="%" />
+				<attnum name="profil end tangent" val="1.1715" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-50">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="341.005" />
+				<attnum name="arc" unit="deg" val="7.68590027" />
+				<attnum name="z end" unit="m" val="1.9383" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.3919" unit="m" />
+				<attnum name="profil start tangent" val="1.1715" unit="%" />
+				<attnum name="profil end tangent" val="1.2302" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="543.452" />
+				<attnum name="arc" unit="deg" val="4.00594534" />
+				<attnum name="z end" unit="m" val="2.4192" />
+				<attnum name="z start" val="1.9383" unit="m" />
+				<attnum name="profil start tangent" val="1.2302" unit="%" />
+				<attnum name="profil end tangent" val="1.1253" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-2">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="273.175" />
+				<attnum name="arc" unit="deg" val="7.95980530" />
+				<attnum name="z end" unit="m" val="2.7929" />
+				<attnum name="z start" val="2.4192" unit="m" />
+				<attnum name="profil start tangent" val="1.1253" unit="%" />
+				<attnum name="profil end tangent" val="0.9422" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-3-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="30.788151844" />
+				<attnum name="z end" unit="m" val="3.0699" />
+				<attnum name="z start" val="2.7929" unit="m" />
+				<attnum name="profil start tangent" val="0.9422" unit="%" />
+				<attnum name="profil end tangent" val="0.9293" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-3-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="25.265964156" />
+				<attnum name="z end" unit="m" val="3.3122" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="3.0699" unit="m" />
+				<attnum name="profil start tangent" val="0.9293" unit="%" />
+				<attnum name="profil end tangent" val="0.8858" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-4">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="4.3403278197" />
+				<attnum name="z end" unit="m" val="3.3496674996" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" unit="m" val="3.3122000000" />
+				<attnum name="profil start tangent" unit="%" val="0.8858000000" />
+				<attnum name="profil end tangent" unit="%" val="0.8411562190" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-4:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.112698114036" />
+				<attnum name="profil steps" val="3" />
+				<attnum name="z end" unit="m" val="3.3976208590" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" unit="m" val="3.3496674996" />
+				<attnum name="profil start tangent" unit="%" val="0.8411562190" />
+				<attnum name="profil end tangent" unit="%" val="0.7850202804" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-4:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="4.4930873526" />
+				<attnum name="z end" unit="m" val="3.4320000000" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" unit="m" val="3.3976208590" />
+				<attnum name="profil start tangent" unit="%" val="0.7850202804" />
+				<attnum name="profil end tangent" unit="%" val="0.7458000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-4-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="3.4961941010" />
+				<attnum name="z end" unit="m" val="3.4565692497" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" unit="m" val="3.4320000000" />
+				<attnum name="profil start tangent" unit="%" val="0.7458000000" />
+				<attnum name="profil end tangent" unit="%" val="0.6694378381" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-4-post:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.089637443947" />
+				<attnum name="profil steps" val="2" />
+				<attnum name="z end" unit="m" val="3.4873296056" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" unit="m" val="3.4565692497" />
+				<attnum name="profil start tangent" unit="%" val="0.6694378381" />
+				<attnum name="profil end tangent" unit="%" val="0.6589276330" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-4-post:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="3.5298475329" />
+				<attnum name="z end" unit="m" val="3.5115000000" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" unit="m" val="3.4873296056" />
+				<attnum name="profil start tangent" unit="%" val="0.6589276330" />
+				<attnum name="profil end tangent" unit="%" val="0.7205000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="42.197" />
+				<attnum name="arc" unit="deg" val="34.80668418" />
+				<attnum name="z end" unit="m" val="3.7068" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="3.5115" unit="m" />
+				<attnum name="profil start tangent" val="0.7205" unit="%" />
+				<attnum name="profil end tangent" val="0.849" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-6">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="30.552" />
+				<attnum name="arc" unit="deg" val="45.38748174" />
+				<attnum name="z end" unit="m" val="3.9334" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="3.7068" unit="m" />
+				<attnum name="profil start tangent" val="0.849" unit="%" />
+				<attnum name="profil end tangent" val="0.0853" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-7">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="20.441" />
+				<attnum name="arc" unit="deg" val="64.01325502" />
+				<attnum name="z end" unit="m" val="3.7586" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="3.9334" unit="m" />
+				<attnum name="profil start tangent" val="0.0853" unit="%" />
+				<attnum name="profil end tangent" val="-0.893" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-8">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="22.111" />
+				<attnum name="arc" unit="deg" val="40.43727437" />
+				<attnum name="z end" unit="m" val="3.5993" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="3.7586" unit="m" />
+				<attnum name="profil start tangent" val="-0.893" unit="%" />
+				<attnum name="profil end tangent" val="-0.9466" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-9">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="556.793" />
+				<attnum name="arc" unit="deg" val="1.67582726" />
+				<attnum name="z end" unit="m" val="3.4572" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="3.5993" unit="m" />
+				<attnum name="profil start tangent" val="-0.9466" unit="%" />
+				<attnum name="profil end tangent" val="-0.959" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-10">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="150.449" />
+				<attnum name="arc" unit="deg" val="15.12565079537" />
+				<attnum name="z end" unit="m" val="3.0421" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="3.4572" unit="m" />
+				<attnum name="profil start tangent" val="-0.959" unit="%" />
+				<attnum name="profil end tangent" val="-1.0512" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-10-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="150.449" />
+				<attnum name="arc" unit="deg" val="8.24318351463" />
+				<attnum name="z end" unit="m" val="2.8133" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="3.0421" unit="m" />
+				<attnum name="profil start tangent" val="-1.0512" unit="%" />
+				<attnum name="profil end tangent" val="-1.098" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-11-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="260.511" />
+				<attnum name="arc" unit="deg" val="4.03688314095" />
+				<attnum name="z end" unit="m" val="2.6042" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="2.8133" unit="m" />
+				<attnum name="profil start tangent" val="-1.098" unit="%" />
+				<attnum name="profil end tangent" val="-1.0863" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-11-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="260.511" />
+				<attnum name="arc" unit="deg" val="9.58472309905" />
+				<attnum name="z end" unit="m" val="2.1537" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="z start" val="2.6042" unit="m" />
+				<attnum name="profil start tangent" val="-1.0863" unit="%" />
+				<attnum name="profil end tangent" val="-1.121" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-12">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="494.164" />
+				<attnum name="arc" unit="deg" val="3.54529665" />
+				<attnum name="z end" unit="m" val="1.7843" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="8.7837" unit="m" />
+				</section>
+				<attnum name="z start" val="2.1537" unit="m" />
+				<attnum name="profil start tangent" val="-1.121" unit="%" />
+				<attnum name="profil end tangent" val="-1.009" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-13">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="37.767" />
+				<attnum name="arc" unit="deg" val="44.09110319" />
+				<attnum name="z end" unit="m" val="1.549" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="8.7837" unit="m" />
+					<attnum name="end width" val="10.479" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="1.7843" unit="m" />
+				<attnum name="profil start tangent" val="-1.009" unit="%" />
+				<attnum name="profil end tangent" val="-0.902" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-14">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="45.380" />
+				<attnum name="arc" unit="deg" val="10.14384219" />
+				<attnum name="z end" unit="m" val="1.4691" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.479" unit="m" />
+					<attnum name="end width" val="10.9477" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="1.549" unit="m" />
+				<attnum name="profil start tangent" val="-0.902" unit="%" />
+				<attnum name="profil end tangent" val="-1.0973" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-15">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="25.084" />
+				<attnum name="arc" unit="deg" val="18.24372645" />
+				<attnum name="z end" unit="m" val="1.3732" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.9477" unit="m" />
+					<attnum name="end width" val="11.4136" unit="m" />
+				</section>
+				<attnum name="z start" val="1.4691" unit="m" />
+				<attnum name="profil start tangent" val="-1.0973" unit="%" />
+				<attnum name="profil end tangent" val="-1.3585" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-16">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="33.757" />
+				<attnum name="arc" unit="deg" val="25.0498798683" />
+				<attnum name="z end" unit="m" val="1.1494" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="11.4136" unit="m" />
+					<attnum name="end width" val="12.2745" unit="m" />
+				</section>
+				<attnum name="z start" val="1.3732" unit="m" />
+				<attnum name="profil start tangent" val="-1.3585" unit="%" />
+				<attnum name="profil end tangent" val="-1.4945" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-16-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="33.757" />
+				<attnum name="arc" unit="deg" val="14.8773206817" />
+				<attnum name="z end" unit="m" val="1.0203" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.2745" unit="m" />
+					<attnum name="end width" val="12.7858" unit="m" />
+				</section>
+				<attnum name="z start" val="1.1494" unit="m" />
+				<attnum name="profil start tangent" val="-1.4945" unit="%" />
+				<attnum name="profil end tangent" val="-1.4405" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Stowe Circuit-17">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1898.345" />
+				<attnum name="arc" unit="deg" val="0.74018342" />
+				<attnum name="z end" unit="m" val="0.6748" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.7858" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="1.0203" unit="m" />
+				<attnum name="profil start tangent" val="-1.4405" unit="%" />
+				<attnum name="profil end tangent" val="-1.3858" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="49.5" />
+				<attnum name="z end" unit="m" val="0.0002" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Left Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0.6748" unit="m" />
+				<attnum name="profil start tangent" val="-1.3858" unit="%" />
+				<attnum name="profil end tangent" val="-1.2974" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.01500000" unit="m" />
+				<attnum name="z start" val="0.0002" unit="m" />
+				<attnum name="profil start tangent" val="-1.2974" unit="%" />
+				<attnum name="profil end tangent" val="-1.2974" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="52.068271088" />
+    <attnum name="longitude" unit="deg" val="-1.016171090" />
+    <attnum name="altitude" unit="m" val="150.219202966" />
+    <attnum name="heading" unit="deg" val="194.811630032" />
+  </section>
+</params>

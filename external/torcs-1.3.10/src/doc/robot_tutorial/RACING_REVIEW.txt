@@ -1,0 +1,72 @@
+Racing-default correction and audit (maintainer record, September 2026)
+====================================================================
+
+This record supersedes the restricted-driver timing/default-setting evidence
+in the earlier CHAPTER_*_TOPICS.txt and APPENDIX_*_TOPICS.txt records. Those
+records describe the earlier implementation, not current racing performance.
+
+Root cause and corrections
+--------------------------
+Chapter 3's 32 m/s / 45% pedal ceilings were inherited through Chapter 6 and
+Appendices A-C. Completed checkpoints now use full pedal authority, active
+aerodynamic corner/braking models and a gearing/redline-derived finite search
+bound. Physical modelling reserves remain explicit. The basic and alternative
+braking models are comparisons, not disabled completion steps.
+
+snapshot_speed_helpers.py reproduces Chapter 4's longitudinal implementation
+from Chapter 3 while retaining Chapter 4's steering and optional short-turn
+experiment. It precedes the existing final/setup/texture/multi snapshot chain.
+Traffic and pits delegate pedal control to SpeedDriver::applySpeedTarget.
+Traction control reduces power progressively from driven-wheel excess speed,
+including launch, rather than relying on a low throttle cap and on/off cuts.
+
+Pit racing defaults: no forced demonstration stop; legal lane limit minus a
+tracking margin; speed-dependent approach braking; precision capture near the
+box rather than a 30 m crawl; fuel-to-finish bounded by tank capacity. Explicit
+demonstration stops and positive stint lengths remain available as exercises.
+
+Additional audit findings: fixed 150 m front/60 m rear observation windows were
+inadequate at racing speed. Observe the field, scale the passing preparation
+and road-width horizon with speed, and retain feasible adjacent-car bounds in
+the cancelled-manoeuvre fallback. A stopped leader 250 m ahead and a rear car
+200 m away closing within six seconds are now covered by regression checks.
+
+Intentional remaining distinctions
+---------------------------------
+Chapters 1-2 still teach basic callbacks/recovery with modest fixed throttle.
+Tutorial Pace is explicitly a slow opponent. Recovery, stopped-car holding,
+pit capture, road-edge feedback and traffic constraints are situational, not
+global performance caps. The optional short-turn radius heuristic remains
+off because its optimistic radius is not a measured feasible racing path.
+Fuel fallback and path/tyre/traffic models remain approximations; low-fuel starts
+on different tracks need an appropriate initial consumption estimate.
+
+Validation
+----------
+Permanent checks: test/robot_tutorial/check_racing_controls.py and its README.
+Seven independently compiled checkpoints cover full pedal authority, no old
+speed ceiling, active aerodynamic models, future-corner braking, launch and
+FWD/RWD/AWD slip, traffic delegation, distant opponents, mirrored holding bounds,
+and fuel-to-finish service. Tests use temporary executables and no installed
+instrumentation. Native Windows execution remains outstanding.
+
+Native Linux reference-car runs, six solo laps each:
+  Chapter 3: g-track-1 best 51.806 s, e-track-2 best 159.458 s.
+  Chapters 4-6: g-track-1 best about 51.09 s, e-track-2 about 156.15 s.
+  Actual full throttle reached; top speeds about 60.6 and 72.2 m/s.
+  Zero damage/penalties/recovery events; sampled body-corner road clearance
+  positive (minimum about 4.0 m and 2.6-3.0 m respectively).
+
+Additional runs cover the slow pace opponent, optional demonstration stop,
+12-lap low-fuel strategy, mirrored/start-line-wrapped/no-pit layouts, last box,
+occupied box, XML-only fuel/wing/lookahead changes, both Appendix C identities
+and selection orders, and independent short stints sharing one pit.
+
+Known stress-test limitation (do not describe the traffic system as collision-proof):
+Mixed racing with the aggressive bt 2 stock-car opponent on e-track-2 can still
+produce side-by-side contact in ordinary racing after the pit visit. This was
+observed with native collision assertions, including after the holding-bound
+correction. Other runs and a bt 3 mixed-car run were clean. Clean solo, pace-car,
+and shared-pit results do not establish universal mixed-opponent clearance.
+The holding-bound regression fixes a specific invalid fallback, not the full
+prediction/tracking problem during aggressive opponent lane changes.

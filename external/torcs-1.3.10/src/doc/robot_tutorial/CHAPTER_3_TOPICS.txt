@@ -1,0 +1,47 @@
+CHAPTER 3 — ORIGINAL TOPIC COVERAGE
+
+Original 3.1 utility functions:
+  Corner force balance and sqrt(mu*g*R): chapter_3.md, sections 3.3 and 3.5.
+  Straight/curve distance conversion: chapter_3.md, distance helper.
+  Accelerator selection: chapter_3.md speed feedback; wheel_control.md explains
+  why a target-RPM fraction is not a throttle law for the current engine model.
+
+Original 3.2 basic braking:
+  Work-energy derivation, slowing/stopping distance, lookahead over segments,
+  early-braking allowance, throttle/brake ordering: chapter_3.md 3.4–3.5.
+  Brake pressure, torque capacity and automatic-setup idea: wheel_control.md 5.
+
+Original 3.3 gears:
+  Engine/wheel/road-speed relation, up/down thresholds, hunting, indexing,
+  torque/slip implications and caching: chapter_3.md 3.6; wheel_control.md 1–2, 8.
+
+Original 3.4 aerodynamic cornering:
+  Downforce/drag distinction, cornering derivation, denominator/domain limits,
+  lift, wing/body/ride-height coefficients and current mass: braking_math.md 1–2, 8.
+
+Original 3.5 aerodynamic braking approximation:
+  Work integral, final-speed rectangle, conservative distance, drag coefficient,
+  subdivision/numerical integration, comparison plot: braking_math.md 3–5, 7–8.
+  High-speed brake/throttle flicker and model mismatch: chapter_3.md 3.2.
+  Simpson/Romberg mentioned as alternatives, without an unearned upper-bound claim.
+
+Original 3.5.S analytical solution:
+  Differential equation, initial condition, squared-speed substitution,
+  v(s), logarithmic distance, no-aero limit, numerical comparison and physical
+  limitations: braking_math.md 6–7 and final section.
+  The distance surface over both speeds is retained as a labelled contour map.
+  The former unexplained Maple step is now derived explicitly.
+
+Original 3.6 ABS and TCL:
+  Wheel-speed ratios, low-speed guards, average-wheel ABS, driven-wheel traction
+  control, FWD/RWD/AWD selection, control ordering and limitations:
+  wheel_control.md 3–7; implemented in speed.cpp.
+
+Preserved as concepts, modernized as code:
+  Local loop variables, nullptr, ordinary header/source separation;
+  simple drivetrain selection replaces pointer-to-member plumbing.
+  Finite speed caps and checked gear indices replace unbounded/unsafe cases.
+  Old lap times/car identifiers and historical hardware remarks are not reused
+  as claims about the current simulator. Readers compare their own experiments.
+
+All source and assets are independent of doc/tutorials/robot/.

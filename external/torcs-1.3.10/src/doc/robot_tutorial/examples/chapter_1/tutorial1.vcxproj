@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2026 Bernhard Wymann. GPL-2.0-or-later. -->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32"><Configuration>Release</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E1AA440A-21A6-4AE0-83D7-D1EAE777C213}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <SolutionDir Condition="'$(SolutionDir)'=='' Or '$(SolutionDir)'=='*Undefined*'">$(MSBuildThisFileDirectory)..\..\..\</SolutionDir>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Debug'">true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <TutorialCheckpoint Condition="'$(TutorialCheckpoint)'==''">driving</TutorialCheckpoint>
+    <TargetName>tutorial1</TargetName>
+    <OutDir>$(MSBuildThisFileDirectory)build\$(Platform)\$(Configuration)\$(TutorialCheckpoint)\</OutDir>
+    <IntDir>$(OutDir)obj\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>$(SolutionDir)export\include;$(SolutionDir)src\windows\include;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>tgf.lib;robottools.lib;sg.lib;ul.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TorcsExportLibDir);$(TorcsLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>tutorial1.def</ModuleDefinitionFile>
+      <IgnoreSpecificDefaultLibraries Condition="'$(Configuration)'=='Debug'">LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="tutorial1.cpp" />
+    <ClCompile Include="skeleton.cpp" Condition="'$(TutorialCheckpoint)'=='skeleton'" />
+    <ClCompile Include="driving.cpp" Condition="'$(TutorialCheckpoint)'=='driving'" />
+    <ClInclude Include="driver.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="ValidateCheckpoint" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(TutorialCheckpoint)'!='skeleton' And '$(TutorialCheckpoint)'!='driving'" Text="TutorialCheckpoint must be skeleton or driving." />
+  </Target>
+  <Target Name="InstallTutorial" AfterTargets="Build">
+    <MakeDir Directories="$(TorcsRuntimeDir)drivers\tutorial1" />
+    <Copy SourceFiles="$(TargetPath);$(MSBuildThisFileDirectory)tutorial1.xml" DestinationFolder="$(TorcsRuntimeDir)drivers\tutorial1" />
+  </Target>
+</Project>

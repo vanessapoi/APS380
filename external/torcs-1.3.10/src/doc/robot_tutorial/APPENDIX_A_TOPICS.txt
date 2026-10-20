@@ -1,0 +1,61 @@
+APPENDIX A — COVERAGE AND VERIFICATION MAP
+
+Reader-facing pages have no dependencies on the historical tutorial tree.
+Historical coverage audit: robot/ch5/{introduction,loading,creating,properties,
+customprop,carsetup}.html. Attribution remains in credits.md.
+
+appendix_a.md:
+  Physical car setup / private controller parameters / robot description.
+  Complete independently buildable tutoriala checkpoint, baseline and XML-only edits.
+  Default + sparse track overlay, internal track identifier, installed data paths.
+  Numeric and string XML, units, sections/subsections, reference constraints.
+  Incoming/temporary/returned/effective handle ownership and callback ordering.
+  Fresh private reads, missing layers, malformed/wrong-type/invalid values.
+  Fuel strategy experiment, lookahead and wing comparisons, controlled observation.
+  Source map, troubleshooting, build/install dependencies and platform instructions.
+
+setup_workshop.md:
+  Model/category permissions and whitelist extensions.
+  Fuel, wing balance, gearbox/final drive, differential, toe/camber/ride height,
+  anti-roll bars, spring/bellcrank/course/packers, slow/fast bump/rebound.
+  Computed starting fuel, reserve, tank capacity, timed-race limitations.
+  Optional brake pressure derivation: simuv2 coefficient, pressure fraction,
+  tyre force/torque relation, first-wheel capacity, worked example, load transfer,
+  combined grip, command caps, ABS and controlled test procedure.
+  Session-specific loading extension, qualifying/race tradeoffs, fixed skill/physics,
+  systematic local search and full-race validation.
+
+Current source audit:
+  raceengineclient/raceinit.cpp: engine reference check/merge, rbNewTrack, ownership.
+  tgf/params.cpp and tgf.h: read modes, private handles, getters, units, bounds/check.
+  data/cars/models/car1-stock1/car1-stock1.xml and installed merged stock1 category:
+    fuel 1..60 l, rear wing 0..30 deg (16 default).
+  simuv2/{brake,wheel,susp}.cpp: pressure coefficient and distribution, camber,
+    wheel/spring transforms, damper regimes.
+  No unconditional claims that negative camber, a free differential, or lower
+  pressure always improve grip or lap time; no imported historical lap benchmarks.
+
+Maintenance:
+  snapshot_setup_helpers.py generates Chapter 6 baseline with explicit configuration
+  hooks; --check detects drift. settings.cpp/.h and XML are maintained separately.
+  package_setup_driver.py packages explicit source/build/XML/license manifest.
+  Source files ship directly; readers do not need the maintenance scripts.
+
+Validation (Linux):
+  Independent extracted archive build without warnings, all XML installed.
+  Loader: 87 numerical comparisons plus missing/malformed/invalid/wrong-type cases,
+    degree/radian conversion, bounded endpoints, private isolation and 30 fresh reads.
+  Baseline six laps: 546.794 s, one demonstration stop, zero damage/penalty time.
+  XML-only strategy 4 l/no demonstration: 12 laps, four stops, zero damage/penalty.
+  XML-only 18-degree wing and 9 m lookahead: three laps each, zero damage/penalty.
+  Six laps with Tutorial Pace: one stop, zero damage/penalty time.
+  Parameter read-error cleanup fixed in tgf/params.cpp after malformed XML exposed
+    a parser leak. File and buffer error paths now pass Valgrind with zero errors
+    and no definitely/indirectly/possibly lost memory; normal reads still pass.
+  Doxygen: zero warnings, links/anchors/download bytes and archive contents checked.
+  Offline browser: Appendix A 4 formulas, workshop 57 formulas; five formula cards,
+    no TeX errors or overflow at 1280/1024 widths. Flow diagram bounds/visual review.
+  Tutorial clipboard: 55 real copies including Appendix A and platform additions.
+  These race-result checks are not a swept-path clearance proof.
+  Windows manifests checked; native Windows compilation/runtime unverified.
+  Private checks and harnesses remain outside the tutorial source/downloads.

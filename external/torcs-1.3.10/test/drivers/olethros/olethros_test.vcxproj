@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32"><Configuration>Release</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{B5BDE0AB-2B93-45D5-B8C1-F7E2F0F4792A}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Debug'">true</UseDebugLibraries>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Release'">false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)\olethros_test\</IntDir>
+    <TargetName>olethros_test</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../..;../../../src/drivers/olethros;../../../export/include;../../../src/windows/include;../../libs/googletest/googletest/include;../../libs/googletest/googletest</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <WarningLevel>Level2</WarningLevel>
+      <DisableSpecificWarnings>4244;4305;4996</DisableSpecificWarnings>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(TorcsExportLibDir);$(TorcsLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>robottools.lib;tgf.lib;sg.lib;ul.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link><IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries></Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="unit/planning_mesh_test.cpp" />
+    <ClCompile Include="unit/trajectory_test.cpp" />
+    <ClCompile Include="unit/learning_test.cpp" />
+    <ClCompile Include="unit/cardata_test.cpp" />
+    <ClCompile Include="unit/controller_test.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/Trajectory.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/PlanningMesh.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/learn.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/driver.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/cardata.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/opponent.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/pit.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/spline.cpp" />
+    <ClCompile Include="../../../src/drivers/olethros/strategy.cpp" />
+    <ClCompile Include="../../../src/libs/learning/MathFunctions.cpp" />
+    <ClCompile Include="../../libs/googletest/googletest/src/gtest-all.cc" />
+    <ClCompile Include="../../libs/googletest/googletest/src/gtest_main.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../src/libs/robottools/robottools.vcxproj">
+      <Project>{EACC0870-5315-41F9-AE61-B93C77334EAE}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="../../../src/libs/tgf/tgf.vcxproj">
+      <Project>{ACB16B61-2F7D-4E87-AD15-C95F16431137}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="CopyTestRuntimeDependencies" AfterTargets="Build">
+    <Copy SourceFiles="$(TorcsRuntimeDir)robottools.dll;$(TorcsRuntimeDir)tgf.dll;$(TorcsRuntimeDir)txml.dll"
+          DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="620" viewBox="0 0 800 620" role="img" aria-labelledby="title desc">
+  <title id="title">Car setup and driver settings follow separate paths</title>
+  <desc id="desc">The engine checks and merges category and model settings, then passes a reference to initTrack. The driver loads default and track XML, validates physical overrides against that reference and copies private values. The engine merges physical overrides into the effective car handle. In newRace the driver configures its controllers, then applies private values.</desc>
+  <!-- Copyright (C) 2026 Bernhard Wymann. GNU FDL 1.2-or-later. -->
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M2 1 L8 5 L2 9" fill="none" stroke="#397591" stroke-width="1.6"/></marker></defs>
+  <rect width="800" height="620" fill="#fffdfa"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#243c4b">
+    <text x="30" y="42" font-size="26">Two kinds of settings, one new session</text>
+    <text x="30" y="70" font-size="15" fill="#526774">File-selection rules belong to our driver; car limits belong to the reference.</text>
+    <g fill="#fff" stroke="#dfe6e7" stroke-width="1.2">
+      <rect x="30" y="98" width="350" height="96" rx="12"/>
+      <rect x="420" y="98" width="350" height="96" rx="12"/>
+      <rect x="30" y="254" width="350" height="104" rx="12"/>
+      <rect x="420" y="254" width="350" height="104" rx="12"/>
+      <rect x="30" y="424" width="350" height="96" rx="12"/>
+      <rect x="420" y="424" width="350" height="96" rx="12"/>
+    </g>
+    <g font-size="20">
+      <text x="48" y="126">Engine: category + car</text>
+      <text x="438" y="126">Driver: XML layers</text>
+      <text x="48" y="282">Physical overrides</text>
+      <text x="438" y="282">Private values</text>
+      <text x="48" y="452">Effective car handle</text>
+      <text x="438" y="452">Configure, then apply</text>
+    </g>
+    <g font-size="15" fill="#526774">
+      <text x="48" y="154">Check and merge into a reference.</text>
+      <text x="48" y="178">Borrow it during initTrack.</text>
+      <text x="438" y="154">default.xml, then track XML</text>
+      <text x="438" y="178">Keep earlier values when absent.</text>
+      <text x="48" y="310">Fuel and rear-wing angle</text>
+      <text x="48" y="334">Validate against reference bounds.</text>
+      <text x="438" y="310">Lookahead and strategy settings</text>
+      <text x="438" y="334">Validate, copy, release input handles.</text>
+      <text x="48" y="480">Engine checks and merges overrides.</text>
+      <text x="48" y="504">Read car-&gt;_carHandle in newRace.</text>
+      <text x="438" y="480">Initialize controllers from the car.</text>
+      <text x="438" y="504">Apply copied private settings last.</text>
+    </g>
+    <g fill="none" stroke="#397591" stroke-width="1.6" marker-end="url(#arrow)">
+      <path d="M100 194 V254"/>
+      <path d="M500 194 V222 H310 V254"/>
+      <path d="M680 194 V254"/>
+      <path d="M205 358 V424"/>
+      <path d="M595 358 V424"/>
+      <path d="M380 474 H420"/>
+    </g>
+    <text x="30" y="570" font-size="16" fill="#168376">XML edit → save → leave session → install XML → start a new session</text>
+    <text x="30" y="598" font-size="15" fill="#526774">C++ edits also require rebuilding the module. Pausing does not reload settings.</text>
+  </g>
+</svg>

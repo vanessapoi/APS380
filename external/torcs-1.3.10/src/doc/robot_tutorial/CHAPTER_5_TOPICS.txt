@@ -1,0 +1,38 @@
+CHAPTER 5 — TRAFFIC COVERAGE AND IMPLEMENTATION CHECKPOINTS
+
+Main progression: observe -> follow -> leave room -> pass -> return or abandon.
+The reader moves from Practice to a small, repeatable Quick Race. Separate
+driver modules avoid making the multiple-robots appendix a prerequisite.
+
+Topic coverage
+- Opponent collection from tSituation, self exclusion, inactive-car handling.
+- Relative observations versus shared absolute state; lifetime/reset per race.
+- Track-tangent projection of world velocity; body/world coordinate distinction.
+- Metres/radians conversion and signed, lap-wrapped longitudinal distance.
+- Center distance versus footprint gap; heading-based projected dimensions.
+- Front/side/rear classification, closing speed, time and distance to catch.
+- Following and front collision avoidance through a restricted target speed.
+- Side collision avoidance with both occupied space and road boundaries.
+- Passing-side selection; elapsed-time-based lateral target movement.
+- Left normals on straight and curved target segments.
+- Passing commitment, rear clearance before return, blocked-pass fallback.
+- Waiting in traffic versus stuck recovery; nearby-car recovery inhibition.
+- In-flight cancellation: actual-position holding reference, measured lateral
+  drift, final constrained and rate-limited target checks, rear-hazard response.
+- Current versus upcoming road width; narrowing speed bound through return,
+  and low-speed completion once the body fits and the corridor is clear.
+- Predictive-model limits; road departures and contact as well as lap time.
+
+Verification matrix
+- Solo baseline; equal-speed leader; slower leader; stopped/braking leader.
+- Zero velocity and rotated footprint; ignored inactive car; self exclusion.
+- Signed lap wrap, negative/rear gaps, cars on both sides, narrow road.
+- Mirrored passes, completed pass, lost opening, consistent time-based slew.
+- Recovery with clear space versus nearby traffic; session reset.
+- Mirrored in-flight pass/return blockage through composed controls and native
+  motion; late constraints invalidating a target; no checked alternative;
+  narrowing alongside, checked release, and constant-width recovery rejoin.
+- GUI-equivalent Quick Race, independent module builds, downloadable assets.
+
+Chapter 6 and Appendices A–C provide the integrated driver and its extensions.
+Private simulator fixtures and telemetry are not reader requirements.

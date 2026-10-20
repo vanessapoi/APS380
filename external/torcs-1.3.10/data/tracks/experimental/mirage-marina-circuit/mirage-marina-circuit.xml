@@ -1,0 +1,2275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    file                 : mirage-marina-circuit.xml
+    created              : 16 May 2026
+    copyright            : (C) 2026 by Bernhard Wymann
+    license              : GNU General Public License version 2 or later
+-->
+
+<!--    This program is free software; you can redistribute it and/or modify  -->
+<!--    it under the terms of the GNU General Public License as published by  -->
+<!--    the Free Software Foundation; either version 2 of the License, or     -->
+<!--    (at your option) any later version.                                   -->
+
+<!DOCTYPE params SYSTEM "../../../src/libs/tgf/params.dtd" [
+<!ENTITY default-surfaces SYSTEM "../../../data/tracks/surfaces.xml">
+]>
+
+<params name="Mirage Marina Circuit" type="trackdef" mode="mw">
+	<section name="Header">
+		<attstr name="name" val="Mirage Marina Circuit" />
+		<attstr name="category" val="experimental" />
+		<attstr name="subcategory" val="road" />
+		<attnum name="version" val="4" />
+		<attstr name="author" val="Bernhard Wymann" />
+		<attstr name="description" val="Mirage Marina Circuit for TORCS." />
+	</section>
+	<section name="Graphic">
+		<attstr name="3d description" val="mirage-marina-circuit.acc" />
+		<attstr name="background image" val="" />
+		<attnum name="background type" val="0" />
+		<attnum name="background color R" val="0.72" />
+		<attnum name="background color G" val="0.82" />
+		<attnum name="background color B" val="0.95" />
+		<attnum name="ambient color R" val="0.2" />
+		<attnum name="ambient color G" val="0.2" />
+		<attnum name="ambient color B" val="0.2" />
+		<attnum name="diffuse color R" val="1.0" />
+		<attnum name="diffuse color G" val="1.0" />
+		<attnum name="diffuse color B" val="1.0" />
+		<attnum name="specular color R" val="0.1" />
+		<attnum name="specular color G" val="0.1" />
+		<attnum name="specular color B" val="0.1" />
+		<attnum name="light position x" val="-9000" />
+		<attnum name="light position y" val="8000" />
+		<attnum name="light position z" val="9000" />
+		<section name="Terrain Generation">
+			<attnum name="track step" unit="m" val="10" />
+			<attnum name="border margin" unit="m" val="180" />
+			<attnum name="border step" unit="m" val="35" />
+			<attnum name="border height" unit="m" val="8" />
+			<attstr name="orientation" val="clockwise" />
+			<attnum name="group size" val="220" />
+			<attstr name="surface" val="grass6" />
+			<attstr name="relief file" val="mirage-marina-circuit-relief.ac" />
+		</section>
+	</section>
+	<section name="Surfaces">
+		&default-surfaces;
+		<section name="manual-asphalt">
+			<attstr name="texture name" val="tr-road1.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="15.0001" />
+			<attnum name="texture mipmap" unit="m" val="0" />
+			<attstr name="texture start on boundary" val="yes" />
+			<attstr name="texture link with previous" val="yes" />
+			<attstr name="raceline name" val="raceline.png" />
+			<attnum name="friction" val="1.06" />
+			<attnum name="rolling resistance" val="0.021" />
+			<attnum name="roughness" val="0.0007" />
+			<attnum name="roughness wavelength" val="2" />
+		</section>
+		<section name="manual-barrier">
+			<attstr name="texture name" val="arbor2_n.rgb" />
+			<attstr name="texture type" val="continuous" />
+			<attnum name="texture size" unit="m" val="10" />
+			<attnum name="texture mipmap" val="0" />
+			<attnum name="friction" val="0" />
+			<attnum name="dammage" val="10" />
+		</section>
+	</section>
+	<section name="Starting Grid">
+		<attnum name="rows" val="2" />
+		<attstr name="pole position side" val="left" />
+		<attnum name="distance to start" unit="m" val="4.0" />
+		<attnum name="distance between columns" unit="m" val="15.0" />
+		<attnum name="offset within a column" unit="m" val="7.5" />
+	</section>
+	<section name="Main Track">
+		<attnum name="width" unit="m" val="12.0" />
+		<attstr name="surface" val="manual-asphalt" />
+		<attnum name="profil steps length" unit="m" val="6" />
+		<attnum name="raceline widthscale" val="1.5" />
+		<attnum name="raceline int" val="3" />
+		<attnum name="raceline ext" val="3" />
+		<section name="Left Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Right Border">
+			<attnum name="width" unit="m" val="1" />
+			<attstr name="style" val="plan" />
+			<attstr name="surface" val="b-road1-grass6" />
+		</section>
+		<section name="Left Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="tangent" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Right Side">
+			<attnum name="width" unit="m" val="7.0" />
+			<attstr name="banking type" val="tangent" />
+			<attstr name="surface" val="grass6" />
+		</section>
+		<section name="Left Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Right Barrier">
+			<attnum name="width" unit="m" val="0.0" />
+			<attnum name="height" unit="m" val="4.0" />
+			<attstr name="style" val="fence" />
+			<attstr name="surface" val="manual-barrier" />
+		</section>
+		<section name="Pits">
+			<attstr name="type" val="track side" />
+			<attstr name="side" val="right" />
+			<attstr name="entry" val="pit_host_pre" />
+			<attstr name="start" val="pit_main_a" />
+			<attstr name="end" val="pit_main_b" />
+			<attstr name="exit" val="Yas Marina Circuit-23-pre" />
+			<attnum name="speed limit" unit="km/h" val="80" />
+			<attnum name="length" unit="m" val="15" />
+			<attnum name="width" unit="m" val="5" />
+		</section>
+		<section name="Track Segments">
+			<section name="pit_main_b">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.9569" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0" unit="m" />
+				<attnum name="profil start tangent" val="-0.2456" unit="%" />
+				<attnum name="profil end tangent" val="0.0341" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-19">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="319.6917" />
+				<attnum name="arc" unit="deg" val="5.0708" />
+				<attnum name="z end" unit="m" val="0.7957" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+				</section>
+				<section name="Left Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="14" unit="m" />
+					<attnum name="end width" val="12.3496" unit="m" />
+				</section>
+				<attnum name="z start" val="0.9569" unit="m" />
+				<attnum name="profil start tangent" val="0.0341" unit="%" />
+				<attnum name="profil end tangent" val="-0.6769" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-20">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="34.371" />
+				<attnum name="arc" unit="deg" val="44.91630280" />
+				<attnum name="z end" unit="m" val="0.5845" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="12.3496" unit="m" />
+					<attnum name="end width" val="10.7778" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0.7957" unit="m" />
+				<attnum name="profil start tangent" val="-0.6769" unit="%" />
+				<attnum name="profil end tangent" val="-0.8862" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-21">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="35.312" />
+				<attnum name="arc" unit="deg" val="40.99068550" />
+				<attnum name="z end" unit="m" val="0.3348" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="10.7778" unit="m" />
+					<attnum name="end width" val="9.3041" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0.5845" unit="m" />
+				<attnum name="profil start tangent" val="-0.8862" unit="%" />
+				<attnum name="profil end tangent" val="-1.0553" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-22">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="329.785" />
+				<attnum name="arc" unit="deg" val="4.58394266" />
+				<attnum name="z end" unit="m" val="0.0387" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="9.3041" unit="m" />
+					<attnum name="end width" val="7.765" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0.3348" unit="m" />
+				<attnum name="profil start tangent" val="-1.0553" unit="%" />
+				<attnum name="profil end tangent" val="-0.9104" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-23-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="86.641079087" />
+				<attnum name="z end" unit="m" val="-0.5665" />
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7.765" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="0.0387" unit="m" />
+				<attnum name="profil start tangent" val="-0.9104" unit="%" />
+				<attnum name="profil end tangent" val="-0.302" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-23-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="13.401048913" />
+				<attnum name="z end" unit="m" val="-0.5538" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="z start" val="-0.5665" unit="m" />
+				<attnum name="profil start tangent" val="-0.302" unit="%" />
+				<attnum name="profil end tangent" val="0.2775" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-24">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="564.567" />
+				<attnum name="arc" unit="deg" val="3.45817914" />
+				<attnum name="z end" unit="m" val="-0.3969" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-0.5538" unit="m" />
+				<attnum name="profil start tangent" val="0.2775" unit="%" />
+				<attnum name="profil end tangent" val="0.6756" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-25">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="199.204" />
+				<attnum name="arc" unit="deg" val="9.78005125" />
+				<attnum name="z end" unit="m" val="-0.0941" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-0.3969" unit="m" />
+				<attnum name="profil start tangent" val="0.6756" unit="%" />
+				<attnum name="profil end tangent" val="1.0198" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-26-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="47.664" />
+				<attnum name="arc" unit="deg" val="17.45493743215" />
+				<attnum name="z end" unit="m" val="0.0728" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.0941" unit="m" />
+				<attnum name="profil start tangent" val="1.0198" unit="%" />
+				<attnum name="profil end tangent" val="1.2151" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-26-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="47.664" />
+				<attnum name="arc" unit="deg" val="14.42491931346" />
+				<attnum name="z end" unit="m" val="0.2265" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.0728" unit="m" />
+				<attnum name="profil start tangent" val="1.2151" unit="%" />
+				<attnum name="profil end tangent" val="1.3257" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-26-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="47.664" />
+				<attnum name="arc" unit="deg" val="10.07685349438" />
+				<attnum name="z end" unit="m" val="0.3414" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.2265" unit="m" />
+				<attnum name="profil start tangent" val="1.3257" unit="%" />
+				<attnum name="profil end tangent" val="1.4445" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-27">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="199.323" />
+				<attnum name="arc" unit="deg" val="10.47746714" />
+				<attnum name="z end" unit="m" val="0.8949" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.3414" unit="m" />
+				<attnum name="profil start tangent" val="1.4445" unit="%" />
+				<attnum name="profil end tangent" val="1.5109" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-28">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="27.93415945" />
+				<attnum name="z end" unit="m" val="1.3148" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="0.8949" unit="m" />
+				<attnum name="profil start tangent" val="1.5109" unit="%" />
+				<attnum name="profil end tangent" val="1.279" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-29">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="219.480" />
+				<attnum name="arc" unit="deg" val="9.19779214042" />
+				<attnum name="z end" unit="m" val="1.6865" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.3148" unit="m" />
+				<attnum name="profil start tangent" val="1.279" unit="%" />
+				<attnum name="profil end tangent" val="0.553" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-29-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="219.480" />
+				<attnum name="arc" unit="deg" val="13.05556895958" />
+				<attnum name="z end" unit="m" val="1.712" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.6865" unit="m" />
+				<attnum name="profil start tangent" val="0.553" unit="%" />
+				<attnum name="profil end tangent" val="-0.3964" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-30">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="107.864" />
+				<attnum name="arc" unit="deg" val="43.62175122" />
+				<attnum name="z end" unit="m" val="1.019" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.712" unit="m" />
+				<attnum name="profil start tangent" val="-0.3964" unit="%" />
+				<attnum name="profil end tangent" val="-0.7065" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-31">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="118.059" />
+				<attnum name="arc" unit="deg" val="21.22926152" />
+				<attnum name="z end" unit="m" val="0.7701" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.019" unit="m" />
+				<attnum name="profil start tangent" val="-0.7065" unit="%" />
+				<attnum name="profil end tangent" val="-0.0776" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-32">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1914.962" />
+				<attnum name="arc" unit="deg" val="1.32392720" />
+				<attnum name="z end" unit="m" val="0.9532" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="0.7701" unit="m" />
+				<attnum name="profil start tangent" val="-0.0776" unit="%" />
+				<attnum name="profil end tangent" val="0.8191" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-33">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="505.352" />
+				<attnum name="arc" unit="deg" val="4.52095600691" />
+				<attnum name="z end" unit="m" val="1.4414" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.9532" unit="m" />
+				<attnum name="profil start tangent" val="0.8191" unit="%" />
+				<attnum name="profil end tangent" val="0.9151" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-33-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="505.352" />
+				<attnum name="arc" unit="deg" val="5.00282615309" />
+				<attnum name="z end" unit="m" val="1.7088" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.4414" unit="m" />
+				<attnum name="profil start tangent" val="0.9151" unit="%" />
+				<attnum name="profil end tangent" val="-0.431" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-34">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="351.490" />
+				<attnum name="arc" unit="deg" val="13.65930102" />
+				<attnum name="z end" unit="m" val="0.4787" />
+				<attnum name="z start" val="1.7088" unit="m" />
+				<attnum name="profil start tangent" val="-0.431" unit="%" />
+				<attnum name="profil end tangent" val="-0.5581" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-35">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.0354776640" />
+				<attnum name="z end" unit="m" val="0.4185163593" />
+				<attnum name="z start" unit="m" val="0.4787000000" />
+				<attnum name="profil start tangent" unit="%" val="-0.5581000000" />
+				<attnum name="profil end tangent" unit="%" val="0.1015695080" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-35:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.648380121571" />
+				<attnum name="z end" unit="m" val="0.5582898584" />
+				<attnum name="z start" unit="m" val="0.4185163593" />
+				<attnum name="profil start tangent" unit="%" val="0.1015695080" />
+				<attnum name="profil end tangent" unit="%" val="0.6819878710" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-35:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.0551044252" />
+				<attnum name="z end" unit="m" val="0.7954000000" />
+				<attnum name="z start" unit="m" val="0.5582898584" />
+				<attnum name="profil start tangent" unit="%" val="0.6819878710" />
+				<attnum name="profil end tangent" unit="%" val="0.9811000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-36">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="29.7321211744" />
+				<attnum name="z end" unit="m" val="1.2081358703" />
+				<attnum name="z start" unit="m" val="0.7954000000" />
+				<attnum name="profil start tangent" unit="%" val="0.9811000000" />
+				<attnum name="profil end tangent" unit="%" val="1.6970204387" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-36:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.583330130627" />
+				<attnum name="z end" unit="m" val="1.7608696452" />
+				<attnum name="z start" unit="m" val="1.2081358703" />
+				<attnum name="profil start tangent" unit="%" val="1.6970204387" />
+				<attnum name="profil end tangent" unit="%" val="1.8186739962" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-36:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="29.7705425338" />
+				<attnum name="z end" unit="m" val="2.2455000000" />
+				<attnum name="z start" unit="m" val="1.7608696452" />
+				<attnum name="profil start tangent" unit="%" val="1.8186739962" />
+				<attnum name="profil end tangent" unit="%" val="1.3386000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-37-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="8.005800416" />
+				<attnum name="z end" unit="m" val="2.3309" />
+				<attnum name="z start" val="2.2455" unit="m" />
+				<attnum name="profil start tangent" val="1.3386" unit="%" />
+				<attnum name="profil end tangent" val="0.8527" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-37-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40" />
+				<attnum name="z end" unit="m" val="2.5864" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="2.3309" unit="m" />
+				<attnum name="profil start tangent" val="0.8527" unit="%" />
+				<attnum name="profil end tangent" val="0.3653" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-37-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="18.583299584" />
+				<attnum name="z end" unit="m" val="2.6034" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="2.5864" unit="m" />
+				<attnum name="profil start tangent" val="0.3653" unit="%" />
+				<attnum name="profil end tangent" val="-0.1322" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-38">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="47.248" />
+				<attnum name="arc" unit="deg" val="35.85773490" />
+				<attnum name="z end" unit="m" val="2.4982" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="2.6034" unit="m" />
+				<attnum name="profil start tangent" val="-0.1322" unit="%" />
+				<attnum name="profil end tangent" val="-0.567" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-39">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="38.020" />
+				<attnum name="arc" unit="deg" val="39.40587873" />
+				<attnum name="z end" unit="m" val="2.2947" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="2.4982" unit="m" />
+				<attnum name="profil start tangent" val="-0.567" unit="%" />
+				<attnum name="profil end tangent" val="-0.8663" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-40">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="30.587" />
+				<attnum name="arc" unit="deg" val="47.99754894" />
+				<attnum name="z end" unit="m" val="2.0501" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="2.2947" unit="m" />
+				<attnum name="profil start tangent" val="-0.8663" unit="%" />
+				<attnum name="profil end tangent" val="-0.9234" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-41">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="35.361" />
+				<attnum name="arc" unit="deg" val="25.73845884" />
+				<attnum name="z end" unit="m" val="1.9084" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="2.0501" unit="m" />
+				<attnum name="profil start tangent" val="-0.9234" unit="%" />
+				<attnum name="profil end tangent" val="-0.8099" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-42">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="214.976" />
+				<attnum name="arc" unit="deg" val="4.30426973" />
+				<attnum name="z end" unit="m" val="1.7909" />
+				<attnum name="profil steps length" val="5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="1.9084" unit="m" />
+				<attnum name="profil start tangent" val="-0.8099" unit="%" />
+				<attnum name="profil end tangent" val="-0.5821" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-43">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="697.725" />
+				<attnum name="arc" unit="deg" val="2.46414611" />
+				<attnum name="z end" unit="m" val="1.6598" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.7909" unit="m" />
+				<attnum name="profil start tangent" val="-0.5821" unit="%" />
+				<attnum name="profil end tangent" val="-0.3468" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-44">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="583.850" />
+				<attnum name="arc" unit="deg" val="1.18087441167" />
+				<attnum name="z end" unit="m" val="1.6289" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.6598" unit="m" />
+				<attnum name="profil start tangent" val="-0.3468" unit="%" />
+				<attnum name="profil end tangent" val="-0.2633" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-44-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="583.850" />
+				<attnum name="arc" unit="deg" val="1.76368616833" />
+				<attnum name="z end" unit="m" val="1.5804" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.6289" unit="m" />
+				<attnum name="profil start tangent" val="-0.2633" unit="%" />
+				<attnum name="profil end tangent" val="-0.4" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-45">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="28.011796" />
+				<attnum name="z end" unit="m" val="1.4319" />
+				<attnum name="z start" val="1.5804" unit="m" />
+				<attnum name="profil start tangent" val="-0.4" unit="%" />
+				<attnum name="profil end tangent" val="-0.8303" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-46">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="708.123" />
+				<attnum name="arc" unit="deg" val="3.23697954" />
+				<attnum name="z end" unit="m" val="0.9797" />
+				<attnum name="z start" val="1.4319" unit="m" />
+				<attnum name="profil start tangent" val="-0.8303" unit="%" />
+				<attnum name="profil end tangent" val="-1.2399" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-47">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2436.580" />
+				<attnum name="arc" unit="deg" val="0.94096505" />
+				<attnum name="z end" unit="m" val="0.4397" />
+				<attnum name="z start" val="0.9797" unit="m" />
+				<attnum name="profil start tangent" val="-1.2399" unit="%" />
+				<attnum name="profil end tangent" val="-0.7365" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-48">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="88.037073" />
+				<attnum name="z end" unit="m" val="0.3308" />
+				<attnum name="z start" val="0.4397" unit="m" />
+				<attnum name="profil start tangent" val="-0.7365" unit="%" />
+				<attnum name="profil end tangent" val="0.3272" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-49">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="2.7781829928" />
+				<attnum name="z end" unit="m" val="0.3442002835" />
+				<attnum name="z start" unit="m" val="0.3308000000" />
+				<attnum name="profil start tangent" unit="%" val="0.3272000000" />
+				<attnum name="profil end tangent" unit="%" val="0.6212370983" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-49:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.158024086788" />
+				<attnum name="z end" unit="m" val="0.4139066155" />
+				<attnum name="z start" unit="m" val="0.3442002835" />
+				<attnum name="profil start tangent" unit="%" val="0.6212370983" />
+				<attnum name="profil end tangent" unit="%" val="0.9196156135" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-49:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="2.9510774533" />
+				<attnum name="z end" unit="m" val="0.4398000000" />
+				<attnum name="z start" unit="m" val="0.4139066155" />
+				<attnum name="profil start tangent" unit="%" val="0.9196156135" />
+				<attnum name="profil end tangent" unit="%" val="0.8169000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-50">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2901.900" />
+				<attnum name="arc" unit="deg" val="0.27653418" />
+				<attnum name="z end" unit="m" val="0.5596" />
+				<attnum name="z start" val="0.4398" unit="m" />
+				<attnum name="profil start tangent" val="0.8169" unit="%" />
+				<attnum name="profil end tangent" val="0.7856" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="80.00129250" />
+				<attnum name="z end" unit="m" val="1.132" />
+				<attnum name="z start" val="0.5596" unit="m" />
+				<attnum name="profil start tangent" val="0.7856" unit="%" />
+				<attnum name="profil end tangent" val="0.4913" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-2">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40.01624125" />
+				<attnum name="z end" unit="m" val="1.2389" />
+				<attnum name="z start" val="1.132" unit="m" />
+				<attnum name="profil start tangent" val="0.4913" unit="%" />
+				<attnum name="profil end tangent" val="0.1664" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-51">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="40.01685125" />
+				<attnum name="z end" unit="m" val="1.2652" />
+				<attnum name="z start" val="1.2389" unit="m" />
+				<attnum name="profil start tangent" val="0.1664" unit="%" />
+				<attnum name="profil end tangent" val="0.0363" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-52">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.2453498082" />
+				<attnum name="z end" unit="m" val="1.2675221758" />
+				<attnum name="z start" unit="m" val="1.2652000000" />
+				<attnum name="profil start tangent" unit="%" val="0.0363000000" />
+				<attnum name="profil end tangent" unit="%" val="0.0053981463" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-52:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.179664572383" />
+				<attnum name="z end" unit="m" val="1.2675314678" />
+				<attnum name="z start" unit="m" val="1.2675221758" />
+				<attnum name="profil start tangent" unit="%" val="0.0053981463" />
+				<attnum name="profil end tangent" unit="%" val="-0.0029752448" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-52:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="12.3484232338" />
+				<attnum name="z end" unit="m" val="1.2675000000" />
+				<attnum name="z start" unit="m" val="1.2675314678" />
+				<attnum name="profil start tangent" unit="%" val="-0.0029752448" />
+				<attnum name="profil end tangent" unit="%" val="0.0063000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-53">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="7.7375552030" />
+				<attnum name="z end" unit="m" val="1.2661400450" />
+				<attnum name="z start" unit="m" val="1.2675000000" />
+				<attnum name="profil start tangent" unit="%" val="0.0063000000" />
+				<attnum name="profil end tangent" unit="%" val="-0.0344518275" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-53:radius-turn">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.353253316310" />
+				<attnum name="z end" unit="m" val="1.2628000553" />
+				<attnum name="z start" unit="m" val="1.2661400450" />
+				<attnum name="profil start tangent" unit="%" val="-0.0344518275" />
+				<attnum name="profil end tangent" unit="%" val="0.0383379537" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-53:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="7.7885924780" />
+				<attnum name="z end" unit="m" val="1.2695000000" />
+				<attnum name="z start" unit="m" val="1.2628000553" />
+				<attnum name="profil start tangent" unit="%" val="0.0383379537" />
+				<attnum name="profil end tangent" unit="%" val="0.1408000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-54">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="104.043813" />
+				<attnum name="z end" unit="m" val="1.5565" />
+				<attnum name="z start" val="1.2695" unit="m" />
+				<attnum name="profil start tangent" val="0.1408" unit="%" />
+				<attnum name="profil end tangent" val="0.6332" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-55">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="20.3758262239" />
+				<attnum name="z end" unit="m" val="1.7383331913" />
+				<attnum name="z start" unit="m" val="1.5565000000" />
+				<attnum name="profil start tangent" unit="%" val="0.6332000000" />
+				<attnum name="profil end tangent" unit="%" val="1.0892104835" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-55:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.599133169645" />
+				<attnum name="z end" unit="m" val="2.0985643699" />
+				<attnum name="z start" unit="m" val="1.7383331913" />
+				<attnum name="profil start tangent" unit="%" val="1.0892104835" />
+				<attnum name="profil end tangent" unit="%" val="1.0595409149" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-55:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="20.3006795612" />
+				<attnum name="z end" unit="m" val="2.2700000000" />
+				<attnum name="z start" unit="m" val="2.0985643699" />
+				<attnum name="profil start tangent" unit="%" val="1.0595409149" />
+				<attnum name="profil end tangent" unit="%" val="0.5675000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-56">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="30.6493940439" />
+				<attnum name="z end" unit="m" val="2.3922534158" />
+				<attnum name="z start" unit="m" val="2.2700000000" />
+				<attnum name="profil start tangent" unit="%" val="0.5675000000" />
+				<attnum name="profil end tangent" unit="%" val="0.2217057924" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-56:radius-turn">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="3000.0000000000" />
+				<attnum name="arc" unit="deg" val="0.201334892495" />
+				<attnum name="z end" unit="m" val="2.4087847688" />
+				<attnum name="z start" unit="m" val="2.3922534158" />
+				<attnum name="profil start tangent" unit="%" val="0.2217057924" />
+				<attnum name="profil end tangent" unit="%" val="0.0909151714" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-56:radius-out">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="30.7738814736" />
+				<attnum name="z end" unit="m" val="2.3740000000" />
+				<attnum name="z start" unit="m" val="2.4087847688" />
+				<attnum name="profil start tangent" unit="%" val="0.0909151714" />
+				<attnum name="profil end tangent" unit="%" val="-0.3256000000" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-57">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="904.803" />
+				<attnum name="arc" unit="deg" val="4.18113700" />
+				<attnum name="z end" unit="m" val="1.8486" />
+				<attnum name="z start" val="2.374" unit="m" />
+				<attnum name="profil start tangent" val="-0.3256" unit="%" />
+				<attnum name="profil end tangent" val="-0.7634" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-58">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="832.938" />
+				<attnum name="arc" unit="deg" val="4.54151940" />
+				<attnum name="z end" unit="m" val="1.3659" />
+				<attnum name="z start" val="1.8486" unit="m" />
+				<attnum name="profil start tangent" val="-0.7634" unit="%" />
+				<attnum name="profil end tangent" val="-0.2531" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-59-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="190.96078652" />
+				<attnum name="z end" unit="m" val="1.7954" />
+				<section name="Left Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="4.9428" unit="m" />
+				</section>
+				<attnum name="z start" val="1.3659" unit="m" />
+				<attnum name="profil start tangent" val="-0.2531" unit="%" />
+				<attnum name="profil end tangent" val="0.4129" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-59-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="25.30210161" />
+				<attnum name="z end" unit="m" val="1.9475" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.9428" unit="m" />
+					<attnum name="end width" val="4.67" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.7954" unit="m" />
+				<attnum name="profil start tangent" val="0.4129" unit="%" />
+				<attnum name="profil end tangent" val="0.4571" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-60">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="421.006" />
+				<attnum name="arc" unit="deg" val="2.00027445092" />
+				<attnum name="z end" unit="m" val="1.9935" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.67" unit="m" />
+					<attnum name="end width" val="4.67" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.9475" unit="m" />
+				<attnum name="profil start tangent" val="0.4571" unit="%" />
+				<attnum name="profil end tangent" val="0.2193" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-60-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="421.006" />
+				<attnum name="arc" unit="deg" val="1.56104627908" />
+				<attnum name="z end" unit="m" val="2.0079" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.67" unit="m" />
+					<attnum name="end width" val="4.67" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.9935" unit="m" />
+				<attnum name="profil start tangent" val="0.2193" unit="%" />
+				<attnum name="profil end tangent" val="0.0553" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-61">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="12.170" />
+				<attnum name="arc" unit="deg" val="94.16362900" />
+				<attnum name="z end" unit="m" val="2.005" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.67" unit="m" />
+					<attnum name="end width" val="4.67" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="2.0079" unit="m" />
+				<attnum name="profil start tangent" val="0.0553" unit="%" />
+				<attnum name="profil end tangent" val="-0.0191" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-62">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="16.162" />
+				<attnum name="arc" unit="deg" val="28.33888037" />
+				<attnum name="z end" unit="m" val="2.0031" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="4.67" unit="m" />
+					<attnum name="end width" val="5.2022" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="2.005" unit="m" />
+				<attnum name="profil start tangent" val="-0.0191" unit="%" />
+				<attnum name="profil end tangent" val="0.0074" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-63">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="56.681" />
+				<attnum name="arc" unit="deg" val="8.23506852" />
+				<attnum name="z end" unit="m" val="2.0062" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="5.2022" unit="m" />
+					<attnum name="end width" val="5.7445" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="2.0031" unit="m" />
+				<attnum name="profil start tangent" val="0.0074" unit="%" />
+				<attnum name="profil end tangent" val="0.1409" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-64">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="137.972" />
+				<attnum name="arc" unit="deg" val="6.71453511" />
+				<attnum name="z end" unit="m" val="2.0456" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="5.7445" unit="m" />
+					<attnum name="end width" val="6.8209" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="2.0062" unit="m" />
+				<attnum name="profil start tangent" val="0.1409" unit="%" />
+				<attnum name="profil end tangent" val="0.4383" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-65">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="43.163" />
+				<attnum name="arc" unit="deg" val="21.24112596" />
+				<attnum name="z end" unit="m" val="2.1469" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Side">
+					<attnum name="start width" val="6.8209" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="2.0456" unit="m" />
+				<attnum name="profil start tangent" val="0.4383" unit="%" />
+				<attnum name="profil end tangent" val="0.8745" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-66">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="15.548" />
+				<attnum name="arc" unit="deg" val="67.02312688" />
+				<attnum name="z end" unit="m" val="2.3499" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="2.1469" unit="m" />
+				<attnum name="profil start tangent" val="0.8745" unit="%" />
+				<attnum name="profil end tangent" val="1.3494" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-67">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="458.127" />
+				<attnum name="arc" unit="deg" val="2.57477569" />
+				<attnum name="z end" unit="m" val="2.6757" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="2.3499" unit="m" />
+				<attnum name="profil start tangent" val="1.3494" unit="%" />
+				<attnum name="profil end tangent" val="1.6629" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-68">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1980.946" />
+				<attnum name="arc" unit="deg" val="0.86798232" />
+				<attnum name="z end" unit="m" val="3.1988" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="2.6757" unit="m" />
+				<attnum name="profil start tangent" val="1.6629" unit="%" />
+				<attnum name="profil end tangent" val="1.4686" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-69">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="754.523" />
+				<attnum name="arc" unit="deg" val="2.27856742" />
+				<attnum name="z end" unit="m" val="3.5571" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="3.1988" unit="m" />
+				<attnum name="profil start tangent" val="1.4686" unit="%" />
+				<attnum name="profil end tangent" val="0.624" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-70">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="772.733" />
+				<attnum name="arc" unit="deg" val="2.67747593" />
+				<attnum name="z end" unit="m" val="3.5766" />
+				<attnum name="z start" val="3.5571" unit="m" />
+				<attnum name="profil start tangent" val="0.624" unit="%" />
+				<attnum name="profil end tangent" val="-0.4543" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-71">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="133.181" />
+				<attnum name="arc" unit="deg" val="15.44369328" />
+				<attnum name="z end" unit="m" val="3.2311" />
+				<attnum name="profil steps length" val="4" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="3.5766" unit="m" />
+				<attnum name="profil start tangent" val="-0.4543" unit="%" />
+				<attnum name="profil end tangent" val="-1.0744" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-72">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="324.131" />
+				<attnum name="arc" unit="deg" val="15.16184568" />
+				<attnum name="z end" unit="m" val="2.2135" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="3.2311" unit="m" />
+				<attnum name="profil start tangent" val="-1.0744" unit="%" />
+				<attnum name="profil end tangent" val="-0.7206" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-73">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="602.745" />
+				<attnum name="arc" unit="deg" val="8.18737335" />
+				<attnum name="z end" unit="m" val="1.9939" />
+				<attnum name="z start" val="2.2135" unit="m" />
+				<attnum name="profil start tangent" val="-0.7206" unit="%" />
+				<attnum name="profil end tangent" val="0.3353" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-74">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="60.025277" />
+				<attnum name="z end" unit="m" val="2.5495" />
+				<attnum name="z start" val="1.9939" unit="m" />
+				<attnum name="profil start tangent" val="0.3353" unit="%" />
+				<attnum name="profil end tangent" val="1.0767" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-75">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1550.716" />
+				<attnum name="arc" unit="deg" val="0.51747612" />
+				<attnum name="z end" unit="m" val="2.7215" />
+				<attnum name="z start" val="2.5495" unit="m" />
+				<attnum name="profil start tangent" val="1.0767" unit="%" />
+				<attnum name="profil end tangent" val="1.1875" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-76">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="1707.495" />
+				<attnum name="arc" unit="deg" val="0.46996291" />
+				<attnum name="z end" unit="m" val="2.8821" />
+				<attnum name="z start" val="2.7215" unit="m" />
+				<attnum name="profil start tangent" val="1.1875" unit="%" />
+				<attnum name="profil end tangent" val="0.4744" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-77">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="88.037073" />
+				<attnum name="z end" unit="m" val="2.7076" />
+				<attnum name="z start" val="2.8821" unit="m" />
+				<attnum name="profil start tangent" val="0.4744" unit="%" />
+				<attnum name="profil end tangent" val="-1.0817" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-78">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1115.024" />
+				<attnum name="arc" unit="deg" val="2.05611242" />
+				<attnum name="z end" unit="m" val="1.9212" />
+				<attnum name="z start" val="2.7076" unit="m" />
+				<attnum name="profil start tangent" val="-1.0817" unit="%" />
+				<attnum name="profil end tangent" val="-1.8634" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-79">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="2944.229" />
+				<attnum name="arc" unit="deg" val="0.77875213" />
+				<attnum name="z end" unit="m" val="1.2163" />
+				<attnum name="z start" val="1.9212" unit="m" />
+				<attnum name="profil start tangent" val="-1.8634" unit="%" />
+				<attnum name="profil end tangent" val="-1.3665" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-80">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="721.183" />
+				<attnum name="arc" unit="deg" val="6.51523562" />
+				<attnum name="z end" unit="m" val="0.4196" />
+				<attnum name="z start" val="1.2163" unit="m" />
+				<attnum name="profil start tangent" val="-1.3665" unit="%" />
+				<attnum name="profil end tangent" val="-1.2343" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-81">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="699.727" />
+				<attnum name="arc" unit="deg" val="6.71457309" />
+				<attnum name="z end" unit="m" val="-0.8081" />
+				<attnum name="z start" val="0.4196" unit="m" />
+				<attnum name="profil start tangent" val="-1.2343" unit="%" />
+				<attnum name="profil end tangent" val="-0.7196" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-82-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="93.39996309" />
+				<attnum name="z end" unit="m" val="-0.7539" />
+				<attnum name="z start" val="-0.8081" unit="m" />
+				<attnum name="profil start tangent" val="-0.7196" unit="%" />
+				<attnum name="profil end tangent" val="0.2833" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-82-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="42.656448121" />
+				<attnum name="z end" unit="m" val="-0.537" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-0.7539" unit="m" />
+				<attnum name="profil start tangent" val="0.2833" unit="%" />
+				<attnum name="profil end tangent" val="0.3574" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-83">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="1860.146" />
+				<attnum name="arc" unit="deg" val="0.74418699" />
+				<attnum name="z end" unit="m" val="-0.4872" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-0.537" unit="m" />
+				<attnum name="profil start tangent" val="0.3574" unit="%" />
+				<attnum name="profil end tangent" val="0.1718" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-84">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="61.608" />
+				<attnum name="arc" unit="deg" val="22.18818977" />
+				<attnum name="z end" unit="m" val="-0.4544" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.4872" unit="m" />
+				<attnum name="profil start tangent" val="0.1718" unit="%" />
+				<attnum name="profil end tangent" val="0.1039" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-85">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="65.339" />
+				<attnum name="arc" unit="deg" val="74.09428877" />
+				<attnum name="z end" unit="m" val="-0.3949" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.4544" unit="m" />
+				<attnum name="profil start tangent" val="0.1039" unit="%" />
+				<attnum name="profil end tangent" val="-0.259" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-86">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="86.099" />
+				<attnum name="arc" unit="deg" val="59.61097989" />
+				<attnum name="z end" unit="m" val="-0.922" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.3949" unit="m" />
+				<attnum name="profil start tangent" val="-0.259" unit="%" />
+				<attnum name="profil end tangent" val="-0.4346" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-87">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="79.754" />
+				<attnum name="arc" unit="deg" val="39.31809001" />
+				<attnum name="z end" unit="m" val="-1.0757" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.922" unit="m" />
+				<attnum name="profil start tangent" val="-0.4346" unit="%" />
+				<attnum name="profil end tangent" val="-0.0295" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-88-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="839.615" />
+				<attnum name="arc" unit="deg" val="1.80984678138" />
+				<attnum name="z end" unit="m" val="-1.0168" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-1.0757" unit="m" />
+				<attnum name="profil start tangent" val="-0.0295" unit="%" />
+				<attnum name="profil end tangent" val="0.367" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-88-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="839.615" />
+				<attnum name="arc" unit="deg" val="2.07727300862" />
+				<attnum name="z end" unit="m" val="-0.861" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-1.0168" unit="m" />
+				<attnum name="profil start tangent" val="0.367" unit="%" />
+				<attnum name="profil end tangent" val="0.9576" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-89">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="100.042128" />
+				<attnum name="z end" unit="m" val="0.5427" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-0.861" unit="m" />
+				<attnum name="profil start tangent" val="0.9576" unit="%" />
+				<attnum name="profil end tangent" val="1.5637" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-90">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="868.784" />
+				<attnum name="arc" unit="deg" val="2.65174520" />
+				<attnum name="z end" unit="m" val="1.236" />
+				<attnum name="z start" val="0.5427" unit="m" />
+				<attnum name="profil start tangent" val="1.5637" unit="%" />
+				<attnum name="profil end tangent" val="1.1493" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-91">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="87.431" />
+				<attnum name="arc" unit="deg" val="25.90420531" />
+				<attnum name="z end" unit="m" val="1.463" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.236" unit="m" />
+				<attnum name="profil start tangent" val="1.1493" unit="%" />
+				<attnum name="profil end tangent" val="0.0751" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-92-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="35.77987971" />
+				<attnum name="z end" unit="m" val="1.3112" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.463" unit="m" />
+				<attnum name="profil start tangent" val="0.0751" unit="%" />
+				<attnum name="profil end tangent" val="-0.5111" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-92-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="36.25045229" />
+				<attnum name="z end" unit="m" val="1.0944" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="1.3112" unit="m" />
+				<attnum name="profil start tangent" val="-0.5111" unit="%" />
+				<attnum name="profil end tangent" val="-0.5314" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-93">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="325.656" />
+				<attnum name="arc" unit="deg" val="2.82539593" />
+				<attnum name="z end" unit="m" val="1.0198" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.0944" unit="m" />
+				<attnum name="profil start tangent" val="-0.5314" unit="%" />
+				<attnum name="profil end tangent" val="-0.4399" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-94">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="70.186" />
+				<attnum name="arc" unit="deg" val="13.05545289" />
+				<attnum name="z end" unit="m" val="0.9534" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.0198" unit="m" />
+				<attnum name="profil start tangent" val="-0.4399" unit="%" />
+				<attnum name="profil end tangent" val="-0.4329" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-95">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="51.425" />
+				<attnum name="arc" unit="deg" val="30.79025986" />
+				<attnum name="z end" unit="m" val="0.8289" />
+				<attnum name="profil steps length" val="2.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="0.9534" unit="m" />
+				<attnum name="profil start tangent" val="-0.4329" unit="%" />
+				<attnum name="profil end tangent" val="-0.4873" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-96">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="432.712" />
+				<attnum name="arc" unit="deg" val="3.74855905" />
+				<attnum name="z end" unit="m" val="0.6805" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="0.8289" unit="m" />
+				<attnum name="profil start tangent" val="-0.4873" unit="%" />
+				<attnum name="profil end tangent" val="-0.4742" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-97-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="21.752616814" />
+				<attnum name="z end" unit="m" val="0.5882" />
+				<section name="Right Side">
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="6.362" unit="m" />
+				</section>
+				<attnum name="z start" val="0.6805" unit="m" />
+				<attnum name="profil start tangent" val="-0.4742" unit="%" />
+				<attnum name="profil end tangent" val="-0.2083" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-97-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="42.274345186" />
+				<attnum name="z end" unit="m" val="0.5915" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.362" unit="m" />
+					<attnum name="end width" val="5.122" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.5882" unit="m" />
+				<attnum name="profil start tangent" val="-0.2083" unit="%" />
+				<attnum name="profil end tangent" val="0.1836" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-98">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="70.399" />
+				<attnum name="arc" unit="deg" val="6.57174012" />
+				<attnum name="z end" unit="m" val="0.6205" />
+				<attnum name="profil steps length" val="3" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.122" unit="m" />
+					<attnum name="end width" val="5.122" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.5915" unit="m" />
+				<attnum name="profil start tangent" val="0.1836" unit="%" />
+				<attnum name="profil end tangent" val="0.387" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-99">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="23.154" />
+				<attnum name="arc" unit="deg" val="19.80372665" />
+				<attnum name="z end" unit="m" val="0.6537" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.122" unit="m" />
+					<attnum name="end width" val="5.122" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="0.6205" unit="m" />
+				<attnum name="profil start tangent" val="0.387" unit="%" />
+				<attnum name="profil end tangent" val="0.4239" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-100">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="12.622" />
+				<attnum name="arc" unit="deg" val="78.10083649" />
+				<attnum name="z end" unit="m" val="0.7283" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.122" unit="m" />
+					<attnum name="end width" val="5.122" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="0.6537" unit="m" />
+				<attnum name="profil start tangent" val="0.4239" unit="%" />
+				<attnum name="profil end tangent" val="0.3691" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-101">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="326.481" />
+				<attnum name="arc" unit="deg" val="3.59273057" />
+				<attnum name="z end" unit="m" val="0.7907" />
+				<section name="Right Side">
+					<attnum name="start width" val="5.122" unit="m" />
+					<attnum name="end width" val="6.2205" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="0.7283" unit="m" />
+				<attnum name="profil start tangent" val="0.3691" unit="%" />
+				<attnum name="profil end tangent" val="0.1924" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-102">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="11.971036248" />
+				<attnum name="z end" unit="m" val="0.8003" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.2205" unit="m" />
+					<attnum name="end width" val="6.512" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.7907" unit="m" />
+				<attnum name="profil start tangent" val="0.1924" unit="%" />
+				<attnum name="profil end tangent" val="-0.0607" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-102-post">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="20.042444752" />
+				<attnum name="z end" unit="m" val="0.7599" />
+				<section name="Right Side">
+					<attnum name="start width" val="6.512" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="0.8003" unit="m" />
+				<attnum name="profil start tangent" val="-0.0607" unit="%" />
+				<attnum name="profil end tangent" val="-0.3457" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-103">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="332.299" />
+				<attnum name="arc" unit="deg" val="2.41780203" />
+				<attnum name="z end" unit="m" val="0.6912" />
+				<attnum name="z start" val="0.7599" unit="m" />
+				<attnum name="profil start tangent" val="-0.3457" unit="%" />
+				<attnum name="profil end tangent" val="-0.5893" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-104">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="110.569" />
+				<attnum name="arc" unit="deg" val="7.25772499" />
+				<attnum name="z end" unit="m" val="0.5947" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.6912" unit="m" />
+				<attnum name="profil start tangent" val="-0.5893" unit="%" />
+				<attnum name="profil end tangent" val="-0.8008" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-105">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="38.219" />
+				<attnum name="arc" unit="deg" val="76.44134861" />
+				<attnum name="z end" unit="m" val="0.1292" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="0.5947" unit="m" />
+				<attnum name="profil start tangent" val="-0.8008" unit="%" />
+				<attnum name="profil end tangent" val="-0.9171" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-106-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="779.458" />
+				<attnum name="arc" unit="deg" val="1.24514526041" />
+				<attnum name="z end" unit="m" val="-0.0268" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="0.1292" unit="m" />
+				<attnum name="profil start tangent" val="-0.9171" unit="%" />
+				<attnum name="profil end tangent" val="-0.8571" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-106-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="779.458" />
+				<attnum name="arc" unit="deg" val="1.76417293596" />
+				<attnum name="z end" unit="m" val="-0.2171" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-0.0268" unit="m" />
+				<attnum name="profil start tangent" val="-0.8571" unit="%" />
+				<attnum name="profil end tangent" val="-0.6839" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-106-post">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="779.458" />
+				<attnum name="arc" unit="deg" val="1.41329135363" />
+				<attnum name="z end" unit="m" val="-0.3277" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-0.2171" unit="m" />
+				<attnum name="profil start tangent" val="-0.6839" unit="%" />
+				<attnum name="profil end tangent" val="-0.3595" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="39.527" />
+				<attnum name="arc" unit="deg" val="82.63961187" />
+				<attnum name="z end" unit="m" val="-0.4098" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.3277" unit="m" />
+				<attnum name="profil start tangent" val="-0.3595" unit="%" />
+				<attnum name="profil end tangent" val="-0.0725" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-2-pre">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="328.649" />
+				<attnum name="arc" unit="deg" val="3.79398446968" />
+				<attnum name="z end" unit="m" val="-0.41" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-0.4098" unit="m" />
+				<attnum name="profil start tangent" val="-0.0725" unit="%" />
+				<attnum name="profil end tangent" val="-0.1765" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-2-curb">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="328.649" />
+				<attnum name="arc" unit="deg" val="8.27733986032" />
+				<attnum name="z end" unit="m" val="-0.5772" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-0.41" unit="m" />
+				<attnum name="profil start tangent" val="-0.1765" unit="%" />
+				<attnum name="profil end tangent" val="-0.3122" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-3-pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="94.521119516" />
+				<attnum name="z end" unit="m" val="-0.8346" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-0.5772" unit="m" />
+				<attnum name="profil start tangent" val="-0.3122" unit="%" />
+				<attnum name="profil end tangent" val="0.3445" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-3-curb">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="21.527748484" />
+				<attnum name="z end" unit="m" val="-0.6276" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.8346" unit="m" />
+				<attnum name="profil start tangent" val="0.3445" unit="%" />
+				<attnum name="profil end tangent" val="1.1428" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-4">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="334.435" />
+				<attnum name="arc" unit="deg" val="2.47940237087" />
+				<attnum name="z end" unit="m" val="-0.436" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="-0.6276" unit="m" />
+				<attnum name="profil start tangent" val="1.1428" unit="%" />
+				<attnum name="profil end tangent" val="1.4395" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-4-post">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="334.435" />
+				<attnum name="arc" unit="deg" val="4.05321544913" />
+				<attnum name="z end" unit="m" val="-0.0681" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="-0.436" unit="m" />
+				<attnum name="profil start tangent" val="1.4395" unit="%" />
+				<attnum name="profil end tangent" val="1.5818" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-5">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="93.903" />
+				<attnum name="arc" unit="deg" val="22.97800144" />
+				<attnum name="z end" unit="m" val="0.5377" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="-0.0681" unit="m" />
+				<attnum name="profil start tangent" val="1.5818" unit="%" />
+				<attnum name="profil end tangent" val="1.5138" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-6">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="40.804" />
+				<attnum name="arc" unit="deg" val="32.75602435" />
+				<attnum name="z end" unit="m" val="0.8687" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="0.5377" unit="m" />
+				<attnum name="profil start tangent" val="1.5138" unit="%" />
+				<attnum name="profil end tangent" val="1.3031" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-7">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="228.420" />
+				<attnum name="arc" unit="deg" val="6.01058308" />
+				<attnum name="z end" unit="m" val="1.1532" />
+				<attnum name="profil steps length" val="5.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="0.8687" unit="m" />
+				<attnum name="profil start tangent" val="1.3031" unit="%" />
+				<attnum name="profil end tangent" val="0.9659" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-8">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="48.11935986" />
+				<attnum name="z end" unit="m" val="1.5115" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.1532" unit="m" />
+				<attnum name="profil start tangent" val="0.9659" unit="%" />
+				<attnum name="profil end tangent" val="0.3584" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-9">
+				<attstr name="type" val="lft" />
+				<attnum name="radius" unit="m" val="878.935" />
+				<attnum name="arc" unit="deg" val="3.15619260" />
+				<attnum name="z end" unit="m" val="1.498" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-l" />
+				</section>
+				<attnum name="z start" val="1.5115" unit="m" />
+				<attnum name="profil start tangent" val="0.3584" unit="%" />
+				<attnum name="profil end tangent" val="-0.2528" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-10">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="103.640" />
+				<attnum name="arc" unit="deg" val="26.30160364" />
+				<attnum name="z end" unit="m" val="1.2708" />
+				<attnum name="profil steps length" val="3.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<attnum name="z start" val="1.498" unit="m" />
+				<attnum name="profil start tangent" val="-0.2528" unit="%" />
+				<attnum name="profil end tangent" val="-0.3801" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-11">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="169.671" />
+				<attnum name="arc" unit="deg" val="4.77518554" />
+				<attnum name="z end" unit="m" val="1.2308" />
+				<attnum name="profil steps length" val="4.5" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.2708" unit="m" />
+				<attnum name="profil start tangent" val="-0.3801" unit="%" />
+				<attnum name="profil end tangent" val="-0.1804" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-12">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="33.765" />
+				<attnum name="arc" unit="deg" val="23.66686572" />
+				<attnum name="z end" unit="m" val="1.2199" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.2308" unit="m" />
+				<attnum name="profil start tangent" val="-0.1804" unit="%" />
+				<attnum name="profil end tangent" val="0.0496" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-13">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="22.532" />
+				<attnum name="arc" unit="deg" val="57.65021860" />
+				<attnum name="z end" unit="m" val="1.2601" />
+				<attnum name="profil steps length" val="2" unit="m" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attnum name="height" val="0.04" unit="m" />
+					<attstr name="style" val="curb" />
+					<attstr name="surface" val="curb-5cm-r" />
+				</section>
+				<attnum name="z start" val="1.2199" unit="m" />
+				<attnum name="profil start tangent" val="0.0496" unit="%" />
+				<attnum name="profil end tangent" val="0.2759" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Yas Marina Circuit-14">
+				<attstr name="type" val="rgt" />
+				<attnum name="radius" unit="m" val="544.9007" />
+				<attnum name="arc" unit="deg" val="2.618" />
+				<attnum name="z end" unit="m" val="1.3533" />
+				<section name="Right Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="grass6" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="7" unit="m" />
+				</section>
+				<attnum name="z start" val="1.2601" unit="m" />
+				<attnum name="profil start tangent" val="0.2759" unit="%" />
+				<attnum name="profil end tangent" val="0.2909" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_host_pre">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="164.1955" />
+				<attnum name="z end" unit="m" val="1.6938" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="manual-asphalt" />
+					<attnum name="start width" val="7" unit="m" />
+					<attnum name="end width" val="14" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-l2p" />
+					<attnum name="width" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="1.3533" unit="m" />
+				<attnum name="profil start tangent" val="0.2909" unit="%" />
+				<attnum name="profil end tangent" val="-0.4609" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="pit_main_a">
+				<attstr name="type" val="str" />
+				<attnum name="lg" unit="m" val="150" />
+				<attnum name="z end" unit="m" val="0.0001" />
+				<section name="Left Border">
+					<attnum name="width" val="1" unit="m" />
+					<attstr name="style" val="plan" />
+					<attstr name="surface" val="b-road1-grass6" />
+				</section>
+				<section name="Right Side">
+					<attstr name="surface" val="road1-pits" />
+					<attnum name="start width" val="14.5" unit="m" />
+					<attnum name="end width" val="14.5" unit="m" />
+				</section>
+				<section name="Right Border">
+					<attstr name="style" val="wall" />
+					<attstr name="surface" val="wall" />
+					<attnum name="width" val="0.5" unit="m" />
+					<attnum name="height" val="1" unit="m" />
+				</section>
+				<attnum name="z start" val="1.6938" unit="m" />
+				<attnum name="profil start tangent" val="-0.4609" unit="%" />
+				<attnum name="profil end tangent" val="-0.2456" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+			<section name="Closure X Terminal-3">
+				<attstr name="type" val="str" />
+				<attnum name="z end" unit="m" val="0" />
+				<attnum name="lg" val="0.01500000" unit="m" />
+				<attnum name="z start" val="0.0001" unit="m" />
+				<attnum name="profil start tangent" val="-0.2456" unit="%" />
+				<attnum name="profil end tangent" val="-0.2456" unit="%" />
+				<attstr name="profil" val="spline" />
+			</section>
+		</section>
+	</section>
+  <section name="Georeference">
+    <attnum name="latitude" unit="deg" val="24.470050527" />
+    <attnum name="longitude" unit="deg" val="54.606097585" />
+    <attnum name="altitude" unit="m" val="11.097360785" />
+    <attnum name="heading" unit="deg" val="81.930137543" />
+  </section>
+</params>
