@@ -70,6 +70,59 @@ tHumanContext *HCtx[10] = {0};
 static int speedLimiter	= 0;
 static tdble Vtarget;
 
+/* One CSV per human driver. A new race replaces that driver's recording. */
+static FILE *aps380Files[10] = {0};
+static double aps380LastTime[10];
+
+static void aps380_close_telemetry(int index)
+{
+	const int idx = index - 1;
+	if (aps380Files[idx]) {
+		fclose(aps380Files[idx]);
+		aps380Files[idx] = NULL;
+	}
+}
+
+static void aps380_start_telemetry(int index)
+{
+	const int idx = index - 1;
+	char filename[80];
+	aps380_close_telemetry(index);
+	aps380LastTime[idx] = -1.0;
+	if (index == 1) {
+		snprintf(filename, sizeof(filename), "aps380_g29_telemetry.csv");
+	} else {
+		snprintf(filename, sizeof(filename), "aps380_g29_telemetry_player%d.csv", index);
+	}
+	aps380Files[idx] = fopen(filename, "w");
+	if (!aps380Files[idx]) {
+		fprintf(stderr, "APS380: could not open telemetry file %s\n", filename);
+		return;
+	}
+	fprintf(aps380Files[idx], "time_s,speed_mps,throttle,brake\n");
+	fflush(aps380Files[idx]);
+}
+
+static void aps380_record_telemetry(int index, const tCarElt *car, const tSituation *s)
+{
+	const int idx = index - 1;
+	const double now = s->currentTime;
+	/* Skip the countdown and sample simulation time at approximately 50 Hz. */
+	if (!aps380Files[idx] || now < 0.0 ||
+		(aps380LastTime[idx] >= 0.0 && now - aps380LastTime[idx] < 0.0199)) {
+		return;
+	}
+	fprintf(aps380Files[idx], "%.6f,%.6f,%.6f,%.6f\n",
+		now, (double)car->pub.speed, (double)car->_accelCmd, (double)car->_brakeCmd);
+	fflush(aps380Files[idx]);
+	aps380LastTime[idx] = now;
+}
+
+static void aps380_endrace(int index, tCarElt *, tSituation *)
+{
+	aps380_close_telemetry(index);
+}
+
 
 typedef struct
 {
@@ -100,6 +153,7 @@ static void
 shutdown(int index)
 {
 	int	idx = index - 1;
+	aps380_close_telemetry(index);
 
 	free (HCtx[idx]);
 
@@ -161,6 +215,7 @@ InitFuncPt(int index, void *pt)
 	itf->rbNewTrack = initTrack;	/* give the robot the track view called */
 	/* for every track change or new race */
 	itf->rbNewRace  = newrace;
+	itf->rbEndRace  = aps380_endrace;
 
 	HmReadPrefs(index);
 
@@ -329,6 +384,7 @@ static void initTrack(int index, tTrack* track, void *carHandle, void **carParmH
 void newrace(int index, tCarElt* car, tSituation *s)
 {
 	int idx = index - 1;
+	aps380_start_telemetry(index);
 
 	if (HCtx[idx]->MouseControlUsed) {
 		GfctrlMouseCenter();
@@ -1042,6 +1098,7 @@ static void drive_mt(int index, tCarElt* car, tSituation *s)
 	if (HCtx[idx]->autoClutch && car->_clutchCmd == 0.0f)
 		car->_clutchCmd = getAutoClutch(idx, car->_gear, car->_gearCmd, car, s->driveDeltaTime[RM_DRV_HUMAN]);
 
+	aps380_record_telemetry(index, car, s);
 }
 /*
  * Function
@@ -1163,6 +1220,7 @@ static void drive_at(int index, tCarElt* car, tSituation *s)
 
 	if (HCtx[idx]->autoClutch && car->_clutchCmd == 0.0f)
 	    car->_clutchCmd = getAutoClutch(idx, car->_gear, car->_gearCmd, car, s->driveDeltaTime[RM_DRV_HUMAN]);
+	aps380_record_telemetry(index, car, s);
 }
 
 static int pitcmd(int index, tCarElt* car, tSituation *s)
