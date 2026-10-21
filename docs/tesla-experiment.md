@@ -122,3 +122,11 @@ To establish real-car fidelity, obtain a year/trim-specific homologation or
 VIN-backed specification and measured coastdown, acceleration, pack-voltage,
 efficiency, and regenerative-limit data. Match the controlled TORCS drive to
 those observations before describing the result as validated Tesla behavior.
+
+## Automated course validation and profile v2
+
+The current profile uses the continuous neutral-pedal law added for low-load
+steady driving. Historical recordings retain their captured v1 profiles.
+See [the autonomous validation instructions](tesla-ai-validation.md) to run
+the new `aps380_ai` driver, collect repeated 30/50 km/h speed holds, test
+lift-off and friction braking separately, stop, and complete the course.

@@ -4,9 +4,9 @@
 
 int main()
 {
-    const aps380::EvParameters p = {404, 202000, 60000, 100, .92, .85, 300, 50000, 355, 62.5};
+    const aps380::EvParameters p = {404, 202000, 60000, 100, .92, .85, 300, 50000, 355, 62.5, .05};
     const auto launch = aps380::electricStep(p, 40000, 0, 0, 1, .002, true);
-    assert(launch.torque == 404);
+    assert(std::fabs(launch.torque-404) < 1e-9);
     const auto fast = aps380::electricStep(p, 40000, 1000, 35, 1, .002, true);
     assert(fast.shaftPower <= 202000.00001);
     assert(std::fabs(fast.packPower-(202000/.92+300)) < .001);
@@ -36,5 +36,13 @@ int main()
     const auto backward = aps380::electricStep(p, 40000, -1000, 35, 0, .002, true);
     assert(backward.torque > 0 && backward.shaftPower < 0);
     assert(backward.energyWh > 40000);
-    std::cout << "14 EV kernel checks passed\n";
+    const auto coast = aps380::electricStep(p, 40000, 100, 5, .05, .002, true);
+    assert(coast.torque == 0);
+    const auto fineDrive = aps380::electricStep(p, 40000, 100, 5, .050001, .002, true);
+    const auto fineRegen = aps380::electricStep(p, 40000, 100, 5, .049999, .002, true);
+    assert(fineDrive.torque > 0 && fineDrive.torque < .001);
+    assert(fineRegen.torque < 0 && fineRegen.torque > -.01);
+    const auto lowRpmEmpty = aps380::electricStep(p, .001, .5, .1, 1, 1, true);
+    assert(lowRpmEmpty.shaftPower == 0 && lowRpmEmpty.packPower <= 3.60001);
+    std::cout << "18 EV kernel checks passed\n";
 }

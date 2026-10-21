@@ -119,6 +119,7 @@ SimEngineConfig(tCar *car)
 		p.capacityWh = GfParmGetNum(hdle, "Electric Powertrain", "capacity Wh", NULL, 50000);
 		p.voltage = GfParmGetNum(hdle, "Electric Powertrain", "nominal voltage V", NULL, 355);
 		p.maxSpeed = GfParmGetNum(hdle, "Electric Powertrain", "max speed mps", NULL, 62.5);
+		p.neutralPedal = GfParmGetNum(hdle, "Electric Powertrain", "neutral pedal", NULL, .05f);
 		engine.evEnergyWh = p.capacityWh * GfParmGetNum(hdle, "Electric Powertrain", "initial SOC", NULL, .8);
 		engine.evLastLogTime = -1.0;
 		car->fuel = .001f; // Compatibility sentinel; not consumed by the EV branch.

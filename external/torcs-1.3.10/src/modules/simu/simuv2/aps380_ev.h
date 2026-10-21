@@ -9,7 +9,7 @@ namespace aps380 {
 struct EvParameters {
     double maxTorque, maxPower, maxRegenPower, regenTorque;
     double driveEfficiency, regenEfficiency, auxiliaryPower;
-    double capacityWh, voltage, maxSpeed;
+    double capacityWh, voltage, maxSpeed, neutralPedal;
 };
 struct EvStep { double torque, shaftPower, packPower, energyWh; };
 inline EvStep electricStep(const EvParameters &p, double energyWh,
@@ -19,16 +19,17 @@ inline EvStep electricStep(const EvParameters &p, double energyWh,
     const double w = std::fabs(omega);
     double torque = 0.0;
     const double available = (std::min)(p.maxTorque, p.maxPower / (std::max)(w, 1.0));
-    if (engaged && energyWh > 0.0 && throttle > 0.05 && brake <= 0.05 && speed < p.maxSpeed) {
-        torque = available * throttle;
+    if (engaged && energyWh > 0.0 && throttle > p.neutralPedal && brake <= 0.05 && speed < p.maxSpeed) {
+        torque = available * (throttle-p.neutralPedal)/(1.0-p.neutralPedal);
         // Prevent the last time step from drawing energy below zero.
-        if (w > 1.0 && dt > 0.0)
+        if (w > 0.0 && dt > 0.0)
             torque = (std::min)(torque, (std::max)(0.0, energyWh*3600.0/dt-p.auxiliaryPower)*p.driveEfficiency/w);
-    } else if (engaged && throttle <= 0.05 && speed > 0.0 && energyWh < p.capacityWh) {
+    } else if (engaged && throttle <= p.neutralPedal && speed > 0.0 && energyWh < p.capacityWh) {
         // Accelerator-release regeneration; pedal braking remains friction.
         const double fade = (std::min)(speed / 2.0, 1.0);
-        double regen = (std::min)(p.regenTorque, p.maxRegenPower/(std::max)(w, 1.0))*fade;
-        if (w > 1.0 && dt > 0.0)
+        double regen = (std::min)(p.regenTorque, p.maxRegenPower/(std::max)(w, 1.0))*fade
+            *(1.0-throttle/p.neutralPedal);
+        if (w > 0.0 && dt > 0.0)
             regen = (std::min)(regen, ((p.capacityWh-energyWh)*3600.0/dt+p.auxiliaryPower)/(p.regenEfficiency*w));
         torque = omega < 0.0 ? regen : -regen;
     }

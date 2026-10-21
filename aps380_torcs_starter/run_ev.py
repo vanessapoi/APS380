@@ -29,6 +29,8 @@ def verify_configuration(path, profile):
               ('Electric Powertrain', 'max regen shaft power W'): u['max_regen_shaft_power_W'],
               ('Electric Powertrain', 'lift off torque Nm'): u['lift_off_torque_Nm'],
               ('Electric Powertrain', 'auxiliary power W'): u['auxiliary_power_W']}
+    if 'neutral_pedal' in u:
+        checks[('Electric Powertrain', 'neutral pedal')] = u['neutral_pedal']
     for (section, name), expected in checks.items():
         item = root.find(f"section[@name='{section}']/attnum[@name='{name}']")
         if item is None or not math.isclose(float(item.get('val')), expected, rel_tol=1e-6, abs_tol=.001):

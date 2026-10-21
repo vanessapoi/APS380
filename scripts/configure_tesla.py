@@ -131,6 +131,7 @@ def configure():
               'drive efficiency': u['drive_efficiency'], 'regen efficiency': u['regen_efficiency'],
               'auxiliary power W': u['auxiliary_power_W'], 'max regen shaft power W': u['max_regen_shaft_power_W'],
               'lift off torque Nm': u['lift_off_torque_Nm'], 'max speed mps': u['max_speed_mps']}
+    values['neutral pedal'] = u.get('neutral_pedal', .05)
     for name, value in values.items():
         attribute(electric, name, value)
     write(car, target/f'{car_id}.xml')
