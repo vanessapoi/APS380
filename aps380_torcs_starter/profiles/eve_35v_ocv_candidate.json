@@ -1,0 +1,29 @@
+{
+  "id": "eve-inr18650-35v-ocv-paper-2025-candidate-v1",
+  "cell_model": "EVE INR18650/35V",
+  "status": "Candidate literature reference; not experimentally validated on our cell",
+  "source": {
+    "paper": "An Enhanced Li-ion Battery Model with Optimized OCV Estimation",
+    "doi": "10.1109/PEPSC67251.2025.11453369",
+    "pdf": "documentation/An_Enhanced_Li-ion_Battery_Model_with_Optimized_OCV_Estimation.pdf",
+    "equation": 15,
+    "pdf_page": 3,
+    "review": "docs/ocv-paper-review.md"
+  },
+  "polynomial_input": "SOC percent (0 to 100); application API uses fraction (0 to 1)",
+  "coefficients_descending": [6.634e-10, -2.012e-7, 2.221e-5, -0.001107, 0.03365, 3.163],
+  "paper_temperature_C": 25.0,
+  "paper_rest_duration_s": 3600.0,
+  "initialization_policy": {
+    "status": "Engineering qualification rules for this candidate, not verified relaxation criteria or hardware limits",
+    "temperature_tolerance_C": 2.0,
+    "max_abs_rest_current_A": 0.01
+  },
+  "limitations": [
+    "Printed fit covers 3.163 to approximately 4.182 V; do not extrapolate to cell cutoff voltages",
+    "Rest history is supplied by caller and must come from observation; one voltage sample cannot establish rest",
+    "Paper discharge procedure and RMSE table contain inconsistencies documented in review",
+    "No experimentally established SOC uncertainty, hysteresis, aging or temperature correction",
+    "Not a cell protection profile, SOP model or hardware operating authorization"
+  ]
+}

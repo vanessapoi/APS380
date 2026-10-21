@@ -197,7 +197,7 @@ SOC and SOP both execute in the Python host on the PC. The ESP32 provides measur
 
 #### SOC
 
-Initialize SOC from rested OCV, then update it in real time through coulomb counting using measured net cell current. As a candidate starting reference, investigate the OCV–SOC polynomial from *An Enhanced Li-ion Battery Model with Optimized OCV Estimation* (2025). The paper and its coefficients have not been verified here; confirm the source, chemistry, cell model, temperature, SOC range and resting conditions before adopting the fit.
+Initialize SOC from rested OCV, then update it in real time through coulomb counting using measured net cell current. The supplied *An Enhanced Li-ion Battery Model with Optimized OCV Estimation* (2025) has now been reviewed: it names the EVE INR18650/35V platform and supplies equation (15), but contains test-procedure and metrics inconsistencies. Its polynomial is implemented only as a candidate approximate-25°C reference, not a validated cell calibration. See `../docs/ocv-paper-review.md` and `../docs/cell-soc.md`.
 
 Generate an OCV–SOC lookup table from the verified candidate relation and validate its range and invertibility. Validate initial and running SOC against experimental data for the selected cell; do not treat loaded terminal voltage as rested OCV or assume the published polynomial transfers to every 18650.
 
@@ -265,7 +265,8 @@ The repository began as an initial software-only starter. The offline calculatio
 - Optional offline local-linear conditioning and explicit experiment scaling, assessed using comparisons and sensitivity/braking diagnostics. Neither establishes physical calibration.
 - Historical baseline: nineteen passing software tests at the October 8 review; architecture diagrams and explanatory documentation. Check current test output rather than treating this as the present test count.
 - Subsequent TORCS work includes native CSV recording, an experimental Model 3 reference powertrain, and vehicle-level pack analysis. See `../docs/tesla-experiment.md` and `../docs/tesla-calibration-evidence.md` for recorded verification and remaining calibration limits. Native pack analysis and the earlier cell-scaling workflow still require consistent configuration when integrated.
-- No implemented hardware communication, measured SOC/SOP, live simulator feedback or physical battery control.
+- Candidate OCV lookup/inversion and PC-side net-cell-current coulomb counting now have an offline replay with explicit rest evidence, capacity basis, measurement-gap/session rejection, provenance and mock tests. No physical-cell accuracy has been established; see `../docs/cell-soc.md`.
+- No implemented hardware communication, experimentally validated measured SOC/SOP, live simulator feedback or physical battery control.
 
 Repository:
 
@@ -364,6 +365,8 @@ This is the current eleven-task plan. Numbering identifies workstreams; dependen
 
 #### 8. SOC estimation — PC side
 
+Current implementation: candidate EVE OCV lookup and stateful current integration are implemented and checked with mock data. The paper has been reviewed; experimental OCV coverage, effective capacity, relaxation criteria and SOC accuracy remain unvalidated. Live measurement acquisition is not implemented. See `../docs/cell-soc.md` for the interface, assumptions and executable example.
+
 - Verify the candidate 2025 OCV-estimation paper and cell applicability before adopting its polynomial; generate and validate an OCV–SOC lookup table.
 - Estimate initial SOC from rested OCV under documented conditions.
 - Implement real-time coulomb counting using measured net cell current and measurement elapsed time, with explicit capacity, initial state and measurement-gap handling.
@@ -455,7 +458,7 @@ These are historical October 8 coordination notes. The established architecture 
 
 #### Cell, mechanical partition and BOM decisions
 
-The exact 18650 model remains unspecified. Record datasheet-backed minimum/maximum voltage, charge and discharge current limits separately, continuous versus pulse ratings (including pulse duration), capacity, and separate charge/discharge temperature ranges. “18650” specifies a form factor, not an operating envelope.
+Historical note: the exact 18650 model was unspecified in these October 8 notes. The subsequently supplied `../documentation/18650.pdf` specifies EVE INR18650/35V; confirm that the physical cell matches it. Record datasheet-backed minimum/maximum voltage, charge and discharge current limits separately, continuous versus pulse ratings (including pulse duration), capacity, and separate charge/discharge temperature ranges. “18650” specifies a form factor, not an operating envelope. A complete approved bench operating profile has not been configured by the candidate SOC work.
 
 A movable cell/protection daughterboard for temperature-chamber testing is a proposed option. Decide where sensing, independent protection, disconnects and connectors belong, and ensure moving the cell does not bypass protection or invalidate sensing. A separate BMS IC/board is not yet selected; it must have an explicitly defined role rather than silently replacing Python or ESP32 responsibilities.
 
@@ -519,6 +522,6 @@ Consulting Professor Trescases and outside papers is proposed team research; acc
 
 #### Milestone 1 alignment and acceptance boundary
 
-The implemented offline software aligns with the team tasks of creating meaningful driving/power/current profiles and with the Python host architecture. It does not implement physical POC control, a BMS, measured monitoring, independent protection, SOC/SOP or live telemetry feedback. Fixed clipping and passing equation tests are software evidence, not bench safety validation.
+The implemented offline software aligns with the team tasks of creating meaningful driving/power/current profiles and with the Python host architecture. A candidate offline SOC estimator has subsequently been added with mock measurements. It does not implement physical POC control, a BMS, live measured monitoring, independent protection, validated SOC/SOP or live telemetry feedback. Fixed clipping and passing equation tests are software evidence, not bench safety validation.
 
 The demonstrated source-informed smoothed/reduced profile is an engineering comparison: source-car association is inferred, nominal voltage/capacity and pack energy are assumptions, and experiment scale 0.2 deliberately reduces C-rate. Final profile and cell-specific bounds must be justified after cell selection and current-tracking POC evidence. Centered offline smoothing must be replaced or explicitly redesigned before real-time control.

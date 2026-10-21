@@ -1,6 +1,8 @@
 # APS380 — offline telemetry → cell current
 
-Milestone 1 is software only. Python models demand; the future ESP32 will handle sensing, local control and instrument communication. No serial, UDP, PSU or electronic-load control is implemented. The bundled CSV is synthetic, not genuine TORCS data.
+The original Milestone 1 demand pipeline is software only. The established architecture assigns instrument communication and SOC/SOP to Python on the PC; ESP32 provides sensing and local supervision. No serial, UDP, PSU or electronic-load control is implemented. The original demo CSV is synthetic; subsequent TORCS recordings and their limitations are documented separately.
+
+An offline candidate cell SOC workflow is now available: [cell SOC setup and replay](../docs/cell-soc.md). It uses a source-labeled EVE OCV reference and measured-net-current input schema, with a clearly marked mock example. Its physical accuracy remains unvalidated. The workflow below still describes the original vehicle-demand/current-scaling model.
 
 ## Run
 
@@ -86,7 +88,7 @@ Edit `config.json`. All defaults are illustrative engineering assumptions, not m
 
 The model assumes flat road, still air and forward motion. It omits grade, rotating inertia, cornering/tire slip losses, motor efficiency maps, actual brake blending and low-speed regen fade. Regen fraction is fixed, not inferred from the brake pedal. No propulsion power cap is applied: impossible acceleration telemetry can yield impossible raw vehicle demand, which should be reviewed rather than silently rewritten. Sparse/noisy speed data can produce large acceleration errors; filtering and sampling validation need calibration against real recordings. Irregular positive intervals are supported but gaps are not reconstructed.
 
-Nominal voltage is fixed; there is no electrochemical model, measured voltage, SOC/SOP, temperature derating or verified hardware operating envelope. Energy scaling is approximate, and does not reproduce cell aging or transient voltage behavior. Later SOC must use measured net cell current from the ESP32, never this requested current or eLoad branch current. Approved current limits and independent PCB protections require separate cell-specific bench validation. No PSU bias mapping is part of this milestone.
+In this legacy demand/scaling workflow, nominal voltage is fixed; there is no electrochemical model, measured voltage, SOC/SOP, temperature derating or verified hardware operating envelope. Energy scaling is approximate, and does not reproduce cell aging or transient voltage behavior. The separate candidate SOC replay uses net-cell-measurement inputs, never this requested current or eLoad branch current; live ESP32 acquisition remains pending. Approved current limits and independent PCB protections require separate cell-specific bench validation. No PSU bias mapping is part of this milestone.
 
 ## Validation
 

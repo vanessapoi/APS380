@@ -16,6 +16,8 @@ Clone this repository and open `APS380.code-workspace`. The full TORCS distribut
 
 See [the Python project README](aps380_torcs_starter/README.md) for model setup and use, and [TORCS setup](docs/torcs-setup.md) for simulator build guidance. Source availability does not imply a validated simulator build or live telemetry integration.
 
+For the candidate EVE cell OCV reference and offline SOC replay, see [cell SOC estimation](docs/cell-soc.md) and [the source-paper review](docs/ocv-paper-review.md). Mock checks verify the software; experimental cell calibration remains pending.
+
 ## Collaborating
 
 Create a feature branch, edit the Python project or `external/torcs-1.3.10/`, run the relevant checks, and push the branch for review. Keep generated build output and local environments out of commits. Preserve upstream license notices. Work in this repository's TORCS copy, rather than the separate copy in Downloads.
