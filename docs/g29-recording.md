@@ -41,3 +41,39 @@ demonstration limits, not validated hardware operating limits.
 Validation: the modified human module built successfully in Release/x64 and
 was copied into the runtime driver folder. The recording passed the existing
 Python reader and model processing, and the resulting plot was inspected.
+
+## Screening and comparison
+
+Run `.\.venv\Scripts\python.exe analyze_g29.py` from the Python project to
+reproduce `output/g29_screening/`. The script audits intervals with absolute
+derived acceleration above 20 m/s² and groups adjacent flagged intervals.
+This diagnostic threshold does not identify collisions or validate vehicle
+physics. The largest spike occurs at 36.674 s with zero brake command;
+many later extreme decelerations coincide with braking.
+
+Manual inspection selected 44.614–53.594 s (450 samples; original CSV rows
+2049–2498) as a lower-speed candidate containing acceleration, brief
+near-steady motion, and braking to rest. The extraction preserves contiguous
+source samples, timestamps, and numeric strings; no interpolation, smoothing,
+or removal of interior rows is applied. The script verifies the extracted
+data against the original and records a source SHA-256 hash in `audit.json`.
+
+| Metric | Full recording | Screened candidate |
+| --- | --- | --- |
+| Duration | 94.612 s | 8.980 s |
+| Acceleration range | -60.594 to +13.465 m/s² | -15.076 to +7.966 m/s² |
+| Peak requested cell current | 15.826 A | 1.880 A |
+| Minimum requested cell current | -1.548 A | -1.548 A |
+| Samples clipped by configured limits | 41.63% | 3.56% |
+
+Selection changes the driving conditions and duration: lower clipping is not
+proof of improved model accuracy. The candidate still brakes strongly, its
+near-steady phase is short, and total speed includes lateral/vertical motion
+whereas the model assumes longitudinal motion. A controlled straight-line
+test with gentler braking remains necessary for target-EV interpretation.
+The model's regeneration estimate is not measured TORCS battery energy.
+
+Outputs include the unchanged segment CSV, regenerated current profile,
+model parameters, flagged-event CSV, comparison CSV, provenance audit, and
+`screening.png` showing full-recording context and the selected driving inputs.
+The plot was inspected and all 19 existing Python tests passed.

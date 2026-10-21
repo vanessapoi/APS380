@@ -193,6 +193,18 @@ static void init_args(int argc, char **argv, const char** raceconfig)
 			exit(1);
 		}
 	}
+	// Optional workspace profile for repeatable APS380 experiments.
+	const char *experimentProfile = getenv("APS380_TORCS_PROFILE");
+	if (experimentProfile && experimentProfile[0]) {
+		snprintf(buf, BUFSIZE, "%s/", experimentProfile);
+		convertDelimiter(buf, BUFSIZE);
+		if (GfCreateDir(buf) != GF_DIR_CREATED) {
+			fprintf(stderr, "Could not prepare APS380 profile %s\n", buf);
+			exit(1);
+		}
+		SetLocalDir(buf);
+		prepareLocalDir();
+	}
 }
 
 /*

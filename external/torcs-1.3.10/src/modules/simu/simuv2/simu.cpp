@@ -364,8 +364,31 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 		CHECK(car);
 		SimSteerUpdate(car);
 		CHECK(car);
+		if (car->engine.electric && !(s->_raceState & RM_RACE_PRESTART)) {
+			// Forward-only experiment: no simulated clutch or multi-gear shifts.
+			car->ctrl->gear = 1;
+			car->ctrl->clutchCmd = 0.0;
+			car->transmission.clutch.transferValue = 1.0;
+		}
 		SimGearboxUpdate(car);
 		CHECK(car);
+		if (car->engine.electric) {
+			tEngine &e = car->engine;
+			const bool active = s->currentTime >= 0.0 && !(s->_raceState & RM_RACE_PRESTART);
+			e.evMotorOmega = e.rads;
+			const bool engaged = active && car->transmission.gearbox.gear != 0 &&
+				!(carElt->_state & (RM_CAR_STATE_BROKEN | RM_CAR_STATE_ELIMINATED));
+			aps380::EvStep step = aps380::electricStep(e.ev, e.evEnergyWh, e.rads,
+				fabs(car->DynGC.vel.x), car->ctrl->accelCmd, active ? SimDeltaTime : 0.0, engaged, car->ctrl->brakeCmd);
+			e.Tq = (tdble)step.torque;
+			e.evPackPower = step.packPower;
+			e.evShaftPower = step.shaftPower;
+			if (active) {
+				e.evEnergyWh = step.energyWh;
+				e.evUsedWh += MAX(step.packPower, 0.0)*SimDeltaTime/3600.0;
+				e.evRecoveredWh += MAX(-step.packPower, 0.0)*SimDeltaTime/3600.0;
+			}
+		}
 		SimEngineUpdateTq(car);
 		CHECK(car);
 	
@@ -456,7 +479,7 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 		}
 
 		carElt->_gear = car->transmission.gearbox.gear;
-		carElt->_enginerpm = car->engine.rads;
+		carElt->_enginerpm = car->engine.electric ? fabs(car->engine.rads) : car->engine.rads;
 		carElt->_fuel = car->fuel;
 		carElt->priv.collision |= car->collision;
 		carElt->priv.simcollision = car->collision;
@@ -464,6 +487,39 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 		carElt->priv.localPressure = car->localPressure;
 		carElt->priv.repCmdMaxClicks = car->brkSyst.repCmdMaxClicks;
 		carElt->priv.brakeRepartitionCmd = car->ctrl->brakeRepartitionCmd;
+		if (car->engine.electric && s->currentTime >= 0.0) {
+			tEngine &e = car->engine;
+			e.evCollision |= car->collision;
+			if (!e.evFile) {
+				// Never replace a previous session, including within the same process.
+				char path[256];
+				for (int recording = 1; recording < 100000; ++recording) {
+					snprintf(path, sizeof(path), "telemetry/aps380_ev_%d_car%d.csv", recording, ncar);
+					FILE *existing = fopen(path, "r");
+					if (existing) { fclose(existing); continue; }
+					e.evFile = fopen(path, "w");
+					if (e.evFile) {
+						char effectiveConfig[256];
+						snprintf(effectiveConfig, sizeof(effectiveConfig), "telemetry/aps380_ev_%d_car%d.xml", recording, ncar);
+						GfParmWriteFile(effectiveConfig, car->params, "APS380 effective EV configuration");
+					}
+					break;
+				}
+				if (e.evFile) fprintf(e.evFile, "time_s,speed_mps,throttle,brake,car_id,profile_id,longitudinal_mps,lateral_mps,vertical_mps,damage,collision,motor_radps,motor_torque_Nm,motor_power_W,pack_power_W,pack_voltage_V,pack_current_A,soc,pack_energy_Wh,discharge_Wh,charge_Wh\n");
+			}
+			if (e.evFile && (e.evLastLogTime < 0.0 || s->currentTime-e.evLastLogTime >= .0199)) {
+				fprintf(e.evFile, "%.6f,%.6f,%.6f,%.6f,%s,%s,%.6f,%.6f,%.6f,%d,%d,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.9f,%.9f,%.9f,%.9f\n",
+					s->currentTime, (double)car->speed, (double)car->ctrl->accelCmd, (double)car->ctrl->brakeCmd,
+					carElt->_carName, GfParmGetStr(car->params, "Electric Powertrain", "profile id", "unknown"),
+					(double)car->DynGC.vel.x, (double)car->DynGC.vel.y, (double)car->DynGC.vel.z,
+					car->dammage, e.evCollision, e.evMotorOmega, (double)e.Tq, e.evShaftPower,
+					e.evPackPower, e.ev.voltage, e.evPackPower/e.ev.voltage, e.evEnergyWh/e.ev.capacityWh,
+					e.evEnergyWh, e.evUsedWh, e.evRecoveredWh);
+				fflush(e.evFile);
+				e.evLastLogTime = s->currentTime;
+				e.evCollision = 0;
+			}
+		}
 	}
 }
 

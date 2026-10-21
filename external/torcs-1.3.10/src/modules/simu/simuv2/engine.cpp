@@ -103,6 +103,26 @@ SimEngineConfig(tCar *car)
 	car->carElt->_enginerpmMaxPw = car->engine.curve.rpmMaxPw;
 	
 	car->engine.rads = car->engine.tickover;
+
+	// Opt-in only: existing combustion cars retain their original simulation.
+	tEngine &engine = car->engine;
+	engine.electric = strcmp(GfParmGetStr(hdle, "Electric Powertrain", "enabled", "no"), "yes") == 0;
+	if (engine.electric) {
+		aps380::EvParameters &p = engine.ev;
+		p.maxTorque = GfParmGetNum(hdle, "Electric Powertrain", "max torque Nm", NULL, 404);
+		p.maxPower = GfParmGetNum(hdle, "Electric Powertrain", "max power W", NULL, 202000);
+		p.maxRegenPower = GfParmGetNum(hdle, "Electric Powertrain", "max regen shaft power W", NULL, 60000);
+		p.regenTorque = GfParmGetNum(hdle, "Electric Powertrain", "lift off torque Nm", NULL, 100);
+		p.driveEfficiency = GfParmGetNum(hdle, "Electric Powertrain", "drive efficiency", NULL, .92);
+		p.regenEfficiency = GfParmGetNum(hdle, "Electric Powertrain", "regen efficiency", NULL, .85);
+		p.auxiliaryPower = GfParmGetNum(hdle, "Electric Powertrain", "auxiliary power W", NULL, 300);
+		p.capacityWh = GfParmGetNum(hdle, "Electric Powertrain", "capacity Wh", NULL, 50000);
+		p.voltage = GfParmGetNum(hdle, "Electric Powertrain", "nominal voltage V", NULL, 355);
+		p.maxSpeed = GfParmGetNum(hdle, "Electric Powertrain", "max speed mps", NULL, 62.5);
+		engine.evEnergyWh = p.capacityWh * GfParmGetNum(hdle, "Electric Powertrain", "initial SOC", NULL, .8);
+		engine.evLastLogTime = -1.0;
+		car->fuel = .001f; // Compatibility sentinel; not consumed by the EV branch.
+	}
 	
 	free(edesc);
 }
@@ -114,6 +134,10 @@ SimEngineUpdateTq(tCar *car)
 	int i;
 	tEngine	*engine = &(car->engine);
 	tEngineCurve *curve = &(engine->curve);
+	if (engine->electric) {
+		// Update and integrate once per physics step in SimUpdate, with race time.
+		return;
+	}
 	
 	if ((car->fuel <= 0.0f) || (car->carElt->_state & (RM_CAR_STATE_BROKEN | RM_CAR_STATE_ELIMINATED))) {
 		engine->rads = 0;
@@ -166,6 +190,11 @@ SimEngineUpdateRpm(tCar *car, tdble axleRpm)
 	tEngine *engine = &(car->engine);
 	float freerads;
 	float transfer;
+	if (engine->electric) {
+		// Permanently coupled single-speed reducer, no idle or clutch slip.
+		engine->rads = axleRpm * trans->curOverallRatio;
+		return 0.0;
+	}
 	
 	
 	if (car->fuel <= 0.0) {
@@ -211,5 +240,6 @@ SimEngineUpdateRpm(tCar *car, tdble axleRpm)
 void
 SimEngineShutdown(tCar *car)
 {
+	if (car->engine.evFile) fclose(car->engine.evFile);
 	free(car->engine.curve.data);
 }

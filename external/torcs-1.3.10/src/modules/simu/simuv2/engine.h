@@ -19,6 +19,8 @@
 
 #ifndef _ENGINE_H_
 #define _ENGINE_H_
+#include "aps380_ev.h"
+#include <stdio.h>
 
 typedef struct {
     tdble rads;
@@ -50,6 +52,12 @@ typedef struct
 	tdble       pressure;
 	tdble       exhaust_pressure;
 	tdble       exhaust_refract;
+    bool electric;
+    aps380::EvParameters ev;
+    double evEnergyWh, evPackPower, evShaftPower, evUsedWh, evRecoveredWh;
+    double evLastLogTime, evMotorOmega;
+    int evCollision;
+    FILE *evFile;
 } tEngine;
 
 #endif /* _ENGINE_H_ */ 
