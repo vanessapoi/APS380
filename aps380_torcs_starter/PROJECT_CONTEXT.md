@@ -1,6 +1,12 @@
 # APS380 — Updated Project Context for Codex
 ## Driver-in-the-Loop EV Battery Test Platform
 
+### Established architecture decision — October 20, 2026
+
+The PC connects directly to both the electronic load and the PSU. The Python host on the PC owns instrument communication, signed cell-current demand mapping, SOC/SOP calculations from measured cell data, and battery-dependent TORCS feedback. The ESP32 owns cell sensing, timestamped measurement/status reporting, local supervision and isolation coordination; it is not the instrument-command bridge. Independent PCB protection remains separate.
+
+This decision supersedes earlier ESP32-controlled-instrument and manual-PSU-only proposals, including the ownership assumptions in the October 8 coordination notes below. It defines the intended architecture, not a claim that live instrument control or SOC/SOP integration is already implemented.
+
 ### 1. Project objective
 
 We are developing a driver-in-the-loop electric vehicle battery testing platform for APS380 at the University of Toronto.
@@ -30,7 +36,7 @@ Responsible for:
 
 Proposed communication with Python: localhost UDP.
 
-The exact telemetry extraction and power-derating hooks in TORCS have not yet been implemented or verified.
+Native human-driver and EV CSV recording and a reduced-order electric powertrain are now present; see `../docs/tesla-experiment.md`. Live telemetry exchange and external battery-derived power limits remain planned. Recorded simulator output is not proof of live hardware integration or validated Tesla fidelity.
 
 #### Layer 2 — Python host application
 
@@ -41,25 +47,22 @@ Responsible for:
 - Estimating SOC and SOP using measured battery data.
 - Calculating permissible charging/discharging power.
 - Converting permissible power into signed cell-current demand.
-- Sending the desired cell-current command to the ESP32.
+- Mapping signed cell-current demand into coordinated eLoad and PSU commands and sending them directly from the PC.
 - Receiving battery measurements and fault/status data from the ESP32.
 - Sending battery-derived power/torque limits back to TORCS.
 - Logging all measurements, commands and vehicle-performance results.
 
-**Important architecture decision: The Python host does not directly control the electronic load or power supply in the intended final design.**
+**Established architecture decision: The Python host on the PC connects directly to and controls both the electronic load and the PSU. SOC and SOP are calculated on the PC from measured cell data.**
 
-It communicates with the ESP32, which handles instrument commands and local hardware control.
+A separate PC–ESP32 link carries measurements, status, heartbeat and ARM/DISARM supervision. Instrument commands do not pass through the ESP32.
 
 #### Layer 3 — ESP32 DevKit firmware (C/C++)
 
-The ESP32 is the embedded hardware controller.
+The ESP32 is the embedded sensing and local-supervision controller.
 
 Responsible for:
-- Receiving signed current-demand commands from Python.
-- Validating current requests against configured operating limits.
-- Translating requested battery current into electronic-load current commands.
-- Communicating with the BK Precision 8500.
-- Interfacing with the PSU if suitable remote-control functionality is available.
+- Receiving ARM/DISARM, heartbeat and supervision messages from Python.
+- Validating supervision requests against local operating state and fault conditions.
 - Reading battery voltage, current and temperature sensors.
 - Managing ARM/DISARM operations.
 - Monitoring local faults and communication heartbeat.
@@ -91,9 +94,9 @@ We have identified our electronic load as a BK Precision 8500, 300 W programmabl
 
 The intended operating mode is constant current (CC).
 
-The ESP32 is expected to communicate with the eLoad through its serial interface, subject to confirmation of:
+The PC communicates directly with the eLoad through a compatible serial interface/adapter. The Python host owns the instrument driver, subject to confirmation of:
 - The appropriate electrical interface and adapter.
-- TTL logic-level compatibility.
+- PC adapter and instrument electrical compatibility.
 - Required isolation.
 - Serial communication protocol.
 - Instrument command timing and response latency.
@@ -101,15 +104,15 @@ The ESP32 is expected to communicate with the eLoad through its serial interface
 
 Do not assume that the BK 8500 supports I²C or SPI directly.
 
-If the ESP32-to-eLoad communication proves impractical, PC-to-eLoad serial control is an acceptable architectural fallback, while the ESP32 retains sensing and battery protection supervision.
+Direct PC-to-eLoad control is the established architecture, not a fallback. The ESP32 retains sensing and local battery supervision.
 
-**Power supply: Programmable or manually configured DC PSU**
+**Power supply: PC-controlled programmable DC PSU**
 
 The instructor indicated that a suitable current-limited PSU can be selected.
 
 The specific PSU model is not finalized.
 
-The initial plan is to configure the PSU manually with appropriate current and voltage settings. ESP32-controlled PSU communication is optional and depends on the selected instrument.
+The PC connects directly to and controls the PSU. Its exact interface, protocol and driver depend on the selected model and remain to be verified. Manual setup may be used during bench bring-up, but does not replace direct PC control in the intended integrated design.
 
 A supply having a current-limit setting does not necessarily mean it will maintain a constant charging current over the complete test.
 
@@ -128,7 +131,13 @@ Ideal current relationship:
 
 `I_cell = I_eLoad - I_PSU`
 
-If the PSU maintains a constant current bias:
+The PC maps the desired net cell current using actual PSU branch current:
+
+`I_eLoad_target = I_PSU_actual + I_cell_target`
+
+Use measured or verified instrument readback for actual PSU current, with timestamps and freshness checks. Bound commands by equipment capabilities and approved cell limits; if a target is infeasible, limit the achievable cell demand and report it. Compare the result against independently measured net cell current. This mapping alone does not compensate instrument delay or guarantee accurate tracking.
+
+If the PSU maintains a verified constant current bias:
 
 `I_eLoad_command = I_bias + I_cell_command`
 
@@ -155,8 +164,8 @@ The final bias/current settings must come from the exact cell's charge/discharge
 | ESP32 ↔ INA228 current/voltage monitor | I²C |
 | ESP32 ↔ external ADC, if used | I²C |
 | ESP32 → relay/MOSFET control | GPIO through appropriate driver circuitry |
-| ESP32 ↔ BK Precision 8500 | Verified compatible serial/UART interface |
-| ESP32 ↔ PSU | Optional, dependent on model |
+| PC / Python ↔ BK Precision 8500 | Direct compatible serial interface/adapter; protocol and electrical interface to be verified |
+| PC / Python ↔ PSU | Direct instrument connection; interface and protocol dependent on selected model |
 
 The INA228 and ADS1115 are proposed components from our earlier BOM, not guaranteed final PCB components.
 
@@ -174,7 +183,7 @@ The Python application's intended pipeline is:
 6. Calculate separate allowable discharge and charging SOP limits.
 7. Limit requested cell power according to SOP and approved operating limits.
 8. Convert permissible cell power to a signed current request.
-9. Send the signed current request to ESP32.
+9. Map the signed current request into coordinated eLoad/PSU commands and send them directly from the PC; obtain instrument status/readback where supported.
 10. Send the corresponding power/torque limitation to TORCS.
 11. Log all inputs, outputs, measurements and system states.
 
@@ -184,9 +193,13 @@ The SOC estimator must use measured net battery current, not eLoad branch curren
 
 ### 7. Battery estimation
 
+SOC and SOP both execute in the Python host on the PC. The ESP32 provides measured, timestamped cell data and fault/status information.
+
 #### SOC
 
-Initial SOC estimation method: coulomb counting.
+Initialize SOC from rested OCV, then update it in real time through coulomb counting using measured net cell current. As a candidate starting reference, investigate the OCV–SOC polynomial from *An Enhanced Li-ion Battery Model with Optimized OCV Estimation* (2025). The paper and its coefficients have not been verified here; confirm the source, chemistry, cell model, temperature, SOC range and resting conditions before adopting the fit.
+
+Generate an OCV–SOC lookup table from the verified candidate relation and validate its range and invertibility. Validate initial and running SOC against experimental data for the selected cell; do not treat loaded terminal voltage as rested OCV or assume the published polynomial transfers to every 18650.
 
 With SOC represented as a fraction between 0 and 1:
 
@@ -221,7 +234,9 @@ Inputs may include:
 
 A conservative limits-based SOP model is acceptable initially. More sophisticated models should only be introduced when justified by available data and project timing.
 
-For the current software milestone, measured battery data is not yet available, so SOC/SOP integration should be deferred or implemented behind clearly identified mock interfaces.
+Investigate short-horizon SOP estimation: define the prediction horizon and assess whether a validated cell model can predict voltage/current/temperature constraints over that interval. This is an investigation, not a selected or validated algorithm.
+
+Develop SOC/SOP interfaces with recorded or clearly labelled mock measurements until live cell data and the relevant validation evidence are available.
 
 ### 8. TORCS power feedback
 
@@ -243,12 +258,13 @@ The physical current command and TORCS power limitation must derive from the sam
 
 ### 9. Python starter origin and current implementation
 
-The repository began as an initial software-only starter. Its current implemented status is summarized below and supersedes the original expected-file list:
+The repository began as an initial software-only starter. The offline calculation foundation is complete as reported by the team; this does not establish physical calibration or completed live integration. The following distinguishes the original baseline from later work:
 
 - Genuine public TORCS CSV ingestion through a separate adapter, with source preservation, unit conversion, exclusions and independent lap/continuity segments. This is not yet this team’s live TORCS/G29 integration.
 - Separate configurable EV model, energy-based cell scaling, signed fixed current limits, CSV processing and plotting.
 - Optional offline local-linear conditioning and explicit experiment scaling, assessed using comparisons and sensitivity/braking diagnostics. Neither establishes physical calibration.
-- Nineteen passing software tests at the October 8 review; architecture diagrams and explanatory documentation.
+- Historical baseline: nineteen passing software tests at the October 8 review; architecture diagrams and explanatory documentation. Check current test output rather than treating this as the present test count.
+- Subsequent TORCS work includes native CSV recording, an experimental Model 3 reference powertrain, and vehicle-level pack analysis. See `../docs/tesla-experiment.md` and `../docs/tesla-calibration-evidence.md` for recorded verification and remaining calibration limits. Native pack analysis and the earlier cell-scaling workflow still require consistent configuration when integrated.
 - No implemented hardware communication, measured SOC/SOP, live simulator feedback or physical battery control.
 
 Repository:
@@ -285,82 +301,96 @@ time_s,speed_mps,throttle,brake
 
 The current codebase must be inspected before making assumptions about the precise implementation.
 
-### 10. Immediate development milestone
+### 10. Current development scope and status
 
-**Milestone 1: Reliable offline telemetry-to-current processing**
-
-We are currently refining the initial Python starter, not implementing the final hardware controller.
-
-The first goal is:
+The completed offline foundation is:
 
 **CSV driving telemetry → EV power model → pack-to-cell scaling → signed cell-current demand → plots and logged output.**
 
-Tasks:
+The active roadmap now extends this foundation to live telemetry, direct PC instrument control, measured current tracking, ESP32 data, SOC/SOP, monitoring and vehicle feedback. The original offline-only milestone restrictions are historical, not a prohibition on implementing these planned modules. Physical operation remains disabled by default until the relevant equipment, limits and fault responses are validated.
 
-- Review the existing Python implementation.
-- Identify inaccurate or unjustified assumptions.
-- Ensure calculations are dimensionally correct.
-- Use SI units consistently.
-- Make EV and battery parameters configurable.
-- Validate timestamp handling, acceleration calculation and signed regenerative braking.
-- Ensure current requests are bounded by clearly identified simulation/test limits.
-- Separate the EV power model from cell-scaling logic where useful.
-- Add unit tests for acceleration, cruising, regenerative braking, zero demand and invalid input.
-- Produce clear graphs and CSV output.
-- Document model limitations and assumptions.
-- Keep the code small, understandable and maintainable.
+The team has made and run Model 3 reference-model changes in TORCS. Record reproducible evidence for each task below rather than inferring that every G29 check, live interface or hardware task is complete. Keep vehicle-model calibration separate from software integration validation.
 
-Do not add a GUI unless it becomes necessary.
+### 11. APS380 software roadmap
 
-Do not implement physical BK 8500 or PSU commands as part of this milestone.
+This is the current eleven-task plan. Numbering identifies workstreams; dependencies permit mock-based development in parallel. “Tuesday 6 PM” is the team's stated target for Tasks 1 and 2; the calendar date is unspecified and no meeting is booked by this document. Tasks 4 and 5 are planned in-lab with Satyam's help, not claimed as completed sessions.
 
-### 11. Future software milestones
+#### 1. TORCS + Logitech G29 integration — Tuesday 6 PM target
 
-**Milestone 2 — Real TORCS telemetry**
+- Set up TORCS and connect the G29 using the project's source-built simulator.
+- Verify steering, throttle and independent braking, axis direction/calibration and usable transmission settings.
+- Evidence: record configuration, build/profile identity and a successful controlled drive; distinguish existing recordings from remaining input checks.
 
-Identify or build a C/C++ TORCS telemetry exporter.
+#### 2. TORCS telemetry extraction — Tuesday 6 PM target
 
-Obtain actual speed, throttle, braking and timestamp data. Initially record these as CSV.
+- Extract real-time speed, throttle, braking and required EV quantities, including requested/applied motor or pack power where available.
+- Include timestamps, explicit units, car/profile and session identity; record data for replay and testing.
+- Retain existing CSV recorders and implement the live host link; localhost UDP is the proposed transport. Live exchange is required for the closed loop, not satisfied by CSV recording alone.
+- Evidence: verify monotonic session timestamps, units, continuity, restart handling and correspondence between the recorded and streamed data.
 
-Then optionally implement live TORCS-to-Python streaming using UDP.
+#### 3. Battery power demand calculation — offline calculation done
 
-**Milestone 3 — Python-to-ESP32 communication**
+- Maintain telemetry-to-power calculation, pack-to-cell scaling and signed charging/discharging current requests: positive means discharge, negative means charge.
+- Integrate native EV power telemetry with the existing cell-scaling workflow using one explicit vehicle/cell configuration; retain the offline estimator for replay/diagnostics without double-counting power.
+- Evidence: preserve equation/unit tests, scaling provenance and distinct requested versus limited current. Offline completion does not establish hardware tracking or real-car calibration.
 
-Develop a simple USB serial protocol.
+#### 4. PSU / electronic-load communication and control — in lab with Satyam
 
-The Python host will eventually send signed battery-current demands.
+- Establish direct PC communication with both instruments; Python owns their drivers and coordinated commands.
+- Map desired cell current using `I_eLoad_target = I_PSU_actual + I_cell_target`, subject to validated topology, measurement freshness and feasible equipment/cell limits.
+- Verify actual PSU operating mode, voltage compliance, readback, command ranges and instrument-specific behaviour.
+- Evidence: demonstrate controlled command/readback and net-current sign in an approved bench configuration before cell operation.
 
-The ESP32 will return timestamped V/I/T data, fault status and controller state.
+#### 5. Current tracking and response testing — in lab with Satyam
 
-Begin with simulated ESP32 responses; do not require physical hardware to test the host interface.
+- Compare requested and commanded cell current with independently measured net cell current.
+- Measure mismatch, communication latency, instrument response/settling and transitions between charging, neutral and discharging.
+- Determine from measurements whether feedback correction is needed; do not assume the current-mapping equation guarantees tracking or select controller gains without response evidence.
+- Evidence: timestamped traces and agreed tracking/timing acceptance criteria, including saturation and delayed response.
 
-**Milestone 4 — ESP32 instrument integration**
+#### 6. Software safety limits
 
-Implement a suitable BK 8500 serial driver on the ESP32 after validating its interface.
+- Implement separate approved charging/discharging current limits and voltage/temperature limits.
+- Handle absent, invalid or stale measurements, communication loss, equipment faults and stop requests.
+- Coordinate PC commands, ESP32 supervision and shutdown with independent hardware protection; stopping the eLoad alone must not leave unintended PSU charging.
+- Evidence: mock fault-injection tests followed by approved bench checks of defined fault actions, recovery and stop behaviour.
 
-Use the ESP32 to map signed current requests into electronic-load commands.
+#### 7. ESP32 communication and data logging
 
-Test the interface first without a lithium-ion cell using an approved bench configuration.
+- Agree the measurement message format, units, sign convention, sequence/session identifiers and timestamp meaning with the firmware team.
+- Receive timestamped voltage, net cell current, temperature, status and faults; send supervision/heartbeat and ARM/DISARM messages as agreed.
+- Align and log measurements alongside driving data, equipment commands/readback, tracking error and system state. Distinguish measurement time from host receipt time.
+- Evidence: replay/mock tests for missing, malformed, duplicate, delayed and restarted streams, then live measurement validation. Instrument commands remain on direct PC links.
 
-**Milestone 5 — SOC/SOP closed-loop feedback**
+#### 8. SOC estimation — PC side
 
-Integrate measured V/I/T.
+- Verify the candidate 2025 OCV-estimation paper and cell applicability before adopting its polynomial; generate and validate an OCV–SOC lookup table.
+- Estimate initial SOC from rested OCV under documented conditions.
+- Implement real-time coulomb counting using measured net cell current and measurement elapsed time, with explicit capacity, initial state and measurement-gap handling.
+- Validate against experimental battery data; retain the section 7 rested-OCV comparison target with its limitations.
+- Evidence: reference provenance, lookup-table checks, recorded-data tests and experimental error results; mocks alone do not validate cell accuracy.
 
-Develop SOC and SOP algorithms.
+#### 9. Battery monitoring and UI
 
-Use SOP to constrain battery-current requests and simulated vehicle power/torque.
+- Provide a lightweight live display of voltage, measured current, temperature, SOC and relevant maxima/minima with a defined reset/window policy.
+- Show requested, commanded and measured current distinctly, together with faults, operating state and data freshness.
+- Connect the same display to replay/mock and live data; monitoring must not block control or substitute for independent protection.
+- Evidence: verify display values, extrema, stale-data indications and fault visibility against logs. A monitoring UI is an explicit deliverable; a large GUI framework is not required.
 
-**Milestone 6 — Full system integration and validation**
+#### 10. SOP estimation and driving-performance feedback — PC side
 
-Demonstrate:
+- Calculate separate available discharge and charge-absorption power limits from measured battery conditions and approved bounds.
+- Investigate short-horizon prediction as described in section 7; begin with a justified conservative method rather than assuming a validated dynamic model exists.
+- Apply a common allowable-power calculation and consistent pack/cell scaling to equipment commands and TORCS motor power/torque limits.
+- Preserve steering and friction braking; distinguish driver demand from applied power and address regeneration limits, low-speed behaviour, pauses and stale feedback.
+- Evidence: mock derating tests, logged requested/applied/actual values and then measured battery-dependent vehicle response. Simulated SOC is not a substitute for physical-cell SOC.
 
-- Driver-controlled vehicle dynamics.
-- Real battery current response.
-- Measured V/I/T.
-- SOC/SOP estimation.
-- Battery-induced TORCS power derating.
-- Logging and repeatable tests.
-- Hardware safety response.
+#### 11. System integration and testing
+
+- Test individual modules with recorded/mock inputs, then integrate TORCS, calculations, direct PC instrument links, ESP32 measurement/supervision and monitoring.
+- Validate timing, current tracking, fault handling and charging/discharging under acceleration, cruise, lift-off/braking, stops and session transitions.
+- Record time bases, end-to-end delays, dropped/stale data, command saturation, measurement mismatch and energy/current signs. Define acceptance criteria before declaring a test passed.
+- Evidence: reproducible configurations and logs linking each requirement to results and unresolved limitations. A running simulator or passing unit tests alone do not complete hardware integration.
 
 ### 12. Safety principles
 
@@ -384,7 +414,7 @@ Act as a software engineering collaborator on this project.
 
 Inspect the existing repository before making changes.
 
-Our current priority is the Python telemetry-to-battery-current pipeline.
+Use the eleven-task roadmap in section 11 as the current software scope. Preserve the completed offline foundation while implementing live integration, monitoring and PC-owned SOC/SOP and instrument control in validated increments.
 
 Use the full project architecture as context for choosing clean interfaces, but avoid implementing future subsystems prematurely.
 
@@ -401,16 +431,16 @@ Prefer:
 Avoid:
 - A large GUI framework.
 - Premature asynchronous infrastructure.
-- Direct Python control of BK 8500 or PSU in the intended architecture.
+- Routing eLoad/PSU commands through the ESP32 or moving primary SOC/SOP estimation off the PC without an explicit architecture change.
 - ESP32-specific firmware inside the Python repository.
 - Unverified claims about TORCS APIs or physical instrument behaviour.
 - Unnecessary abstraction or complex design patterns.
 
-Keep the first milestone achievable, then expand the implementation incrementally.
+Keep each roadmap increment small and testable, and update implementation status only when supported by evidence.
 
 ### 14. Team coordination update — October 8, 2026
 
-These notes reconcile the team's proposed hardware/firmware plan with the existing architecture. Proposed options and dates below are not completed work or finalized component selections.
+These are historical October 8 coordination notes. The established architecture decision and eleven-task roadmap above supersede their software scope and priority statements. Proposed options and dates below are not completed work or finalized component selections.
 
 #### Immediate bench proof of concept
 
@@ -421,7 +451,7 @@ These notes reconcile the team's proposed hardware/firmware plan with the existi
 - Independently measure PSU branch current, eLoad branch current and net test-path current; compare commanded and achieved current during discharge, neutral and charging requests and transitions.
 - Confirm whether the PSU actually maintains constant bias, including voltage compliance, mode changes and instrument synchronization. The ideal relation remains `I_cell = I_eLoad - I_PSU`; bias shifting remains conditional.
 - Assess instrument operating limits at the intended cell voltage, current tracking/settling, measurement accuracy and behavior when either instrument or controller stops. Capture evidence before claiming the bias concept is validated.
-- This is a separate hardware workstream; Milestone 1 Python remains offline.
+- Historical boundary: the original Milestone 1 Python work was offline. The current roadmap now explicitly includes PC instrument control and hardware integration.
 
 #### Cell, mechanical partition and BOM decisions
 
@@ -437,8 +467,8 @@ No BMS IC, capacitor, inductor, switch or resistor value is approved by these no
 
 Maintain three separate layers:
 
-1. Python: high-level demand, measured SOC/SOP, operating limits and reporting.
-2. ESP32: local sensing, command validation, instrument coordination, current-tracking/mismatch monitoring, communication timeout and firmware supervision.
+1. Python on the PC: high-level demand, measured SOC/SOP, operating limits, direct eLoad/PSU communication, instrument coordination, current-tracking/mismatch monitoring and reporting.
+2. ESP32: local sensing, supervision-message validation, timestamped measurements/status, communication timeout, isolation coordination and firmware supervision.
 3. Independent hardware: cell isolation and protection that do not rely on Python or normal ESP32 execution.
 
 Monitor cell voltage, net current and temperature; protect against over/undervoltage, overcurrent/short circuit and excessive temperature. Address host freeze, firmware freeze, reset, communication loss and PSU/eLoad mismatch. Specify fault detection thresholds, permitted transient duration, action, reset policy and verification separately. Software freezing is not the only failure mode: instrument outputs and the sourcing PSU can persist after command loss.
@@ -451,9 +481,9 @@ SOC/SOP are operating estimates, not substitutes for direct trips. SOC uses meas
 
 #### Ownership clarification for firmware planning
 
-The notes proposing firmware SOC/SOP work do **not** transfer primary estimator ownership: Python remains responsible for the project SOC/SOP estimates and the common allowable-power / TORCS feedback calculation. ESP32 owns sensing, fast local supervision and execution. Optional local conservative bounds or cross-check estimates may supplement the host, but must have defined authority and be reported so conflicting limits are reconciled explicitly.
+The notes proposing firmware SOC/SOP work do **not** transfer primary estimator ownership: Python remains responsible for the project SOC/SOP estimates and the common allowable-power / TORCS feedback calculation. ESP32 owns sensing, fast local supervision and isolation coordination; the PC executes instrument commands. Optional local conservative bounds or cross-check estimates may supplement the host, but must have defined authority and be reported so conflicting limits are reconciled explicitly.
 
-The ESP32 is more than a passive monitor: it also controls instruments and isolation requests. Independent protection remains separate. RTOS setup and JTAG/breakpoint debugging are firmware investigation tasks, not new Python dependencies or a finalized board/toolchain selection.
+The ESP32 is more than a passive monitor: it handles local supervision and isolation requests. The PC controls both instruments directly. Independent protection remains separate. RTOS setup and JTAG/breakpoint debugging are firmware investigation tasks, not new Python dependencies or a finalized board/toolchain selection.
 
 #### Communication scope
 
@@ -464,8 +494,8 @@ The ESP32 is more than a passive monitor: it also controls instruments and isola
 | TORCS ↔ Python | CSV replay now; proposed localhost UDP for live exchange |
 | Python ↔ ESP32 | Proposed USB serial |
 | ESP32 ↔ selected sensing ICs | I²C / ADC acquisition as supported by the chosen devices |
-| ESP32 ↔ BK Precision 8500 | Verified compatible serial interface; electrical compatibility/isolation unresolved |
-| ESP32 ↔ PSU | Optional model-dependent remote interface; manual setup initially |
+| PC / Python ↔ BK Precision 8500 | Direct compatible serial interface; electrical compatibility/isolation to be verified |
+| PC / Python ↔ PSU | Direct model-dependent remote interface; model/protocol to be verified |
 | ESP32 → isolation driver | GPIO through suitable driver circuitry |
 
 #### Tentative parallel work and timeline
@@ -476,7 +506,7 @@ Parallel work means team workstreams with shared interfaces and test evidence; i
 | --- | --- | --- |
 | October 9 | Bidirectional bench POC; start appropriate breadboard/perfboard prototyping | Approved bench configuration and instrument availability; prototype current paths must be suitable for their ratings |
 | Through end of October | Software independently develops own telemetry extraction, meaningful driver/power profiles, live processing mocks, feedback-hook investigation, monitoring/logging and software fault behavior | Public CSV ingestion already works; live telemetry modification/feedback is not yet implemented |
-| October, in parallel | Firmware sensing, serial protocol, instrument control, local faults, RTOS/debugging investigation alongside electrical prototyping | Board/toolchain and hardware interfaces need confirmation; define units/sign/timestamps/state contract early |
+| October, in parallel | Firmware sensing, supervision serial protocol, local faults and RTOS/debugging investigation alongside electrical prototyping; PC-side instrument drivers developed by the software workstream | Board/toolchain and hardware interfaces need confirmation; define units/sign/timestamps/state contract early |
 | October design phase | Evaluate optional PLECS battery/circuit simulation; resolve precharge, bleed, resistors, switches and protection | Simulation is optional supporting evidence, not proof of bench protection or timing |
 | First week of November | If PCB is ready, connect/flash the ESP32 firmware and test in stages, beginning with protection before meaningful cell load | Manufacturing and delivery are not guaranteed; MCU may remain a DevKit connected to the custom PCB |
 | Within one week of PCB availability | Target HW/FW integration and decide whether to use the validated perfboard fallback | Target rather than demonstrated feasibility; fallback must still meet protection and measurement requirements |
