@@ -36,7 +36,7 @@ Responsible for:
 
 Proposed communication with Python: localhost UDP.
 
-Native human-driver and EV CSV recording and a reduced-order electric powertrain are now present; see `../docs/tesla-experiment.md`. Live telemetry exchange and external battery-derived power limits remain planned. Recorded simulator output is not proof of live hardware integration or validated Tesla fidelity.
+Native human-driver and EV CSV recording and a reduced-order electric powertrain are present; see `../docs/tesla-experiment.md`. Optional Windows loopback UDP now streams native EV data to a Python validator, fixed cell scaler and desktop monitor; see `../docs/torcs-live.md`. External battery-derived power limits remain planned. Live simulated quantities are not proof of physical battery integration or validated Tesla fidelity.
 
 #### Layer 2 — Python host application
 
@@ -264,7 +264,8 @@ The repository began as an initial software-only starter. The offline calculatio
 - Separate configurable EV model, energy-based cell scaling, signed fixed current limits, CSV processing and plotting.
 - Optional offline local-linear conditioning and explicit experiment scaling, assessed using comparisons and sensitivity/braking diagnostics. Neither establishes physical calibration.
 - Historical baseline: nineteen passing software tests at the October 8 review; architecture diagrams and explanatory documentation. Check current test output rather than treating this as the present test count.
-- Subsequent TORCS work includes native CSV recording, an experimental Model 3 reference powertrain, and vehicle-level pack analysis. See `../docs/tesla-experiment.md` and `../docs/tesla-calibration-evidence.md` for recorded verification and remaining calibration limits. Native pack analysis and the earlier cell-scaling workflow still require consistent configuration when integrated.
+- Subsequent TORCS work includes native CSV recording, an experimental Model 3 reference powertrain, and vehicle-level pack analysis. See `../docs/tesla-experiment.md` and `../docs/tesla-calibration-evidence.md` for recorded verification and remaining calibration limits. The live path now scales native pack power directly using captured pack capacity and explicit fixed cell/experiment parameters; the legacy speed-derived offline model remains separate.
+- One-way loopback telemetry, validation/session handling, fixed scaling, desktop monitoring and AI/G29 trial tooling are implemented. An automated wall-clock-paced AI course has recorded CSV/stream agreement and timing evidence. This is not physical current tracking or a battery-to-vehicle feedback loop; see `../docs/torcs-live.md` for replay, trial gates and remaining work.
 - Candidate OCV lookup/inversion and PC-side net-cell-current coulomb counting now have an offline replay with explicit rest evidence, capacity basis, measurement-gap/session rejection, provenance and mock tests. No physical-cell accuracy has been established; see `../docs/cell-soc.md`.
 - No implemented hardware communication, experimentally validated measured SOC/SOP, live simulator feedback or physical battery control.
 
@@ -324,6 +325,8 @@ This is the current eleven-task plan. Numbering identifies workstreams; dependen
 
 #### 2. TORCS telemetry extraction — Tuesday 6 PM target
 
+Current implementation: native EV CSV and optional live UDP share the same serialized samples. The host checks profile identity, numerical/electrical consistency, session continuity, sequence loss and data age. Real-time AI trial tooling compares received data with native CSV and reports timing. A loopback return link supplies visual HUD metrics and current-limit warnings only. Reverse-direction power derating remains unimplemented.
+
 - Extract real-time speed, throttle, braking and required EV quantities, including requested/applied motor or pack power where available.
 - Include timestamps, explicit units, car/profile and session identity; record data for replay and testing.
 - Retain existing CSV recorders and implement the live host link; localhost UDP is the proposed transport. Live exchange is required for the closed loop, not satisfied by CSV recording alone.
@@ -374,6 +377,8 @@ Current implementation: candidate EVE OCV lookup and stateful current integratio
 - Evidence: reference provenance, lookup-table checks, recorded-data tests and experimental error results; mocks alone do not validate cell accuracy.
 
 #### 9. Battery monitoring and UI
+
+Current implementation: the in-game HUD and optional desktop monitor show live simulated pack quantities, fixed-scale requested/limited cell demand, sample age, errors and stream state. In-game visual warnings use unclipped demand and separate charge/discharge bounds; stale feedback makes current unavailable. Physical cell V/I/T/SOC are explicitly not connected. The sensing, measured monitoring and hardware supervision requirements below are still pending.
 
 - Provide a lightweight live display of voltage, measured current, temperature, SOC and relevant maxima/minima with a defined reset/window policy.
 - Show requested, commanded and measured current distinctly, together with faults, operating state and data freshness.

@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <math.h>
+#include "aps380_live.h"
 #ifdef WIN32
 #include <windows.h>
 #include <float.h>
@@ -333,6 +334,7 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 	
 	SimDeltaTime = deltaTime;
 	SimTelemetry = telemetry;
+    aps380_live::pace(s->currentTime);
 	for (ncar = 0; ncar < s->_ncars; ncar++) {
 		SimCarTable[ncar].collision = 0;
 		SimCarTable[ncar].blocked = 0;
@@ -507,15 +509,17 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 				}
 				if (e.evFile) fprintf(e.evFile, "time_s,speed_mps,throttle,brake,car_id,profile_id,longitudinal_mps,lateral_mps,vertical_mps,damage,collision,motor_radps,motor_torque_Nm,motor_power_W,pack_power_W,pack_voltage_V,pack_current_A,soc,pack_energy_Wh,discharge_Wh,charge_Wh\n");
 			}
-			if (e.evFile && (e.evLastLogTime < 0.0 || s->currentTime-e.evLastLogTime >= .0199)) {
-				fprintf(e.evFile, "%.6f,%.6f,%.6f,%.6f,%s,%s,%.6f,%.6f,%.6f,%d,%d,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.9f,%.9f,%.9f,%.9f\n",
+			if (e.evLastLogTime < 0.0 || s->currentTime-e.evLastLogTime >= .0199) {
+                char liveSample[2048];
+				snprintf(liveSample, sizeof(liveSample), "%.6f,%.6f,%.6f,%.6f,%s,%s,%.6f,%.6f,%.6f,%d,%d,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.9f,%.9f,%.9f,%.9f\n",
 					s->currentTime, (double)car->speed, (double)car->ctrl->accelCmd, (double)car->ctrl->brakeCmd,
 					carElt->_carName, GfParmGetStr(car->params, "Electric Powertrain", "profile id", "unknown"),
 					(double)car->DynGC.vel.x, (double)car->DynGC.vel.y, (double)car->DynGC.vel.z,
 					car->dammage, e.evCollision, e.evMotorOmega, (double)e.Tq, e.evShaftPower,
 					e.evPackPower, e.ev.voltage, e.evPackPower/e.ev.voltage, e.evEnergyWh/e.ev.capacityWh,
 					e.evEnergyWh, e.evUsedWh, e.evRecoveredWh);
-				fflush(e.evFile);
+                if (e.evFile) { fputs(liveSample, e.evFile); fflush(e.evFile); }
+                aps380_live::send(ncar, liveSample);
 				e.evLastLogTime = s->currentTime;
 				e.evCollision = 0;
 			}
@@ -530,6 +534,7 @@ SimInit(int nbcars, tTrack* track, tdble fuelFactor, tdble damageFactor, tdble t
 	rulesFuelFactor = fuelFactor;
 	rulesDamageFactor = damageFactor;
 	rulesTireFactor = tireFactor;
+    aps380_live::init(nbcars);
     SimNbCars = nbcars;
     SimCarTable = (tCar*)calloc(nbcars, sizeof(tCar));
     SimCarCollideInit(track);
@@ -541,6 +546,7 @@ SimShutdown(void)
     tCar *car;
     int	 ncar;
 
+    aps380_live::shutdown();
     SimCarCollideShutdown(SimNbCars);
     if (SimCarTable) {
 	for (ncar = 0; ncar < SimNbCars; ncar++) {

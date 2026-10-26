@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 
+#include "aps380_hud.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -52,6 +53,77 @@ static int	Winx	= 0;
 static int	Winw	= 800;
 static int	Winy	= 0;
 static int	Winh	= 600;
+
+static aps380_hud::Receiver aps380Hud;
+
+static void aps380Rectangle(float x,float y,float w,float h,float r,float g,float b,float a)
+{
+    glColor4f(r,g,b,a);glBegin(GL_QUADS);
+    glVertex2f(x,y);glVertex2f(x+w,y);glVertex2f(x+w,y+h);glVertex2f(x,y+h);glEnd();
+}
+
+static void aps380Display(tCarElt *car,tSituation *s)
+{
+    if (!aps380Hud.enabled()) return;
+    aps380Hud.poll();
+    int state=aps380Hud.status(car->index,s->currentTime);
+    int alarm=(state==1 && aps380Hud.hasFrame)?(int)aps380Hud.frame.value[2]:0;
+    aps380Hud.rendered(state,alarm);
+    bool red=alarm>=2;
+    float white[4]={.94f,.97f,1.f,1.f},orange[4]={1.f,.73f,.16f,1.f};
+    float green[4]={.35f,1.f,.65f,1.f},warning[4]={1.f,.4f,.3f,1.f};
+    float *accent=red?warning:((state!=1 || alarm==1)?orange:green);
+    const int font=GFUI_FONT_SMALL_C;
+    int dy=GfuiFontHeight(font)+3;
+    int width=MIN(390,Winw-20),x=Winx+Winw-width-10,y=Winy+Winh-55;
+    char line[256];
+    glPushAttrib(GL_ENABLE_BIT|GL_COLOR_BUFFER_BIT|GL_CURRENT_BIT|GL_TEXTURE_BIT);
+    glDisable(GL_TEXTURE_2D);glDisable(GL_DEPTH_TEST);glDisable(GL_LIGHTING);
+    glEnable(GL_BLEND);glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    if (red) {
+        // Steady translucent tint/border: no flashing or opaque road obstruction.
+        aps380Rectangle(Winx,Winy,Winw,Winh,1,0,0,.09f);
+        aps380Rectangle(Winx,Winy,10,Winh,1,0,0,.8f);
+        aps380Rectangle(Winx+Winw-10,Winy,10,Winh,1,0,0,.8f);
+        aps380Rectangle(Winx,Winy,Winw,10,1,0,0,.8f);
+    }
+    aps380Rectangle(Winx+10,Winy+Winh-36,Winw-20,29,red?.65f:.08f,red?0.f:.10f,red?0.f:.14f,.94f);
+    const char *banner=state==1?(alarm==2?"DISCHARGE LIMIT ALERT":alarm==3?"REGENERATIVE CHARGE LIMIT ALERT":alarm==1?"CELL DEMAND NEAR EXPERIMENT LIMIT":"LIVE BATTERY DEMAND - WITHIN EXPERIMENT LIMITS"):
+        state==0?"WAITING FOR LIVE BATTERY FEEDBACK":state==2?"FEEDBACK STALE - CURRENT TARGET UNAVAILABLE":state==4?"LIVE SESSION ENDED":"INVALID FEEDBACK - CURRENT TARGET UNAVAILABLE";
+    GfuiPrintString(banner,accent,font,Winx+20,Winy+Winh-28,GFUI_ALIGN_HL_VB);
+    aps380Rectangle(x-6,y-dy*16,width,dy*17,.03f,.05f,.08f,.86f);
+    GfuiPrintString("APS380 | SIMULATION ONLY",accent,font,x,y,GFUI_ALIGN_HL_VB);y-=dy;
+    if (!aps380Hud.hasFrame) {
+        GfuiPrintString("Start the live Python receiver.",white,font,x,y,GFUI_ALIGN_HL_VB);
+        glPopAttrib();return;
+    }
+    const double *v=aps380Hud.frame.value;
+    #define APS380_LINE(...) {snprintf(line,sizeof(line),__VA_ARGS__);GfuiPrintString(line,white,font,x,y,GFUI_ALIGN_HL_VB);y-=dy;}
+    APS380_LINE("Speed %5.1f km/h  Pedals %.0f%% / %.0f%%",v[4],v[5],v[6]);
+    APS380_LINE("PACK: %+7.1f kW   %.0f V  %+6.1f A",v[7],v[8],v[9]);
+    APS380_LINE("Pack SOC %.2f%%   Net energy %.1f Wh",v[10],v[26]);
+    APS380_LINE("MOTOR: %+.1f kW  %+.1f Nm",v[11],v[12]);
+    APS380_LINE("Motor speed %.0f rpm",v[13]);
+    if (state==1) {
+        APS380_LINE("CELL REQUESTED: %+.4f A",v[14]);
+        APS380_LINE("CELL LIMITED:   %+.4f A",v[15]);
+        APS380_LINE("Limit use %.1f%%  Excess %.4f A",v[21]*100,v[22]);
+    } else {
+        APS380_LINE("CELL CURRENT TARGET: UNAVAILABLE");
+        APS380_LINE("Remaining metrics are LAST KNOWN.");
+        APS380_LINE("Paused, stopped or disconnected.");
+    }
+    APS380_LINE("Bounds +%.3f / -%.3f A",v[16],v[17]);
+    APS380_LINE("Cell basis %.2f V / %.2f Ah",v[18],v[19]);
+    APS380_LINE("Fixed scale %.5f   Sim %.2f s",v[20],v[30]);
+    APS380_LINE("Telemetry %.1f Hz   Age %.0f ms",v[29],v[23]);
+    APS380_LINE("Missing %.0f  Invalid %.0f",v[27],v[28]);
+    APS380_LINE("Damage %.0f   Contact flags %.0f",v[24],v[25]);
+    APS380_LINE("Physical cell V / I / T: NOT CONNECTED");
+    APS380_LINE("Visual feedback only; no power derating.");
+    #undef APS380_LINE
+    glPopAttrib();
+}
 
 cGrBoard::cGrBoard (int myid) {
 	id = myid;
@@ -908,6 +980,7 @@ void cGrBoard::refreshBoard(tSituation *s, float Fps, int forceArcade, tCarElt *
 	}
 
 	trackMap->display(curr, s, Winx, Winy, Winw, Winh);
+    aps380Display(curr,s);
 }
 
 

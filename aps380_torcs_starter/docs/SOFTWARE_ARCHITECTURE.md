@@ -1,5 +1,7 @@
 # APS380 revised software block diagram
 
+Historical diagram: the October 8 instrument-command ownership below is superseded by `../PROJECT_CONTEXT.md`. Python on the PC controls the instruments and owns SOC/SOP; ESP32 owns sensing and local supervision. For the implemented one-way live telemetry, fixed scaling and desktop monitor, see [the current live integration guide](../../docs/torcs-live.md). Hardware control and battery-derived simulator feedback remain pending.
+
 Revision: October 8, 2026. Based on `PROJECT_CONTEXT.md` and the implemented starter. This document distinguishes working offline software from the intended final architecture. It does not claim that future communication links, hardware protection or simulator hooks have been implemented.
 
 The system's purpose is to let driving behavior create a real battery workload, then let measured battery capability constrain the vehicle. Python computes high-level demand and battery capability. The ESP32 measures and controls the bench locally. TORCS simulates the vehicle and applies power/torque restrictions. Independent PCB protection provides a separate physical protection layer.

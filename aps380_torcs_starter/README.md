@@ -1,8 +1,12 @@
 # APS380 — offline telemetry → cell current
 
-The original Milestone 1 demand pipeline is software only. The established architecture assigns instrument communication and SOC/SOP to Python on the PC; ESP32 provides sensing and local supervision. No serial, UDP, PSU or electronic-load control is implemented. The original demo CSV is synthetic; subsequent TORCS recordings and their limitations are documented separately.
+The original Milestone 1 demand pipeline is software only. The established architecture assigns instrument communication and SOC/SOP to Python on the PC; ESP32 provides sensing and local supervision. Physical instrument control and ESP32 communication are not implemented; the separate live path below now provides simulator-to-PC UDP telemetry. The original demo CSV is synthetic; subsequent TORCS recordings and their limitations are documented separately.
 
 An offline candidate cell SOC workflow is now available: [cell SOC setup and replay](../docs/cell-soc.md). It uses a source-labeled EVE OCV reference and measured-net-current input schema, with a clearly marked mock example. Its physical accuracy remains unvalidated. The workflow below still describes the original vehicle-demand/current-scaling model.
+
+For the live Windows simulator-to-Python receiver, fixed native-power scaling,
+desktop display and AI/G29 timing trials, see [real-time TORCS telemetry](../docs/torcs-live.md).
+This path has no hardware control or physical-cell measurement connection.
 
 ## Run
 

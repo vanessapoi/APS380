@@ -18,6 +18,8 @@ See [the Python project README](aps380_torcs_starter/README.md) for model setup 
 
 For the candidate EVE cell OCV reference and offline SOC replay, see [cell SOC estimation](docs/cell-soc.md) and [the source-paper review](docs/ocv-paper-review.md). Mock checks verify the software; experimental cell calibration remains pending.
 
+For native real-time telemetry, fixed cell scaling, the in-game metrics HUD and current-limit warnings, optional desktop monitor and paced AI/manual G29 trials, see [live TORCS setup and timing validation](docs/torcs-live.md). Physical instrument control remains unimplemented.
+
 ## Collaborating
 
 Create a feature branch, edit the Python project or `external/torcs-1.3.10/`, run the relevant checks, and push the branch for review. Keep generated build output and local environments out of commits. Preserve upstream license notices. Work in this repository's TORCS copy, rather than the separate copy in Downloads.
