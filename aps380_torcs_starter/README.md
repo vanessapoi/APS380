@@ -24,6 +24,72 @@ python run.py --input data/recorded_lap.csv --config config.json --output-dir ou
 
 Outputs are `current_profile.csv`, `current_profile.png` and `model_parameters.json` (the effective configuration). Without matplotlib, CSV and parameters are still produced. Plot panels show speed, wheel/battery power and raw/limited current with limit lines.
 
+## Optional automatic offline scaling
+
+To reduce a complete driving profile to a target maximum absolute cell current,
+use `--target-current-a`. For example, from `aps380_torcs_starter` in PowerShell:
+
+```powershell
+& .\.venv\Scripts\python.exe run.py `
+  --input data/g29_20261020_200536.csv `
+  --config config_torcs.json `
+  --target-current-a 1.0 `
+  --output-dir ../.local/automatic-current-1A
+```
+
+The 1.0 A value is an experiment target, not a permanent battery specification
+or hardware safety limit. Omitting the flag preserves the existing workflow.
+Existing vehicle and battery parameters are used; this option does not calibrate
+them or connect the native EV pack-power analysis to the legacy driving model.
+
+The algorithm validates the whole profile and evaluates unclipped cell current
+with `experiment_scale=1`, then calculates:
+
+```text
+original_peak_A = max(abs(unclipped_current_A))
+scale = min(1, target_current_A / original_peak_A)
+```
+
+All-zero profiles use scale 1. Profiles already within the target are not
+amplified. Empty/invalid profiles, nonpositive/nonfinite targets, overflow and
+unrepresentable underflow are rejected. At floating-point boundaries the common
+factor may be rounded downward by a few representable steps so the calculated
+peak does not exceed the target; the summary records any adjustment.
+
+Automatic mode **replaces** an existing configured `experiment_scale`; it does
+not multiply that old value into the new factor. Both current directions receive
+the same factor. Charge/discharge proportions and waveform shape are preserved
+before the existing independent directional clipping. A stricter charge or
+discharge bound (including zero) can still clip the result. The target does not
+change those bounds.
+
+The effective scale is saved as `cell.experiment_scale` in
+`model_parameters.json`. Its additional `automatic_scaling` section records the
+target, formula/effective factors, original and scaled unclipped peaks, command
+peak, previous configured scale, sample count and remaining charge/discharge
+clipping counts/fraction. The CSV's unclamped-current column is the automatically
+scaled demand; the command column is its final clipped value.
+
+The function interfaces are available without CSV or plotting:
+
+```python
+from cell_scaling import auto_scale_profile
+from battery_model import process_auto_scaled, read_telemetry
+
+# Signed vehicle battery powers in W; returns cell results and diagnostics.
+cell_rows, summary = auto_scale_profile([50000.0, -12500.0, 25000.0], 1.0)
+# With default nominal parameters: scale 0.5; raw currents +1, -0.25, +0.5 A.
+
+# Four-column driving telemetry, using the existing vehicle-power model:
+rows, summary = process_auto_scaled(read_telemetry("data/demo_synthetic.csv"),
+                                    target_current_A=1.0)
+```
+
+Both helpers require a complete offline profile. They do not continuously
+renormalize live driving, send instrument commands or use requested current as
+a physical measurement. Run `python -m unittest test_auto_scaling -v` for the
+feature tests and `python -m unittest discover -p 'test*.py'` for all Python tests.
+
 ## Input and code boundaries
 
 CSV requires `time_s` (seconds, nonnegative and strictly increasing), `speed_mps` (forward speed in m/s, nonnegative), `throttle` and `brake` (both 0–1). At least one sample is required; missing, nonnumeric, nonfinite and out-of-range values are rejected with row context. Extra columns are ignored. Pedals are diagnostics, not power inputs: speed dynamics determine demand.

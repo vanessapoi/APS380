@@ -1,9 +1,9 @@
 """Command-line offline profile generation."""
 import argparse
-from dataclasses import asdict
+from dataclasses import asdict, replace
 import json
 from pathlib import Path
-from battery_model import read_telemetry, process, save_results
+from battery_model import read_telemetry, process, process_auto_scaled, save_results
 from ev_model import VehicleParameters
 from cell_scaling import CellParameters
 
@@ -15,6 +15,8 @@ def main():
     parser.add_argument('--input', type=Path, default=BASE / 'data/demo_synthetic.csv')
     parser.add_argument('--config', type=Path, default=BASE / 'config.json')
     parser.add_argument('--output-dir', type=Path, default=BASE / 'output')
+    parser.add_argument('--target-current-a', type=float,
+                        help='Optional positive absolute-current target for a complete offline profile')
     args = parser.parse_args()
     try:
         config = json.loads(args.config.read_text())
@@ -22,17 +24,30 @@ def main():
             raise ValueError('Config requires exactly vehicle and cell sections')
         vehicle = VehicleParameters(**config['vehicle'])
         cell = CellParameters(**config['cell'])
-        rows = process(read_telemetry(args.input), vehicle, cell)
+        telemetry = read_telemetry(args.input)
+        automatic = None
+        if args.target_current_a is None:
+            rows = process(telemetry, vehicle, cell)
+        else:
+            rows, automatic = process_auto_scaled(telemetry, args.target_current_a, vehicle, cell)
+            cell = replace(cell, experiment_scale=automatic['scale'])
     except (OSError, ValueError, TypeError) as exc:
         parser.error(str(exc))
     args.output_dir.mkdir(parents=True, exist_ok=True)
     save_results(rows, args.output_dir / 'current_profile.csv')
-    (args.output_dir / 'model_parameters.json').write_text(json.dumps(
-        {'vehicle': asdict(vehicle), 'cell': asdict(cell)}, indent=2) + '\n')
+    parameters = {'vehicle': asdict(vehicle), 'cell': asdict(cell)}
+    if automatic is not None:
+        parameters['automatic_scaling'] = automatic
+    (args.output_dir / 'model_parameters.json').write_text(json.dumps(parameters, indent=2) + '\n')
     currents = [r['cell_current_command_A'] for r in rows]
     print(f"Samples: {len(rows)}; duration: {rows[-1]['time_s'] - rows[0]['time_s']:.1f} s")
     print(f'Offline current range: {min(currents):+.2f} to {max(currents):+.2f} A; '
           f"limited samples: {sum(r['command_saturated'] for r in rows)}")
+    if automatic is not None:
+        print(f"Automatic offline scale: {automatic['scale']:.12g}; "
+              f"original absolute peak: {automatic['original_current_peak_A']:.6g} A; "
+              f"scaled absolute peak: {automatic['scaled_current_peak_A']:.6g} A; "
+              f"remaining clipped samples: {automatic['remaining_clipped_samples']}")
     try:
         import matplotlib
         matplotlib.use('Agg')

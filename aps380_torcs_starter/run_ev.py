@@ -6,6 +6,7 @@ import json
 import math
 from pathlib import Path
 import xml.etree.ElementTree as ET
+from numerical_validation import DEFAULT_TIMING, field_number, finite_number
 
 BASE = Path(__file__).resolve().parent
 NUMERIC = ('time_s', 'speed_mps', 'throttle', 'brake', 'longitudinal_mps',
@@ -33,11 +34,25 @@ def verify_configuration(path, profile):
         checks[('Electric Powertrain', 'neutral pedal')] = u['neutral_pedal']
     for (section, name), expected in checks.items():
         item = root.find(f"section[@name='{section}']/attnum[@name='{name}']")
-        if item is None or not math.isclose(float(item.get('val')), expected, rel_tol=1e-6, abs_tol=.001):
+        finite_number(f'Expected {section}/{name}', expected)
+        if item is None or not math.isclose(field_number(f'{section}/{name}', item.get('val')), expected, rel_tol=1e-6, abs_tol=.001):
             raise ValueError(f'Effective simulator configuration mismatch: {section}/{name}')
 
 
-def read_ev(path, profile_path):
+def numeric_ev_row(raw):
+    """Validate CSV or direct-call numeric data before any derived arithmetic."""
+    try:
+        row = {key: field_number(key, raw[key]) for key in NUMERIC}
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError(f'Invalid native EV numeric data: {error}') from error
+    if not 0 <= row['soc'] <= 1 or not 0 <= row['throttle'] <= 1 or not 0 <= row['brake'] <= 1:
+        raise ValueError('SOC/pedal range error')
+    if row['time_s'] < 0 or row['speed_mps'] < 0 or row['pack_voltage_V'] <= 0:
+        raise ValueError('Invalid time/speed/voltage')
+    return row
+
+
+def read_ev(path, profile_path, *, timing=DEFAULT_TIMING):
     profile_bytes = Path(profile_path).read_bytes()
     profile = json.loads(profile_bytes)
     identity = profile['id']+'-'+hashlib.sha256(profile_bytes).hexdigest()[:12]
@@ -50,29 +65,25 @@ def read_ev(path, profile_path):
         for line, raw in enumerate(reader, 2):
             if raw['profile_id'] != identity or raw['car_id'] != profile['car_id']:
                 raise ValueError(f'Car/profile mismatch at CSV row {line}')
-            row = {key: float(raw[key]) for key in NUMERIC}
-            if not all(math.isfinite(v) for v in row.values()):
-                raise ValueError(f'Nonfinite value at CSV row {line}')
-            if not 0 <= row['soc'] <= 1 or not 0 <= row['throttle'] <= 1 or not 0 <= row['brake'] <= 1:
-                raise ValueError(f'SOC/pedal range error at CSV row {line}')
-            if row['time_s'] < 0 or row['speed_mps'] < 0 or row['pack_voltage_V'] <= 0:
-                raise ValueError(f'Invalid time/speed/voltage at CSV row {line}')
+            row = numeric_ev_row(raw)
             p, u = profile['published'], profile['unvalidated']
+            finite_number('profile nominal voltage', p['pack_nominal_voltage_V'])
+            finite_number('profile capacity', u['capacity_Wh'])
             checks = [
-                (row['pack_power_W'], row['pack_current_A']*row['pack_voltage_V'], .01),
+                (row['pack_power_W'], finite_number('V*I power', row['pack_current_A']*row['pack_voltage_V']), .01),
                 (row['pack_voltage_V'], p['pack_nominal_voltage_V'], .001),
-                (row['pack_energy_Wh'], row['soc']*u['capacity_Wh'], .001),
-                (row['motor_power_W'], row['motor_radps']*row['motor_torque_Nm'], .1)]
-            if any(abs(a-b) > tol for a, b, tol in checks):
+                (row['pack_energy_Wh'], finite_number('SOC*capacity energy', row['soc']*u['capacity_Wh']), .001),
+                (row['motor_power_W'], finite_number('shaft power', row['motor_radps']*row['motor_torque_Nm']), .1)]
+            if any(abs(finite_number('consistency residual', a-b)) > tol for a, b, tol in checks):
                 raise ValueError(f'EV power/energy consistency error at CSV row {line}')
-            if rows and row['time_s'] <= rows[-1]['time_s']:
-                raise ValueError(f'Non-increasing simulation time at CSV row {line}')
             if rows:
                 prev = rows[-1]
+                timing.interval(prev['time_s'], row['time_s'])
                 if row['discharge_Wh'] < prev['discharge_Wh'] or row['charge_Wh'] < prev['charge_Wh']:
                     raise ValueError(f'Energy counters reset at CSV row {line}')
-                used = row['discharge_Wh']-prev['discharge_Wh']-(row['charge_Wh']-prev['charge_Wh'])
-                if abs(prev['pack_energy_Wh']-row['pack_energy_Wh']-used) > .00001:
+                used = interval_net_energy(prev, row)
+                change = finite_number('pack energy change', prev['pack_energy_Wh']-row['pack_energy_Wh'])
+                if abs(finite_number('energy closure residual', change-used)) > .00001:
                     raise ValueError(f'Battery energy not conserved at CSV row {line}')
             rows.append(row)
     if len(rows) < 2:
@@ -80,20 +91,31 @@ def read_ev(path, profile_path):
     return profile, rows
 
 
-def process_ev(rows):
+def interval_net_energy(previous, row):
+    discharge = finite_number('discharge energy change', row['discharge_Wh']-previous['discharge_Wh'])
+    charge = finite_number('charge energy change', row['charge_Wh']-previous['charge_Wh'])
+    return finite_number('net interval energy', discharge-charge)
+
+
+def process_ev(rows, *, timing=DEFAULT_TIMING):
+    """Calculate finite native intervals, optionally enforcing acquisition bounds."""
     out = []
-    for i, row in enumerate(rows):
-        prev = rows[i-1] if i else row
-        dt = row['time_s']-prev['time_s']
-        accel = (row['longitudinal_mps']-prev['longitudinal_mps'])/dt if dt else 0
+    prev = None
+    for raw in rows:
+        numeric = numeric_ev_row(raw)
+        row = {**raw, **numeric}
+        dt = timing.interval(prev['time_s'], row['time_s']) if prev is not None else 0.0
+        speed_change = finite_number('longitudinal speed change', row['longitudinal_mps']-prev['longitudinal_mps']) if prev is not None else 0.0
+        accel = finite_number('native interval acceleration', speed_change/dt if dt else 0)
         # Energy differences capture all physics substeps between CSV samples.
-        mean_power = ((row['discharge_Wh']-prev['discharge_Wh']) -
-                      (row['charge_Wh']-prev['charge_Wh']))*3600/dt if dt else row['pack_power_W']
+        energy_Ws = finite_number('interval energy in watt-seconds', interval_net_energy(prev, row)*3600) if prev is not None else 0.0
+        mean_power = finite_number('interval pack power', energy_Ws/dt if dt else row['pack_power_W'])
         out.append({**row, 'interval_s': dt, 'accel_mps2': accel,
                     'interval_pack_power_W': mean_power,
-                    'impact_flag': int(row['collision'] != 0 or row['damage'] > prev['damage']),
+                    'impact_flag': int(row['collision'] != 0 or (prev is not None and row['damage'] > prev['damage'])),
                     'lateral_motion_flag': int(abs(row['lateral_mps']) > 1),
                     'speed_jump_flag': int(abs(accel) > 15)})
+        prev = row
     return out
 
 
@@ -106,9 +128,9 @@ def main():
     try:
         profile, rows = read_ev(args.input, args.profile)
         verify_configuration(args.input.with_suffix('.xml'), profile)
+        result = process_ev(rows)
     except (OSError, ValueError, KeyError, TypeError, ET.ParseError) as exc:
         parser.error(str(exc))
-    result = process_ev(rows)
     from battery_model import save_results
     out = args.output_dir
     out.mkdir(parents=True, exist_ok=True)

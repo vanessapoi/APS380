@@ -7,6 +7,7 @@ import tempfile
 import unittest
 
 from run_ev import BASE, NUMERIC, process_ev, read_ev
+from numerical_validation import TimingPolicy
 
 
 class NativeEvTest(unittest.TestCase):
@@ -79,6 +80,23 @@ class NativeEvTest(unittest.TestCase):
         self.path.write_text('time_s,speed_mps,throttle,brake\n0,0,0,0\n1,5,1,0\n')
         with self.assertRaisesRegex(ValueError, 'Native EV telemetry required'):
             read_ev(self.path, self.profile_path)
+
+    def test_rejects_overflowing_electrical_products(self):
+        for updates in ({'motor_radps': 1e308, 'motor_torque_Nm': 1e308},
+                        {'pack_current_A': 1e308, 'pack_voltage_V': 1e308}):
+            original = dict(self.rows[1])
+            self.rows[1].update(updates)
+            self.write()
+            with self.assertRaises(ValueError):
+                read_ev(self.path, self.profile_path)
+            self.rows[1] = original
+
+    def test_native_csv_accepts_explicit_timing_policy(self):
+        self.write()
+        with self.assertRaises(ValueError):
+            read_ev(self.path, self.profile_path, timing=TimingPolicy(max_gap_s=.5))
+        _, rows = read_ev(self.path, self.profile_path, timing=TimingPolicy(min_interval_s=1, max_gap_s=1))
+        self.assertEqual(len(rows), 3)
 
 
 if __name__ == '__main__':
