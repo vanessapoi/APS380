@@ -26,7 +26,8 @@ unchanged. Historical captures retain their original schema and sign convention.
 
 ### Experimental Mac simulator build — October 27, 2026
 
-On `feat/torcs-macos-build`, the modified TORCS source compiled as native arm64,
+Mac compatibility is now merged into `main` (developed on
+`feat/torcs-macos-build`). The modified TORCS source compiled as native arm64,
 installed into `.local/torcs-macos/`, and opened a window in XQuartz. The operator
 confirmed the main menu was visible. See `../docs/torcs-macos.md` and
 `../scripts/macos/` for the repeatable recipe and isolated launcher. Changes cover

@@ -16,9 +16,10 @@ EV CSV recording and effective-configuration/model auditing passed for that
 autonomous console run. The graphical AI race also started successfully and produced driver/EV telemetry;
 its full course completion has not yet been independently checked. Existing Windows launch scripts still launch the Windows executable.
 
-The work is on `feat/torcs-macos-build`, separate from the pushed
-`feat/bk8500-bench-replay` branch. Neither branch has been merged into main by this
-build task. All generated dependencies, compiler output, installed assets and
+Mac build, AI race and live-monitor support have been merged into `main`.
+They were developed on `feat/torcs-macos-build`. The eLoad bench tools remain
+separate on the pushed `feat/bk8500-bench-replay` branch and are not included in
+this Mac merge. All generated dependencies, compiler output, installed assets and
 personal configuration are under the ignored `.local/torcs-macos/` directory.
 
 The native EV kernel test also passed all 18 checks. Checked dependency versions
