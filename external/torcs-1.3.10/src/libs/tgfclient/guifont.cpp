@@ -24,6 +24,8 @@
 
 #ifdef WIN32
 #include <windows.h>
+#elif defined(__APPLE__)
+#include <machine/endian.h>
 #elif defined(__FreeBSD__)
 #include <machine/endian.h>
 #elif defined(sun)

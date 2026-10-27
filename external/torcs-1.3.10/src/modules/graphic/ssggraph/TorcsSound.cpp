@@ -39,6 +39,7 @@ void TorcsSound::setLPFilter(float lp)
 
 /// Create a new PLib sound. It requires a scheduler to be set up
 /// and a filename to read data from.
+#ifndef __APPLE__
 PlibTorcsSound::PlibTorcsSound(slScheduler* sched,
 			       const char* filename,
 			       int flags,
@@ -185,6 +186,8 @@ void PlibTorcsSound::update()
 	}
 }
 
+#endif
+
 /// Create a sound source
 SoundSource::SoundSource()
 {
@@ -328,9 +331,12 @@ OpenalTorcsSound::OpenalTorcsSound(const char* filename, OpenalSoundInterface* s
 	ALsizei size;
 	ALsizei freq;
 	ALenum format;
-	ALboolean srcloop;
-
-	alutLoadWAVFile((ALbyte *) filename, &format, &wave, &size, &freq, &srcloop);
+#ifdef __APPLE__
+    alutLoadWAVFile((ALbyte *) filename, &format, &wave, &size, &freq);
+#else
+    ALboolean srcloop;
+    alutLoadWAVFile((ALbyte *) filename, &format, &wave, &size, &freq, &srcloop);
+#endif
 	error = alGetError();
 	if (error != AL_NO_ERROR) {
 		printf("OpenAL Error: %d, could not load %s\n", error, filename);

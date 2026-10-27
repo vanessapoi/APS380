@@ -12,6 +12,7 @@ from pathlib import Path
 import socket
 import threading
 import time
+import sys
 
 from cell_scaling import CellParameters, scale_to_cell
 from numerical_validation import finite_number, TimingPolicy
@@ -31,7 +32,22 @@ def reject_constant(value):
 
 
 def qpc_clock_verified():
-    """Verify Python perf_counter and native QPC share the same clock here."""
+    """Verify perf_counter shares the native publisher clock (legacy QPC name)."""
+    if sys.platform == 'darwin':
+        class Timebase(ctypes.Structure):
+            _fields_ = [('numer', ctypes.c_uint32), ('denom', ctypes.c_uint32)]
+        system = ctypes.CDLL(None)
+        system.mach_absolute_time.argtypes = []
+        system.mach_absolute_time.restype = ctypes.c_uint64
+        system.mach_timebase_info.argtypes = [ctypes.POINTER(Timebase)]
+        system.mach_timebase_info.restype = ctypes.c_int
+        info = Timebase()
+        if system.mach_timebase_info(ctypes.byref(info)) != 0 or not info.denom:
+            return False
+        start = time.perf_counter()
+        native = system.mach_absolute_time() * info.numer / info.denom * 1e-9
+        stop = time.perf_counter()
+        return start-1e-6 <= native <= stop+1e-6
     if os.name != 'nt':
         return False
     frequency, ticks = ctypes.c_longlong(), ctypes.c_longlong()
