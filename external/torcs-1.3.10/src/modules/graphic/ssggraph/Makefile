@@ -24,11 +24,7 @@ MODULE    = ssggraph.so
 
 MODULEDIR = modules/graphic
 
-ifeq ($(shell uname -s),Darwin)
-LIBS      = -lplibsg -lplibssg -lplibul -lplibssgaux -lopenal
-else
 LIBS      = -lplibsl -lplibsm -lplibsg -lplibssg -lplibul -lplibssgaux -lopenal
-endif
 
 SHIPDIR   = config
 

@@ -25,9 +25,7 @@
 #define FILTER_SLOT 2
 
 #include <plib/sg.h>
-#ifndef __APPLE__
 #include <plib/sl.h>
-#endif
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alut.h>
@@ -93,7 +91,6 @@ public:
 };
 
 /// PLIB-specific torcs sound.
-#ifndef __APPLE__
 class PlibTorcsSound : public TorcsSound {
 protected:
 	slSample* sample; ///< sample data
@@ -129,8 +126,6 @@ public:
 		return paused;
 	}
 };
-#endif
-
 
 /** Sound source management.
  *

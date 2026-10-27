@@ -128,23 +128,6 @@ main(int argc, char *argv[])
 	init_args(argc, argv, &raceconfig);
 	LinuxSpecInit();			/* init specific linux functions */
 
-    // Exercise the real executable's symbol providers without a window or race.
-    for (int i = 1; i < argc; ++i) {
-        if (strcmp(argv[i], "--check-graphics") == 0) {
-            char path[1024];
-            snprintf(path, sizeof(path), "%smodules/graphic/ssggraph.so", GetLibDir());
-            tModList *modules = NULL;
-            if (GfModLoad(0, path, &modules) != 0 || modules == NULL) {
-                fprintf(stderr, "Graphics plugin failed to load: %s\n", path);
-                return 1;
-            }
-            GfModUnloadList(&modules);
-            printf("PASS: native graphics plugin loaded against simulator symbols.\n");
-            return 0;
-        }
-    }
-
-
 	if(strlen(raceconfig) == 0) {
 		GfScrInit(argc, argv);	/* init screen */
 		TorcsEntry();			/* launch TORCS */

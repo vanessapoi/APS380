@@ -7,8 +7,10 @@
 #include <cmath>
 #include <sstream>
 #include <string>
-#if defined(WIN32) || defined(__APPLE__) || defined(__unix__)
-#include "../../../interfaces/aps380_platform.h"
+#ifdef WIN32
+#include <winsock2.h>
+#include <windows.h>
+#pragma comment(lib,"Ws2_32.lib")
 #endif
 namespace aps380_hud {
 static const int COUNT=31;
@@ -32,52 +34,55 @@ inline bool parse(const char *packet,unsigned long gamePid,Frame &out) {
         next.value[16]<0 || next.value[17]<0 || next.value[23]<0) return false;
     out=next;return true;
 }
-#if defined(WIN32) || defined(__APPLE__) || defined(__unix__)
+#ifdef WIN32
 struct Receiver {
-    aps380_platform::Socket channel;
+    SOCKET channel;
     sockaddr_in peer;
     bool attempted,initialized,hasFrame;
     double lastHello,lastReceive;
     long long renderedSequence;
     int renderedAlarm,renderedStatus;
     Frame frame;
-    Receiver():channel(aps380_platform::invalidSocket),attempted(false),initialized(false),hasFrame(false),lastHello(-1),lastReceive(-1),renderedSequence(-1),renderedAlarm(0),renderedStatus(0){}
+    Receiver():channel(INVALID_SOCKET),attempted(false),initialized(false),hasFrame(false),lastHello(-1),lastReceive(-1),renderedSequence(-1),renderedAlarm(0),renderedStatus(0){}
     ~Receiver(){close();}
-    static double now() { return aps380_platform::clockSeconds(); }
+    static double now() {
+        LARGE_INTEGER t,f;QueryPerformanceCounter(&t);QueryPerformanceFrequency(&f);
+        return (double)t.QuadPart/(double)f.QuadPart;
+    }
     void close() {
-        if (channel!=aps380_platform::invalidSocket) aps380_platform::closeSocket(channel);
-        channel=aps380_platform::invalidSocket;
-        if (initialized) aps380_platform::cleanup();
+        if (channel!=INVALID_SOCKET) closesocket(channel);
+        channel=INVALID_SOCKET;
+        if (initialized) WSACleanup();
         initialized=false;
     }
     bool enabled() {
-        if (attempted) return channel!=aps380_platform::invalidSocket;
+        if (attempted) return channel!=INVALID_SOCKET;
         attempted=true;
         const char *setting=getenv("APS380_LIVE_PORT");
         if (!setting || !*setting) return false;
         char *end=0;long port=strtol(setting,&end,10);
         if (*end || port<1 || port>65535) return false;
-        if (!aps380_platform::startup()) return false;
+        WSADATA data;if (WSAStartup(MAKEWORD(2,2),&data)) return false;
         initialized=true;channel=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
-        if (channel==aps380_platform::invalidSocket) {close();return false;}
-        if (!aps380_platform::nonblocking(channel)) {close();return false;}
+        if (channel==INVALID_SOCKET) {close();return false;}
+        u_long mode=1;if (ioctlsocket(channel,FIONBIO,&mode)) {close();return false;}
         peer={};peer.sin_family=AF_INET;peer.sin_addr.s_addr=htonl(INADDR_LOOPBACK);
-        peer.sin_port=htons((unsigned short)port);return true;
+        peer.sin_port=htons((u_short)port);return true;
     }
     void poll() {
         if (!enabled()) return;
         double time=now();
         if (time-lastHello>.2) {
-            char hello[160];int n=snprintf(hello,sizeof(hello),"APS380_HUD_HELLO_V1 %lu %lld %d %d",aps380_platform::processId(),renderedSequence,renderedAlarm,renderedStatus);
+            char hello[160];int n=snprintf(hello,sizeof(hello),"APS380_HUD_HELLO_V1 %lu %lld %d %d",GetCurrentProcessId(),renderedSequence,renderedAlarm,renderedStatus);
             sendto(channel,hello,n,0,(sockaddr*)&peer,sizeof(peer));lastHello=time;
         }
         for (int i=0;i<256;++i) {
-            char data[4096]={};sockaddr_in sender;aps380_platform::SocketLength size=sizeof(sender);
+            char data[4096]={};sockaddr_in sender;int size=sizeof(sender);
             int length=recvfrom(channel,data,sizeof(data)-1,0,(sockaddr*)&sender,&size);
-            if (length==aps380_platform::socketError) break;
+            if (length==SOCKET_ERROR) break;
             if (sender.sin_addr.s_addr!=peer.sin_addr.s_addr || sender.sin_port!=peer.sin_port) continue;
             Frame next;
-            if (!parse(data,aps380_platform::processId(),next)) continue;
+            if (!parse(data,GetCurrentProcessId(),next)) continue;
             if (next.value[0]>time+.01 || time-next.value[0]>.5) continue;
             if (hasFrame && next.hostPid==frame.hostPid && next.sequence<=frame.sequence) continue;
             frame=next;lastReceive=time;hasFrame=true;

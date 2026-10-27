@@ -36,13 +36,11 @@ def write(root, path):
     ET.ElementTree(root).write(path, encoding='utf-8', xml_declaration=True)
 
 
-def configure(runtime=RUNTIME, local=None, existing=None):
-    """Prepare assets and preferences; defaults preserve the Windows workflow."""
-    runtime = Path(runtime)
+def configure():
     spec = json.loads(PROFILE.read_text())
     p, r, u = spec['published'], spec['reference_choices'], spec['unvalidated']
     # The generated category permits the configured EV values instead of ICE limits.
-    category = ET.parse(runtime/'categories/Historic.xml').getroot()
+    category = ET.parse(RUNTIME/'categories/Historic.xml').getroot()
     category.set('name', 'APS380 EV')
     for item in category.iter('attnum'):
         if 'min' in item.attrib:
@@ -51,11 +49,11 @@ def configure(runtime=RUNTIME, local=None, existing=None):
             item.set('max', '1000000000')
     attribute(section(category, 'Car'), 'category', 'APS380 EV')
     # Engine inertia cannot be zero in generic TORCS mechanics.
-    write(category, runtime/'categories/APS380 EV.xml')
+    write(category, RUNTIME/'categories/APS380 EV.xml')
     car_id = spec['car_id']
-    target = runtime/'cars'/car_id
+    target = RUNTIME/'cars'/car_id
     target.mkdir(exist_ok=True)
-    donor = runtime/'cars/kc-2000gt'
+    donor = RUNTIME/'cars/kc-2000gt'
     for asset in donor.iterdir():
         if asset.is_file() and asset.suffix != '.xml':
             shutil.copy2(asset, target/asset.name)
@@ -139,8 +137,8 @@ def configure(runtime=RUNTIME, local=None, existing=None):
     write(car, target/f'{car_id}.xml')
 
     # Isolate settings in the workspace and retain the user's calibrated wheel.
-    local = Path(local) if local is not None else ROOT/'.local/tesla-profile'
-    existing = Path(existing) if existing is not None else Path(os.environ['LOCALAPPDATA'])/'torcs'
+    local = ROOT/'.local/tesla-profile'
+    existing = Path(os.environ['LOCALAPPDATA'])/'torcs'
     if not local.exists():
         shutil.copytree(existing, local)
     human_path = local/'drivers/human/human.xml'
@@ -171,8 +169,8 @@ def configure(runtime=RUNTIME, local=None, existing=None):
     attribute(practice, 'tire factor', 0)
     attribute(practice, 'damage factor', 1)
     write(race, race_path)
-    (runtime/'telemetry').mkdir(exist_ok=True)
-    (runtime/'telemetry'/f'{identifier}.json').write_bytes(PROFILE.read_bytes())
+    (RUNTIME/'telemetry').mkdir(exist_ok=True)
+    (RUNTIME/'telemetry'/f'{identifier}.json').write_bytes(PROFILE.read_bytes())
     print(f'Prepared {identifier}\nLocal profile: {local}\nCar XML: {target/car_id}.xml')
     return local
 

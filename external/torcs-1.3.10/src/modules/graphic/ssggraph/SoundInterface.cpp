@@ -95,16 +95,3 @@ void SoundInterface::SetMaxSoundCar(CarSoundData** car_sound_data, QueueSoundMap
 		snd->stop();
 	}
 }
-
-
-// Shared by both OpenAL and the legacy PLIB backend.
-int sortSndPriority(const void* a, const void* b)
-{
-	SoundPri* A = (SoundPri*) a;
-	SoundPri* B = (SoundPri*) b;
-	if (A->a > B->a) {
-		return -1;
-	} else {
-		return 1;
-	}
-}

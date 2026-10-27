@@ -139,26 +139,20 @@ def plot_protocol(out):
     plt.close(fig)
 
 
-def prepare_profile(destination, runtime=RUNTIME, manual_profile=None, driver_binary=None):
+def prepare_profile(destination):
     # Preserve the manual G29 profile; race and robot settings are isolated.
-    manual_profile = Path(manual_profile) if manual_profile is not None else configure()
+    configure()
     destination.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(manual_profile/'config', destination/'config', dirs_exist_ok=True)
+    shutil.copytree(ROOT/'.local/tesla-profile/config', destination/'config', dirs_exist_ok=True)
     robot = ET.Element('params', name='aps380_ai', type='robotdef')
     entry = section(section(section(robot, 'Robots'), 'index'), '1')
     for name, value in [('name', 'APS380 validation driver'), ('car name', 'aps380-model3-rwd'),
                         ('type', 'robot'), ('skill level', 'pro')]:
         attribute(entry, name, value)
     write(robot, destination/'drivers/aps380_ai/aps380_ai.xml')
-    write(robot, runtime/'drivers/aps380_ai/aps380_ai.xml')
-    if driver_binary is None:
-        shutil.copy2(TORCS/'src/drivers/aps380_ai/Release/aps380_ai.dll', runtime/'drivers/aps380_ai/aps380_ai.dll')
-    else:
-        driver_binary = Path(driver_binary)
-        target = runtime/'drivers/aps380_ai'/driver_binary.name
-        if driver_binary.resolve() != target.resolve():
-            shutil.copy2(driver_binary, target)
-    race = ET.parse(manual_profile/'config/raceman/practice.xml').getroot()
+    write(robot, RUNTIME/'drivers/aps380_ai/aps380_ai.xml')
+    shutil.copy2(TORCS/'src/drivers/aps380_ai/Release/aps380_ai.dll', RUNTIME/'drivers/aps380_ai/aps380_ai.dll')
+    race = ET.parse(ROOT/'.local/tesla-profile/config/raceman/practice.xml').getroot()
     for name in ('Drivers', 'Drivers Start List'):
         group = section(race, name)
         for child in list(group):

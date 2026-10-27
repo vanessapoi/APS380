@@ -15,12 +15,6 @@
 #
 ##############################################################################
 
-# macOS plugins resolve host-provided TORCS/OpenGL symbols at load time.
-TORCS_SHARED_FLAGS = -shared
-ifeq ($(shell uname -s),Darwin)
-TORCS_SHARED_FLAGS = -dynamiclib -Wl,-undefined,dynamic_lookup
-endif
-
 # targets:
 #	 distclean
 #	 clean
@@ -484,7 +478,7 @@ endif
 ifdef SOLIBRARY
 
 ${SOLIBRARY}: ${OBJECTS}
-	${CXX} ${TORCS_SHARED_FLAGS} -o ${SOLIBRARY} ${OBJECTS} ${SOLIBS} ${LDFLAGS} ${LIBSPATH} ${LIBS} ${DEBUG_LIBS}
+	${CXX} -shared -o ${SOLIBRARY} ${OBJECTS} ${SOLIBS} ${LDFLAGS} ${LIBSPATH} ${LIBS} ${DEBUG_LIBS}
 	@D=`pwd` ; \
 	createdir="${EXPORTBASE}/lib" ; \
 	$(mkinstalldirs) $$createdir ; \
@@ -515,7 +509,7 @@ endif
 ifdef MODULE
 
 ${MODULE}: ${OBJECTS}
-	${CXX} ${TORCS_SHARED_FLAGS} -o ${MODULE} ${OBJECTS} ${LDFLAGS} ${LIBSPATH} ${LIBS}
+	${CXX} -shared -o ${MODULE} ${OBJECTS} ${LDFLAGS} ${LIBSPATH} ${LIBS} 
 	@D=`pwd` ; \
 	createdir="${EXPORTBASE}/${MODULEDIR}" ; \
 	$(mkinstalldirs) $$createdir ; \

@@ -29,7 +29,7 @@ The script can install the original distribution only when `external/torcs-1.3.1
 
 ## Build and integration status
 
-Source installation is not a successful build. Follow the extracted `README` for platform dependencies, `./configure` / Make on Linux, or `TORCS.sln` on Windows. Some upstream instructions still name version 1.3.9; use the installed 1.3.10 directory. An experimental Apple Silicon build now compiles and opens the main menu; see [Mac build instructions and validation limits](torcs-macos.md). Racing and live telemetry remain unvalidated on Mac.
+Source installation is not a successful build. Follow the extracted `README` for platform dependencies, `./configure` / Make on Linux, or `TORCS.sln` on Windows. Some upstream instructions still name version 1.3.9; use the installed 1.3.10 directory. A native macOS build has not been validated here.
 
 No simulator build, G29 setup, live telemetry exporter, Python simulator bridge or hardware control is added by this setup. The existing Python pipeline remains independent; see its README and PROJECT_CONTEXT.md for implemented behaviour and planned work.
 

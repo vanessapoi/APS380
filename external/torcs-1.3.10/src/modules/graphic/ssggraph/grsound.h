@@ -23,9 +23,7 @@
 
 #include "grcam.h"
 #include <raceman.h>
-#ifndef __APPLE__
 #include <plib/sl.h>
-#endif
 
 extern void grInitSound(tSituation* s, int ncars);
 extern void grShutdownSound(int ncars);
