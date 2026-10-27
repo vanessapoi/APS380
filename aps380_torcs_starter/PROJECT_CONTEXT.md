@@ -24,6 +24,22 @@ or live SOC/SOP connection is added. The existing offline measured-current SOC
 counter is migrated to charging-positive input; native simulated pack SOC is
 unchanged. Historical captures retain their original schema and sign convention.
 
+### Experimental Mac simulator build — October 27, 2026
+
+On `feat/torcs-macos-build`, the modified TORCS source compiled as native arm64,
+installed into `.local/torcs-macos/`, and opened a window in XQuartz. The operator
+confirmed the main menu was visible. See `../docs/torcs-macos.md` and
+`../scripts/macos/` for the repeatable recipe and isolated launcher. Changes cover
+Mac plugin linking, font endianness header, ALUT signature and disabling obsolete
+Carbon-based PLIB sound in favor of the existing OpenAL path. Windows-specific
+paths are retained; Windows was not rebuilt during this session.
+
+This is simulator build/startup evidence only. No completed race, keyboard/G29
+validation, Mac live UDP/HUD, physical instrument connection, SOC/SOP or closed-loop
+battery feedback was demonstrated. The Windows-only UDP/HUD implementation still
+has disabled non-Windows paths. Generated dependencies, installed assets and user
+configuration stay outside tracked source under `.local/torcs-macos/`.
+
 ### 1. Project objective
 
 Current mock-control extension: `instrument_interfaces.py`, `mock_instruments.py`

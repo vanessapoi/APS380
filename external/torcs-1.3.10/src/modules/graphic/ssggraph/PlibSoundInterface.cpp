@@ -17,6 +17,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef __APPLE__
 #include "SoundInterface.h"
 #include "TorcsSound.h"
 #include "CarSoundData.h"
@@ -251,3 +252,5 @@ void PlibSoundInterface::SetMaxSoundCar(CarSoundData** car_sound_data, QueueSoun
 	}
 #endif
 }
+
+#endif // Legacy Carbon PLIB audio is unavailable on modern macOS.
