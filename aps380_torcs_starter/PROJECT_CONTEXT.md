@@ -47,9 +47,19 @@ portable setup tests passed in the complete Python 3.13 environment. Shared Wind
 accept explicit native runtime/profile/driver paths; model assumptions and
 Windows defaults remain unchanged.
 
-No keyboard/G29 validation, Mac live UDP/HUD, physical instrument connection,
-measured SOC/SOP or closed-loop battery feedback was demonstrated. The Windows-only UDP/HUD implementation still
-has disabled non-Windows paths. Generated dependencies, installed assets and user
+No keyboard/G29 validation, physical instrument connection, measured SOC/SOP
+or closed-loop battery feedback was demonstrated. The optional UDP publisher and visual-only HUD now also support native macOS
+through a small platform boundary retaining Winsock/QPC on Windows and using
+POSIX sockets/mach_absolute_time on Mac. `run_tesla_ai.py --monitor` launches the
+existing Python current-demand dashboard beside the native game, with hardware
+control disabled. A 12.02-second paced console integration check accepted 602
+samples at 50 Hz with zero missing/invalid packets or gaps (sender delay p95
+0.280 ms). All 19 native socket/HUD checks and 164 Python tests passed. This is
+short-stream simulation evidence, not physical current tracking or completed
+Mac graphical full-course acceptance. Python verifies shared-clock agreement;
+the historical `sender_qpc_s` field name is retained for protocol compatibility.
+The monitored graphical launcher has opened; graph/HUD operation requires a
+Practice race to be started. Windows native regression checks remain due. Generated dependencies, installed assets and user
 configuration stay outside tracked source under `.local/torcs-macos/`.
 
 ### 1. Project objective

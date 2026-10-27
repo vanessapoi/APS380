@@ -21,7 +21,7 @@ For the candidate EVE cell OCV reference and offline SOC replay, see [cell SOC e
 For native real-time telemetry, fixed cell scaling, the in-game metrics HUD and current-limit warnings, optional desktop monitor and paced AI/manual G29 trials, see [live TORCS setup and timing validation](docs/torcs-live.md). Physical instrument control remains unimplemented.
 
 For the experimental native Apple Silicon build, see [Mac TORCS setup](docs/torcs-macos.md).
-The main menu opens and a console Tesla-reference AI course passed its protocol gates; wheel support and Mac live telemetry remain unvalidated.
+The main menu opens, a console Tesla-reference AI course passed its protocol gates, and optional live telemetry feeds a side-by-side demand dashboard. Wheel support and physical closed-loop integration remain unvalidated.
 
 ## Collaborating
 

@@ -10,8 +10,8 @@ Windows VM. No instrument or battery is connected by these build/launch tools.
 A subsequent native console run completed the Model 3 reference/AI course and
 passed all 11 existing protocol gates; see the AI instructions below. This does
 **not** validate keyboard driving, G29 steering/pedals/force feedback, frame rate,
-audio quality, live UDP/HUD feedback, or live current playback. The current publisher and HUD network implementation
-remain Windows-specific; their non-Windows implementations are disabled. Native
+audio quality, physical instrument playback or closed-loop battery feedback. The publisher and visual-only HUD now also use native Mac loopback UDP when
+explicitly enabled with `--monitor`; plain menu/AI launches keep it disabled. Native
 EV CSV recording and effective-configuration/model auditing passed for that
 autonomous console run. The graphical AI race also started successfully and produced driver/EV telemetry;
 its full course completion has not yet been independently checked. Existing Windows launch scripts still launch the Windows executable.
@@ -172,6 +172,64 @@ race or hardware connection. After the fix, the visible race produced over 1,600
 AI samples, progressing through the speed-hold stages with zero damage at the
 observed checkpoint. This is startup/ongoing-driving evidence, not a claim that
 the graphical run completed every protocol gate.
+
+## Live current-demand dashboard beside the race
+
+The existing Python telemetry display can now be opened alongside TORCS:
+
+```sh
+open -a XQuartz
+.local/torcs-macos/venv/bin/python scripts/macos/run_tesla_ai.py --monitor
+```
+
+Choose **Race > Practice > New Race** in the newly launched simulator. Until the
+race starts, the dashboard says WAITING. It is placed on the right half of the
+primary screen and uses wrapped telemetry text to fit; the default 640×480 game
+window starts on the left. Windows can still be resized/moved normally.
+
+The chart shows **requested and limited simulated single-cell current** over a
+rolling 30-second interval. Readouts show vehicle speed, simulated pack power,
+voltage/current/SOC, fixed scale and cell assumptions, current bounds, packet
+rate/counts and freshness. Cell demand is charging-positive; native pack current
+is discharge-positive. Physical cell V/I/T/SOC remain NOT CONNECTED. This mode
+has no instrument worker, physical driver, serial connection or arming controls.
+
+Closing the dashboard (or its Stop button) terminates its own simulator and saves
+`live/timing_report.json`, raw received JSONL, current-profile CSV and static
+summary plots inside the invocation's `ai-runs/<timestamp>/` folder. Default
+monitor duration is 1800 seconds; `--duration 600` selects ten minutes. The plain
+`--visible` command intentionally does not start a receiver. Use only one race
+instance at a time and restart an old race to enable the newly built publisher.
+
+The shared platform header `src/interfaces/aps380_platform.h` keeps Winsock/QPC
+on Windows and uses POSIX sockets with `mach_absolute_time` on Mac. Wire protocol,
+loopback-only destination and default-off behaviour are preserved. Python verifies
+its perf_counter against the native Mac clock before monitored startup. The
+historic JSON field `sender_qpc_s` now means native performance-clock seconds;
+its spelling is retained for compatibility. The HUD uses the same clock, peer/PID
+checks and stale-data rules. This is visual feedback, not vehicle derating.
+
+A paced native **console** integration check received 602 samples over 12.02 s at
+50.000 Hz, with zero invalid/missing packets, gaps or publisher send errors.
+Sender-to-receiver delay p95 was 0.280 ms and processing p95 0.342 ms. The report
+explicitly records `hardware_commands_sent: false`. Evidence is under
+`.local/torcs-macos/live-smoke/20261027_173104/`. This short stream verifies the Mac
+publisher/Python boundary; it is not a full-course graphical acceptance trial or
+a test of instrument current tracking. The monitored graphical launcher has also
+opened successfully; ongoing graph/HUD observations depend on starting Practice.
+
+The native socket smoke test covers default-off/invalid configuration, escaping,
+packet sequencing, end messages, HUD registration/feedback, PID/duplicate
+rejection, stale status, render acknowledgements and pacing:
+
+```sh
+SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX26.sdk clang++ -std=c++11 scripts/macos/live_socket_test.cpp -o .local/torcs-macos/live_socket_test
+.local/torcs-macos/live_socket_test
+```
+
+All 19 native checks and the existing 164 Python tests passed after the port.
+The Windows-specific native tests still need rerunning on Windows; no Windows
+simulator binary was built in this Mac session.
 
 ## Compatibility changes and rationale
 
