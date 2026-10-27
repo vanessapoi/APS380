@@ -18,7 +18,7 @@ See [the Python project README](aps380_torcs_starter/README.md) for model setup 
 
 For the candidate EVE cell OCV reference and offline SOC replay, see [cell SOC estimation](docs/cell-soc.md) and [the source-paper review](docs/ocv-paper-review.md). Mock checks verify the software; experimental cell calibration remains pending.
 
-For native real-time telemetry, fixed cell scaling, the in-game metrics HUD and current-limit warnings, optional desktop monitor and paced AI/manual G29 trials, see [live TORCS setup and timing validation](docs/torcs-live.md). Physical instrument control remains unimplemented.
+For native real-time telemetry, fixed cell scaling, the in-game metrics HUD and current-limit warnings, optional desktop monitor and paced AI/manual G29 trials, see [live TORCS setup and timing validation](docs/torcs-live.md). The live pipeline remains mock-only; separate physical eLoad bench tests are documented below.
 
 ## Collaborating
 
@@ -29,3 +29,10 @@ Create a feature branch, edit the Python project or `external/torcs-1.3.10/`, ru
 The live telemetry pipeline can optionally drive an explicitly armed, in-memory
 PSU/eLoad coordinator. See [mock experiment and live launch instructions](docs/mock-instruments.md).
 No physical instruments or battery are operated.
+
+## Physical eLoad bench tests
+
+See [BK 8500 bench bring-up](bench/bk8500/README.md) for opt-in USB/TTL checks,
+synthetic and recorded TORCS profile replay, and October 27 measured evidence.
+This is a separate manually powered PSU-to-eLoad test with no battery, not live
+closed-loop battery integration. Hardware is never enabled by default.

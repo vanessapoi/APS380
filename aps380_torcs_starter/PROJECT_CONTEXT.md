@@ -24,6 +24,33 @@ or live SOC/SOP connection is added. The existing offline measured-current SOC
 counter is migrated to charging-positive input; native simulated pack SOC is
 unchanged. Historical captures retain their original schema and sign convention.
 
+### Physical eLoad bench evidence — October 27, 2026
+
+A separate opt-in bench tool now lives in `../bench/bk8500/`; see its README for
+setup, limits, evidence and reproduction. The original BK 8500 communicated with
+a Mac via the user-confirmed IT-E132 TTL/USB interface at 9600 baud, address 0.
+A manually configured BK 9115B powered the load at approximately 5.12 V. Two
+synthetic replays and one 17.952-second TORCS-derived replay exercised 0–0.10 A
+at about 1 Hz, followed by verified input OFF. Saved TORCS evidence reports a
+maximum requested/readback difference of 1.9 mA and mean/max command round trips
+of 63.7/93.4 ms. These are instrument readbacks, not calibrated accuracy or
+measured electrical settling times. The portable refactor has offline tests;
+its physical hardware path has not yet been rerun after refactoring.
+
+The historical source CSV uses discharge-positive current, unlike the current
+charging-positive prototype. Its exact hash identifies that historical convention;
+other replay sources require an explicit convention. Bench commands represent
+nonnegative eLoad branch current only. Regeneration portions are suppressed,
+positive demand is time-averaged over one-second intervals, and a separate fixed
+bench gain caps requests at 0.10 A. These offline/look-ahead operations are not a
+causal live controller and do not change the current prototype's sign convention.
+
+This proves limited physical instrument playback, not integration of physical
+drivers into the live/mock coordinator. No battery, verified CC PSU bias,
+physical regeneration, ESP32 measurements, measured SOC/SOP or closed-loop
+TORCS feedback was exercised. PSU operation remains manual in this bench tool;
+the intended integrated architecture still has direct PC control of both instruments.
+
 ### 1. Project objective
 
 Current mock-control extension: `instrument_interfaces.py`, `mock_instruments.py`
