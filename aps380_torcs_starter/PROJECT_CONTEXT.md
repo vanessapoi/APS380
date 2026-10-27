@@ -7,6 +7,23 @@ The PC connects directly to both the electronic load and the PSU. The Python hos
 
 This decision supersedes earlier ESP32-controlled-instrument and manual-PSU-only proposals, including the ownership assumptions in the October 8 coordination notes below. It defines the intended architecture, not a claim that live instrument control or SOC/SOP integration is already implemented.
 
+### Current prototype decision - October 27, 2026
+
+The mock prototype uses charging-positive CELL current: `i_c = i_p - i_e`.
+The PSU CC setpoint is fixed at **1.0 A** during RUNNING; eLoad CC setpoints are
+**0 to 3.0 A**, including enabled 0 A; battery requests are **-2.0 to +1.0 A**.
+All operating settings and control tolerances are centralized in
+`prototype_current_config.py`. These are prototype mock settings, not verified
+hardware safety ratings. The final-design 2 A PSU and 12 A eLoad values are NOT
+applied to this prototype. Positive-only profile shifting is not implemented.
+Raw TORCS pack telemetry/physics remain discharge-positive and unchanged. Python
+converts once at cell scaling; branch currents remain nonnegative magnitudes.
+CC mode, fixed PSU setpoint, fresh readbacks, feasibility, balanced isolated
+startup, reversals, fault latching and shutdown are supervised. No physical driver
+or live SOC/SOP connection is added. The existing offline measured-current SOC
+counter is migrated to charging-positive input; native simulated pack SOC is
+unchanged. Historical captures retain their original schema and sign convention.
+
 ### 1. Project objective
 
 Current mock-control extension: `instrument_interfaces.py`, `mock_instruments.py`
@@ -148,30 +165,30 @@ We therefore use the PSU and electronic load simultaneously.
 
 Define:
 
-- `I_cell > 0`: battery discharge, corresponding to propulsion.
-- `I_cell < 0`: battery charge, corresponding to regenerative braking.
+- `I_cell < 0`: battery discharge, corresponding to propulsion.
+- `I_cell > 0`: battery charge, corresponding to regenerative braking.
 
 Ideal current relationship:
 
-`I_cell = I_eLoad - I_PSU`
+`I_cell = I_PSU - I_eLoad`
 
 The PC maps the desired net cell current using actual PSU branch current:
 
-`I_eLoad_target = I_PSU_actual + I_cell_target`
+`I_eLoad_target = I_PSU_actual - I_cell_target`
 
 Use measured or verified instrument readback for actual PSU current, with timestamps and freshness checks. Bound commands by equipment capabilities and approved cell limits; if a target is infeasible, limit the achievable cell demand and report it. Compare the result against independently measured net cell current. This mapping alone does not compensate instrument delay or guarantee accurate tracking.
 
 If the PSU maintains a verified constant current bias:
 
-`I_eLoad_command = I_bias + I_cell_command`
+`I_eLoad_command = I_bias - I_cell_command`
 
 Example using illustrative values:
 
 | Condition | PSU bias | eLoad current | Net battery current |
 |---|---:|---:|---:|
-| Neutral | 4 A | 4 A | 0 A |
-| Acceleration | 4 A | 7 A | +3 A |
-| Regeneration | 4 A | 2 A | -2 A |
+| Neutral | 1 A | 1 A | 0 A |
+| Acceleration | 1 A | 3 A | -2 A |
+| Regeneration | 1 A | 0 A | +1 A |
 
 These values are examples only, not approved operating currents.
 
@@ -211,7 +228,7 @@ The Python application's intended pipeline is:
 10. Send the corresponding power/torque limitation to TORCS.
 11. Log all inputs, outputs, measurements and system states.
 
-Positive current means discharge and negative current means charge throughout the entire codebase.
+Cell current is charging-positive: negative means discharge and positive means charge. Raw TORCS pack power/current retain their native discharge-positive convention and are converted exactly once at the Python cell-scaling boundary.
 
 The SOC estimator must use measured net battery current, not eLoad branch current or requested current.
 
@@ -227,7 +244,7 @@ Generate an OCV–SOC lookup table from the verified candidate relation and vali
 
 With SOC represented as a fraction between 0 and 1:
 
-`SOC_next = SOC_previous - I_cell * dt / (3600 * capacity_Ah)`
+`SOC_next = SOC_previous + I_cell * dt / (3600 * capacity_Ah)`
 
 The calculation must use:
 - Measured cell current.
@@ -358,14 +375,14 @@ Current implementation: native EV CSV and optional live UDP share the same seria
 
 #### 3. Battery power demand calculation — offline calculation done
 
-- Maintain telemetry-to-power calculation, pack-to-cell scaling and signed charging/discharging current requests: positive means discharge, negative means charge.
+- Maintain telemetry-to-power calculation, pack-to-cell scaling and signed charging/discharging current requests: negative means discharge, positive means charge.
 - Integrate native EV power telemetry with the existing cell-scaling workflow using one explicit vehicle/cell configuration; retain the offline estimator for replay/diagnostics without double-counting power.
 - Evidence: preserve equation/unit tests, scaling provenance and distinct requested versus limited current. Offline completion does not establish hardware tracking or real-car calibration.
 
 #### 4. PSU / electronic-load communication and control — in lab with Satyam
 
 - Establish direct PC communication with both instruments; Python owns their drivers and coordinated commands.
-- Map desired cell current using `I_eLoad_target = I_PSU_actual + I_cell_target`, subject to validated topology, measurement freshness and feasible equipment/cell limits.
+- Map desired cell current using `I_eLoad_target = I_PSU_actual - I_cell_target`, subject to validated topology, measurement freshness and feasible equipment/cell limits.
 - Verify actual PSU operating mode, voltage compliance, readback, command ranges and instrument-specific behaviour.
 - Evidence: demonstrate controlled command/readback and net-current sign in an approved bench configuration before cell operation.
 
@@ -481,7 +498,7 @@ These are historical October 8 coordination notes. The established architecture 
 - Use “CC mode” for this instrument behavior; “CCM” can also mean continuous-conduction mode in converter design and is ambiguous here.
 - First validate the concept without a lithium-ion cell using a supervisor-approved battery substitute / bench configuration that supports the intended source/sink conditions. Do not assume a resistor alone reproduces a bidirectional cell interface.
 - Independently measure PSU branch current, eLoad branch current and net test-path current; compare commanded and achieved current during discharge, neutral and charging requests and transitions.
-- Confirm whether the PSU actually maintains constant bias, including voltage compliance, mode changes and instrument synchronization. The ideal relation remains `I_cell = I_eLoad - I_PSU`; bias shifting remains conditional.
+- Confirm whether the PSU actually maintains constant bias, including voltage compliance, mode changes and instrument synchronization. The ideal relation remains `I_cell = I_PSU - I_eLoad`; bias shifting remains conditional.
 - Assess instrument operating limits at the intended cell voltage, current tracking/settling, measurement accuracy and behavior when either instrument or controller stops. Capture evidence before claiming the bias concept is validated.
 - Historical boundary: the original Milestone 1 Python work was offline. The current roadmap now explicitly includes PC instrument control and hardware integration.
 

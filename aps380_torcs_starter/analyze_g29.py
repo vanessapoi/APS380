@@ -105,8 +105,8 @@ def main():
     axes[3].set_ylabel('Acceleration (m/s²)')
     for field, label in [('cell_current_unclamped_A', 'Requested'), ('cell_current_command_A', 'Limited')]:
         axes[4].plot(times, [r[field] for r in screened], label=label)
-    axes[4].axhline(cell.discharge_limit_A, color='red', linestyle=':')
-    axes[4].axhline(-cell.charge_limit_A, color='red', linestyle=':')
+    axes[4].axhline(-cell.discharge_limit_A, color='red', linestyle=':')
+    axes[4].axhline(cell.charge_limit_A, color='red', linestyle=':')
     axes[4].set_ylabel('Cell current (A)')
     axes[4].set_xlabel('Original simulation time (s)')
     axes[2].legend()

@@ -2,6 +2,20 @@ import unittest
 
 from instrument_control import ControlConfig
 from trial_acceptance import instrument_acceptance, trial_acceptance
+from prototype_current_config import current_metadata
+
+
+def running_evidence(final):
+    # Independent example: 1.000 A source - 0.899 A sink = +0.101 A charge.
+    return dict(final,**current_metadata(),state='RUNNING',requested_A=-.099,permitted_A=-.099,
+        applied_target_A=.1,branch_net_A=.101,mock_cell_current_A=.101,
+        tracking_error_A=.001,demand_error_A=.2,active_direction=1,direction_ok=True,
+        command_age_s=.01,psu_measurement_age_s=.01,load_measurement_age_s=0.,
+        transition_phase='TO_ZERO',isolation=dict(is_open=False,outputs_disabled=False),
+        psu=dict(current_A=1.,setpoint_A=1.,status=dict(mode='CC',output_enabled=True,fault='')),
+        load=dict(current_A=.899,setpoint_A=.9,status=dict(mode='CC',output_enabled=True,fault='')),
+        transactions={'psu':[dict(event='transaction',operation='read',failure=None)],
+                      'load':[dict(event='transaction',operation='read',failure=None)]})
 
 
 class AcceptanceTest(unittest.TestCase):
@@ -69,9 +83,7 @@ class AcceptanceTest(unittest.TestCase):
     def test_tracks_applied_target_and_reports_demand_lag_separately(self):
         final=dict(state='DISARMED',fault='',shutdown_verified=True,shutdown_errors=[],
                    isolation=dict(is_open=True,outputs_disabled=True))
-        event=dict(final,state='RUNNING',tracking_error_A=.001,demand_error_A=.2,
-                   direction_ok=True,command_age_s=.01,psu_measurement_age_s=.01,
-                   load_measurement_age_s=0.,transition_phase='TO_ZERO',transactions={})
+        event=running_evidence(final)
         result=instrument_acceptance([event],ControlConfig(),final,require_running=True)
         self.assertTrue(result['passed'])
         self.assertEqual(result['demand_error_abs_A']['max'],.2)

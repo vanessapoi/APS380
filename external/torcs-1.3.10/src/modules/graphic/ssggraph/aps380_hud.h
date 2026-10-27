@@ -24,7 +24,7 @@ inline bool parse(const char *packet,unsigned long gamePid,Frame &out) {
     Frame next;std::string tag,trailing;
     std::istringstream input(packet);
     if (!(input>>tag>>next.gamePid>>next.hostPid>>next.sequence>>next.session) ||
-        tag!="APS380HUD1" || next.gamePid!=gamePid || next.session.size()>100) return false;
+        tag!="APS380HUD2" || next.gamePid!=gamePid || next.session.size()>100) return false;
     for (int i=0;i<COUNT;++i)
         if (!(input>>next.value[i]) || !std::isfinite(next.value[i])) return false;
     if (input>>trailing) return false;

@@ -100,12 +100,12 @@ static void aps380Display(tCarElt *car,tSituation *s)
     const double *v=aps380Hud.frame.value;
     #define APS380_LINE(...) {snprintf(line,sizeof(line),__VA_ARGS__);GfuiPrintString(line,white,font,x,y,GFUI_ALIGN_HL_VB);y-=dy;}
     APS380_LINE("Speed %5.1f km/h  Pedals %.0f%% / %.0f%%",v[4],v[5],v[6]);
-    APS380_LINE("PACK: %+7.1f kW   %.0f V  %+6.1f A",v[7],v[8],v[9]);
+    APS380_LINE("PACK (+draw): %+7.1f kW %.0f V %+6.1f A",v[7],v[8],v[9]);
     APS380_LINE("Pack SOC %.2f%%   Net energy %.1f Wh",v[10],v[26]);
     APS380_LINE("MOTOR: %+.1f kW  %+.1f Nm",v[11],v[12]);
     APS380_LINE("Motor speed %.0f rpm",v[13]);
     if (state==1) {
-        APS380_LINE("CELL REQUESTED: %+.4f A",v[14]);
+        APS380_LINE("CELL (+charge) REQUEST: %+.4f A",v[14]);
         APS380_LINE("CELL LIMITED:   %+.4f A",v[15]);
         APS380_LINE("Limit use %.1f%%  Excess %.4f A",v[21]*100,v[22]);
     } else {
@@ -113,7 +113,7 @@ static void aps380Display(tCarElt *car,tSituation *s)
         APS380_LINE("Remaining metrics are LAST KNOWN.");
         APS380_LINE("Paused, stopped or disconnected.");
     }
-    APS380_LINE("Bounds +%.3f / -%.3f A",v[16],v[17]);
+    APS380_LINE("Bounds -%.3f discharge / +%.3f charge A",v[16],v[17]);
     APS380_LINE("Cell basis %.2f V / %.2f Ah",v[18],v[19]);
     APS380_LINE("Fixed scale %.5f   Sim %.2f s",v[20],v[30]);
     APS380_LINE("Telemetry %.1f Hz   Age %.0f ms",v[29],v[23]);

@@ -10,7 +10,7 @@ static void require(bool value,const char *name) {
     if (!value) {std::cerr<<"FAILED: "<<name<<'\n';exit(1);} ++checks;
 }
 static std::string message(int status=1,int alarm=0) {
-    std::ostringstream s;s<<"APS380HUD1 123 456 1 123-trial-0";
+    std::ostringstream s;s<<"APS380HUD2 123 456 1 123-trial-0";
     for(int i=0;i<aps380_hud::COUNT;++i)s<<' '<<(i==1?status:i==2?alarm:0);
     return s.str();
 }
@@ -23,6 +23,7 @@ int main() {
     require(!aps380_hud::parse(message().c_str(),999,frame),"wrong game PID rejected");
     require(!aps380_hud::parse(message(9).c_str(),123,frame),"bad status rejected");
     require(!aps380_hud::parse((message()+" extra").c_str(),123,frame),"trailing fields rejected");
-    require(!aps380_hud::parse("APS380HUD1 123 456 1 trial nan",123,frame),"nonfinite/truncated rejected");
+    require(!aps380_hud::parse("APS380HUD2 123 456 1 trial nan",123,frame),"nonfinite/truncated rejected");
+    require(!aps380_hud::parse(message().replace(0,10,"APS380HUD1").c_str(),123,frame),"old sign convention rejected");
     std::cout<<checks<<" HUD feedback checks passed\n";
 }

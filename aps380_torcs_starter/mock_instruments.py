@@ -10,12 +10,13 @@ import time
 from instrument_interfaces import (InstrumentError, InstrumentTimeout,
                                    InstrumentMeasurement, InstrumentStatus, IsolationStatus)
 from numerical_validation import finite_number
+from prototype_current_config import PROTOTYPE
 
 
 class MockCurrentInstrument:
     mock_only = True
 
-    def __init__(self, max_current_A=2., response_delay_s=.02, communication_delay_s=0.,
+    def __init__(self, max_current_A=PROTOTYPE.eload_current_max_A, response_delay_s=.02, communication_delay_s=0.,
                  clock=time.monotonic, sleep=time.sleep):
         for name, value in locals().copy().items():
             if name.endswith(('_A', '_s')):
@@ -96,6 +97,7 @@ class MockCurrentInstrument:
 
 class MockPSU(MockCurrentInstrument):
     def __init__(self, **kwargs):
+        kwargs.setdefault('max_current_A', PROTOTYPE.psu_current_max_A)
         super().__init__(**kwargs)
         self.cv_available_A = self.max_current_A
 
@@ -106,7 +108,9 @@ class MockPSU(MockCurrentInstrument):
 
 
 class MockBK8500(MockCurrentInstrument):
-    pass
+    def __init__(self, **kwargs):
+        kwargs.setdefault('max_current_A', PROTOTYPE.eload_current_max_A)
+        super().__init__(**kwargs)
 
 
 class MockIsolation:

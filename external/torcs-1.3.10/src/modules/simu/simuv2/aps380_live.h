@@ -2,6 +2,14 @@
  * Optional loopback telemetry. No control commands or hardware interfaces. */
 #ifndef APS380_LIVE_H
 #define APS380_LIVE_H
+#include <cmath>
+namespace aps380_live {
+// Grid/suspension initialization runs at time zero before the race countdown.
+// It is not an active telemetry stream. This gate changes recording only.
+inline bool sampleReady(double simulationTime, bool activeRace) {
+    return activeRace && std::isfinite(simulationTime) && simulationTime >= 0.0;
+}
+}
 #ifdef WIN32
 #include <winsock2.h>
 #include <windows.h>
@@ -82,7 +90,8 @@ inline void send(int car, const char *csv, const char *event="sample") {
         sendto(channel,packet,count,0,(sockaddr*)&destination,sizeof(destination))==SOCKET_ERROR) ++sendErrors;
 }
 inline void shutdown() {
-    for (int i=0;i<(int)streams.size();++i) send(i,"","ended");
+    for (int i=0;i<(int)streams.size();++i)
+        if (streams[i].seq>0) send(i,"","ended");
     close();
 }
 }

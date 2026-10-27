@@ -2,14 +2,15 @@
 from dataclasses import dataclass, asdict, replace
 import math
 from numerical_validation import finite_number
+from prototype_current_config import PROTOTYPE
 
 @dataclass(frozen=True)
 class CellParameters:
     nominal_voltage_V: float = 3.6
     capacity_Ah: float = 3.0
     equivalent_pack_energy_Wh: float = 75000.0
-    discharge_limit_A: float = 4.0
-    charge_limit_A: float = 1.0
+    discharge_limit_A: float = PROTOTYPE.discharge_limit_A
+    charge_limit_A: float = PROTOTYPE.charge_limit_A
     experiment_scale: float = 1.0
 
     def __post_init__(self):
@@ -21,15 +22,16 @@ class CellParameters:
 
 
 def scale_to_cell(vehicle_power_W, params=CellParameters()):
+    """Convert native discharge-positive power ONCE to charging-positive cell data."""
     finite_number('vehicle_power_W', vehicle_power_W)
     energy = finite_number('nominal cell energy', params.nominal_voltage_V * params.capacity_Ah)
     ratio = finite_number('cell-to-pack energy ratio', energy / params.equivalent_pack_energy_Wh)
     if energy <= 0 or ratio <= 0:
         raise ValueError('Cell energy scaling underflowed to zero')
     scaled_power = finite_number('scaled cell power', vehicle_power_W * ratio)
-    requested_power = finite_number('requested cell power', scaled_power * params.experiment_scale)
+    requested_power = finite_number('requested cell power', -scaled_power * params.experiment_scale)
     raw = finite_number('requested cell current', requested_power / params.nominal_voltage_V)
-    command = max(-params.charge_limit_A, min(params.discharge_limit_A, raw))
+    command = max(-params.discharge_limit_A, min(params.charge_limit_A, raw))
     command_power = finite_number('command cell power', command * params.nominal_voltage_V)
     return {"cell_power_requested_W": requested_power,
             "cell_current_unclamped_A": raw, "cell_current_command_A": command,
@@ -98,8 +100,8 @@ def auto_scale_profile(vehicle_powers_W, target_current_A, params=CellParameters
         'samples': len(result),
         'remaining_clipped_samples': clipped,
         'remaining_clipped_fraction': clipped/len(result),
-        'discharge_clipped_samples': sum(row['cell_current_unclamped_A'] > params.discharge_limit_A for row in result),
-        'charge_clipped_samples': sum(row['cell_current_unclamped_A'] < -params.charge_limit_A for row in result),
+        'discharge_clipped_samples': sum(row['cell_current_unclamped_A'] < -params.discharge_limit_A for row in result),
+        'charge_clipped_samples': sum(row['cell_current_unclamped_A'] > params.charge_limit_A for row in result),
         'discharge_limit_A': params.discharge_limit_A,
         'charge_limit_A': params.charge_limit_A,
         'configured_experiment_scale': params.experiment_scale,

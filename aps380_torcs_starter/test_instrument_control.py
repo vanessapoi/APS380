@@ -11,6 +11,7 @@ from instrument_control import (ControlConfig, Demand, InstrumentCoordinator,
                                 LatestDemand, MockInstrumentService, State)
 from instrument_interfaces import InstrumentError, InstrumentTimeout
 from mock_instruments import MockPSU, MockBK8500, MockIsolation
+from prototype_current_config import current_metadata
 
 
 class Clock:
@@ -34,7 +35,7 @@ class CoordinatorTest(unittest.TestCase):
 
     def run_current(self, current):
         if self.c.state==State.DISARMED:self.c.arm()
-        target=max(-self.c.config.charge_limit_A,min(self.c.config.discharge_limit_A,current))
+        target=max(self.c.config.battery_current_min_A,min(self.c.config.battery_current_max_A,current))
         for _ in range(200):
             self.clock.sleep(.01)
             self.c.step(self.demand(current))
@@ -59,35 +60,36 @@ class CoordinatorTest(unittest.TestCase):
         self.assertEqual(self.c.state,State.DISARMED)
         self.assert_safe()
 
-    def test_positive_discharge(self):
-        self.run_current(1.)
-        self.assertAlmostEqual(self.load.setpoint_A,1.5)
-        self.assertAlmostEqual(self.c.snapshot()['mock_cell_current_A'],1.)
+    def test_negative_discharge(self):
+        self.run_current(-1.)
+        self.assertAlmostEqual(self.load.setpoint_A,2.)
+        self.assertAlmostEqual(self.c.snapshot()['mock_cell_current_A'],-1.)
 
-    def test_negative_charge(self):
-        self.run_current(-.3)
-        self.assertAlmostEqual(self.load.setpoint_A,.2)
-        self.assertAlmostEqual(self.c.snapshot()['mock_cell_current_A'],-.3)
+    def test_positive_charge(self):
+        self.run_current(.3)
+        self.assertAlmostEqual(self.load.setpoint_A,.7)
+        self.assertAlmostEqual(self.c.snapshot()['mock_cell_current_A'],.3)
 
     def test_zero_is_balanced_energized_not_disarmed(self):
         self.run_current(0.)
-        self.assertAlmostEqual(self.load.setpoint_A,.5)
+        self.assertAlmostEqual(self.load.setpoint_A,1.)
         self.assertAlmostEqual(self.c.snapshot()['mock_cell_current_A'],0.)
         self.assertTrue(self.psu.output_enabled and self.load.output_enabled)
         self.assertFalse(self.isolation.is_open)
 
     def test_directional_saturation_and_separate_charge_bound(self):
+        self.run_current(-4.)
+        self.assertEqual(self.c.last['permitted_A'],-2.)
+        self.assertTrue(self.c.last['directional_saturated'])
+        self.assertAlmostEqual(self.load.setpoint_A,3.)
         self.run_current(4.)
         self.assertEqual(self.c.last['permitted_A'],1.)
-        self.assertTrue(self.c.last['directional_saturated'])
-        self.run_current(-4.)
-        self.assertEqual(self.c.last['permitted_A'],-.5)
         self.assertAlmostEqual(self.load.setpoint_A,0.)
         self.assertEqual(self.c.state,State.RUNNING)
 
     def test_zero_charge_bound(self):
-        self.c.config=replace(self.c.config,charge_limit_A=0.)
-        self.run_current(-.3)
+        self.c.config=replace(self.c.config,battery_current_max_A=0.)
+        self.run_current(.3)
         self.assertAlmostEqual(self.c.snapshot()['mock_cell_current_A'],0.)
 
     def test_rapid_sign_changes(self):
@@ -96,30 +98,33 @@ class CoordinatorTest(unittest.TestCase):
             self.assertEqual(self.c.state,State.RUNNING)
             self.assertAlmostEqual(self.c.last['branch_net_A'],current)
 
-    def test_psu_cc_cv_transitions_use_actual_current(self):
-        for available,mode in [(2.,'CC'),(.2,'CV'),(.35,'CV'),(2.,'CC')]:
-            self.psu.cv_available_A=available
-            self.run_current(.3)
-            actual=min(.5,available)
-            self.assertAlmostEqual(self.load.setpoint_A,actual+.3)
-            self.assertEqual(self.c.last['psu']['status']['mode'],mode)
-            self.assertAlmostEqual(self.c.last['branch_net_A'],.3)
+    def test_actual_psu_readback_and_loss_of_cc(self):
+        self.run_current(-.3)
+        self.psu.current_offset_A=-.01
+        self.c.step(self.demand(-.3))
+        self.assertAlmostEqual(self.load.setpoint_A,1.29)
+        self.assertAlmostEqual(self.c.last['branch_net_A'],-.3)
+        self.psu.cv_available_A=.8
+        self.c.step(self.demand(-.3))
+        self.assertEqual(self.c.fault_reason,'PSU_NOT_CC')
+        self.assert_safe()
 
     def test_infeasible_charge_and_discharge_latch_fault(self):
-        self.psu.cv_available_A=.1
-        self.run_current(-.4)
+        self.run_current(0.)
+        self.psu.current_offset_A=-.2
+        self.c.step(self.demand(1.))
         self.assertEqual(self.c.fault_reason,'INFEASIBLE_CURRENT')
         self.assert_safe()
-        self.psu.cv_available_A=2.
+        self.psu.current_offset_A=0.
         self.c.recover()
-        self.load.max_current_A=.7
-        self.run_current(1.)
+        self.c.config=replace(self.c.config,eload_current_max_A=1.2)
+        self.run_current(-1.)
         self.assertEqual(self.c.fault_reason,'INFEASIBLE_CURRENT')
         self.assert_safe()
 
     def test_delayed_response_settles_before_cell_is_connected(self):
         self.psu.response_delay_s=self.load.response_delay_s=.15
-        self.c.config=replace(self.c.config,settling_timeout_s=3.)
+        self.c.config=replace(self.c.config,settling_timeout_s=3.,transition_timeout_s=None)
         self.c.arm()
         self.c.step(self.demand(.4))
         self.assertEqual(self.c.state,State.READY)
@@ -141,9 +146,10 @@ class CoordinatorTest(unittest.TestCase):
         self.assert_safe()
 
     def test_measurement_directional_limit_trips(self):
-        self.run_current(1.)
+        self.c.config=replace(self.c.config,battery_current_min_A=-.5)
+        self.run_current(-.5)
         self.load.current_offset_A=.1
-        self.c.step(self.demand(1.))
+        self.c.step(self.demand(-.5))
         self.assertEqual(self.c.fault_reason,'MEASURED_DIRECTIONAL_LIMIT')
         self.assert_safe()
 
@@ -260,10 +266,10 @@ class CoordinatorTest(unittest.TestCase):
         self.psu.communication_delay_s=.1
         with self.assertRaises(InstrumentTimeout):self.psu.read(.01)
         with self.assertRaises(InstrumentError):self.load.set_current(-1.,.01)
-        with self.assertRaises(InstrumentError):self.load.set_current(3.,.01)
+        with self.assertRaises(InstrumentError):self.load.set_current(3.1,.01)
 
     def test_config_and_hardware_guard(self):
-        for settings in ({'control_hz':0},{'charge_limit_A':-1},{'psu_bias_A':float('nan')},
+        for settings in ({'control_hz':0},{'battery_current_max_A':-1},{'psu_cc_setpoint_A':float('nan')},
                          {'io_timeout_s':2.},{'control_hz':True}):
             with self.assertRaises(ValueError):ControlConfig(**settings)
         self.psu.mock_only=False
@@ -282,7 +288,7 @@ class MailboxAndWorkerTest(unittest.TestCase):
 
     def test_latest_only_and_invalidation_generation(self):
         box=LatestDemand()
-        def row(i):return dict(cell_current_command_A=.1,received_qpc_s=10.,
+        def row(i):return dict(**current_metadata(),cell_current_command_A=.1,received_qpc_s=10.,
                               session_id='test',sequence=i,target_available=True)
         box.publish(row(0));d,_,rev=box.snapshot()
         for i in range(1000):box.publish(row(i))
@@ -307,8 +313,8 @@ class MailboxAndWorkerTest(unittest.TestCase):
                     sender.sendto(json.dumps(p).encode(),('127.0.0.1',receiver.port))
                     time.sleep(.02)
                 self.wait_for(lambda:service.latest['state']=='RUNNING')
-                self.assertAlmostEqual(receiver.processor.current['cell_current_command_A'],.42)
-                self.assertAlmostEqual(service.latest['permitted_A'],.42)
+                self.assertAlmostEqual(receiver.processor.current['cell_current_command_A'],-.42)
+                self.assertAlmostEqual(service.latest['permitted_A'],-.42)
                 sender.sendto(b'[]',('127.0.0.1',receiver.port))
                 self.wait_for(lambda:service.latest['state']=='FAULT')
                 self.assertIn(service.latest['fault'],('INVALID','TELEMETRY_INVALIDATED_DURING_IO'))
@@ -318,7 +324,7 @@ class MailboxAndWorkerTest(unittest.TestCase):
                 result=service.close()
                 receiver.close()
             events=[json.loads(line) for line in (service.output/'instruments.jsonl').read_text().splitlines()]
-            self.assertTrue(any(abs(e.get('permitted_A',-10)-.42)<1e-12 for e in events))
+            self.assertTrue(any(abs(e.get('permitted_A',-10)+.42)<1e-12 for e in events))
             self.assertTrue(any(e['transactions']['psu'] for e in events))
             self.assertFalse(result['physical_commands_sent'])
             self.assertIsNone(result['worker_error'])
@@ -327,7 +333,7 @@ class MailboxAndWorkerTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             service=MockInstrumentService(Path(folder)/'trial')
             def publish():
-                service.demands.publish(dict(cell_current_command_A=.1,received_qpc_s=time.perf_counter(),
+                service.demands.publish(dict(**current_metadata(),cell_current_command_A=.1,received_qpc_s=time.perf_counter(),
                     session_id='test',sequence=0,target_available=True))
             service.start(arm=True)
             try:
@@ -355,7 +361,7 @@ class MailboxAndWorkerTest(unittest.TestCase):
             service=MockInstrumentService(Path(folder)/'trial',ControlConfig(command_expiry_s=.15,control_hz=30.))
             service.start(arm=True)
             try:
-                service.demands.publish(dict(cell_current_command_A=.1,received_qpc_s=time.perf_counter(),
+                service.demands.publish(dict(**current_metadata(),cell_current_command_A=.1,received_qpc_s=time.perf_counter(),
                     session_id='test',sequence=0,target_available=True))
                 self.wait_for(lambda:service.latest['state']=='FAULT')
                 self.assertEqual(service.latest['fault'],'TELEMETRY_EXPIRED')
@@ -377,7 +383,7 @@ class SignTransitionTest(unittest.TestCase):
         return self.c.snapshot()
 
     def settle(self,current):
-        for _ in range(100):
+        for _ in range(300):
             e=self.tick(current)
             if self.c.state==State.FAULT:self.fail(self.c.fault_reason)
             if (self.c.state==State.RUNNING and self.c.phase=='TRACK' and
@@ -401,8 +407,8 @@ class SignTransitionTest(unittest.TestCase):
     def test_default_policy_reaches_full_directional_bounds_without_instantaneous_steps(self):
         self.settle(1.)
         self.assertAlmostEqual(self.c.last['branch_net_A'],1.,delta=.002)
-        self.settle(-.5)
-        self.assertAlmostEqual(self.c.last['branch_net_A'],-.5,delta=.002)
+        self.settle(-2.)
+        self.assertAlmostEqual(self.c.last['branch_net_A'],-2.,delta=.002)
         self.assertGreaterEqual(self.load.setpoint_A,0.)
 
     def test_rapid_reversals_do_not_reset_zero_dwell_or_queue_targets(self):
@@ -419,8 +425,8 @@ class SignTransitionTest(unittest.TestCase):
 
     def test_stuck_neutral_faults_even_when_tracking_within_tolerance(self):
         self.settle(.1)
-        self.load.current_offset_A=.005
-        for _ in range(70):
+        self.load.current_offset_A=-.005
+        for _ in range(int(self.c.config.transition_timeout_s/.1)+3):
             self.tick(-.1)
             if self.c.state==State.FAULT:break
         self.assertEqual(self.c.fault_reason,'SIGN_TRANSITION_TIMEOUT')
@@ -437,7 +443,7 @@ class SignTransitionTest(unittest.TestCase):
 
     def test_unexpected_direction_is_a_fault(self):
         self.settle(.1)
-        self.load.current_offset_A=-.2
+        self.load.current_offset_A=.2
         self.tick(.1)
         self.assertEqual(self.c.fault_reason,'UNEXPECTED_CURRENT_DIRECTION')
         self.assertTrue(self.c.shutdown_verified)
@@ -450,7 +456,7 @@ class SignTransitionTest(unittest.TestCase):
         self.assertFalse(self.c.isolation.is_open)
 
     def test_arm_while_regenerating_balances_before_applying_demand(self):
-        for current in (-.0039082654926, -.3, -.5):
+        for current in (.0039082654926, .3, 1.):
             with self.subTest(current=current):
                 self.setUp()
                 e=self.tick(current,dt=.00002)  # first manual-session readback
@@ -496,17 +502,12 @@ class SignTransitionTest(unittest.TestCase):
         self.assertEqual(self.c.fault_reason,'STALE_OR_FUTURE_MEASUREMENT')
         self.assertTrue(self.c.shutdown_verified)
 
-    def test_cv_startup_balances_then_rejects_genuinely_infeasible_charge(self):
+    def test_cv_cannot_qualify_startup(self):
         self.psu.cv_available_A=.1
-        for _ in range(30):
-            e=self.tick(-.4)
-            if e['state']=='RUNNING':break
-            self.assertEqual(e['state'],'READY')
-            self.assertTrue(e['isolation']['is_open'])
-        self.assertEqual(e['state'],'RUNNING')
-        self.tick(-.4)
-        self.assertEqual(self.c.fault_reason,'INFEASIBLE_CURRENT')
+        self.tick(.4)
+        self.assertEqual(self.c.fault_reason,'PSU_NOT_CC')
         self.assertTrue(self.c.shutdown_verified)
+        self.assertTrue(self.c.isolation.is_open)
 
 
 if __name__=='__main__':unittest.main()

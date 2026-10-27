@@ -334,7 +334,11 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 	
 	SimDeltaTime = deltaTime;
 	SimTelemetry = telemetry;
-    aps380_live::pace(s->currentTime);
+    const bool aps380ActiveRace =
+        (s->_raceState & (RM_RACE_RUNNING | RM_RACE_FINISHING | RM_RACE_ENDED)) != 0
+        && (s->_raceState & RM_RACE_PAUSED) == 0;
+    if (aps380_live::sampleReady(s->currentTime, aps380ActiveRace))
+        aps380_live::pace(s->currentTime);
 	for (ncar = 0; ncar < s->_ncars; ncar++) {
 		SimCarTable[ncar].collision = 0;
 		SimCarTable[ncar].blocked = 0;
@@ -489,7 +493,7 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 		carElt->priv.localPressure = car->localPressure;
 		carElt->priv.repCmdMaxClicks = car->brkSyst.repCmdMaxClicks;
 		carElt->priv.brakeRepartitionCmd = car->ctrl->brakeRepartitionCmd;
-		if (car->engine.electric && s->currentTime >= 0.0) {
+		if (car->engine.electric && aps380_live::sampleReady(s->currentTime, aps380ActiveRace)) {
 			tEngine &e = car->engine;
 			e.evCollision |= car->collision;
 			if (!e.evFile) {

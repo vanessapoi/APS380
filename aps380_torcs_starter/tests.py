@@ -20,7 +20,7 @@ class OfflineModelTest(unittest.TestCase):
         energy = sum(r['wheel_power_W'] * r['interval_s'] for r in rows)
         self.assertAlmostEqual(energy, .5 * params.mass_kg * 10**2)
         self.assertEqual(rows[1]['accel_mps2'], 2)
-        self.assertGreater(rows[1]['cell_current_command_A'], 0)
+        self.assertLess(rows[1]['cell_current_command_A'], 0)
 
     def test_cruise(self):
         p = VehicleParameters()
@@ -33,7 +33,7 @@ class OfflineModelTest(unittest.TestCase):
         row = process([sample(0, 30), sample(1, 20)], p)[1]
         self.assertEqual(row['vehicle_battery_power_W'], -5000*p.regen_efficiency)
         self.assertGreater(row['friction_brake_power_W'], 0)
-        self.assertLess(row['cell_current_command_A'], 0)
+        self.assertGreater(row['cell_current_command_A'], 0)
         self.assertEqual(vehicle_power(25, -10, replace(p, regen_fraction=0))['vehicle_battery_power_W'], 0)
 
     def test_passive_coasting_is_not_regen(self):
@@ -50,13 +50,13 @@ class OfflineModelTest(unittest.TestCase):
 
     def test_scaling_and_limits(self):
         p = CellParameters()
-        self.assertAlmostEqual(scale_to_cell(75000, p)['cell_current_unclamped_A'], 3)
-        for power, expected in [(1e6, 4), (-1e6, -1)]:
+        self.assertAlmostEqual(scale_to_cell(75000, p)['cell_current_unclamped_A'], -3)
+        for power, expected in [(1e6, -2), (-1e6, 1)]:
             row = scale_to_cell(power, p)
             self.assertEqual(row['cell_current_command_A'], expected)
             self.assertEqual(row['command_saturated'], 1)
             self.assertAlmostEqual(row['cell_power_command_W'], expected*3.6)
-        self.assertEqual(scale_to_cell(75000, replace(p, discharge_limit_A=2))['cell_current_unclamped_A'], 3)
+        self.assertEqual(scale_to_cell(75000, replace(p, discharge_limit_A=2))['cell_current_unclamped_A'], -3)
 
     def test_malformed_telemetry(self):
         cases = [[], [sample(-1, 0)], [sample(0, -1)], [sample(0, float('nan'))],
@@ -86,7 +86,7 @@ class OfflineModelTest(unittest.TestCase):
     def test_demo(self):
         rows = process(read_telemetry(BASE/'data/demo_synthetic.csv'))
         self.assertEqual(len(rows), 1201)
-        self.assertTrue(all(-1 <= r['cell_current_command_A'] <= 4 for r in rows))
+        self.assertTrue(all(-2 <= r['cell_current_command_A'] <= 1 for r in rows))
         self.assertTrue(any(r['cell_current_command_A'] < 0 for r in rows))
         self.assertTrue(any(r['cell_current_command_A'] > 0 for r in rows))
 
@@ -170,11 +170,11 @@ class ConditioningComparisonTest(unittest.TestCase):
     def test_experiment_scale_and_energy_metrics(self):
         from compare_profiles import metrics
         p = CellParameters(experiment_scale=.2)
-        self.assertAlmostEqual(scale_to_cell(75000, p)['cell_current_unclamped_A'], .6)
+        self.assertAlmostEqual(scale_to_cell(75000, p)['cell_current_unclamped_A'], -.6)
         rows = process([sample(0,20),sample(2,20)], cell=p)
         m = metrics(rows)
-        self.assertAlmostEqual(m['command_discharge_Wh'], rows[1]['cell_power_command_W']*2/3600)
-        self.assertAlmostEqual(m['command_rms_A'], rows[1]['cell_current_command_A'])
+        self.assertAlmostEqual(m['command_discharge_Wh'], -rows[1]['cell_power_command_W']*2/3600)
+        self.assertAlmostEqual(m['command_rms_A'], abs(rows[1]['cell_current_command_A']))
         with self.assertRaises(ValueError):
             CellParameters(experiment_scale=0)
 

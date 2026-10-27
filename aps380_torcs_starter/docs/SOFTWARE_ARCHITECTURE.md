@@ -61,7 +61,7 @@ flowchart TB
 | M5 | Validation → optional conditioning | Used by comparison/analysis scripts only. Normal processing remains raw by default. |
 | M6 | Conditioning → EV model | Replaces speed values explicitly while retaining timestamps/pedals. No interpolation across missing rows, segments or laps. |
 | M7 | EV model → cell scaling | Transfers signed electrical vehicle battery demand in watts, after drivetrain conversion and auxiliaries. Negative wheel power does not necessarily mean negative net battery power. |
-| M8 | Cell scaling → outputs | Records requested power/current, limited current/power and saturation flags. Positive means discharge; negative means charge. |
+| M8 | Cell scaling → outputs | Records requested power/current, limited current/power and saturation flags. CELL: negative means discharge; positive means charge. Native vehicle telemetry keeps its original signs. |
 | M9 | Configuration → EV model | Supplies mass, drag area, rolling coefficient, efficiencies, auxiliaries and regeneration assumptions. |
 | M10 | Configuration → cell scaling | Supplies nominal cell voltage/capacity, equivalent pack energy, optional experiment scale and separate fixed current limits. Limits are illustrative until cell selection and approval. |
 | M11 | Verification → reports | Produces automated check results and comparison evidence, including time-weighted energy/RMS metrics and braking diagnostics. This is a reporting relationship, not a runtime control command. |
@@ -167,7 +167,7 @@ flowchart TB
 
 ## Equations connecting demand, measurement and feedback
 
-Current convention throughout: **positive = cell discharge; negative = cell charge**. Power uses the same sign. Voltage is the positive cell terminal voltage magnitude.
+Current convention throughout: **negative = cell discharge; positive = cell charge**. Power uses the same sign. Voltage is the positive cell terminal voltage magnitude.
 
 The existing offline model uses:
 
@@ -179,9 +179,9 @@ P_vehicle = P_wheel/eta_drive + P_aux                  for propulsion
 P_vehicle = -min(-P_wheel*f_regen, P_regen_cap)*eta_regen + P_aux
                                                        for negative wheel demand
 k = (V_nominal * capacity_Ah / pack_energy_Wh) * experiment_scale
-P_cell_requested = k * P_vehicle
+P_cell_requested = -k * P_vehicle
 I_raw = P_cell_requested / V_nominal
-I_offline = clamp(I_raw, -I_charge_limit, I_discharge_limit)
+I_offline = clamp(I_raw, -I_discharge_limit, I_charge_limit)
 ```
 
 With validated live measurements and SOP, a future limiter would reconcile power bounds with current bounds, then calculate `I_request = P_cell_allowed / V_measured`. For example, a discharge power bound should also respect `V_measured * I_discharge_limit`. Invalid voltage must trigger a defined control response rather than unchecked division. This describes intended behavior; no live limiter is implemented.
@@ -191,14 +191,14 @@ The effective scale `k`, including any experiment reduction, must also be reflec
 SOC updates from actual measurements:
 
 ```
-SOC_next = clamp(SOC_previous - I_cell_measured*dt/(3600*capacity_Ah), 0, 1)
+SOC_next = clamp(SOC_previous + I_cell_measured*dt/(3600*capacity_Ah), 0, 1)
 ```
 
 Instrument mapping is a separate ESP32 responsibility:
 
 ```
-I_cell = I_eLoad - I_PSU
-I_eLoad_request = I_bias + I_cell_request    only for verified constant PSU bias
+I_cell = I_PSU - I_eLoad
+I_eLoad_request = I_bias - I_cell_request    only for verified constant PSU bias
 ```
 
 The second relationship is conditional, not a verified bench model. The requested load current must be nonnegative and physically achievable; the combined system limits charging and discharging capability. A zero cell-current request does not guarantee zero real cell current, especially if the load switches off while the PSU remains connected.

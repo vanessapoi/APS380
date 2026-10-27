@@ -4,6 +4,7 @@ from dataclasses import replace
 from pathlib import Path
 from ev_model import VehicleParameters, vehicle_power
 from cell_scaling import CellParameters, scale_to_cell, auto_scale_profile
+from prototype_current_config import current_metadata
 from numerical_validation import DEFAULT_TIMING, field_number, finite_number
 
 FIELDS = ("time_s", "speed_mps", "throttle", "brake")
@@ -53,7 +54,7 @@ def process(rows, vehicle=VehicleParameters(), cell=CellParameters(), *, timing=
         power = vehicle_power(mean_v, a, vehicle)
         out.append({**x, 'interval_s': dt, 'model_speed_mps': mean_v,
                     'accel_mps2': a, **power,
-                    **scale_to_cell(power['vehicle_battery_power_W'], cell)})
+                    **scale_to_cell(power['vehicle_battery_power_W'], cell), **current_metadata()})
         prev = x
     return out
 

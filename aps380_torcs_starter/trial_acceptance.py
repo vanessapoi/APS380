@@ -1,5 +1,6 @@
 """Explicit software acceptance; never a physical safety certification."""
 import math
+from prototype_current_config import CELL_CURRENT_CONVENTION, CURRENT_SCHEMA_VERSION
 
 
 def _distribution(values):
@@ -19,14 +20,37 @@ def _observed_check(values, predicate, faults=()):
     return all(predicate(v) for v in values) if values else None
 
 
+def _complete_running_record(event):
+    """Missing or malformed evidence must not become an operational PASS."""
+    numeric=('requested_A','permitted_A','applied_target_A','branch_net_A',
+             'mock_cell_current_A','tracking_error_A','demand_error_A',
+             'command_age_s','psu_measurement_age_s','load_measurement_age_s')
+    def number(v):
+        return type(v) in (int,float) and math.isfinite(v)
+    if not all(number(event.get(k)) for k in numeric):return False
+    if type(event.get('direction_ok')) is not bool:return False
+    if type(event.get('active_direction')) is not int or event['active_direction'] not in (-1,0,1):return False
+    if not isinstance(event.get('isolation'),dict):return False
+    for key in ('psu','load'):
+        branch=event.get(key)
+        if not isinstance(branch,dict):return False
+        if not all(number(branch.get(k)) for k in ('current_A','setpoint_A')):return False
+        if not isinstance(branch.get('status'),dict):return False
+        status=branch['status']
+        if type(status.get('output_enabled')) is not bool:return False
+        if not all(isinstance(status.get(k),str) for k in ('mode','fault')):return False
+    return True
+
+
 def instrument_acceptance(events, config, final, worker_error=None, require_running=False):
     """A recovered or deliberately injected fault still fails normal operation.
     Fault-response evidence is separate and cannot override that result.
     """
     active = [e for e in events if e['state'] == 'RUNNING']
     faults = sorted({e['fault'] for e in events if e.get('fault')})
-    failures = [v for e in events for device in e.get('transactions', {}).values()
-                for v in device if v.get('event') == 'transaction' and v.get('failure')]
+    transactions = [v for e in events for device in e.get('transactions', {}).values()
+                    for v in device if v.get('event') == 'transaction']
+    failures = [v for v in transactions if v.get('failure')]
     # Fault/disarmed snapshots retain historical readbacks for diagnosis. Their
     # original acquisition ages are not new evidence of healthy communication.
     measured = [e for e in events if not e.get('measurements_retained', e['state'] not in ('READY', 'RUNNING'))]
@@ -44,25 +68,56 @@ def instrument_acceptance(events, config, final, worker_error=None, require_runn
                       ('TRACKING', 'DIRECTION', 'TRANSITION', 'LIMIT'))]
     fault_records = [e for e in events if e['state'] == 'FAULT']
     shutdown = final.get('isolation', {})
+    branches=[e for e in active if _complete_running_record(e)]
+    def mapping_consistent(e):
+        net=e['psu']['current_A']-e['load']['current_A']
+        return all(abs(a-b)<=config.numeric_tolerance_A for a,b in (
+            (e['branch_net_A'],net),(e['mock_cell_current_A'],net),
+            (e['tracking_error_A'],net-e['applied_target_A']),
+            (e['demand_error_A'],net-e['permitted_A']),
+            (e['load']['setpoint_A'],e['psu']['current_A']-e['applied_target_A'])))
     checks = dict(
         worker_healthy=worker_error is None,
         coordinator_fault_free=not faults and not fault_records and final['state'] != 'FAULT',
-        communication_healthy=not failures,
+        communication_healthy=_observed_check(transactions,lambda t:not t.get('failure')),
+        running_records_complete=_observed_check(active,_complete_running_record),
+        current_convention_consistent=_observed_check(active,lambda e:
+            e.get('cell_current_convention')==CELL_CURRENT_CONVENTION and
+            type(e.get('current_schema_version')) is int and e['current_schema_version']==CURRENT_SCHEMA_VERSION),
+        readback_mapping_consistent=_observed_check(branches,mapping_consistent),
+        running_path_enabled=_observed_check(branches,lambda e:
+            e['isolation'].get('is_open') is False and e['isolation'].get('outputs_disabled') is False and
+            all(e[k]['status'].get('output_enabled') is True for k in ('psu','load'))),
         tracking_within_policy=_observed_check(tracking, lambda v: v <= config.tracking_tolerance_A, tracking_faults),
-        current_direction_expected=_observed_check([e['direction_ok'] for e in active if 'direction_ok' in e],
-            bool, [f for f in faults if 'DIRECTION' in f]),
+        current_direction_expected=_observed_check(branches,lambda e: e['direction_ok'] and
+            (abs(e['branch_net_A'])<=config.direction_tolerance_A or
+             (e['branch_net_A']>0)-(e['branch_net_A']<0)==e['active_direction']),
+            [f for f in faults if 'DIRECTION' in f]),
         commands_fresh=_observed_check(command_ages, lambda v: 0 <= v <= config.command_expiry_s, command_faults),
         measurements_fresh=_observed_check(measurement_ages, lambda v: 0 <= v <= config.measurement_expiry_s, measurement_faults),
+        instruments_in_cc=_observed_check(branches, lambda e: all(e[k]['status']['mode']=='CC' for k in ('psu','load')),
+            [f for f in faults if 'NOT_CC' in f]),
+        psu_setpoint_fixed=_observed_check(branches, lambda e: abs(e['psu']['setpoint_A']-config.psu_cc_setpoint_A)<=config.numeric_tolerance_A,
+            [f for f in faults if 'SETPOINT_CHANGED' in f]),
+        branch_setpoints_in_range=_observed_check(branches, lambda e:
+            config.psu_current_min_A<=e['psu']['setpoint_A']<=config.psu_current_max_A and
+            config.eload_current_min_A<=e['load']['setpoint_A']<=config.eload_current_max_A),
+        measured_battery_in_range=_observed_check([e['branch_net_A'] for e in active if 'branch_net_A' in e],
+            lambda v: config.battery_current_min_A-config.tracking_tolerance_A<=v<=config.battery_current_max_A+config.tracking_tolerance_A,
+            [f for f in faults if 'MEASURED_DIRECTIONAL_LIMIT' in f]),
         outputs_disabled=shutdown.get('outputs_disabled') is True,
         isolation_open=shutdown.get('is_open') is True,
         shutdown_verified=final.get('shutdown_verified') is True,
         shutdown_commands_healthy=not final.get('shutdown_errors'),
         running_observed=bool(active) if require_running or active else None)
     control_checks = ('tracking_within_policy', 'current_direction_expected',
-                      'commands_fresh', 'measurements_fresh', 'running_observed')
+        'commands_fresh', 'measurements_fresh', 'running_observed',
+        'running_records_complete','current_convention_consistent','readback_mapping_consistent',
+        'running_path_enabled','instruments_in_cc','psu_setpoint_fixed','branch_setpoints_in_range',
+        'measured_battery_in_range','communication_healthy')
     passed = all(v is not False for v in checks.values()) and (
         not require_running or all(checks[k] is True for k in control_checks))
-    control_ok = (False if any(checks[k] is False for k in control_checks) else
+    control_ok = (False if any(checks[k] is False for k in control_checks+('worker_healthy','coordinator_fault_free')) else
                   True if all(checks[k] is True for k in control_checks) else None)
     return dict(passed=passed, status=assessment(passed), control_status=assessment(control_ok),
                 checks=checks, check_status={k:assessment(v) for k,v in checks.items()}, final_state=final['state'],

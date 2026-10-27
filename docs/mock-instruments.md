@@ -1,129 +1,160 @@
-# Mock PSU and electronic-load control
+# Mock prototype PSU and electronic-load control
 
-This is an in-memory software experiment. There are no hardware transports,
-instrument commands, physical battery measurements, or physical protection claims.
-The coordinator rejects devices without the mock-only marker. No PSU model is
-assumed, and `MockBK8500` does not implement the BK binary serial protocol.
+This implementation is **mock only**: no physical PSU, eLoad, ESP32 or battery
+connection exists. Operating values are experimental software settings, not
+verified hardware safety ratings. Independent hardware protection remains a
+separate requirement. The coordinator rejects devices without its mock marker.
 
-## Run the standalone experiment
+## Current prototype configuration
+
+`aps380_torcs_starter/prototype_current_config.py` is the single source for the
+immutable `PrototypeCurrentConfig` / `ControlConfig` defaults:
+
+| Setting | Prototype value |
+|---|---:|
+| PSU fixed CC setpoint | 1.0 A |
+| PSU allowed current | 0 to 1.0 A |
+| eLoad CC setpoints, including enabled zero | 0 to 3.0 A |
+| Battery current | -2.0 to +1.0 A |
+| Current slew | 0.2 A/s |
+| Neutral tolerance / continuous dwell | 0.002 A / 0.1 s |
+| Tracking tolerance / timeout | 0.03 A / 0.6 s |
+| Reversal deadline | Automatically budgeted; 20 s at defaults |
+| Worker rate | 10 Hz |
+| Command / measurement expiry | 0.5 / 0.2 s |
+| I/O timeout / initial READY deadline | 0.02 / 30 s |
+
+The reversal deadline includes the configured current interval, slew steps,
+neutral dwell, settling allowance, worker period and four bounded I/O transactions
+per cycle. Returning from -2 A to zero needs 10 s of nominal slew steps; bounded
+communication adds wall time. Explicit shorter deadlines are rejected. These are
+mock policy budgets, not measured physical settling times. Communication expiry
+and overcurrent supervision remain independent.
+The final-design 2 A PSU, 12 A eLoad and earlier 0.5 A bias are not prototype
+settings. No positive-only shifting or online normalization is implemented.
+
+**Cell current is charging-positive:** negative means discharge; positive means
+charge. Branch currents are nonnegative magnitudes under their defined directions:
+
+`i_cell = i_PSU_measured - i_eLoad_measured`
+
+`i_eLoad_target = i_PSU_measured - i_cell_applied`
+
+At measured PSU current 1 A: cell -2 A requires load 3 A; neutral requires load
+1 A; cell +1 A requires load 0 A. A zero eLoad setpoint is valid while enabled;
+it is not DISARMED. Both outputs are disabled and isolation opened on stop/fault.
+The PSU setpoint is configured during arming and stays fixed throughout RUNNING.
+Fresh readback, not the configured limit, determines eLoad demand. Unexpected
+setpoint changes and CV/loss of required CC operation fault. `MockPSU` retains
+its CV envelope only for fault injection; CV cannot qualify startup or RUNNING.
+
+## Startup, feasibility and faults
+
+READY enables the isolated branches and balances at zero net cell current.
+No live positive/negative demand is applied, nor is its operational feasibility
+checked against the first rising PSU sample. Both branch currents and PSU bias
+must settle; fresh readbacks, fresh validated demand, and continuous neutral dwell
+precede isolation closing and RUNNING. The next cycle applies the newest demand.
+The existing latest-value mailbox and independent worker never queue old demands.
+
+The battery-limited target is bounded by configured signed cell limits. Its
+feasible interval is also intersected with
+`[PSU_actual - eLoad_max, PSU_actual - eLoad_min]`. Infeasible demands fault before
+sending a new load command. Only explicitly logged floating-point adjustment
+within `numeric_tolerance_A` (1e-9 A) may snap an endpoint; this is not a physical
+measurement allowance. PSU underdelivery can make the +1 A charging endpoint
+unachievable. Do not substitute the nominal PSU setpoint to hide this.
+
+A reversal slews to zero, verifies measured neutral dwell, then consumes the
+latest direction. Expiry, session changes, invalid/stale measurements, unexpected
+direction, communication failure, CC failure, measured battery overcurrent and
+emergency stop latch faults. Battery overcurrent is checked both before and after
+new load commands; compensation cannot hide a previously observed excursion.
+The mock local isolation trip disables both branches even if transport is broken.
+Recovery verifies disabled, communicating instruments and open isolation, returns
+to DISARMED, and requires a fresh sample and separate arming. Valid native ENDED
+disarms normally; new telemetry never automatically rearms control.
+
+## Data, displays and compatibility
+
+Native TORCS pack power/current remain **positive for draw**, unchanged in CSV and
+UDP. `scale_to_cell()` converts once into charging-positive cell power/current.
+No controller, mailbox or HUD performs a second conversion. Native pack SOC and
+vehicle physics are unchanged. Measured-cell SOC replay now adds integrated
+charging-positive current; this does not connect SOC/SOP to the live coordinator.
+
+New data carry `current_schema_version: 2`, `cell_current_convention:
+charging_positive`, and an explicit native pack convention. Original native power
+and current, cell target, limited target, applied target, mock-measured current,
+branch setpoints/readbacks, ages, source sequence and saturation remain distinct.
+The dashboard and saved live plot show target/limited/applied/mock-measured data.
+Tracking error compares mock measured with applied; demand error compares measured
+with limited. Large slew-induced lag remains visible separately from tracking.
+
+Historical recordings are unchanged. Old derived cell currents were discharge-
+positive: do not interpret them as schema 2. The original `data/mock_cell_soc.csv`
+is retained as legacy input; use `mock_cell_soc_charging_positive.csv` with the
+updated replay configuration. Replay requires an explicit current convention.
+HUD payload **APS380HUD2** uses charging-positive CELL signs and unchanged native
+PACK signs. Its parser rejects APS380HUD1, avoiding silent sign disagreement.
+Rebuild graphics/client after updating; an old binary cannot display V2 feedback.
+
+Instrument snapshots after disarm/fault are marked `measurements_retained` and
+`measurement_context` (`retained_after_disarm` or `retained_pre_fault`). Nested
+status/readbacks are historical; the separate verified isolation/output state and
+`mock_cell_current_A` describe shutdown. Snapshot acquisition ages remain visible.
+
+## Run mock experiments
 
 From the repository root in PowerShell:
 
 ```powershell
-& .\aps380_torcs_starter\.venv\Scripts\python.exe -B scripts/run_mock_instruments.py --arm-mock --charge-limit 0.5 --control-hz 10
+& .\aps380_torcs_starter\.venv\Scripts\python.exe -B scripts/run_mock_instruments.py --arm-mock
 ```
 
-This takes about five seconds. Synthetic pack powers pass through the existing
-`scale_to_cell()` function. The requested discharge exceeds 1 A and is clipped
-to **1.0 A**; neutral and charging phases follow. Charging is separately bounded
-by `--charge-limit`. This is a synthetic demonstration, not a recorded TORCS drive.
-The final deliberate telemetry loss must latch FAULT and verify both mock outputs
-disabled and isolation open. That expected terminal fault is the success condition.
+This takes about 37 seconds and covers a saturated discharge target, neutral, and
+full configured charging. Synthetic native power goes through the same scaling
+boundary. Deliberate terminal telemetry loss must latch an expiry fault and verify
+shutdown. Results are under `.local/mock-instruments/`; no TORCS is launched.
 
-Output defaults to a unique `.local/mock-instruments/` directory. `--output-dir`
-must name a new directory. Files are `demand.jsonl`, `instruments.jsonl`,
-`config.json`, and `summary.json`. Instrument logs include command transactions,
-setpoints, measured branch currents, mode, source sequence, saturation, feasible
-range, tracking error, isolation, state, and shutdown verification. A stale
-last control result may remain in a fault record for diagnosis. Such records have
-`measurements_retained: true` and `measurement_context: retained_pre_fault`
-(or `retained_after_disarm`). Acquisition/source timestamps and dynamically
-calculated `measurement_age_at_snapshot_s` identify their age. Nested historical
-instrument status can still say output enabled; use the separate verified
-`isolation.outputs_disabled` shutdown result for the current mock output state.
-`mock_cell_current_A` becomes zero when isolation opens. The dashboard labels
-retained readbacks as not live.
-
-## Use existing live TORCS telemetry
+For the graphical TORCS demonstration, rebuild using the existing launcher:
 
 ```powershell
-& .\aps380_torcs_starter\.venv\Scripts\python.exe -B scripts/run_tesla_live.py --mode g29 --duration 300 --skip-build --mock-instruments
+& .\aps380_torcs_starter\.venv\Scripts\python.exe -B scripts/run_tesla_live.py --mode g29 --duration 300 --mock-instruments
 ```
 
-Start Race > Practice in TORCS as usual. Mock control starts **DISARMED**.
-The desktop monitor adds Arm mock, Disarm, Emergency stop, and Clear fault buttons.
-Clear fault returns to DISARMED; arm separately and provide a new telemetry sample.
-Closing the monitor shuts down both mocks and opens isolation. Original telemetry
-JSONL/CSV, scaling, motor calculations, dashboard metrics and HUD behavior remain.
-Mock logs are separate, under the trial's `mock_instruments/` directory; the final
-mock report is also included in `trial.json`. The HUD remains visual-only and does
-not show instrument state or affect vehicle physics.
+Start Practice and drive using configured controls. Mocks start DISARMED; use Arm
+mock. Dashboard buttons retain Disarm, Emergency stop and Clear fault. Clearing a
+fault does not arm. `--skip-build` is appropriate only after rebuilding HUD V2.
+Normal logs, raw recordings and instrument JSONL remain under the trial directory.
+Optional narrower charging limits use `--mock-charge-limit`; the immutable control
+configuration is saved in the trial. Prototype defaults come from the module above.
 
-For headless use, explicit mock arming is available:
+For native AI startup during net regeneration and deliberate telemetry loss:
 
 ```powershell
-& .\aps380_torcs_starter\.venv\Scripts\python.exe -B scripts/run_tesla_live.py --mode ai --duration 30 --acceptance smoke --skip-build --no-ui --mock-instruments --mock-arm --mock-charge-limit 0.5 --mock-control-hz 10
+& .\aps380_torcs_starter\.venv\Scripts\python.exe -B scripts/validate_mock_interruption.py --arm-on-regeneration --healthy-seconds 30
 ```
 
-`--skip-build` requires the existing built TORCS runtime. Without it, the existing
-launcher builds native components. `listen` mode can also use these flags with a
-chosen port. There is no new native build requirement for mock instruments.
+This waits DISARMED for negative native pack power, then arms during positive CELL
+charging demand. It verifies both directions before stopping TORCS and keeping
+supervision active until expiry. Pre-interruption integration and fault response
+are reported separately; normal uninterrupted-operation acceptance must fail.
 
-## Control contract
+Reports retain PASS / FAIL / NOT ASSESSED. No RUNNING samples means tracking is
+unassessed; requested arming without RUNNING fails acceptance. A successful final
+shutdown cannot erase a previous fault. Smoke acceptance does not require full-
+course completion. All raw current limits, source timing and native CSV checks
+remain active.
 
-- `instrument_interfaces.py` defines current instruments, PSU/load roles,
-  timestamped measurements/status, timeout errors, and isolation status.
-- `mock_instruments.py` supplies adjustable response time, communication delay,
-  persistent communication/timeout injection, measurement-age injection, and an
-  imposed PSU CV current envelope. This is not an electrochemical/circuit model.
-- `instrument_control.py` owns the state machine, directional limits, current
-  mapping, tracking checks, latest-value mailbox and independent worker.
+## Windows UDP shutdown
 
-`I_cell = I_eLoad - I_PSU`, positive discharge and negative charging. The load
-target is **actual PSU current readback + applied cell target**, never simply
-the PSU current setting. The mock PSU bias is 0.5 A and each instrument has a
-2 A capability by default. Thus -0.5 A requires full PSU bias; a deeper charging
-request, or a CV transition reducing PSU current, can make it infeasible. The
-coordinator logs requested, permitted and applied targets and the feasible range,
-and latches INFEASIBLE_CURRENT rather than
-silently pretending the target was achieved. Directional bounds first clamp the
-requested net current; infeasibility within those bounds is a separate fault.
-Feasibility permits only the configured neutral tolerance (0.002 A by default)
-at branch-current boundaries to avoid treating an asymptotically settled mock
-PSU as a materially insufficient source. Instrument setpoints remain clamped to
-their capabilities, and measured tracking/direction limits remain enforced.
-
-READY means explicitly armed, branch outputs enabled, cell isolation still open.
-Its explicit BALANCING phase always commands **zero net current**, using actual
-PSU readback as the eLoad target. It can balance while waiting for telemetry but
-cannot connect without fresh validated demand. Live positive/negative demand
-does not influence balancing and operational feasibility is not tested against
-the first rising PSU sample. Both measured branch currents must stabilize within
-the neutral tolerance, net current must be within that tolerance, and the CC PSU
-must approach its bias (or report its stable imposed CV envelope). Fresh readbacks
-and demand are checked again after I/O; the criteria must hold continuously for
-`neutral_hold_s` before closing isolation and entering RUNNING at zero applied
-current. The next cycle consumes the newest demand through the existing slew and
-sign-transition policy. A genuinely infeasible operational demand still faults;
-failed startup faults at `ready_timeout_s`. In RUNNING,
-tracking mismatch has a bounded settling allowance; measured directional excess
-trips immediately beyond the configured numerical/measurement tolerance. Neutral
-demand balances energized branches and is not disarming. CC/CV transitions are
-reported in measurements, and every cycle recomputes the load target from readback.
-
-Only one demand is retained. A 10 Hz default worker consumes validated demand from
-the approximately 50 Hz receiver without instrument I/O in that receiver. Slow
-iterations are not replayed. Defaults are 0.5 s command expiry, 0.2 s measurement
-expiry, 0.02 s per-operation I/O timeout, 0.6 s tracking timeout, and 30 s initial
-READY waiting timeout. These are software experiment settings, not hardware
-requirements. Ages are checked again after I/O; readback skew is logged. This
-does not establish simultaneous physical sampling or real instrument bandwidth.
-
-Faults latch on expired/unavailable telemetry, session changes, stale/invalid
-measurements, communication failure, infeasible current, tracking error, and
-emergency stop. A validated native ENDED event disarms normally; new telemetry
-cannot automatically rearm it. Telemetry invalidation during I/O prevents connection.
-The mock local isolation trip disables both branches even when transport commands
-fail; failed output-disable transactions remain in the log. Recovery verifies
-fresh communicating disabled instruments and open isolation, returns to DISARMED,
-and rejects pre-recovery demand. Disarming alone cannot clear a fault.
-
-The displayed net cell current is mock truth derived from the two branch models
-and isolation state, **not independent ESP32 sensing**. Physical implementation
-still needs actual drivers, calibrated net-current acquisition, timestamp/skew
-validation, reviewed startup/transition sequencing, approved cell limits, ESP32
-supervision, and independent hardware isolation/protection. Do not enable physical
-operation by changing the mock marker.
+Expected launcher shutdown stops HUD replies before ending its native peer. Only
+reset 10054 after that explicit boundary is recorded as expected; unexpected reset
+or other errors remain receiver failures. Deliberate telemetry-loss trials do not
+mark the interruption orderly before fault detection. See the
+[Microsoft recvfrom reference](https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-recvfrom)
+for the Windows UDP reset behavior. No global reset suppression is used.
 
 ## Tests
 
@@ -132,106 +163,75 @@ $env:MPLCONFIGDIR = Join-Path (Get-Location) '.local/matplotlib'
 & .\aps380_torcs_starter\.venv\Scripts\python.exe -B -m unittest discover -s aps380_torcs_starter -p 'test*.py'
 ```
 
-`test_instrument_control.py` uses deterministic clocks for directional demand,
-clipping, sign changes, CC/CV, response delay, expiry during I/O, stale measurements,
-tracking faults, communication failures, emergency stop and explicit recovery.
-Actual loopback UDP verifies the receiver-to-worker integration and unchanged cell
-scaling; worker tests verify command expiry and logged shutdown. No tests connect
-to instruments.
+Mock results do not validate real CC capability, compliance voltage, low-voltage
+load operation, measurement synchronization, battery limits or hardware isolation.
+No physical instrument commands or new vehicle derating are supplied.
 
-## Reversal policy and acceptance
+## Review corrections - October 27, 2026
 
-The permitted demand remains the existing limited current input, with the
-coordinator's directional bounds applied. The **applied target** slews at at most
-0.2 A/s by default. A reversal first slews to zero, then requires measured net
-current within +/-0.002 A continuously for 0.1 s before issuing the newest demand
-in the opposite direction. A command received during this interval replaces the
-previous demand; it cannot reset the transition deadline or queue a reversal.
-The transition timeout is 6 s. TRACK, TO_ZERO and HOLD_ZERO are explicit logged
-phases within RUNNING; READY uses BALANCING. Zero demand uses the same neutral qualification.
+Live scaling and instrument control now share the effective centralized config,
+including narrower CLI charging limits; conflicting JSON bounds are rejected.
+The mailbox requires explicit schema 2 and charging-positive metadata. Acceptance
+requires complete RUNNING evidence and independently checks the readback mapping,
+CC modes, fixed PSU setpoint, path state and current direction. Reversal deadlines
+include bounded transaction time, and configurable nonzero branch minima cannot
+prematurely fail isolated startup. Prototype defaults still permit enabled 0 A.
 
-These rates, tolerances and dwell times are **mock policy settings**, not
-physical-instrument specifications or cell safety limits. The controller faults
-on unexpected current direction outside its 0.002 A band, persistent tracking
-error, or failure to establish neutral. Communication/expiry faults remain active
-during every transition. Before closing isolation at startup it also requires
-stable readback and tracking; a small initial applied target cannot bypass this.
+TORCS previously published one grid-initialization sample at time zero before
+its countdown, causing an initial gap of about 3.3 s. Recording and optional
+pacing now start at active race time; EV physics remain unchanged. Stale detection
+and acceptance are unchanged. New reports retain sender/host gaps and terminal
+silence evidence rather than exempting it. Historical trial `20261027_124417_714560`
+also has a genuine terminal interruption and a TELEMETRY_EXPIRED instrument fault;
+its failure was not solely the startup telemetry gate. Historical files remain
+unchanged and retain their original current convention.
 
-`tracking_error_A` compares measured net current with the applied target.
-`demand_error_A` compares it with the latest permitted demand, so deliberate ramp
-or neutral-hold lag is visible rather than hidden as perfect tracking. The strict
-normal-trial acceptance gate requires all RUNNING tracking samples within 0.03 A,
-even though the controller allows up to 0.6 s to trip on persistent mismatch.
+Review evidence is saved under `.local/prototype-review/`, with focused regression
+tests in `test_review_regressions.py`. The final Python suite executed 164 tests:
+163 passed and one Tk test skipped because `init.tcl` is unavailable. Native tests
+passed 18 EV kernel, 15 publisher and 9 HUD checks. Actual headless integration
+tests and an independent source-to-command audit are recorded in that directory.
+GUI layout, manual controls and in-game rendering still require desktop testing.
 
-`--acceptance smoke` checks process health, uninterrupted telemetry, numerical and
-timing checks, CSV agreement, mock communication, tracking, direction, freshness
-and final shutdown. It does not require full-course completion. Headless AI still
-defaults to `full-course` unless smoke is explicitly selected. A launcher-owned
-duration/operator stop is recorded as intentional; an independently observed
-nonzero process exit is a failure. Packet loss and stale intervals fail acceptance.
+## Prototype validation before this review - October 27, 2026
 
-`trial.json` separates `acceptance.telemetry`, `.process`, `.instruments` and
-`.full_course`. Full-course completion is unassessed when a smoke test is stopped
-early. Instrument results retain faults and failed communications even after
-recovery; final disabled outputs/open isolation cannot erase a prior fault. The
-summary includes command/measurement ages, tracking and demand error distributions,
-state, worker error, faults, saturation and transition cycles, and shutdown checks.
-Each section/check has an explicit PASS, FAIL or NOT ASSESSED status. JSON `checks`
-retain booleans for assessed checks and use `null` for unassessed checks. Tracking
-and direction cannot pass without RUNNING samples. With requested arming, missing
-RUNNING evidence fails overall acceptance; an intentionally disarmed trial may
-pass its shutdown checks while `control_status` remains NOT ASSESSED. Retained
-readback snapshots do not count as fresh measurement evidence. Detected faults
-still fail the relevant check even if no RUNNING samples were recorded.
+- Python: **154 tests executed, 153 passed, one Tk widget initialization test
+  skipped** because this environment lacks a usable `init.tcl`. A separate
+  dashboard presentation test passes without Tk and checks signs, branch values,
+  applied/measured targets and retained-data labeling.
+- Native: **18 EV kernel + 9 publisher + 9 HUD checks passed**. Graphics/client
+  and the HUD test were rebuilt; native EV simulation sources were not changed.
+- `.local/prototype-current-validation/smoke`: 15-second actual TORCS AI smoke,
+  746 native/received samples, zero missing/invalid packets, all normal acceptance
+  gates passed, verified orderly mock shutdown, max tracking error 0.004992 A.
+- `.local/prototype-current-validation/regen-interruption`: actual TORCS AI ran
+  223.78 simulation seconds; all 11,190 samples matched native CSV with zero
+  missing/invalid packets. Arming during native regeneration produced a positive
+  cell target (+0.001104 A); balanced isolated startup took about 0.530 s. Both
+  cell-current signs tracked. Maximum RUNNING tracking error was 0.020085 A.
+  Deliberate interruption latched STALE_TELEMETRY about 0.553 s after interruption,
+  disabled both outputs and opened isolation. Pre-interruption integration and
+  fault-response checks passed; uninterrupted normal-operation acceptance failed
+  as required for this deliberate fault.
+- `.local/prototype-current-validation/endpoints`: a synthetic mock experiment
+  reached applied/measured -2 A, neutral and +1 A. PSU commands stayed at 1 A;
+  load setpoints spanned 0 to 3 A, with **68 RUNNING cycles at enabled 0 A**. Terminal
+  telemetry expiry verified both outputs disabled and isolation open. Maximum
+  tracking error was 0.020132 A. As expected, instantaneous demand lag during the
+  large steps reached about 2 A under the retained 0.2 A/s slew; this is recorded
+  separately and does not represent accurate instantaneous profile reproduction.
+- `current_mapping_audit.json` independently verifies cell signs against native
+  pack power, source sequences, readback-based KCL mapping, fixed PSU setpoint,
+  branch command limits and shutdown. Actual TORCS trial manifests match the
+  source/binary files tested.
 
-Deliberate telemetry interruption can be verified independently:
+These were headless trials. Full graphical dashboard layout/HUD rendering was
+not manually revalidated, and physical hardware capability/safety was not assessed.
 
-```powershell
-& .\aps380_torcs_starter\.venv\Scripts\python.exe -B scripts/validate_mock_interruption.py --healthy-seconds 12
-```
+## Historical validation before charging-positive migration
 
-This starts its own headless TORCS process, verifies RUNNING, stops that process,
-and keeps reception/control alive until expiry. Normal-operation acceptance must
-be false. The script succeeds only if the separate `fault_response` checks prove
-a latched expiry fault, disabled outputs and open isolation. It requires the
-existing native runtime and never accesses physical instruments.
-
-To reproduce startup while regenerative demand is already present, then exercise
-both directions before the deliberate interruption:
-
-```powershell
-& .\aps380_torcs_starter\.venv\Scripts\python.exe -B scripts/validate_mock_interruption.py --arm-on-regeneration --healthy-seconds 30
-```
-
-This stays DISARMED until native negative current is received (up to 240 seconds
-on the existing AI course), explicitly arms, then drives another 30 seconds.
-`arm_source`, `pre_interruption_integration` and `fault_response` in `trial.json`
-separate startup/directional tracking from the deliberately failed normal-stream
-acceptance after interruption. If regeneration or both tracked directions are
-not observed, this validation does not pass.
-
-For deliberate saturation, copy `profiles/live_scaling_demo.json` to a local
-experiment configuration and lower its charge/discharge bounds, for example to
-0.02 A. Pass it with `--config`; keep `experiment_scale` at 0.06. These reduced
-bounds are test stimuli, not changes to approved hardware ratings. Allow about
-210 s on the established course to observe native regenerative pack power.
-
-## Windows UDP shutdown
-
-The launcher marks expected shutdown and stops HUD sends before closing mocks
-and terminating its native peer. Only Windows UDP reset 10054 after this explicit
-boundary is recorded as `expected_shutdown_reset`; it is counted in the timing
-report. The same reset during operation, and other errors during shutdown, remain
-logged `receiver_error` failures, invalidate demand and retain RECEIVER_ERROR as
-the final receiver state. A deliberate telemetry-loss test leaves the receiver
-active until expiry; it does not mark the interruption as an orderly stop.
-
-Windows can report an earlier UDP send's ICMP Port Unreachable response through
-`recvfrom` as WSAECONNRESET; see the
-[Microsoft recvfrom reference](https://learn.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-recvfrom).
-The reset regression tests inject this OS error explicitly. Headless native trials
-do not exercise graphical HUD drawing or prove that every GUI shutdown race has
-occurred.
+The following preserved results describe schema 1 / discharge-positive CELL
+current and the previous operating policy. They are not current prototype values.
 
 ## Recorded validation: October 27, 2026
 

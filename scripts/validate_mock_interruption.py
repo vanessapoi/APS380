@@ -35,9 +35,13 @@ def main():
     receiver=LiveReceiver(0,output)
     service=MockInstrumentService(output/'mock_instruments')
     implementation=[Path(__file__),ROOT/'aps380_torcs_starter/torcs_live.py',
+                    ROOT/'aps380_torcs_starter/prototype_current_config.py',
+                    ROOT/'aps380_torcs_starter/cell_scaling.py',
                     ROOT/'aps380_torcs_starter/instrument_control.py',
                     ROOT/'aps380_torcs_starter/mock_instruments.py',
                     ROOT/'aps380_torcs_starter/trial_acceptance.py',
+                    ROOT/'external/torcs-1.3.10/src/modules/simu/simuv2/aps380_live.h',
+                    ROOT/'external/torcs-1.3.10/src/modules/simu/simuv2/simu.cpp',
                     RUNTIME/'modules/simu/simuv2.dll']
     (output/'implementation_manifest.json').write_text(json.dumps(
         {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in implementation},indent=2)+'\n')
@@ -60,7 +64,7 @@ def main():
             notice=0.
             while time.perf_counter()<deadline and process.poll() is None and not receiver.failed:
                 row=receiver.processor.current
-                if row and row['cell_current_command_A'] < -.001:
+                if row and row['pack_power_W'] < -250.:
                     arm_source=dict(row)
                     service.request('arm')
                     print(f"Arming during native regeneration at {row['time_s']:.2f} s: "
@@ -113,7 +117,7 @@ def main():
         running_direction_expected=bool(running) and all(e['direction_ok'] for e in running),
         no_invalid_packets=timing['statistics']['invalid']==0,
         no_packet_loss=timing['statistics']['missing']==0,receiver_healthy=timing['receiver_error'] is None)
-    for label,sign in (('discharge',1),('charge',-1)):
+    for label,sign in (('discharge',-1),('charge',1)):
         tracked=any(sign*e['permitted_A']>.002 and sign*e['applied_target_A']>.002 and
                     sign*e['branch_net_A']>.002 and abs(e['tracking_error_A'])<=service.config.tracking_tolerance_A for e in running)
         if args.arm_on_regeneration or label=='discharge':integration_checks[label+'_tracked']=tracked

@@ -1,6 +1,6 @@
 """PC-side candidate OCV initialization and measured-net-current SOC counting.
 
-SOC is a fraction, discharge current is positive, timestamps are measurement
+SOC is a fraction, charging current is positive, timestamps are measurement
 times in seconds. No instrument communication or current commands are present.
 """
 from bisect import bisect_left
@@ -165,9 +165,10 @@ class CoulombCounter:
         # Midpoint-form average avoids unnecessary overflow when currents match.
         mean_current = self.previous.net_cell_current_A / 2 + measurement.net_cell_current_A / 2
         delta_Ah = finite("interval charge", mean_current * dt / 3600)
-        raw_soc = finite("updated SOC", self.soc - delta_Ah / self.capacity_Ah)
-        total_Ah = finite("total charge", self.net_discharged_Ah + delta_Ah)
+        raw_soc = finite("updated SOC", self.soc + delta_Ah / self.capacity_Ah)
+        # Named discharge totals remain discharge-positive quantities.
+        total_Ah = finite("total charge", self.net_discharged_Ah - delta_Ah)
         soc = max(0.0, min(1.0, raw_soc))
-        result = SocEstimate(measurement.time_s, dt, soc, raw_soc, soc != raw_soc, total_Ah, delta_Ah)
+        result = SocEstimate(measurement.time_s, dt, soc, raw_soc, soc != raw_soc, total_Ah, -delta_Ah)
         self.soc, self.previous, self.net_discharged_Ah = soc, measurement, total_Ah
         return result

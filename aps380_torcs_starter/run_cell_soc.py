@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from cell_soc import CellMeasurement, CoulombCounter, RestEvidence, load_reference, DEFAULT_REFERENCE
+from prototype_current_config import CELL_CURRENT_CONVENTION, current_metadata
 
 FIELDS = ("session_id", "time_s", "cell_voltage_V", "net_cell_current_A", "cell_temperature_C")
 
@@ -28,6 +29,8 @@ def read_measurements(path):
 
 
 def replay(measurements, reference, config):
+    if config.get('cell_current_convention') != CELL_CURRENT_CONVENTION:
+        raise ValueError('Measurement replay must explicitly declare charging_positive current')
     if config["data_kind"] not in ("mock", "recorded"):
         raise ValueError("data_kind must explicitly be mock or recorded")
     if not isinstance(config["capacity_basis"], str) or not config["capacity_basis"].strip():
@@ -38,7 +41,7 @@ def replay(measurements, reference, config):
     estimates = [counter.initial_estimate()]
     for measurement in measurements[1:]:
         estimates.append(counter.update(measurement))
-    return [dict(asdict(measurement), **asdict(estimate))
+    return [dict(asdict(measurement), **asdict(estimate), **current_metadata())
             for measurement, estimate in zip(measurements, estimates)]
 
 
@@ -65,6 +68,7 @@ def process(input_path, config_path, output_dir, reference_path=DEFAULT_REFERENC
     if any(path.read_bytes() != original[path] for path in paths):
         raise ValueError("Replay inputs changed during processing")
     summary = {
+        **current_metadata(),
         "status": "candidate_reference_only; cell accuracy not experimentally validated",
         "data_kind": config["data_kind"],
         "measurement_provenance": "Caller label; replay does not authenticate a physical measurement source",

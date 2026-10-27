@@ -52,9 +52,9 @@ These are engineering recommendations from the review, not claims established by
 
 - Store the polynomial as a source-labeled **candidate 25°C reference**, separately from measured calibration. Generate a bounded lookup table and verify inversion and SOC units.
 - Validate rested-voltage initialization against our actual cell at several independently established SOC points. Define out-of-range behavior and record initialization uncertainty.
-- Update running SOC on the PC using measured **net cell current**, elapsed measurement time and measured effective capacity. With discharge positive and SOC as a fraction, the baseline equation is `SOC_next = SOC - I_cell*dt/(3600*capacity_Ah)`; charge efficiency and measurement bias require consideration during calibration.
+- Update running SOC on the PC using measured **net cell current**, elapsed measurement time and measured effective capacity. With cell charging positive and SOC as a fraction, the baseline equation is `SOC_next = SOC + I_cell*dt/(3600*capacity_Ah)`; charge efficiency and measurement bias require consideration during calibration.
 - Use a measured/rest-qualified OCV relation for initialization or correction. Do not directly invert loaded terminal voltage as though it were OCV.
-- If an online observer is subsequently needed, identify a terminal-voltage model such as `V_terminal = OCV(SOC) - I_cell*R0 - V_polarization` under the project's discharge-positive convention. Validate its parameters and estimator against independent data before relying on it.
+- If an online observer is subsequently needed, identify a terminal-voltage model such as `V_terminal = OCV(SOC) + I_cell*R0 + V_polarization` under the project's charging-positive cell convention. Validate its parameters and estimator against independent data before relying on it.
 - Develop SOP separately using the approved voltage, current and temperature bounds, an explicit prediction horizon and validated electrical dynamics. An OCV polynomial alone cannot establish permissible charging or discharge power.
 - Keep Python responsible for SOC/SOP and instrument commands, ESP32 responsible for sensing/local supervision, and independent hardware protection separate, as required by the current project context.
 

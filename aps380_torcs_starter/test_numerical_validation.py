@@ -53,14 +53,14 @@ class ScalingNumericalTest(unittest.TestCase):
     def test_zero_directional_limits_and_finite_saturation(self):
         params = CellParameters(charge_limit_A=0)
         self.assertEqual(scale_to_cell(-75000, params)['cell_current_command_A'], 0)
-        self.assertEqual(scale_to_cell(75000, params)['cell_current_command_A'], 3)
+        self.assertEqual(scale_to_cell(75000, params)['cell_current_command_A'], -2)
         params = CellParameters(discharge_limit_A=0)
         self.assertEqual(scale_to_cell(75000, params)['cell_current_command_A'], 0)
-        self.assertEqual(scale_to_cell(-75000, params)['cell_current_command_A'], -1)
+        self.assertEqual(scale_to_cell(-75000, params)['cell_current_command_A'], 1)
         for power in (0, 75000, -75000, 1e300, -1e300):
             result = scale_to_cell(power)
             self.assertTrue(all(math.isfinite(value) for value in result.values()))
-        self.assertEqual(scale_to_cell(1e300)['cell_current_command_A'], 4)
+        self.assertEqual(scale_to_cell(1e300)['cell_current_command_A'], -2)
         with self.assertRaises(ValueError):
             CellParameters(charge_limit_A=-1)
         with self.assertRaises(ValueError):
@@ -69,12 +69,12 @@ class ScalingNumericalTest(unittest.TestCase):
     def test_valid_scaling_keeps_exact_legacy_equations(self):
         # Independently specified engineering examples, not a copy of the code.
         cases = [(0, 1, 0, 0, 0, 0, 0),
-                 (300, 1, .0432, .012, .012, .0432, 0),
-                 (75000, 1, 10.8, 3, 3, 10.8, 0),
-                 (150000, 1, 21.6, 6, 4, 14.4, 1),
-                 (-38700, 1, -5.5728, -1.548, -1, -3.6, 1),
-                 (75000, .2, 2.16, .6, .6, 2.16, 0),
-                 (-38700, .2, -1.11456, -.3096, -.3096, -1.11456, 0)]
+                 (300, 1, -.0432, -.012, -.012, -.0432, 0),
+                 (75000, 1, -10.8, -3, -2, -7.2, 1),
+                 (150000, 1, -21.6, -6, -2, -7.2, 1),
+                 (-38700, 1, 5.5728, 1.548, 1, 3.6, 1),
+                 (75000, .2, -2.16, -.6, -.6, -2.16, 0),
+                 (-38700, .2, 1.11456, .3096, .3096, 1.11456, 0)]
         keys = ('cell_power_requested_W', 'cell_current_unclamped_A',
                 'cell_current_command_A', 'cell_power_command_W', 'command_saturated')
         for power, scale, *expected in cases:

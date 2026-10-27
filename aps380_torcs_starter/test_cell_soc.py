@@ -54,14 +54,14 @@ class CellSocTest(unittest.TestCase):
                 CoulombCounter.from_rest(self.reference, measurement, self.rest, capacity_Ah=3.5, max_gap_s=1)
 
     def test_coulomb_counting_units_charge_sign_and_irregular_intervals(self):
-        counter = CoulombCounter(2, 4000, .8, sample(current=1))
-        first = counter.update(sample(900, current=1))
+        counter = CoulombCounter(2, 4000, .8, sample(current=-1))
+        first = counter.update(sample(900, current=-1))
         self.assertAlmostEqual(first.soc, .675)  # 0.25 Ah removed from 2 Ah.
-        second = counter.update(sample(2700, current=1))
+        second = counter.update(sample(2700, current=-1))
         self.assertAlmostEqual(second.soc, .425)
-        third = counter.update(sample(3600, current=-1))
-        self.assertAlmostEqual(third.soc, .425)  # Linear +1 to -1 A has zero net charge.
-        final = counter.update(sample(3960, current=-1))
+        third = counter.update(sample(3600, current=1))
+        self.assertAlmostEqual(third.soc, .425)  # Linear -1 to +1 A has zero net charge.
+        final = counter.update(sample(3960, current=1))
         self.assertAlmostEqual(final.soc, .475)
         self.assertAlmostEqual(final.net_discharged_Ah, .65)
 
@@ -78,14 +78,14 @@ class CellSocTest(unittest.TestCase):
         self.assertEqual(counter.previous.time_s, 2)
 
     def test_clamping_is_explicit_and_charge_accounting_is_preserved(self):
-        counter = CoulombCounter(1, 3600, .1, sample(current=1))
-        result = counter.update(sample(3600, current=1))
+        counter = CoulombCounter(1, 3600, .1, sample(current=-1))
+        result = counter.update(sample(3600, current=-1))
         self.assertEqual(result.soc, 0)
         self.assertAlmostEqual(result.soc_unclamped, -.9)
         self.assertTrue(result.boundary_clipped)
         self.assertEqual(result.net_discharged_Ah, 1)
-        charging = CoulombCounter(1, 3600, .9, sample(current=-1))
-        result = charging.update(sample(3600, current=-1))
+        charging = CoulombCounter(1, 3600, .9, sample(current=1))
+        result = charging.update(sample(3600, current=1))
         self.assertEqual(result.soc, 1)
         self.assertAlmostEqual(result.soc_unclamped, 1.9)
         self.assertTrue(result.boundary_clipped)
@@ -106,7 +106,7 @@ class CellSocTest(unittest.TestCase):
                 CoulombCounter(capacity, gap, initial, sample())
 
     def test_mock_replay_provenance_and_outputs(self):
-        source = BASE / "data/mock_cell_soc.csv"
+        source = BASE / "data/mock_cell_soc_charging_positive.csv"
         config = BASE / "profiles/mock_cell_soc_replay.json"
         before = source.read_bytes()
         with tempfile.TemporaryDirectory() as directory:
@@ -130,13 +130,13 @@ class CellSocTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 read_measurements(path)
             config = json.loads((BASE / "profiles/mock_cell_soc_replay.json").read_text())
-            rows = read_measurements(BASE / "data/mock_cell_soc.csv")
+            rows = read_measurements(BASE / "data/mock_cell_soc_charging_positive.csv")
             with self.assertRaises(ValueError):
                 replay(rows, self.reference, dict(config, data_kind="simulator_pack"))
             with self.assertRaises(ValueError):
                 replay(rows, self.reference, dict(config, max_gap_s=5))
             with self.assertRaises(ValueError):
-                process(BASE / "data/mock_cell_soc.csv", BASE / "profiles/mock_cell_soc_replay.json",
+                process(BASE / "data/mock_cell_soc_charging_positive.csv", BASE / "profiles/mock_cell_soc_replay.json",
                         Path(directory), path)
             self.assertFalse((Path(directory) / "cell_soc.csv").exists())
 

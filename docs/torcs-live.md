@@ -1,3 +1,9 @@
+> Current CELL convention: negative discharge, positive charge. Native PACK
+> telemetry keeps positive draw. Prototype PSU CC = 1.0 A, eLoad CC = 0 to 3.0 A,
+> battery current = -2.0 to +1.0 A, configured in `prototype_current_config.py`.
+> Rebuild graphics/client for APS380HUD2; APS380HUD1 is rejected. Raw telemetry
+> UDP remains version 1. Historical validation reports retain their original signs.
+
 # Real-time native TORCS telemetry
 
 See [recorded trial results and limitations](torcs-live-validation.md) for the completed AI/manual telemetry captures and operator-confirmation boundary.
@@ -39,17 +45,17 @@ For an independently launched simulator, use `--mode listen --port 50001`; enabl
 
 The HUD shows speed, pedals, native pack power/voltage/current/simulated SOC and net energy, motor power/torque/RPM, fixed-scale requested and clipped cell current, directional bounds, utilization, excess current, nominal cell basis, fixed scaling factor, stream age/rate/errors, damage and collisions. Cell voltage/current/temperature are not measured: the displayed cell basis and demand are model quantities.
 
-Warnings compare **unclipped, fixed-scale cell demand** against the configured bound for its direction. Positive demand uses the discharge bound; negative demand uses the charge bound. Amber starts at 90% utilization. Demand above a bound produces a red banner, red screen border and faint steady red tint while preserving the road view. The banner identifies discharge or regenerative charging. A one-second minimum visual hold prevents flicker; the numeric values continue updating. These thresholds are display policy, not additional battery ratings.
+Warnings compare **unclipped, fixed-scale cell demand** against the configured bound for its direction. Negative CELL demand uses the discharge bound; positive CELL demand uses the charge bound. Raw native PACK telemetry retains positive draw. Amber starts at 90% utilization. Demand above a bound produces a red banner, red screen border and faint steady red tint while preserving the road view. The banner identifies discharge or regenerative charging. A one-second minimum visual hold prevents flicker; the numeric values continue updating. These thresholds are display policy, not additional battery ratings.
 
 Missing, invalid, ended or stale feedback replaces the current target with an unavailable indication. TORCS independently rejects old feedback (over 0.5 seconds), mismatched game sessions/cars and malformed values. Python also reports continuity and stream state. The last-known vehicle quantities are labeled accordingly. A paused simulation and lost telemetry can both cause stale feedback.
 
-The default experiment remains fixed scale 0.06 with -1/+1 A bounds. Visual alarms do not reduce acceleration or enforce physical protection. The final clipped current remains a software result, not a command sent to a load or PSU. Bench measurements, approved limits, independent protection and vehicle power derating require later work.
+The default experiment remains fixed scale 0.06 with charging-positive cell bounds -2/+1 A. Visual alarms do not reduce acceleration or enforce physical protection. The final limited current remains a software result unless the optional in-memory mock coordinator is enabled. No physical PSU/eLoad commands are available. Bench measurements, approved limits, independent protection and vehicle power derating require later work.
 
 The launcher builds both the graphics static library and its consuming `client.dll`, in addition to the simulator. Close TORCS before rebuilding. `-SkipBuild` is appropriate only after installing the updated binaries. Python must remain running for live scaling feedback even with `-NoDesktop`.
 
 ## Fixed experiment configuration
 
-`aps380_torcs_starter/profiles/live_scaling_demo.json` explicitly declares simulation-only operation. It selects 3.65 V and 3.5 Ah from the EVE INR18650/35V nominal/typical datasheet values, not measured effective capacity. The fixed experiment factor is **0.06**; final bounds are **-1 A and +1 A**, illustrative experiment settings rather than approved hardware ratings. None of these values is recalculated from live peaks. A future drive can exceed a chosen target and invoke final clipping.
+`aps380_torcs_starter/profiles/live_scaling_demo.json` explicitly declares simulation-only operation. It selects 3.65 V and 3.5 Ah from the EVE INR18650/35V nominal/typical datasheet values, not measured effective capacity. The fixed experiment factor is **0.06**; centralized prototype bounds are **-2 A and +1 A**, illustrative experiment settings rather than approved hardware ratings. None of these values is recalculated from live peaks. A future drive can exceed a chosen target and invoke final clipping.
 
 Pack energy is resolved from the exact captured Tesla profile (`unvalidated.capacity_Wh`, currently 50 kWh). No 75 kWh legacy default is silently substituted. The Tesla model, capacity and efficiencies retain their existing unvalidated status. The new configuration does not change the vehicle-profile bytes or historical captures.
 

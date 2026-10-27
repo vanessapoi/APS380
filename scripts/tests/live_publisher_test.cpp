@@ -11,6 +11,11 @@ static void require(bool value,const char *name) {
     ++checks;
 }
 int main() {
+    require(!aps380_live::sampleReady(0.0,false),"grid initialization is not a live sample");
+    require(!aps380_live::sampleReady(-.02,true),"negative countdown time is not a sample");
+    require(aps380_live::sampleReady(0.0,true),"active race time zero is recorded");
+    require(aps380_live::sampleReady(1.0,true),"active driving/finishing is recorded");
+    require(!aps380_live::sampleReady(HUGE_VAL,true),"nonfinite clock is not recorded");
     _putenv_s("APS380_LIVE_PORT","");
     aps380_live::init(1);
     require(aps380_live::channel==INVALID_SOCKET,"disabled by default");
@@ -26,6 +31,13 @@ int main() {
     char port[20];snprintf(port,sizeof(port),"%u",ntohs(endpoint.sin_port));
     _putenv_s("APS380_LIVE_PORT",port);
     _putenv_s("APS380_LIVE_REALTIME","0");
+    aps380_live::init(1);
+    aps380_live::shutdown(); // race abandoned before any active sample
+    DWORD shortTimeout=50;
+    setsockopt(listener,SOL_SOCKET,SO_RCVTIMEO,(char*)&shortTimeout,sizeof(shortTimeout));
+    char empty[32];
+    require(recv(listener,empty,sizeof(empty),0)==SOCKET_ERROR && WSAGetLastError()==WSAETIMEDOUT,
+            "unstarted race does not send an end for an unknown stream");
     aps380_live::init(1);
     DWORD timeout=2000;setsockopt(listener,SOL_SOCKET,SO_RCVTIMEO,(char*)&timeout,sizeof(timeout));
     aps380_live::send(0,"sample,\"quoted\"\n");

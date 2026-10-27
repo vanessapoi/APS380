@@ -24,12 +24,12 @@ class DriverFeedback:
             finite_number(name,value)
         if min(discharge_limit,charge_limit)<0:
             raise ValueError('Current bounds must be nonnegative')
-        limit=discharge_limit if current>=0 else charge_limit
+        limit=charge_limit if current>=0 else discharge_limit
         utilization=min(abs(current)/limit,1e6) if limit>0 else (1e6 if current else 0.)
-        excess=max(current-discharge_limit,-charge_limit-current,0.)
+        excess=max(current-charge_limit,-discharge_limit-current,0.)
         # Relative tolerance suppresses floating-point boundary noise only.
         tolerance=limit*1e-9
-        instantaneous=2 if current>discharge_limit+tolerance else (3 if current < -charge_limit-tolerance else 0)
+        instantaneous=2 if current < -discharge_limit-tolerance else (3 if current > charge_limit+tolerance else 0)
         if instantaneous:
             self.alert=instantaneous;self.hold_until=now+1.
         elif now>=self.hold_until:
@@ -68,6 +68,7 @@ class DriverFeedback:
                 r['damage'],r['collision'],r['discharge_Wh']-r['charge_Wh'],
                 processor.stats['missing'],processor.stats['invalid'],rate,r['time_s']]
         for value in values:finite_number('HUD value',value)
-        text=f'APS380HUD1 {game_pid} {os.getpid()} {self.sequence} {session} '
+        # V2 changes CELL signs only; native PACK fields retain TORCS signs.
+        text=f'APS380HUD2 {game_pid} {os.getpid()} {self.sequence} {session} '
         self.sequence+=1
         return (text+' '.join(format(value,'.12g') for value in values)).encode('ascii')

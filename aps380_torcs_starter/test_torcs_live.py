@@ -37,7 +37,7 @@ class LiveProcessorTest(unittest.TestCase):
 
     def test_native_power_fixed_scale_and_packet_loss(self):
         result=accept(self.p,packet(self.p,power=100000))
-        self.assertAlmostEqual(result['cell_current_unclamped_A'],.42)
+        self.assertAlmostEqual(result['cell_current_unclamped_A'],-.42)
         self.assertEqual(self.p.cell.equivalent_pack_energy_Wh,50000)
         accept(self.p,packet(self.p,t=.04,seq=2,power=100000))
         self.assertEqual(self.p.stats['missing'],1)
@@ -47,8 +47,8 @@ class LiveProcessorTest(unittest.TestCase):
         for power in (100000,-100000,1e6):
             p=LiveProcessor(PROFILE,CONFIG)
             result=accept(p,packet(p,power=power))
-            self.assertAlmostEqual(result['cell_current_unclamped_A'],power*.0000042)
-            self.assertTrue(-1<=result['cell_current_command_A']<=1)
+            self.assertAlmostEqual(result['cell_current_unclamped_A'],-power*.0000042)
+            self.assertTrue(-2<=result['cell_current_command_A']<=1)
 
     def test_no_speed_based_power_or_automatic_normalization(self):
         with patch('cell_scaling.auto_scale_profile',side_effect=AssertionError('offline only')):
@@ -155,7 +155,7 @@ class LiveLoopbackTest(unittest.TestCase):
         self.assertEqual(len(rows),4541)
         self.assertFalse(summary['real_time_timing_evidence'])
         for row in rows:
-            self.assertAlmostEqual(row['cell_current_unclamped_A'],row['pack_power_W']*.0000042)
+            self.assertAlmostEqual(row['cell_current_unclamped_A'],-row['pack_power_W']*.0000042)
 
     def test_receiver_logs_bad_data_and_valid_data_and_saves_report(self):
         with tempfile.TemporaryDirectory() as folder:

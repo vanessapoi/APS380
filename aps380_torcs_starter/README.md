@@ -1,3 +1,10 @@
+> Current prototype (October 27, 2026): CELL current is negative for discharge,
+> positive for charge; native PACK telemetry is positive for draw. Prototype
+> defaults are PSU CC 1.0 A, eLoad CC 0 to 3.0 A and cell -2.0 to +1.0 A, centralized
+> in `prototype_current_config.py`. Mock only; no physical drivers. HUD feedback
+> uses APS380HUD2 and requires rebuilt graphics/client binaries. Historical
+> captures and old benchmark values retain their recorded conventions.
+
 # APS380 — offline telemetry → cell current
 
 The original Milestone 1 demand pipeline is software only. The established architecture assigns instrument communication and SOC/SOP to Python on the PC; ESP32 provides sensing and local supervision. Physical instrument control and ESP32 communication are not implemented; the separate live path below now provides simulator-to-PC UDP telemetry. The original demo CSV is synthetic; subsequent TORCS recordings and their limitations are documented separately.
@@ -129,15 +136,15 @@ Each derived power/current at timestamp `t[i]` represents the preceding interval
 ```
 E_cell_Wh = nominal_voltage_V * capacity_Ah
 scale = E_cell_Wh / equivalent_pack_energy_Wh
-P_cell_requested = P_battery * scale
+P_cell_requested = -P_battery * scale
 I_raw = P_cell_requested / nominal_voltage_V
-I_command = clamp(I_raw, -charge_limit_A, discharge_limit_A)
+I_command = clamp(I_raw, -discharge_limit_A, charge_limit_A)
 P_cell_command = nominal_voltage_V * I_command
 ```
 
-Positive power/current means discharge; negative means charge. Equivalent-energy scaling approximates each cell’s share of a homogeneous pack and preserves nominal C-rate: `I_raw/capacity_Ah = P_battery/equivalent_pack_energy_Wh`. It is a modelling choice, not a claim about a verified pack topology. Current limits do not determine the scale.
+Native vehicle power/current are positive for draw. Derived CELL power/current are charging-positive: negative means discharge; positive means charge. Equivalent-energy scaling approximates each cell’s share of a homogeneous pack and preserves nominal C-rate: `I_cell/capacity_Ah = -P_vehicle_native/equivalent_pack_energy_Wh`. It is a modelling choice, not a claim about a verified pack topology. Current limits do not determine the scale.
 
-The example 75 kWh pack and 3 Ah, 3.6 V cell imply scale 0.000144 (about 6944 equivalent cells); 100 kW maps to 14.4 W and 4 A before limiting. This corrects the original arbitrary 160 kW-to-4 A normalization. Clipping distorts the waveform and energy; the CSV retains raw demand, limited demand and `command_saturated` to expose it. No vehicle feedback is applied in this offline milestone.
+The example 75 kWh pack and 3 Ah, 3.6 V cell imply scale 0.000144 (about 6944 equivalent cells); 100 kW maps to charging-positive cell demand -14.4 W and -4 A before limiting. This corrects the original arbitrary 160 kW-to-4 A normalization. Clipping distorts the waveform and energy; the CSV retains raw demand, limited demand and `command_saturated` to expose it. No vehicle feedback is applied in this offline milestone.
 
 ## Configuration and limitations
 
@@ -154,7 +161,7 @@ Edit `config.json`. All defaults are illustrative engineering assumptions, not m
 | Auxiliary power | 300 W | constant electrical accessory demand |
 | Pack energy | 75000 Wh | nominal equivalent-energy scale |
 | Cell voltage / capacity | 3.6 V / 3 Ah | nominal single-cell approximation |
-| Discharge / charge limits | 4 A / 1 A | offline clipping examples only, not safe cell ratings |
+| Prototype discharge / charge limits | 2 A / 1 A magnitudes | signed interval -2 to +1 A; mock settings, not hardware safety ratings |
 
 The model assumes flat road, still air and forward motion. It omits grade, rotating inertia, cornering/tire slip losses, motor efficiency maps, actual brake blending and low-speed regen fade. Regen fraction is fixed, not inferred from the brake pedal. No propulsion power cap is applied: impossible acceleration telemetry can yield impossible raw vehicle demand, which should be reviewed rather than silently rewritten. Sparse/noisy speed data can produce large acceleration errors; filtering and sampling validation need calibration against real recordings. Irregular positive intervals are supported but gaps are not reconstructed.
 
@@ -234,7 +241,7 @@ Results are in `output/torcs_comparison/`: three comparison plots, `summary.csv`
 All cell configurations now optionally accept `experiment_scale` (default 1). The power scaling equation becomes:
 
 ```
-P_cell_requested = P_vehicle * (V_nominal * capacity_Ah / pack_energy_Wh) * experiment_scale
+P_cell_requested = -P_vehicle * (V_nominal * capacity_Ah / pack_energy_Wh) * experiment_scale
 ```
 
 At 1, nominal C-rate equivalence remains. At 0.2, requested cell current and power are one fifth of the energy-equivalent values; C-rate equivalence is deliberately sacrificed to retain more waveform detail at bench scale. This factor is an offline experiment choice, not a larger fictional pack or an approved operating envelope. It does not change vehicle power or increase current limits. Ordinary `run.py` accepts this field through its existing cell configuration; smoothing is only applied by the comparison script.

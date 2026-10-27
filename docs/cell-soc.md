@@ -9,9 +9,9 @@ See [the paper review](ocv-paper-review.md) for source inconsistencies and limit
 - `aps380_torcs_starter/cell_soc.py`: candidate lookup, rest qualification and stateful coulomb counter, using only the Python standard library.
 - `aps380_torcs_starter/profiles/eve_35v_ocv_candidate.json`: printed coefficients, source identity and candidate initialization policy. It is separate from the Tesla pack model and legacy current-scaling configuration.
 - `aps380_torcs_starter/run_cell_soc.py`: replay of timestamped net-cell measurements with provenance and CSV outputs.
-- `aps380_torcs_starter/data/mock_cell_soc.csv` and `profiles/mock_cell_soc_replay.json`: explicitly synthetic demonstration and configuration. They are not battery calibration or bench evidence.
+- `aps380_torcs_starter/data/mock_cell_soc_charging_positive.csv` and `profiles/mock_cell_soc_replay.json`: explicitly synthetic demonstration and configuration. They are not battery calibration or bench evidence.
 
-Application SOC is a **fraction, 0–1**. Polynomial input is percent, converted internally. Current is amperes, discharge positive and charging negative. Time is measurement time in seconds within a single session; the initial timestamp anchors integration and contributes no charge.
+Application SOC is a **fraction, 0–1**. Polynomial input is percent, converted internally. Current is amperes, charging positive and discharging negative. New replay configurations must explicitly declare `cell_current_convention: charging_positive`. Time is measurement time in seconds within a single session; the initial timestamp anchors integration and contributes no charge.
 
 ## Run the mock example
 
@@ -19,7 +19,7 @@ From the repository root in PowerShell:
 
 ```powershell
 & .\aps380_torcs_starter\.venv\Scripts\python.exe .\aps380_torcs_starter\run_cell_soc.py `
-  --input .\aps380_torcs_starter\data\mock_cell_soc.csv `
+  --input .\aps380_torcs_starter\data\mock_cell_soc_charging_positive.csv `
   --config .\aps380_torcs_starter\profiles\mock_cell_soc_replay.json `
   --output-dir .\.local\cell-soc-demo
 ```
@@ -58,7 +58,7 @@ For successive measurements in the same session:
 ```text
 dt = time_now - time_previous
 delta_Ah = (I_previous + I_now)/2 * dt/3600
-SOC_unclamped = SOC_previous - delta_Ah/capacity_Ah
+SOC_unclamped = SOC_previous + delta_Ah/capacity_Ah
 SOC = clamp(SOC_unclamped, 0, 1)
 ```
 

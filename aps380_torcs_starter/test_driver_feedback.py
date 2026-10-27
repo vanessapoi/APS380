@@ -13,7 +13,7 @@ from torcs_live import LiveProcessor,LiveReceiver
 
 class DriverFeedbackTest(unittest.TestCase):
     def test_normal_near_and_directional_exceedance(self):
-        for demand,expected in ((.5,0),(.9,1),(1.,1),(1.1,2),(-.9,1),(-1.1,3)):
+        for demand,expected in ((.5,0),(.9,1),(1.,1),(1.1,3),(-.9,1),(-1.1,2)):
             feedback=DriverFeedback()
             alarm,utilization,excess=feedback.evaluate(demand,1,1,10)
             self.assertEqual(alarm,expected)
@@ -21,8 +21,8 @@ class DriverFeedbackTest(unittest.TestCase):
             self.assertAlmostEqual(excess,max(abs(demand)-1,0))
 
     def test_asymmetric_zero_bounds_and_numerical_boundary(self):
-        self.assertEqual(DriverFeedback().evaluate(-.3,1,.2,10)[0],3)
-        self.assertEqual(DriverFeedback().evaluate(1e-20,0,1,10)[0],2)
+        self.assertEqual(DriverFeedback().evaluate(.3,1,.2,10)[0],3)
+        self.assertEqual(DriverFeedback().evaluate(-1e-20,0,1,10)[0],2)
         self.assertEqual(DriverFeedback().evaluate(0,0,0,10)[0],0)
         self.assertEqual(DriverFeedback().evaluate(1+1e-12,1,1,10)[0],1)
         for value in (float('nan'),float('inf'),True):
@@ -30,7 +30,7 @@ class DriverFeedbackTest(unittest.TestCase):
 
     def test_red_hold_prevents_flicker_then_clears(self):
         feedback=DriverFeedback()
-        self.assertEqual(feedback.evaluate(2,1,1,10)[0],2)
+        self.assertEqual(feedback.evaluate(-2,1,1,10)[0],2)
         self.assertEqual(feedback.evaluate(.2,1,1,10.5)[0],2)
         self.assertEqual(feedback.evaluate(.2,1,1,11.01)[0],0)
 
@@ -38,14 +38,16 @@ class DriverFeedbackTest(unittest.TestCase):
         p=LiveProcessor(PROFILE,CONFIG)
         accept(p,packet(p,power=1e6,session=f'{os.getpid()}-trial-0'))
         parts=DriverFeedback().encode(p,os.getpid(),10.002).decode().split()
-        self.assertEqual(parts[0],'APS380HUD1')
+        self.assertEqual(parts[0],'APS380HUD2')
         values=list(map(float,parts[5:]))
         self.assertEqual(len(values),HUD_VALUE_COUNT)
         self.assertEqual(values[1],1)
         self.assertEqual(values[2],2)
-        self.assertAlmostEqual(values[14],4.2)
-        self.assertEqual(values[15],1)
-        self.assertAlmostEqual(values[22],3.2)
+        self.assertEqual(values[7],1000.)  # native pack power remains positive draw
+        self.assertAlmostEqual(values[9],1e6/355)
+        self.assertAlmostEqual(values[14],-4.2)
+        self.assertEqual(values[15],-2)
+        self.assertAlmostEqual(values[22],2.2)
 
     def test_stale_and_new_session_do_not_show_healthy_alarm(self):
         p=LiveProcessor(PROFILE,CONFIG)
@@ -66,7 +68,7 @@ class DriverFeedbackTest(unittest.TestCase):
                 address=('127.0.0.1',receiver.port)
                 hud.sendto(HUD_HELLO+str(os.getpid()).encode(),address)
                 data,_=hud.recvfrom(4096)
-                self.assertTrue(data.startswith(b'APS380HUD1 '))
+                self.assertTrue(data.startswith(b'APS380HUD2 '))
                 hud.sendto(json.dumps(packet(receiver.processor,power=1e6,
                     session=f'{os.getpid()}-trial-0')).encode(),address)
                 data,_=hud.recvfrom(4096)

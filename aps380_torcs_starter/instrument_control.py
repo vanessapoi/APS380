@@ -4,6 +4,7 @@ No hardware drivers are accepted by this implementation. Future physical use
 requires a separate reviewed arming/interlock implementation, not a mode switch.
 """
 from dataclasses import asdict, dataclass
+from collections import deque
 from enum import Enum
 import json
 from pathlib import Path
@@ -14,6 +15,8 @@ from instrument_interfaces import InstrumentError, ProgrammablePSU, BK8500Load, 
 from numerical_validation import finite_number
 from mock_instruments import MockPSU, MockBK8500, MockIsolation
 from trial_acceptance import instrument_acceptance
+from prototype_current_config import (PrototypeCurrentConfig as ControlConfig,
+                                      CELL_CURRENT_CONVENTION, CURRENT_SCHEMA_VERSION, current_metadata)
 
 
 class State(str, Enum):
@@ -24,40 +27,13 @@ class State(str, Enum):
 
 
 @dataclass(frozen=True)
-class ControlConfig:
-    discharge_limit_A: float = 1.
-    charge_limit_A: float = .5
-    psu_bias_A: float = .5
-    control_hz: float = 10.
-    command_expiry_s: float = .5
-    measurement_expiry_s: float = .2
-    io_timeout_s: float = .02
-    settling_timeout_s: float = .6
-    ready_timeout_s: float = 30.
-    tracking_tolerance_A: float = .03
-    slew_rate_A_per_s: float = .2
-    neutral_tolerance_A: float = .002
-    direction_tolerance_A: float = .002
-    neutral_hold_s: float = .1
-    transition_timeout_s: float = 6.
-
-    def __post_init__(self):
-        for name, value in asdict(self).items():
-            finite_number(name, value)
-            if value < 0 or (name not in ('discharge_limit_A', 'charge_limit_A', 'tracking_tolerance_A') and value == 0):
-                raise ValueError(f'Invalid control setting: {name}')
-        if self.control_hz > 100 or self.io_timeout_s > self.command_expiry_s:
-            raise ValueError('Control rate must be <=100 Hz and I/O timeout <= command expiry')
-        if self.neutral_tolerance_A > self.tracking_tolerance_A:
-            raise ValueError('Neutral tolerance must not exceed tracking tolerance')
-
-
-@dataclass(frozen=True)
 class Demand:
     current_A: float
     received_s: float
     session_id: str
     sequence: int
+    requested_current_A: float | None = None
+    sim_time_s: float | None = None
 
 
 class LatestDemand:
@@ -71,9 +47,16 @@ class LatestDemand:
     def publish(self, row, reason=''):
         value = None
         if row is not None and row.get('target_available', False):
+            if (row.get('cell_current_convention') != CELL_CURRENT_CONVENTION or
+                    type(row.get('current_schema_version')) is not int or
+                    row['current_schema_version'] != CURRENT_SCHEMA_VERSION):
+                self.publish(None, 'INVALID_CURRENT_CONVENTION')
+                return
             value = Demand(finite_number('cell current', row['cell_current_command_A']),
                            finite_number('receipt time', row['received_qpc_s']),
-                           row['session_id'], row['sequence'])
+                           row['session_id'], row['sequence'],
+                           finite_number('raw cell current', row.get('cell_current_unclamped_A', row['cell_current_command_A'])),
+                           row.get('time_s'))
         with self.lock:
             # Only discontinuities invalidate an in-flight control operation;
             # replacing a healthy sample at 50 Hz must not starve a 10 Hz worker.
@@ -96,8 +79,8 @@ class InstrumentCoordinator:
                  config=ControlConfig(), clock=time.perf_counter):
         if not all(getattr(device, 'mock_only', False) for device in (psu, load, isolation)):
             raise ValueError('This coordinator accepts MOCK devices only')
-        if config.psu_bias_A > min(psu.max_current_A, load.max_current_A):
-            raise ValueError('Bias exceeds mock instrument capability')
+        if config.psu_current_max_A > psu.max_current_A or config.eload_current_max_A > load.max_current_A:
+            raise ValueError('Prototype range exceeds mock instrument capability')
         self.psu, self.load, self.isolation = psu, load, isolation
         self.config, self.clock = config, clock
         self.state = State.DISARMED
@@ -232,8 +215,8 @@ class InstrumentCoordinator:
             self._safe_stop()
             if not self.shutdown_verified:
                 raise InstrumentError('Isolation not verified')
-            self.psu.set_current(self.config.psu_bias_A, self.config.io_timeout_s)
-            self.load.set_current(0., self.config.io_timeout_s)
+            self.psu.set_current(self.config.psu_cc_setpoint_A, self.config.io_timeout_s)
+            self.load.set_current(self.config.eload_current_min_A, self.config.io_timeout_s)
             # Isolated while the two mock branches settle; READY is not RUNNING.
             self.psu.set_output(True, self.config.io_timeout_s)
             self.load.set_output(True, self.config.io_timeout_s)
@@ -275,12 +258,27 @@ class InstrumentCoordinator:
             if demand is not None:
                 self._fresh_demand(demand)
             c = self.config
-            requested = finite_number('requested current', demand.current_A) if demand else 0.
-            target = max(-c.charge_limit_A, min(c.discharge_limit_A, requested))
+            requested = finite_number('requested current', demand.requested_current_A if demand.requested_current_A is not None else demand.current_A) if demand else 0.
+            target = max(c.battery_current_min_A, min(c.battery_current_max_A, demand.current_A)) if demand else 0.
             psu = self._read(self.psu)
             if not psu.status.output_enabled:
                 raise InstrumentError('PSU_OUTPUT_DISABLED')
+            if psu.status.mode != 'CC':
+                raise InstrumentError('PSU_NOT_CC')
+            if abs(psu.setpoint_A-c.psu_cc_setpoint_A) > c.numeric_tolerance_A:
+                raise InstrumentError('PSU_SETPOINT_CHANGED')
+            psu_lower=0. if self.state == State.READY else c.psu_current_min_A
+            if not psu_lower-c.tracking_tolerance_A <= psu.current_A <= c.psu_current_max_A+c.tracking_tolerance_A:
+                raise InstrumentError('PSU_MEASURED_LIMIT')
             before = self._read(self.load)
+            if not before.status.output_enabled:
+                raise InstrumentError('LOAD_OUTPUT_DISABLED')
+            if before.status.mode != 'CC':
+                raise InstrumentError('LOAD_NOT_CC')
+            before_net = psu.current_A-before.current_A
+            if self.state == State.RUNNING and not c.battery_current_min_A-c.tracking_tolerance_A <= before_net <= c.battery_current_max_A+c.tracking_tolerance_A:
+                self.last['pre_control_cell_current_A'] = before_net
+                raise InstrumentError('MEASURED_DIRECTIONAL_LIMIT')
             psu_stable = (self.previous_psu_current is not None and
                           abs(psu.current_A-self.previous_psu_current) <= c.neutral_tolerance_A)
             self.previous_psu_current = psu.current_A
@@ -288,22 +286,33 @@ class InstrumentCoordinator:
             # demand (including regeneration already present at arm time) must
             # not influence startup or be tested against an unsettled PSU.
             starting = self.state == State.READY
-            applied = 0. if starting else self._transition_target(target, before.current_A-psu.current_A)
-            load_target = psu.current_A + applied
+            applied = 0. if starting else self._transition_target(target, before_net)
+            load_target = psu.current_A - applied
+            if starting:
+                # A configured nonzero enabled-load minimum may prevent exact
+                # balance while the source rises. Remain isolated until settled.
+                load_target=max(c.eload_current_min_A,min(c.eload_current_max_A,load_target))
             self.last = dict(requested_A=requested, permitted_A=target, applied_target_A=applied,
                 transition_phase=self.phase, active_direction=self.active_direction,
                 transition_age_s=0. if self.transition_started is None else self.clock()-self.transition_started,
                 neutral_hold_elapsed_s=0. if self.neutral_since is None else self.clock()-self.neutral_since,
                 directional_saturated=requested != target, psu=asdict(psu),
-                feasible_min_A=-psu.current_A, feasible_max_A=self.load.max_current_A-psu.current_A,
+                feasible_min_A=max(c.battery_current_min_A, psu.current_A-c.eload_current_max_A),
+                feasible_max_A=min(c.battery_current_max_A, psu.current_A-c.eload_current_min_A),
                 load_target_A=load_target, demand_available=demand is not None,
                 source_session=demand.session_id if demand else None,
                 source_sequence=demand.sequence if demand else None,
-                source_received_s=demand.received_s if demand else None)
-            if not starting and not -c.neutral_tolerance_A <= psu.current_A+target <= self.load.max_current_A+c.neutral_tolerance_A:
+                source_received_s=demand.received_s if demand else None,
+                source_sim_time_s=demand.sim_time_s if demand else None)
+            if not starting and not c.eload_current_min_A-c.numeric_tolerance_A <= psu.current_A-target <= c.eload_current_max_A+c.numeric_tolerance_A:
                 # Fail closed: never claim an impossible signed demand was applied.
                 raise InstrumentError('INFEASIBLE_CURRENT')
-            self.load.set_current(max(0., min(self.load.max_current_A, load_target)), c.io_timeout_s)
+            if not c.eload_current_min_A-c.numeric_tolerance_A <= load_target <= c.eload_current_max_A+c.numeric_tolerance_A:
+                raise InstrumentError('INFEASIBLE_APPLIED_CURRENT')
+            sent_target = max(c.eload_current_min_A, min(c.eload_current_max_A, load_target))
+            self.last['load_command_A'] = sent_target
+            self.last['load_roundoff_adjustment_A'] = sent_target-load_target
+            self.load.set_current(sent_target, c.io_timeout_s)
             load = self._read(self.load)
             # Recheck all ages after blocking I/O; never act on a queued old command.
             if self.clock()-psu.acquired_s > c.measurement_expiry_s:
@@ -314,7 +323,9 @@ class InstrumentCoordinator:
                     raise InstrumentError('TELEMETRY_INVALIDATED_DURING_IO')
             if not load.status.output_enabled:
                 raise InstrumentError('LOAD_OUTPUT_DISABLED')
-            net = load.current_A-psu.current_A
+            if load.status.mode != 'CC':
+                raise InstrumentError('LOAD_NOT_CC')
+            net = psu.current_A-load.current_A
             error = net-applied
             expected_direction = self.active_direction
             direction_ok = (abs(net) <= c.direction_tolerance_A or
@@ -329,9 +340,8 @@ class InstrumentCoordinator:
             self.previous_load_current = load.current_A
             if starting:
                 # A nearly stationary CC readback near zero is not evidence that
-                # the configured bias has settled. CV may genuinely supply less.
-                bias_settled = (psu.status.mode == 'CV' or
-                                abs(psu.current_A-psu.setpoint_A) <= c.neutral_tolerance_A)
+                # the configured bias has settled. CV cannot qualify startup.
+                bias_settled = abs(psu.current_A-psu.setpoint_A) <= c.neutral_tolerance_A
                 if demand is not None and abs(net) <= c.neutral_tolerance_A and psu_stable and load_stable and bias_settled:
                     if self.ready_settled_since is None:
                         self.ready_settled_since = self.clock()
@@ -345,7 +355,7 @@ class InstrumentCoordinator:
                 else:
                     self.ready_settled_since = None
                 return  # apply the newest operational demand on the next cycle
-            if self.state == State.RUNNING and not -c.charge_limit_A-c.tracking_tolerance_A <= net <= c.discharge_limit_A+c.tracking_tolerance_A:
+            if self.state == State.RUNNING and not c.battery_current_min_A-c.tracking_tolerance_A <= net <= c.battery_current_max_A+c.tracking_tolerance_A:
                 raise InstrumentError('MEASURED_DIRECTIONAL_LIMIT')
             if self.state == State.RUNNING and not direction_ok:
                 raise InstrumentError('UNEXPECTED_CURRENT_DIRECTION')
@@ -366,10 +376,14 @@ class InstrumentCoordinator:
         retained = bool(self.last.get('psu')) and self.state not in (State.READY, State.RUNNING)
         context = ('retained_pre_fault' if self.state == State.FAULT else 'retained_after_disarm') if retained else (
             'startup' if self.state == State.READY else 'live' if self.state == State.RUNNING else 'not_available')
-        return dict(state=self.state.value, fault=self.fault_reason, mock_cell_current_A=cell_current,
+        return dict(**current_metadata(), state=self.state.value, fault=self.fault_reason, mock_cell_current_A=cell_current,
                     isolation=asdict(isolation), shutdown_verified=self.shutdown_verified,
                     shutdown_errors=list(self.shutdown_errors), **self.last,
                     measurement_context=context, measurements_retained=retained,
+                    cell_current_target_A=self.last.get('requested_A'),
+                    cell_current_limited_A=self.last.get('permitted_A'),
+                    cell_current_applied_A=self.last.get('applied_target_A'),
+                    cell_current_mock_measured_A=cell_current,
                     measurement_age_at_snapshot_s={name: self.clock()-self.last[name]['acquired_s']
                         for name in ('psu', 'load') if name in self.last})
 
@@ -383,18 +397,19 @@ class MockInstrumentService:
     def __init__(self, output, config=ControlConfig()):
         self.config = config
         self.demands = LatestDemand()
-        self.psu = MockPSU(clock=time.perf_counter)
-        self.load = MockBK8500(clock=time.perf_counter)
+        self.psu = MockPSU(clock=time.perf_counter, max_current_A=config.psu_current_max_A)
+        self.load = MockBK8500(clock=time.perf_counter, max_current_A=config.eload_current_max_A)
         self.coordinator = InstrumentCoordinator(self.psu, self.load,
             MockIsolation(self.psu, self.load), config)
         self.output = Path(output)
         self.output.mkdir(parents=True, exist_ok=False)
-        (self.output/'config.json').write_text(json.dumps(dict(mode='mock_only', **asdict(config)), indent=2)+'\n')
+        (self.output/'config.json').write_text(json.dumps(dict(mode='mock_only', **current_metadata(), **asdict(config)), indent=2)+'\n')
         self.log = (self.output/'instruments.jsonl').open('w', encoding='utf-8')
         self.stop_event, self.wake = threading.Event(), threading.Event()
         self.action_lock = threading.Lock()
         self.pending_action = None
         self.latest = self.coordinator.snapshot()
+        self.history = deque(maxlen=5000)
         self.failed = None
         self.cycles = 0
         self.arming_requested = False
@@ -418,6 +433,7 @@ class MockInstrumentService:
 
     def _record(self, event='cycle'):
         self.latest = self.coordinator.snapshot()
+        self.history.append(self.latest)
         devices = {}
         for name, device in (('psu', self.psu), ('load', self.load)):
             devices[name] = list(device.log)

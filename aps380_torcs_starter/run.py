@@ -65,9 +65,9 @@ def main():
     axes[1].legend()
     axes[2].plot(times, [r['cell_current_unclamped_A'] for r in rows], label='Requested', alpha=.6)
     axes[2].plot(times, currents, label='Limited command')
-    axes[2].axhline(cell.discharge_limit_A, color='red', linestyle=':', label='Offline limits')
-    axes[2].axhline(-cell.charge_limit_A, color='red', linestyle=':')
-    axes[2].set_ylabel('Cell current (A)\n+ discharge / − charge')
+    axes[2].axhline(-cell.discharge_limit_A, color='red', linestyle=':', label='Offline limits')
+    axes[2].axhline(cell.charge_limit_A, color='red', linestyle=':')
+    axes[2].set_ylabel('Cell current (A)\n- discharge / + charge')
     axes[2].set_xlabel('Time (s)')
     axes[2].legend()
     for axis in axes:

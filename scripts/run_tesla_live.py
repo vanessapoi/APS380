@@ -17,6 +17,7 @@ sys.path.insert(0,str(ROOT/'aps380_torcs_starter'))
 from torcs_live import LiveReceiver
 from run_ev import read_ev,verify_configuration
 from trial_acceptance import trial_acceptance
+from prototype_current_config import PROTOTYPE
 
 
 def audit_capture(output, receiver_rows, source):
@@ -46,8 +47,8 @@ def main():
                         help='Smoke checks integration; full-course also requires the completed AI protocol')
     parser.add_argument('--mock-instruments',action='store_true',help='Enable in-memory PSU/eLoad coordinator only')
     parser.add_argument('--mock-arm',action='store_true',help='Explicitly arm mock outputs; never physical hardware')
-    parser.add_argument('--mock-control-hz',type=float,default=10.)
-    parser.add_argument('--mock-charge-limit',type=float,default=.5)
+    parser.add_argument('--mock-control-hz',type=float,default=PROTOTYPE.control_hz)
+    parser.add_argument('--mock-charge-limit',type=float,default=PROTOTYPE.battery_current_max_A)
     args=parser.parse_args()
     policy=args.acceptance or ('full-course' if args.mode=='ai' and not args.visible_ai else 'smoke')
     if policy=='full-course' and (args.mode!='ai' or args.visible_ai):
@@ -57,7 +58,7 @@ def main():
     if args.mock_instruments:
         from instrument_control import ControlConfig, MockInstrumentService
         try:
-            mock_config=ControlConfig(discharge_limit_A=1., charge_limit_A=args.mock_charge_limit,
+            mock_config=ControlConfig(battery_current_max_A=args.mock_charge_limit,
                                       control_hz=args.mock_control_hz)
         except ValueError as error:parser.error(str(error))
     if args.visible_ai and args.mode!='ai':parser.error('--visible-ai requires --mode ai')
@@ -74,12 +75,13 @@ def main():
         local=ROOT/'.local/tesla-live-ai-profile';prepare_profile(local)
     elif args.mode=='g29':
         local=configure()
-    receiver=LiveReceiver(args.port,output,args.config,PROFILE)
+    receiver=LiveReceiver(args.port,output,args.config,PROFILE,current_config=mock_config or PROTOTYPE)
     mock_service = None
     if mock_config is not None:
         mock_service=MockInstrumentService(output/'mock_instruments',mock_config)
         receiver.demand_sink=mock_service.demands
     implementation=[Path(__file__), ROOT/'aps380_torcs_starter/torcs_live.py',
+                    ROOT/'aps380_torcs_starter/prototype_current_config.py',
                     ROOT/'aps380_torcs_starter/trial_acceptance.py',
                     ROOT/'aps380_torcs_starter/live_display.py',ROOT/'aps380_torcs_starter/cell_scaling.py',
                     TORCS/'src/modules/simu/simuv2/aps380_live.h',RUNTIME/'modules/simu/simuv2.dll',
@@ -193,6 +195,13 @@ def main():
     (output/'trial.json').write_text(json.dumps(result,indent=2)+'\n')
     report_text='# '+args.mode.upper()+' real-time trial\n\n'
     report_text+='Simulation only. Physical cell current tracking and Tesla fidelity remain unvalidated.\n\n'
+    statuses={section:result['acceptance'][section].get('status','NOT ASSESSED')
+              for section in ('telemetry','process','instruments','full_course')}
+    for section,status in statuses.items():report_text+=f'- {section}: **{status}**\n'
+    if mock_report and mock_report['acceptance']['faults']:
+        report_text+=f"\nInstrument faults: {', '.join(mock_report['acceptance']['faults'])}\n"
+    if report['stale_intervals']:
+        report_text+=f"\nStale interval evidence (none exempted): `{json.dumps(report['stale_intervals'])}`\n"
     for key,value in result['checks'].items():report_text+=f'- {key}: **{value}**\n'
     report_text+=f"\nAcceptance: {policy}; overall **{result['all_software_gates_passed']}**.\n"
     for section in ('telemetry','process','instruments','full_course'):
@@ -201,7 +210,8 @@ def main():
         report_text+=f"\n30/50 km/h qualifying holds: {result['course_protocol']['hold_30_seconds']:.2f} / {result['course_protocol']['hold_50_seconds']:.2f} s.\n"
     report_text+='\nSee timing_report.md, trial.json, live_profile.png and raw received.jsonl.\n'
     (output/'trial_report.md').write_text(report_text,encoding='utf-8')
-    print(json.dumps({'all_passed':result['all_software_gates_passed'],'checks':result['checks'],'output':str(output)},indent=2))
+    print(json.dumps({'all_passed':result['all_software_gates_passed'],'section_status':statuses,
+                     'checks':result['checks'],'output':str(output)},indent=2))
     if not result['all_software_gates_passed']:raise SystemExit(1)
 
 

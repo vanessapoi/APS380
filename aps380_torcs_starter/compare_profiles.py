@@ -26,7 +26,7 @@ def metrics(rows):
         'command_rms_A': math.sqrt(sum(r['cell_current_command_A']**2*r['interval_s'] for r in rows)/duration) if duration else 0,
         **{f'{kind}_{direction}_Wh': sum(max(sign*r[field],0)*r['interval_s']/3600 for r in rows)
            for kind,field in [('requested','cell_power_requested_W'),('command','cell_power_command_W')]
-           for direction,sign in [('discharge',1),('charge',-1)]}}
+           for direction,sign in [('discharge',-1),('charge',1)]}}
 
 
 def main():
@@ -66,8 +66,8 @@ def main():
             ax.set_ylabel(label)
             ax.grid(alpha=.3)
         axes[0].legend(fontsize=8)
-        axes[-1].axhline(cell.discharge_limit_A,color='black',linestyle=':')
-        axes[-1].axhline(-cell.charge_limit_A,color='black',linestyle=':')
+        axes[-1].axhline(-cell.discharge_limit_A,color='black',linestyle=':')
+        axes[-1].axhline(cell.charge_limit_A,color='black',linestyle=':')
         axes[-1].set_xlabel('Recorded lap time (s)')
         fig.suptitle(f'{path.stem}: illustrative EV equivalents; offline limits')
         fig.tight_layout()

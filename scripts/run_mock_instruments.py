@@ -9,35 +9,36 @@ import time
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'aps380_torcs_starter'))
 from cell_scaling import CellParameters, scale_to_cell
+from prototype_current_config import PROTOTYPE, current_metadata
 from instrument_control import ControlConfig, MockInstrumentService
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--arm-mock',action='store_true',help='Required explicit mock arming')
-    parser.add_argument('--charge-limit',type=float,default=.5)
-    parser.add_argument('--control-hz',type=float,default=10.)
+    parser.add_argument('--charge-limit',type=float,default=PROTOTYPE.battery_current_max_A)
+    parser.add_argument('--control-hz',type=float,default=PROTOTYPE.control_hz)
     parser.add_argument('--output-dir',type=Path)
     args=parser.parse_args()
     if not args.arm_mock:parser.error('Use --arm-mock to run this in-memory demonstration')
     try:
-        config=ControlConfig(discharge_limit_A=1.,charge_limit_A=args.charge_limit,control_hz=args.control_hz)
+        config=ControlConfig(battery_current_max_A=args.charge_limit,control_hz=args.control_hz)
     except ValueError as error:parser.error(str(error))
     output=args.output_dir or ROOT/'.local/mock-instruments'/datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     service=MockInstrumentService(output,config)
     cell=CellParameters(nominal_voltage_V=3.65,capacity_Ah=3.5,equivalent_pack_energy_Wh=50000,
-                        discharge_limit_A=1.,charge_limit_A=args.charge_limit,experiment_scale=.06)
+                        discharge_limit_A=config.discharge_limit_A,charge_limit_A=config.charge_limit_A,experiment_scale=.06)
     factor=cell.capacity_Ah/cell.equivalent_pack_energy_Wh*cell.experiment_scale
-    profile=[('discharge',1.4),('neutral',0.),('charge',-min(.3,args.charge_limit))]
+    profile=[('discharge',-2.4),('neutral',0.),('charge',args.charge_limit)]
     source=(output/'demand.jsonl').open('w',encoding='utf-8')
     service.start(arm=True)
     sequence=0
     try:
         for label,current in profile:
-            deadline=time.perf_counter()+1.2
+            deadline=time.perf_counter()+12.
             while time.perf_counter()<deadline:
                 now=time.perf_counter()
-                row=dict(scale_to_cell(current/factor,cell),received_qpc_s=now,
+                row=dict(scale_to_cell(-current/factor,cell),**current_metadata(),received_qpc_s=now,
                          session_id='mock-demo',sequence=sequence,target_available=True)
                 service.demands.publish(row)
                 source.write(json.dumps(dict(phase=label,source='synthetic_pack_power',**row))+'\n')

@@ -1,5 +1,6 @@
 """Loopback native EV telemetry, fixed scaling and audit reports. No actuation."""
 from collections import deque
+from dataclasses import asdict
 import csv
 import ctypes
 import hashlib
@@ -16,6 +17,7 @@ from cell_scaling import CellParameters, scale_to_cell
 from numerical_validation import finite_number, TimingPolicy
 from run_ev import numeric_ev_row, interval_net_energy, read_ev, verify_configuration
 from driver_feedback import DriverFeedback, HUD_HELLO
+from prototype_current_config import PROTOTYPE, current_metadata
 
 CSV_FIELDS = ('time_s','speed_mps','throttle','brake','car_id','profile_id',
               'longitudinal_mps','lateral_mps','vertical_mps','damage','collision',
@@ -41,19 +43,26 @@ def qpc_clock_verified():
 
 
 class LiveProcessor:
-    def __init__(self, profile_bytes, config, shared_clock=False):
+    def __init__(self, profile_bytes, config, shared_clock=False, current_config=PROTOTYPE):
         self.profile = json.loads(profile_bytes, parse_constant=reject_constant)
         self.identity = self.profile['id']+'-'+hashlib.sha256(profile_bytes).hexdigest()[:12]
         if config['mode'] != 'simulation_only':
             raise ValueError('Only simulation_only mode is implemented')
         self.config = config
+        self.current_config = current_config
         for key in ('stale_after_s','max_sender_age_s','max_sim_gap_s'):
             if finite_number(key, config[key]) <= 0:
                 raise ValueError(f'{key} must be positive')
         if type(config.get('display_refresh_ms',100)) is not int or config.get('display_refresh_ms',100)<20:
             raise ValueError('display_refresh_ms must be an integer of at least 20')
         capacity = self.profile['unvalidated']['capacity_Wh']
-        self.cell = CellParameters(**config['cell'], equivalent_pack_energy_Wh=capacity)
+        cell_config=dict(config['cell'])
+        limits=dict(discharge_limit_A=current_config.discharge_limit_A,
+                    charge_limit_A=current_config.charge_limit_A)
+        for key,value in limits.items():
+            if key in cell_config and cell_config.pop(key) != value:
+                raise ValueError(f'{key} conflicts with centralized current configuration')
+        self.cell = CellParameters(**cell_config, **limits, equivalent_pack_energy_Wh=capacity)
         self.timing = TimingPolicy(min_interval_s=1e-6)
         self.shared_clock = shared_clock
         self.session = None
@@ -152,7 +161,7 @@ class LiveProcessor:
         self.stats['accepted'] += 1
         self.stats['gaps'] += int(gap)
         self.status, self.error = ('GAP' if gap else 'RECEIVING'), ''
-        result = dict(row, **demand, session_id=session, sequence=seq, received_qpc_s=received,
+        result = dict(row, **demand, **current_metadata(), session_id=session, sequence=seq, received_qpc_s=received,
                       sender_qpc_s=sender, sender_age_ms=age*1000 if age is not None else None,
                       interval_s=dt, continuity_break=gap, target_available=not gap,
                       send_errors=packet['send_errors'], native_csv=packet['csv'],
@@ -164,12 +173,13 @@ class LiveProcessor:
 
 class LiveReceiver:
     def __init__(self, port, output, config_path=BASE/'profiles/live_scaling_demo.json',
-                 profile_path=BASE/'profiles/tesla_model3_rwd.json', demand_sink=None):
+                 profile_path=BASE/'profiles/tesla_model3_rwd.json', demand_sink=None,
+                 current_config=PROTOTYPE):
         self.output = Path(output)
         self.output.mkdir(parents=True, exist_ok=False)
         config_bytes, profile_bytes = Path(config_path).read_bytes(), Path(profile_path).read_bytes()
         config = json.loads(config_bytes, parse_constant=reject_constant)
-        self.processor = LiveProcessor(profile_bytes,config,qpc_clock_verified())
+        self.processor = LiveProcessor(profile_bytes,config,qpc_clock_verified(),current_config)
         self.socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         try:
             self.socket.bind(('127.0.0.1',port))
@@ -181,6 +191,8 @@ class LiveReceiver:
         self.port = self.socket.getsockname()[1]
         (self.output/'vehicle_profile.json').write_bytes(profile_bytes)
         (self.output/'scaling_config.json').write_bytes(config_bytes)
+        (self.output/'effective_current_config.json').write_text(json.dumps(
+            dict(**current_metadata(), **asdict(current_config)),indent=2)+'\n')
         self.log = (self.output/'received.jsonl').open('w',encoding='utf-8')
         self.stop_event = threading.Event()
         self.shutdown_event = threading.Event()
@@ -348,6 +360,39 @@ def replay_native(csv_path, profile_path, config_path=BASE/'profiles/live_scalin
                    'real_time_timing_evidence':False}
 
 
+def describe_stale_intervals(events):
+    """Evidence only: never exempts a stale interval from safety or acceptance.
+
+    A terminal silence has no recovery sample; sender/receiver gaps distinguish
+    a publisher pause from delayed delivery without guessing the operator action.
+    """
+    rows=[e['row'] for e in events if e['kind']=='sample']
+    result=[]
+    for event in events:
+        if event['kind']!='state':continue
+        if event['state'].startswith('STALE'):
+            previous=next((r for r in reversed(rows) if r['received_qpc_s']<=event['host_qpc_s']),None)
+            result.append(dict(start_host_s=event['host_qpc_s'],end_host_s=None,
+                previous_sequence=previous['sequence'] if previous else None,
+                previous_sim_s=previous['time_s'] if previous else None,
+                last_receipt_s=previous['received_qpc_s'] if previous else None,
+                next_sequence=None,position='unresolved'))
+        elif result and result[-1]['end_host_s'] is None:
+            interval=result[-1];interval['end_host_s']=event['host_qpc_s']
+            following=next((r for r in rows if r['received_qpc_s']>interval['start_host_s'] and
+                            r['received_qpc_s']<=event['host_qpc_s']),None)
+            if following is not None and interval['last_receipt_s'] is not None:
+                interval.update(next_sequence=following['sequence'],next_sim_s=following['time_s'],
+                    host_sample_gap_s=following['received_qpc_s']-interval['last_receipt_s'],
+                    position='initial_sample_gap' if interval['previous_sequence']==0 and following['sequence']==1 else 'between_samples')
+                previous=next(r for r in rows if r['received_qpc_s']==interval['last_receipt_s'])
+                interval['sender_sample_gap_s']=following['sender_qpc_s']-previous['sender_qpc_s']
+            else:
+                interval.update(position='terminal_silence',
+                    silence_at_stop_s=event['host_qpc_s']-interval['last_receipt_s'] if interval['last_receipt_s'] is not None else None)
+    return result
+
+
 def write_report(receiver):
     events = [json.loads(line) for line in (receiver.output/'received.jsonl').read_text().splitlines()]
     rows = [event['row'] for event in events if event['kind']=='sample']
@@ -367,11 +412,14 @@ def write_report(receiver):
         'active_sim_to_wall_ratio':active_sim/active_wall if active_wall else None,
         'excluded_stale_host_intervals':len(adjacent)-len(active),
         'state_transitions':[event['state'] for event in events if event['kind']=='state'],
+        'stale_intervals':describe_stale_intervals(events),
         'received_hz':len(adjacent)/wall if wall else None,
         'interarrival_ms':distribution([(b['received_qpc_s']-a['received_qpc_s'])*1000 for a,b in adjacent]),
         'sender_to_receive_ms':distribution([row['sender_age_ms'] for row in rows if row['sender_age_ms'] is not None]),
         'processing_ms':distribution([event['processing_ms'] for event in events if event['kind']=='sample']),
         'fixed_cell_parameters':receiver.processor.cell.__dict__,
+        'prototype_current_config':asdict(receiver.processor.current_config),
+        **current_metadata(),
         'clipped_samples':sum(row['command_saturated'] for row in rows),
         'current_range_A':[min(row['cell_current_command_A'] for row in rows),max(row['cell_current_command_A'] for row in rows)] if rows else None,
         'source_sha256':hashlib.sha256((receiver.output/'received.jsonl').read_bytes()).hexdigest(),
@@ -394,6 +442,14 @@ def write_report(receiver):
         axes[1].plot(t,[row['pack_power_W']/1000 for row in rows]);axes[1].set_ylabel('Simulated pack kW')
         axes[2].plot(t,[row['cell_current_unclamped_A'] for row in rows],label='Requested')
         axes[2].plot(t,[row['cell_current_command_A'] for row in rows],label='Limited')
+        instrument_log=receiver.output/'mock_instruments/instruments.jsonl'
+        if instrument_log.exists():
+            source_times={(r['session_id'],r['sequence']):r['time_s'] for r in rows}
+            controls=[json.loads(line) for line in instrument_log.read_text().splitlines()]
+            controls=[e for e in controls if e['state']=='RUNNING' and (e.get('source_session'),e.get('source_sequence')) in source_times]
+            ct=[source_times[e['source_session'],e['source_sequence']] for e in controls]
+            axes[2].plot(ct,[e['applied_target_A'] for e in controls],label='Applied')
+            axes[2].plot(ct,[e['mock_cell_current_A'] for e in controls],label='Mock measured')
         axes[2].set_ylabel('Cell demand (A)');axes[2].set_xlabel('Simulation time (s)');axes[2].legend()
         for ax in axes:ax.grid(alpha=.3)
         fig.suptitle('Live native EV telemetry: fixed scaling; simulation only')

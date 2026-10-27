@@ -58,7 +58,7 @@ def offline():
     arrow(ax,(7.7,3.4),(8.6,4.75),'M9')
     arrow(ax,(7.7,2.8),(8.6,2.8),'M10')
     arrow(ax,(14.15,7.1),(14.15,3.7),'M11')
-    ax.text(.3,.8,'Positive current = discharge. Negative current = charge. First sample has zero integration duration.',fontsize=11)
+    ax.text(.3,.8,'Cell current: negative = discharge; positive = charge. First sample has zero integration duration.',fontsize=11)
     ax.text(.3,.35,'Every connection and component is explained in SOFTWARE_ARCHITECTURE.md. Figure revision: October 8, 2026.',fontsize=10,color='#476277')
     return fig
 

@@ -24,7 +24,7 @@ def sample(time, speed=0):
 
 class AutoScalingTest(unittest.TestCase):
     def test_one_factor_preserves_shape_and_both_current_signs(self):
-        # Unity currents: +2, -0.5, +1 A. One factor produces +1, -0.25, +0.5 A.
+        # Unity currents: -2, +0.5, -1 A. One factor produces -1, +0.25, -0.5 A.
         powers = [50000., -12500., 25000.]
         before = list(powers)
         rows, info = auto_scale_profile(powers, 1.0)
@@ -32,7 +32,7 @@ class AutoScalingTest(unittest.TestCase):
         self.assertEqual(info['original_current_peak_A'], 2)
         self.assertEqual(info['scaled_current_peak_A'], 1)
         self.assertEqual(info['remaining_clipped_samples'], 0)
-        for row, expected in zip(rows, (1, -.25, .5)):
+        for row, expected in zip(rows, (-1, .25, -.5)):
             self.assertAlmostEqual(row['cell_current_unclamped_A'], expected)
             self.assertAlmostEqual(row['cell_current_command_A'], expected)
         self.assertEqual(powers, before)
@@ -42,8 +42,8 @@ class AutoScalingTest(unittest.TestCase):
         rows, info = auto_scale_profile([25000., -100000.], 1, params)
         self.assertEqual(info['original_current_peak_A'], 4)
         self.assertEqual(info['scale'], .25)
-        self.assertEqual([row['cell_current_unclamped_A'] for row in rows], [.25, -1])
-        self.assertEqual(rows[1]['cell_current_command_A'], -.1)
+        self.assertEqual([row['cell_current_unclamped_A'] for row in rows], [-.25, 1])
+        self.assertEqual(rows[1]['cell_current_command_A'], .1)
         self.assertEqual(info['remaining_clipped_samples'], 1)
         self.assertEqual(info['remaining_clipped_fraction'], .5)
         self.assertEqual(info['charge_clipped_samples'], 1)
@@ -105,7 +105,7 @@ class AutoScalingTest(unittest.TestCase):
         rows, info = auto_scale_profile([50000., -12500.], 1,
                                         CellParameters(charge_limit_A=0))
         self.assertEqual(info['scale'], .5)
-        self.assertEqual(rows[1]['cell_current_unclamped_A'], -.25)
+        self.assertEqual(rows[1]['cell_current_unclamped_A'], .25)
         self.assertEqual(rows[1]['cell_current_command_A'], 0)
         self.assertEqual(info['remaining_clipped_samples'], 1)
 
@@ -167,7 +167,7 @@ class AutoScalingCliTest(unittest.TestCase):
                 else:
                     self.assertNotIn('automatic_scaling', params)
                     self.assertEqual(params['cell']['experiment_scale'], 1)
-                    self.assertAlmostEqual(max(float(row['cell_current_unclamped_A']) for row in rows),
+                    self.assertAlmostEqual(max(abs(float(row['cell_current_unclamped_A'])) for row in rows),
                                            15.826110365792665)
 
     def test_invalid_cli_target_produces_no_output_profile(self):
