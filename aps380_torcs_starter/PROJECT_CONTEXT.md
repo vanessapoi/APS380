@@ -9,6 +9,22 @@ This decision supersedes earlier ESP32-controlled-instrument and manual-PSU-only
 
 ### 1. Project objective
 
+Current mock-control extension: `instrument_interfaces.py`, `mock_instruments.py`
+and `instrument_control.py` connect validated live current demand to an optional
+independent mock-only PSU/eLoad worker. Explicit arming, readback-based signed
+mapping, separate directional bounds, latched faults and mock isolation shutdown
+are implemented; see `../docs/mock-instruments.md`. No physical drivers, ESP32
+acquisition, measured SOC/SOP integration or vehicle derating are supplied by this
+extension. Existing statements about missing hardware control still apply.
+
+The mock coordinator uses a bounded slew, measured neutral dwell before sign
+reversal, tracking/direction faults and startup readback stabilization. Trial
+acceptance separates telemetry, process health, instrument control and full-course
+completion. `--acceptance smoke` does not require a completed course. Fault
+injection retains normal-operation failure separately from verified fault response.
+These settings are mock experiments, not physical timing or safety ratings. A
+validated native ENDED event disarms and never automatically rearms on new data.
+
 We are developing a driver-in-the-loop electric vehicle battery testing platform for APS380 at the University of Toronto.
 
 The system connects a driving simulator (TORCS) to a real single-cell lithium-ion battery test circuit.

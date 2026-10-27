@@ -23,3 +23,9 @@ For native real-time telemetry, fixed cell scaling, the in-game metrics HUD and 
 ## Collaborating
 
 Create a feature branch, edit the Python project or `external/torcs-1.3.10/`, run the relevant checks, and push the branch for review. Keep generated build output and local environments out of commits. Preserve upstream license notices. Work in this repository's TORCS copy, rather than the separate copy in Downloads.
+
+## Mock instrument integration
+
+The live telemetry pipeline can optionally drive an explicitly armed, in-memory
+PSU/eLoad coordinator. See [mock experiment and live launch instructions](docs/mock-instruments.md).
+No physical instruments or battery are operated.

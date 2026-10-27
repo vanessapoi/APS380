@@ -5,8 +5,9 @@ from tkinter import ttk
 
 
 class LiveDisplay:
-    def __init__(self, receiver, finished=lambda: False, duration=500):
+    def __init__(self, receiver, finished=lambda: False, duration=500, mock_service=None):
         self.receiver, self.finished = receiver, finished
+        self.mock_service = mock_service
         self.deadline = time.perf_counter()+duration
         self.root = tk.Tk()
         self.root.title('APS380 Live EV Telemetry — simulation only')
@@ -17,6 +18,12 @@ class LiveDisplay:
         ttk.Label(frame,text='SIMULATION ONLY  |  hardware control disabled  |  no measured cell connected').pack(anchor='w',pady=5)
         ttk.Label(frame,text='Drive in TORCS: Race > Practice > Start. Positive current = discharge; negative = regenerative charging.').pack(anchor='w')
         self.state_label=ttk.Label(frame,font=('Segoe UI',13,'bold'));self.state_label.pack(anchor='w')
+        if mock_service is not None:
+            controls=ttk.Frame(frame);controls.pack(fill='x')
+            self.mock_label=ttk.Label(controls,text='MOCK instruments: DISARMED')
+            self.mock_label.pack(side='left')
+            for label,action in [('Arm mock','arm'),('Disarm','disarm'),('Emergency stop','emergency_stop'),('Clear fault','recover')]:
+                ttk.Button(controls,text=label,command=lambda a=action: mock_service.request(a)).pack(side='left')
         self.values=ttk.Label(frame,font=('Consolas',12),justify='left');self.values.pack(anchor='w',pady=10)
         self.canvas=tk.Canvas(frame,height=260,background='#111827',highlightthickness=0)
         self.canvas.pack(fill='both',expand=True)
@@ -24,6 +31,9 @@ class LiveDisplay:
         ttk.Button(frame,text='Stop trial and save timing report',command=self.root.quit).pack(anchor='e')
 
     def refresh(self):
+        if self.mock_service is not None:
+            status=self.mock_service.latest
+            self.mock_label.config(text=f"MOCK: {status['state']} {status['fault']}")
         p=self.receiver.processor
         state=p.state();current=p.current if state=='RECEIVING' else None
         self.state_label.config(text=state,foreground='#137547' if current else '#b45309')

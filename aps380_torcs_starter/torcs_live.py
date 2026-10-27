@@ -164,7 +164,7 @@ class LiveProcessor:
 
 class LiveReceiver:
     def __init__(self, port, output, config_path=BASE/'profiles/live_scaling_demo.json',
-                 profile_path=BASE/'profiles/tesla_model3_rwd.json'):
+                 profile_path=BASE/'profiles/tesla_model3_rwd.json', demand_sink=None):
         self.output = Path(output)
         self.output.mkdir(parents=True, exist_ok=False)
         config_bytes, profile_bytes = Path(config_path).read_bytes(), Path(profile_path).read_bytes()
@@ -188,6 +188,8 @@ class LiveReceiver:
         self._last_state = None
         self.hud_clients = {}
         self.feedback = DriverFeedback()
+        # Optional latest-value mailbox only; never performs instrument I/O here.
+        self.demand_sink = demand_sink
         self.hud_stats = dict(registrations=0,sent=0,errors=0,rendered_acks=0,
                              normal_acks=0,near_limit_acks=0,discharge_alert_acks=0,
                              charge_alert_acks=0,unavailable_acks=0)
@@ -223,6 +225,8 @@ class LiveReceiver:
                 try:
                     payload, address = self.socket.recvfrom(8192)
                 except socket.timeout:
+                    if self.demand_sink is not None and self.processor.state().startswith('STALE'):
+                        self.demand_sink.publish(None, 'STALE_TELEMETRY')
                     self._send_hud()
                     continue
                 if payload.startswith(HUD_HELLO):
@@ -259,13 +263,19 @@ class LiveReceiver:
                              'payload':payload.decode('utf-8',errors='replace')[:4096]}
                 self.log.write(json.dumps(event,allow_nan=False)+'\n')
                 self.log.flush()
+                if self.demand_sink is not None:
+                    self.demand_sink.publish(self.processor.current, self.processor.status)
                 self._record_state()
                 self._send_hud()
         except Exception as error:
             self.failed = repr(error)
             self.processor.status, self.processor.current = 'RECEIVER_ERROR', None
+            if self.demand_sink is not None:
+                self.demand_sink.publish(None, 'RECEIVER_ERROR')
 
     def close(self):
+        if self.demand_sink is not None:
+            self.demand_sink.publish(None, 'RECEIVER_CLOSED')
         self.stop_event.set()
         if self.worker.is_alive():
             self.worker.join(timeout=2)
