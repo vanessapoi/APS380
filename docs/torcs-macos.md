@@ -7,12 +7,14 @@ compiled, installed locally and opened a 640×480 window. The operator confirmed
 that the TORCS main menu was visible. This is a native arm64 executable, not a
 Windows VM. No instrument or battery is connected by these build/launch tools.
 
-This checkpoint does **not** validate a completed race, keyboard driving, G29
-steering/pedals/force feedback, frame rate, audio quality, live UDP/HUD feedback,
-or live current playback. The current publisher and HUD network implementation
+A subsequent native console run completed the Model 3 reference/AI course and
+passed all 11 existing protocol gates; see the AI instructions below. This does
+**not** validate keyboard driving, G29 steering/pedals/force feedback, frame rate,
+audio quality, live UDP/HUD feedback, or live current playback. The current publisher and HUD network implementation
 remain Windows-specific; their non-Windows implementations are disabled. Native
-CSV/EV code is included in the build but race recordings have not yet been checked
-on Mac. Existing Windows launch scripts still launch the Windows executable.
+EV CSV recording and effective-configuration/model auditing passed for that
+autonomous console run. The graphical AI race also started successfully and produced driver/EV telemetry;
+its full course completion has not yet been independently checked. Existing Windows launch scripts still launch the Windows executable.
 
 The work is on `feat/torcs-macos-build`, separate from the pushed
 `feat/bk8500-bench-replay` branch. Neither branch has been merged into main by this
@@ -83,6 +85,93 @@ Build and launch logs used in the initial investigation are in
 failure. A compiler warning does not necessarily indicate failure; check the
 exit status. Some legacy install rules also print harmless missing `*.xml` glob
 warnings for driver directories without those assets.
+
+## Model 3 reference with autonomous driver
+
+The Mac runner reuses `configure_tesla.py`, the same frozen vehicle profile,
+`prepare_profile` and `validate_protocol` as the Windows workflow. Those shared
+helpers now accept explicit runtime/profile/driver paths; Windows defaults are
+preserved. No model parameters or controller gains were changed for Mac.
+The visible car remains a TORCS proxy body, not a Tesla 3D asset or validated
+Tesla digital twin. The driver is deterministic feedback control, not a learned
+self-driving system.
+
+Use Python 3.10+ for this project's validation modules. Python 3.13 was installed
+on this Mac; the Command Line Tools' Python 3.9 remains suitable for the simple
+build helper but cannot import the full project. Prepare the ignored environment:
+
+```sh
+brew install python@3.13
+/opt/homebrew/bin/python3.13 -m venv .local/torcs-macos/venv
+.local/torcs-macos/venv/bin/python -m pip install -r aps380_torcs_starter/requirements.txt
+```
+
+For the existing Python dashboard tests, Homebrew also needs
+`brew install python-tk@3.13`; the autonomous simulator itself does not need Tk.
+
+Run one automated console course (two laps, no graphics, 120-second wall timeout):
+
+```sh
+.local/torcs-macos/venv/bin/python scripts/macos/run_tesla_ai.py
+```
+
+Watch the AI in the graphical simulator:
+
+```sh
+open -a XQuartz
+.local/torcs-macos/venv/bin/python scripts/macos/run_tesla_ai.py --visible
+```
+
+Choose **Race > Practice > New Race**. The selected driver is `aps380_ai`, using
+`aps380-model3-rwd`; do not select the human driver. Console `-r` in the Unix entry
+point deliberately runs without graphics, so the visible command opens the
+prepared menu instead. Use a single console/visible race at a time: the native
+recorder and generated runtime assets are shared. Starting a new race replaces
+the visible session's driver log; use a new launcher session for separate captures.
+
+Every invocation creates `.local/torcs-macos/ai-runs/<timestamp>/`. Console runs
+preserve `driver.csv`, `drive.csv`, effective `drive.xml`, frozen profile,
+`metadata.json` with binary hashes, `protocol.json`, simulator log and
+`protocol.png`. Visible runs log the AI driver and native runtime telemetry, but
+are not automatically postprocessed or declared a passing course.
+
+The first checked Mac console run was `20261027_171745_346342`:
+
+| Check | Observed result |
+| --- | --- |
+| Existing protocol gates | 11/11 passed |
+| Distance / simulation duration | 4218.37 m / 442.08 s |
+| Qualified 30 km/h hold | 13.96 s |
+| Qualified 50 km/h hold | 12.00 s |
+| Stationary hold | 6.00 s |
+| Lift-off regeneration and isolated friction braking | Passed |
+| Post-start contacts, damage and speed-jump gates | Passed |
+| Net simulated pack energy | 557.784 Wh |
+
+These describe this simulator run, not measured vehicle/battery performance.
+A single successful Mac run does not establish statistical repeatability or
+cross-platform numerical equivalence to Windows. The two portable setup fixture
+tests run without TORCS or hardware:
+
+```sh
+.local/torcs-macos/venv/bin/python -m unittest discover -s scripts/macos -p 'test_*.py' -v
+```
+
+The 164 existing Python tests and two portable setup tests passed in the complete
+Python 3.13 environment. The initial graphical race exposed a missing shared
+sound-priority helper when legacy PLIB audio was excluded. That helper now lives
+in common sound code so OpenAL also links it. An executable-level plugin loader
+check catches this failure before race startup:
+
+```sh
+.local/torcs-macos/venv/bin/python scripts/macos/check_graphics.py
+```
+
+It uses the real simulator's `--check-graphics` path and does not start a window,
+race or hardware connection. After the fix, the visible race produced over 1,600
+AI samples, progressing through the speed-hold stages with zero damage at the
+observed checkpoint. This is startup/ongoing-driving evidence, not a claim that
+the graphical run completed every protocol gate.
 
 ## Compatibility changes and rationale
 

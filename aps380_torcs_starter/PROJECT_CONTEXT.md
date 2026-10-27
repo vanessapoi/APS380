@@ -34,9 +34,21 @@ Mac plugin linking, font endianness header, ALUT signature and disabling obsolet
 Carbon-based PLIB sound in favor of the existing OpenAL path. Windows-specific
 paths are retained; Windows was not rebuilt during this session.
 
-This is simulator build/startup evidence only. No completed race, keyboard/G29
-validation, Mac live UDP/HUD, physical instrument connection, SOC/SOP or closed-loop
-battery feedback was demonstrated. The Windows-only UDP/HUD implementation still
+A subsequent Mac console run with the existing Tesla Model 3 reference profile
+and deterministic `aps380_ai` driver completed 4218.37 m over 442.08 s simulated
+time and passed all 11 existing protocol gates (speed holds, regeneration,
+friction braking, stationary hold, course completion and model/impact audits).
+The visible AI profile opens through `scripts/macos/run_tesla_ai.py --visible`;
+choose Race > Practice > New Race to watch. The graphical AI race also started and recorded over 1,600 driving samples with
+zero damage at the observed checkpoint; full graphical course completion has not
+yet been independently verified. An executable-level graphics plugin loader
+check now guards against missing symbols. The existing 164 Python tests and two
+portable setup tests passed in the complete Python 3.13 environment. Shared Windows setup helpers now
+accept explicit native runtime/profile/driver paths; model assumptions and
+Windows defaults remain unchanged.
+
+No keyboard/G29 validation, Mac live UDP/HUD, physical instrument connection,
+measured SOC/SOP or closed-loop battery feedback was demonstrated. The Windows-only UDP/HUD implementation still
 has disabled non-Windows paths. Generated dependencies, installed assets and user
 configuration stay outside tracked source under `.local/torcs-macos/`.
 
