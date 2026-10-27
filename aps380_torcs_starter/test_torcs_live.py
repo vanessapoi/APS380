@@ -7,7 +7,7 @@ import socket
 import tempfile
 import time
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from torcs_live import BASE,CSV_FIELDS,LiveProcessor,LiveReceiver,replay_native
 
@@ -115,6 +115,40 @@ class LiveProcessorTest(unittest.TestCase):
 
 
 class LiveLoopbackTest(unittest.TestCase):
+    def test_windows_udp_reset_is_expected_only_after_explicit_shutdown(self):
+        for expected in (False,True):
+            with self.subTest(expected=expected), tempfile.TemporaryDirectory() as folder:
+                r=LiveReceiver(0,Path(folder)/'trial')
+                r.socket.close()
+                r.socket=Mock()
+                r.socket.recvfrom.side_effect=ConnectionResetError(10054,'UDP peer reset')
+                r.processor.last_receive=time.perf_counter()-10
+                r.demand_sink=Mock()
+                if expected:r.begin_shutdown()
+                r._receive()
+                r.close()
+                events=[json.loads(line) for line in (r.output/'received.jsonl').read_text().splitlines()]
+                report=json.loads((r.output/'timing_report.json').read_text())
+                if expected:
+                    self.assertIsNone(r.failed)
+                    self.assertEqual(report['expected_shutdown_resets'],1)
+                    self.assertTrue(any(e['kind']=='expected_shutdown_reset' for e in events))
+                    self.assertEqual(report['final_state'],'STOPPED')
+                else:
+                    self.assertIn('10054',r.failed)
+                    self.assertEqual(report['final_state'],'RECEIVER_ERROR')
+                    self.assertTrue(any(e['kind']=='receiver_error' for e in events))
+                    r.demand_sink.publish.assert_any_call(None,'RECEIVER_ERROR')
+
+    def test_other_udp_errors_are_not_hidden_during_shutdown(self):
+        with tempfile.TemporaryDirectory() as folder:
+            r=LiveReceiver(0,Path(folder)/'trial')
+            r.socket.close();r.socket=Mock()
+            r.socket.recvfrom.side_effect=OSError(10051,'network unreachable')
+            r.begin_shutdown();r._receive();r.close()
+            self.assertIn('10051',r.failed)
+            self.assertEqual(r.processor.state(),'RECEIVER_ERROR')
+
     def test_frozen_native_replay_matches_independent_current_equation(self):
         folder=BASE/'data/tesla_drive_04'
         rows,summary=replay_native(folder/'drive.csv',folder/'vehicle_profile.json')

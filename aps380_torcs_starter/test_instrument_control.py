@@ -272,9 +272,10 @@ class CoordinatorTest(unittest.TestCase):
 
 
 class MailboxAndWorkerTest(unittest.TestCase):
-    def wait_for(self, predicate):
+    def wait_for(self, predicate, tick=lambda:None):
         deadline=time.perf_counter()+3.
         while time.perf_counter()<deadline:
+            tick()
             if predicate():return
             time.sleep(.01)
         self.fail('Timed out waiting for mock worker')
@@ -331,7 +332,7 @@ class MailboxAndWorkerTest(unittest.TestCase):
             service.start(arm=True)
             try:
                 publish()
-                self.wait_for(lambda:service.latest['state']=='RUNNING')
+                self.wait_for(lambda:service.latest['state']=='RUNNING',publish)
                 service.request('emergency_stop')
                 self.wait_for(lambda:service.latest['state']=='FAULT')
                 self.assertEqual(service.latest['fault'],'EMERGENCY_STOP')
@@ -343,7 +344,7 @@ class MailboxAndWorkerTest(unittest.TestCase):
                 self.wait_for(lambda:service.latest['state']=='DISARMED')
                 publish()
                 service.request('arm')
-                self.wait_for(lambda:service.latest['state']=='RUNNING')
+                self.wait_for(lambda:service.latest['state']=='RUNNING',publish)
                 service.request('disarm')
                 self.wait_for(lambda:service.latest['state']=='DISARMED')
                 self.assertTrue(service.latest['shutdown_verified'])
@@ -447,6 +448,65 @@ class SignTransitionTest(unittest.TestCase):
         self.assertTrue(self.c.isolation.is_open)
         self.settle(.00126)
         self.assertFalse(self.c.isolation.is_open)
+
+    def test_arm_while_regenerating_balances_before_applying_demand(self):
+        for current in (-.0039082654926, -.3, -.5):
+            with self.subTest(current=current):
+                self.setUp()
+                e=self.tick(current,dt=.00002)  # first manual-session readback
+                self.assertEqual(e['state'],'READY')
+                self.assertEqual(e['transition_phase'],'BALANCING')
+                self.assertEqual(e['applied_target_A'],0.)
+                self.assertTrue(e['isolation']['is_open'])
+                self.assertLess(e['psu']['current_A'],.001)
+                for _ in range(50):
+                    e=self.tick(current)
+                    self.assertNotEqual(e['state'],'FAULT',e['fault'])
+                    self.assertEqual(e['applied_target_A'],0.)
+                    if e['state']=='RUNNING':break
+                    self.assertTrue(e['isolation']['is_open'])
+                    self.assertEqual(e['mock_cell_current_A'],0.)
+                self.assertEqual(e['state'],'RUNNING')
+                self.assertLessEqual(abs(e['branch_net_A']),self.c.config.neutral_tolerance_A)
+                self.settle(current)
+                self.assertAlmostEqual(self.c.last['branch_net_A'],current,delta=.002)
+
+    def test_waiting_startup_balances_but_never_connects_without_demand(self):
+        for _ in range(15):
+            self.clock.sleep(.1)
+            self.c.step(None,'WAITING')
+        e=self.c.snapshot()
+        self.assertEqual(e['state'],'READY')
+        self.assertTrue(e['isolation']['is_open'])
+        self.assertAlmostEqual(e['branch_net_A'],0.,delta=.002)
+        self.assertEqual(e['applied_target_A'],0.)
+        self.settle(-.3)
+
+    def test_failed_startup_latches_timeout_and_stale_readback_faults(self):
+        self.c.config=replace(self.c.config,ready_timeout_s=.5)
+        self.psu.response_delay_s=1e9
+        for _ in range(8):self.tick(-.3)
+        self.assertEqual(self.c.fault_reason,'READY_TIMEOUT')
+        self.assertTrue(self.c.shutdown_verified)
+        self.assertTrue(self.c.snapshot()['measurements_retained'])
+        self.assertEqual(self.c.snapshot()['measurement_context'],'retained_pre_fault')
+        self.setUp()
+        self.psu.measurement_age_s=1.
+        self.tick(-.3)
+        self.assertEqual(self.c.fault_reason,'STALE_OR_FUTURE_MEASUREMENT')
+        self.assertTrue(self.c.shutdown_verified)
+
+    def test_cv_startup_balances_then_rejects_genuinely_infeasible_charge(self):
+        self.psu.cv_available_A=.1
+        for _ in range(30):
+            e=self.tick(-.4)
+            if e['state']=='RUNNING':break
+            self.assertEqual(e['state'],'READY')
+            self.assertTrue(e['isolation']['is_open'])
+        self.assertEqual(e['state'],'RUNNING')
+        self.tick(-.4)
+        self.assertEqual(self.c.fault_reason,'INFEASIBLE_CURRENT')
+        self.assertTrue(self.c.shutdown_verified)
 
 
 if __name__=='__main__':unittest.main()

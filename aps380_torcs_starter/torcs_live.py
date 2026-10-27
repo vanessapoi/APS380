@@ -70,7 +70,7 @@ class LiveProcessor:
 
     def state(self, now=None):
         now = time.perf_counter() if now is None else now
-        if self.status != 'ENDED' and self.last_receive is not None and now-self.last_receive > self.config['stale_after_s']:
+        if self.status not in ('ENDED', 'RECEIVER_ERROR', 'STOPPED') and self.last_receive is not None and now-self.last_receive > self.config['stale_after_s']:
             return 'STALE (pause or lost stream)'
         return self.status
 
@@ -183,6 +183,8 @@ class LiveReceiver:
         (self.output/'scaling_config.json').write_bytes(config_bytes)
         self.log = (self.output/'received.jsonl').open('w',encoding='utf-8')
         self.stop_event = threading.Event()
+        self.shutdown_event = threading.Event()
+        self.expected_shutdown_resets = 0
         self.worker = threading.Thread(target=self._receive,daemon=True)
         self.failed = None
         self._last_state = None
@@ -195,6 +197,8 @@ class LiveReceiver:
                              charge_alert_acks=0,unavailable_acks=0)
 
     def _send_hud(self):
+        if self.shutdown_event.is_set():
+            return
         now=time.perf_counter()
         session=self.processor.session
         for pid,(address,seen) in list(self.hud_clients.items()):
@@ -210,6 +214,8 @@ class LiveReceiver:
 
     def _record_state(self):
         state = self.processor.state()
+        if self.shutdown_event.is_set() and state.startswith('STALE'):
+            return
         if state != self._last_state:
             self.log.write(json.dumps({'kind':'state','state':state,'host_qpc_s':time.perf_counter()})+'\n')
             self.log.flush()
@@ -225,10 +231,21 @@ class LiveReceiver:
                 try:
                     payload, address = self.socket.recvfrom(8192)
                 except socket.timeout:
-                    if self.demand_sink is not None and self.processor.state().startswith('STALE'):
+                    if not self.shutdown_event.is_set() and self.demand_sink is not None and self.processor.state().startswith('STALE'):
                         self.demand_sink.publish(None, 'STALE_TELEMETRY')
                     self._send_hud()
                     continue
+                except OSError as error:
+                    # Windows can deliver an ICMP response to an earlier HUD
+                    # send as recvfrom WSAECONNRESET after the native peer exits.
+                    # Suppress only this code during an explicitly begun stop.
+                    if self.shutdown_event.is_set() and (getattr(error, 'winerror', None) == 10054 or error.errno == 10054):
+                        self.expected_shutdown_resets += 1
+                        self.log.write(json.dumps(dict(kind='expected_shutdown_reset',
+                            error=repr(error), host_qpc_s=time.perf_counter()))+'\n')
+                        self.log.flush()
+                        break
+                    raise
                 if payload.startswith(HUD_HELLO):
                     try:
                         registration=payload[len(HUD_HELLO):].split()
@@ -270,15 +287,33 @@ class LiveReceiver:
         except Exception as error:
             self.failed = repr(error)
             self.processor.status, self.processor.current = 'RECEIVER_ERROR', None
+            self.log.write(json.dumps(dict(kind='receiver_error', error=self.failed,
+                host_qpc_s=time.perf_counter()))+'\n')
+            self.log.flush()
+            self._record_state()
             if self.demand_sink is not None:
                 self.demand_sink.publish(None, 'RECEIVER_ERROR')
 
+    def begin_shutdown(self):
+        """Stop HUD sends before intentionally terminating this launcher's peer.
+
+        Deliberate telemetry-loss tests must leave this unset until after expiry.
+        Unexpected network errors remain failures, including other shutdown errors.
+        """
+        self.shutdown_event.set()
+
     def close(self):
+        self.begin_shutdown()
         if self.demand_sink is not None:
             self.demand_sink.publish(None, 'RECEIVER_CLOSED')
         self.stop_event.set()
         if self.worker.is_alive():
             self.worker.join(timeout=2)
+        if self.worker.is_alive():
+            raise RuntimeError('Live receiver did not stop')
+        if not self.failed and self.processor.status != 'ENDED':
+            self.processor.status, self.processor.current = 'STOPPED', None
+        self._record_state()
         self.socket.close()
         self.log.close()
         return write_report(self)
@@ -325,6 +360,7 @@ def write_report(receiver):
     report = {
         'status':'simulation_only; physical battery and real Tesla calibration pending',
         'statistics':receiver.processor.stats,'receiver_error':receiver.failed,
+        'expected_shutdown_resets':receiver.expected_shutdown_resets,
         'clock_verified':receiver.processor.shared_clock,'final_state':receiver.processor.state(),
         'samples':len(rows),'sim_duration_s':sim,'wall_duration_s':wall,
         'sim_to_wall_ratio':sim/wall if wall else None,

@@ -124,15 +124,19 @@ def main():
             LiveDisplay(receiver,finished,args.duration,mock_service=mock_service).run()
             stop_reason='receiver_error' if receiver.failed else ('process_exit' if finished() else 'operator_stop')
     finally:
+        # Stop mock control while telemetry is still live, then end our native
+        # peer. Mark the boundary before peer termination so a Windows UDP reset
+        # from an outstanding HUD reply cannot masquerade as a driving failure.
+        receiver.begin_shutdown()
         try:
-            terminated=child is not None and child.poll() is None
-            if terminated:
-                child.terminate();child.wait(timeout=10)
+            mock_report=mock_service.close() if mock_service is not None else None
         finally:
-            if log:log.close()
             try:
-                mock_report=mock_service.close() if mock_service is not None else None
+                terminated=child is not None and child.poll() is None
+                if terminated:
+                    child.terminate();child.wait(timeout=10)
             finally:
+                if log:log.close()
                 report=receiver.close()
     rows=[json.loads(line)['row'] for line in (output/'received.jsonl').read_text().splitlines()
           if json.loads(line)['kind']=='sample']

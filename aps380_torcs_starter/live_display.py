@@ -33,7 +33,8 @@ class LiveDisplay:
     def refresh(self):
         if self.mock_service is not None:
             status=self.mock_service.latest
-            self.mock_label.config(text=f"MOCK: {status['state']} {status['fault']}")
+            retained=' (readbacks retained; not live)' if status.get('measurements_retained') else ''
+            self.mock_label.config(text=f"MOCK: {status['state']} {status['fault']}{retained}")
         p=self.receiver.processor
         state=p.state();current=p.current if state=='RECEIVING' else None
         self.state_label.config(text=state,foreground='#137547' if current else '#b45309')

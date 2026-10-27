@@ -24,6 +24,14 @@ completion. `--acceptance smoke` does not require a completed course. Fault
 injection retains normal-operation failure separately from verified fault response.
 These settings are mock experiments, not physical timing or safety ratings. A
 validated native ENDED event disarms and never automatically rearms on new data.
+READY now balances the isolated mock branches at zero net current independently
+of live demand; fresh settled PSU/eLoad readbacks and a neutral dwell precede
+RUNNING. Startup during regeneration no longer tests feasibility against the
+first rising PSU sample. Reports distinguish PASS/FAIL/NOT ASSESSED and label
+retained pre-fault measurements; no RUNNING evidence means tracking is unassessed.
+Expected launcher shutdown is marked before ending the native UDP/HUD peer;
+unexpected receiver errors remain visible. These changes add no physical drivers
+and do not change the established signed-current architecture.
 
 We are developing a driver-in-the-loop electric vehicle battery testing platform for APS380 at the University of Toronto.
 

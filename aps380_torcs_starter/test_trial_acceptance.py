@@ -35,7 +35,8 @@ class AcceptanceTest(unittest.TestCase):
         self.assertFalse(result['passed'])
         self.assertTrue(result['fault_handling']['every_fault_shutdown_verified'])
         self.assertFalse(result['checks']['commands_fresh'])
-        self.assertTrue(result['checks']['measurements_fresh'])
+        self.assertIsNone(result['checks']['measurements_fresh'])
+        self.assertEqual(result['check_status']['measurements_fresh'], 'NOT ASSESSED')
 
     def test_stale_measurement_does_not_mislabel_command_freshness(self):
         final=dict(state='FAULT',fault='STALE_OR_FUTURE_MEASUREMENT',shutdown_verified=True,
@@ -43,7 +44,7 @@ class AcceptanceTest(unittest.TestCase):
         result=instrument_acceptance([dict(final,transactions={})],ControlConfig(),final)
         self.assertFalse(result['passed'])
         self.assertFalse(result['checks']['measurements_fresh'])
-        self.assertTrue(result['checks']['commands_fresh'])
+        self.assertIsNone(result['checks']['commands_fresh'])
 
     def test_errors_remain_visible_after_recovery(self):
         final=dict(state='DISARMED',fault='',shutdown_verified=True,shutdown_errors=[],
@@ -75,6 +76,28 @@ class AcceptanceTest(unittest.TestCase):
         self.assertTrue(result['passed'])
         self.assertEqual(result['demand_error_abs_A']['max'],.2)
         self.assertEqual(result['settling_cycles'],1)
+
+    def test_zero_running_cycles_never_claim_tracking_success(self):
+        final=dict(state='FAULT',fault='INFEASIBLE_CURRENT',shutdown_verified=True,
+                   shutdown_errors=[],isolation=dict(is_open=True,outputs_disabled=True),
+                   measurement_context='retained_pre_fault', measurements_retained=True,
+                   psu={'current_A':.000477}, psu_measurement_age_s=0.)
+        result=instrument_acceptance([dict(final,transactions={})],ControlConfig(),final,require_running=True)
+        self.assertFalse(result['passed'])
+        for key in ('tracking_within_policy','current_direction_expected','measurements_fresh'):
+            self.assertIsNone(result['checks'][key])
+            self.assertEqual(result['check_status'][key], 'NOT ASSESSED')
+        self.assertEqual(result['status'], 'FAIL')
+        self.assertEqual(result['retained_measurement_records'],1)
+        self.assertEqual(result['final_measurement_context'],'retained_pre_fault')
+
+    def test_disarmed_only_assesses_shutdown_not_current_control(self):
+        final=dict(state='DISARMED',fault='',shutdown_verified=True,shutdown_errors=[],
+                   isolation=dict(is_open=True,outputs_disabled=True))
+        result=instrument_acceptance([dict(final,transactions={})],ControlConfig(),final)
+        self.assertTrue(result['passed'])
+        self.assertEqual(result['control_status'],'NOT ASSESSED')
+        self.assertIsNone(result['checks']['running_observed'])
 
 
 if __name__=='__main__':unittest.main()

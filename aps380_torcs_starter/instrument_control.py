@@ -121,6 +121,7 @@ class InstrumentCoordinator:
         self.last_step_s = None
         self.ready_settled_since = None
         self.previous_psu_current = None
+        self.previous_load_current = None
 
     @staticmethod
     def _sign(value):
@@ -240,6 +241,7 @@ class InstrumentCoordinator:
             self.ready_since = self.clock()
             self.mismatch_since = None
             self._reset_transition()
+            self.phase = 'BALANCING'
             self.state = State.READY
         except Exception as error:
             self.trip(f'ARM_FAILED: {error}')
@@ -267,15 +269,13 @@ class InstrumentCoordinator:
                 return
             if self.state == State.READY and self.clock()-self.ready_since > self.config.ready_timeout_s:
                 raise InstrumentError('READY_TIMEOUT')
-            if demand is None and self.state == State.READY and unavailable == 'WAITING':
-                self._read(self.psu)
-                self._read(self.load)
-                return
-            if demand is None:
+            waiting = demand is None and self.state == State.READY and unavailable == 'WAITING'
+            if demand is None and not waiting:
                 raise InstrumentError(unavailable or 'TELEMETRY_UNAVAILABLE')
-            self._fresh_demand(demand)
+            if demand is not None:
+                self._fresh_demand(demand)
             c = self.config
-            requested = finite_number('requested current', demand.current_A)
+            requested = finite_number('requested current', demand.current_A) if demand else 0.
             target = max(-c.charge_limit_A, min(c.discharge_limit_A, requested))
             psu = self._read(self.psu)
             if not psu.status.output_enabled:
@@ -284,7 +284,11 @@ class InstrumentCoordinator:
             psu_stable = (self.previous_psu_current is not None and
                           abs(psu.current_A-self.previous_psu_current) <= c.neutral_tolerance_A)
             self.previous_psu_current = psu.current_A
-            applied = self._transition_target(target, before.current_A-psu.current_A)
+            # READY balances the isolated branches at zero net current. Live
+            # demand (including regeneration already present at arm time) must
+            # not influence startup or be tested against an unsettled PSU.
+            starting = self.state == State.READY
+            applied = 0. if starting else self._transition_target(target, before.current_A-psu.current_A)
             load_target = psu.current_A + applied
             self.last = dict(requested_A=requested, permitted_A=target, applied_target_A=applied,
                 transition_phase=self.phase, active_direction=self.active_direction,
@@ -292,9 +296,11 @@ class InstrumentCoordinator:
                 neutral_hold_elapsed_s=0. if self.neutral_since is None else self.clock()-self.neutral_since,
                 directional_saturated=requested != target, psu=asdict(psu),
                 feasible_min_A=-psu.current_A, feasible_max_A=self.load.max_current_A-psu.current_A,
-                load_target_A=load_target, source_session=demand.session_id,
-                source_sequence=demand.sequence, source_received_s=demand.received_s)
-            if not -1e-12 <= psu.current_A+target <= self.load.max_current_A+1e-12:
+                load_target_A=load_target, demand_available=demand is not None,
+                source_session=demand.session_id if demand else None,
+                source_sequence=demand.sequence if demand else None,
+                source_received_s=demand.received_s if demand else None)
+            if not starting and not -c.neutral_tolerance_A <= psu.current_A+target <= self.load.max_current_A+c.neutral_tolerance_A:
                 # Fail closed: never claim an impossible signed demand was applied.
                 raise InstrumentError('INFEASIBLE_CURRENT')
             self.load.set_current(max(0., min(self.load.max_current_A, load_target)), c.io_timeout_s)
@@ -302,9 +308,10 @@ class InstrumentCoordinator:
             # Recheck all ages after blocking I/O; never act on a queued old command.
             if self.clock()-psu.acquired_s > c.measurement_expiry_s:
                 raise InstrumentError('STALE_PSU_READBACK_AFTER_IO')
-            self._fresh_demand(demand)
-            if not still_valid():
-                raise InstrumentError('TELEMETRY_INVALIDATED_DURING_IO')
+            if demand is not None:
+                self._fresh_demand(demand)
+                if not still_valid():
+                    raise InstrumentError('TELEMETRY_INVALIDATED_DURING_IO')
             if not load.status.output_enabled:
                 raise InstrumentError('LOAD_OUTPUT_DISABLED')
             net = load.current_A-psu.current_A
@@ -317,6 +324,27 @@ class InstrumentCoordinator:
                              psu_measurement_age_s=self.clock()-psu.acquired_s,
                              load_measurement_age_s=self.clock()-load.acquired_s,
                              readback_skew_s=load.acquired_s-psu.acquired_s)
+            load_stable = (self.previous_load_current is not None and
+                           abs(load.current_A-self.previous_load_current) <= c.neutral_tolerance_A)
+            self.previous_load_current = load.current_A
+            if starting:
+                # A nearly stationary CC readback near zero is not evidence that
+                # the configured bias has settled. CV may genuinely supply less.
+                bias_settled = (psu.status.mode == 'CV' or
+                                abs(psu.current_A-psu.setpoint_A) <= c.neutral_tolerance_A)
+                if demand is not None and abs(net) <= c.neutral_tolerance_A and psu_stable and load_stable and bias_settled:
+                    if self.ready_settled_since is None:
+                        self.ready_settled_since = self.clock()
+                    if self.clock()-self.ready_settled_since >= c.neutral_hold_s:
+                        self.isolation.close()
+                        if self.isolation.verify().is_open:
+                            raise InstrumentError('ISOLATION_DID_NOT_CLOSE')
+                        self.state, self.session = State.RUNNING, demand.session_id
+                        self.phase = 'TRACK'
+                        self.last.update(transition_phase='TRACK', startup_balanced=True)
+                else:
+                    self.ready_settled_since = None
+                return  # apply the newest operational demand on the next cycle
             if self.state == State.RUNNING and not -c.charge_limit_A-c.tracking_tolerance_A <= net <= c.discharge_limit_A+c.tracking_tolerance_A:
                 raise InstrumentError('MEASURED_DIRECTIONAL_LIMIT')
             if self.state == State.RUNNING and not direction_ok:
@@ -328,17 +356,6 @@ class InstrumentCoordinator:
                     self.mismatch_since = self.clock()
                 if self.clock()-self.mismatch_since > c.settling_timeout_s:
                     raise InstrumentError('CURRENT_TRACKING_TIMEOUT')
-            if self.state == State.READY:
-                if abs(error) <= c.tracking_tolerance_A and direction_ok and psu_stable:
-                    if self.ready_settled_since is None:
-                        self.ready_settled_since = self.clock()
-                    if self.clock()-self.ready_settled_since >= c.neutral_hold_s:
-                        self.isolation.close()
-                        if self.isolation.verify().is_open:
-                            raise InstrumentError('ISOLATION_DID_NOT_CLOSE')
-                        self.state, self.session = State.RUNNING, demand.session_id
-                else:
-                    self.ready_settled_since = None
         except Exception as error:
             self.trip(str(error))
 
@@ -346,9 +363,15 @@ class InstrumentCoordinator:
         isolation = self.isolation.verify()
         # Mock truth, not an independent ESP32 measurement. Open cell path = 0 A.
         cell_current = 0. if isolation.is_open else self.last.get('branch_net_A', 0.)
+        retained = bool(self.last.get('psu')) and self.state not in (State.READY, State.RUNNING)
+        context = ('retained_pre_fault' if self.state == State.FAULT else 'retained_after_disarm') if retained else (
+            'startup' if self.state == State.READY else 'live' if self.state == State.RUNNING else 'not_available')
         return dict(state=self.state.value, fault=self.fault_reason, mock_cell_current_A=cell_current,
                     isolation=asdict(isolation), shutdown_verified=self.shutdown_verified,
-                    shutdown_errors=list(self.shutdown_errors), **self.last)
+                    shutdown_errors=list(self.shutdown_errors), **self.last,
+                    measurement_context=context, measurements_retained=retained,
+                    measurement_age_at_snapshot_s={name: self.clock()-self.last[name]['acquired_s']
+                        for name in ('psu', 'load') if name in self.last})
 
 
 class MockInstrumentService:
