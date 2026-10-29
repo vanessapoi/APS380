@@ -10,27 +10,22 @@ inline bool sampleReady(double simulationTime, bool activeRace) {
     return activeRace && std::isfinite(simulationTime) && simulationTime >= 0.0;
 }
 }
-#ifdef WIN32
-#include <winsock2.h>
-#include <windows.h>
+#if defined(WIN32) || defined(__APPLE__) || defined(__unix__)
+#include "../../../interfaces/aps380_platform.h"
 #include <cstdio>
 #include <cstdlib>
 #include <string>
 #include <vector>
-#pragma comment(lib, "Ws2_32.lib")
 namespace aps380_live {
 struct Stream { unsigned long seq; std::string id; Stream():seq(0){} };
-static SOCKET channel = INVALID_SOCKET;
+static aps380_platform::Socket channel = aps380_platform::invalidSocket;
 static sockaddr_in destination;
 static std::vector<Stream> streams;
 static unsigned long sendErrors;
 static bool initialized = false, paced = false;
 static double wallOrigin = -1, simOrigin = 0;
-inline double clockSeconds() {
-    LARGE_INTEGER now, frequency;
-    QueryPerformanceCounter(&now); QueryPerformanceFrequency(&frequency);
-    return (double)now.QuadPart/(double)frequency.QuadPart;
-}
+inline double clockSeconds() { return aps380_platform::clockSeconds(); }
+
 inline std::string quote(const char *value) {
     std::string out="\"";
     for (const unsigned char *p=(const unsigned char*)value; *p; ++p) {
@@ -40,9 +35,9 @@ inline std::string quote(const char *value) {
     return out+'"';
 }
 inline void close() {
-    if (channel!=INVALID_SOCKET) closesocket(channel);
-    channel=INVALID_SOCKET;
-    if (initialized) WSACleanup();
+    if (channel!=aps380_platform::invalidSocket) aps380_platform::closeSocket(channel);
+    channel=aps380_platform::invalidSocket;
+    if (initialized) aps380_platform::cleanup();
     initialized=false; streams.clear(); paced=false; wallOrigin=-1;
 }
 inline void init(int cars) {
@@ -51,21 +46,19 @@ inline void init(int cars) {
     if (!port || !*port) return;
     char *end=0; long number=strtol(port,&end,10);
     if (*end || number<1 || number>65535) { fprintf(stderr,"Invalid APS380_LIVE_PORT\n"); return; }
-    WSADATA data;
-    if (WSAStartup(MAKEWORD(2,2),&data)) return;
+    if (!aps380_platform::startup()) return;
     initialized=true;
     channel=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
-    if (channel==INVALID_SOCKET) { close(); return; }
-    u_long nonblocking=1;
-    if (ioctlsocket(channel,FIONBIO,&nonblocking)) { close(); return; }
+    if (channel==aps380_platform::invalidSocket) { close(); return; }
+    if (!aps380_platform::nonblocking(channel)) { close(); return; }
     destination={}; destination.sin_family=AF_INET;
     destination.sin_addr.s_addr=htonl(INADDR_LOOPBACK);
-    destination.sin_port=htons((u_short)number);
+    destination.sin_port=htons((unsigned short)number);
     streams.resize(cars); sendErrors=0;
-    LARGE_INTEGER ticks; QueryPerformanceCounter(&ticks);
+    unsigned long long ticks=aps380_platform::counter();
     for (int i=0;i<cars;++i) {
         char identity[100];
-        snprintf(identity,sizeof(identity),"%lu-%lld-%d",GetCurrentProcessId(),ticks.QuadPart,i);
+        snprintf(identity,sizeof(identity),"%lu-%llu-%d",aps380_platform::processId(),ticks,i);
         streams[i].id=identity;
     }
     const char *pace=getenv("APS380_LIVE_REALTIME");
@@ -75,10 +68,10 @@ inline void pace(double simulationTime) {
     if (!paced || simulationTime<0) return;
     if (wallOrigin<0) { wallOrigin=clockSeconds(); simOrigin=simulationTime; }
     const double due=wallOrigin+simulationTime-simOrigin;
-    while (due-clockSeconds()>.0005) Sleep(1);
+    while (due-clockSeconds()>.0005) aps380_platform::sleepMillisecond();
 }
 inline void send(int car, const char *csv, const char *event="sample") {
-    if (channel==INVALID_SOCKET || car<0 || car>=(int)streams.size()) return;
+    if (channel==aps380_platform::invalidSocket || car<0 || car>=(int)streams.size()) return;
     Stream &s=streams[car];
     char packet[4096];
     int count=snprintf(packet,sizeof(packet),
@@ -87,7 +80,7 @@ inline void send(int car, const char *csv, const char *event="sample") {
         quote(s.id.c_str()).c_str(),s.seq++,clockSeconds(),sendErrors,
         quote(event).c_str(),quote(csv).c_str());
     if (count<=0 || count>=(int)sizeof(packet) ||
-        sendto(channel,packet,count,0,(sockaddr*)&destination,sizeof(destination))==SOCKET_ERROR) ++sendErrors;
+        sendto(channel,packet,count,0,(sockaddr*)&destination,sizeof(destination))==aps380_platform::socketError) ++sendErrors;
 }
 inline void shutdown() {
     for (int i=0;i<(int)streams.size();++i)

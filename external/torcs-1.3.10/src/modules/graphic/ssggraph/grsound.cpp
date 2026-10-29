@@ -81,7 +81,13 @@ void grInitSound(tSituation* s, int ncars)
 		}
 		break;
 	case PLIB_MODE:
-		sound_interface = new PlibSoundInterface(44100, 32);
+		#ifdef __APPLE__
+        GfError("Legacy PLIB sound unavailable on macOS; select OpenAL.\n");
+        sound_mode = DISABLED;
+        return;
+#else
+        sound_interface = new PlibSoundInterface(44100, 32);
+#endif
 		break;
 	case DISABLED:
 		sound_interface = 0;
@@ -192,10 +198,12 @@ grShutdownSound(int ncars)
 	delete sound_interface;
 	sound_interface = 0;
 
+#ifndef __APPLE__
     if (__slPendingError) {
 		GfOut("!!! error ignored: %s\n", __slPendingError);
 		__slPendingError = 0;	/* ARG!!! ugly ugly bad thing... but should not occur anymore now */
     }
+#endif
 }
 
 

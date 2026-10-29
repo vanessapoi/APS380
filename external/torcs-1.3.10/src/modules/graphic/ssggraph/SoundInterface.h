@@ -35,7 +35,9 @@ static void empty_log(const char* s, ...)
 
 
 
+#ifndef __APPLE__
 #include <plib/sl.h>
+#endif
 #include <plib/sg.h>
 #include <raceman.h>
 #include <vector>
@@ -240,6 +242,7 @@ class SoundInterface {
 
 
 /// PLIB interface
+#ifndef __APPLE__
 class PlibSoundInterface : public SoundInterface {
 	typedef struct SoundChar_ {
 		float f; //frequency modulation
@@ -269,6 +272,8 @@ class PlibSoundInterface : public SoundInterface {
 	}
 
 };
+#endif
+
 
 
 

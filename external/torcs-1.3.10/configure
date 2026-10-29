@@ -8016,6 +8016,9 @@ else case e in #(
 esac
 fi
 
+case `uname -s` in
+Darwin) ;; # Legacy Carbon audio unavailable; use OpenAL.
+*)
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for main in -lplibsl" >&5
 printf %s "checking for main in -lplibsl... " >&6; }
 if test ${ac_cv_lib_plibsl_main+y}
@@ -8110,6 +8113,8 @@ else case e in #(
 esac
 fi
 
+;;
+esac
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for main in -lplibssg" >&5
 printf %s "checking for main in -lplibssg... " >&6; }
 if test ${ac_cv_lib_plibssg_main+y}

@@ -51,6 +51,45 @@ physical regeneration, ESP32 measurements, measured SOC/SOP or closed-loop
 TORCS feedback was exercised. PSU operation remains manual in this bench tool;
 the intended integrated architecture still has direct PC control of both instruments.
 
+### Experimental Mac simulator build — October 27, 2026
+
+Mac compatibility is now merged into `main` (developed on
+`feat/torcs-macos-build`). The modified TORCS source compiled as native arm64,
+installed into `.local/torcs-macos/`, and opened a window in XQuartz. The operator
+confirmed the main menu was visible. See `../docs/torcs-macos.md` and
+`../scripts/macos/` for the repeatable recipe and isolated launcher. Changes cover
+Mac plugin linking, font endianness header, ALUT signature and disabling obsolete
+Carbon-based PLIB sound in favor of the existing OpenAL path. Windows-specific
+paths are retained; Windows was not rebuilt during this session.
+
+A subsequent Mac console run with the existing Tesla Model 3 reference profile
+and deterministic `aps380_ai` driver completed 4218.37 m over 442.08 s simulated
+time and passed all 11 existing protocol gates (speed holds, regeneration,
+friction braking, stationary hold, course completion and model/impact audits).
+The visible AI profile opens through `scripts/macos/run_tesla_ai.py --visible`;
+choose Race > Practice > New Race to watch. The graphical AI race also started and recorded over 1,600 driving samples with
+zero damage at the observed checkpoint; full graphical course completion has not
+yet been independently verified. An executable-level graphics plugin loader
+check now guards against missing symbols. The existing 164 Python tests and two
+portable setup tests passed in the complete Python 3.13 environment. Shared Windows setup helpers now
+accept explicit native runtime/profile/driver paths; model assumptions and
+Windows defaults remain unchanged.
+
+No keyboard/G29 validation, physical instrument connection, measured SOC/SOP
+or closed-loop battery feedback was demonstrated. The optional UDP publisher and visual-only HUD now also support native macOS
+through a small platform boundary retaining Winsock/QPC on Windows and using
+POSIX sockets/mach_absolute_time on Mac. `run_tesla_ai.py --monitor` launches the
+existing Python current-demand dashboard beside the native game, with hardware
+control disabled. A 12.02-second paced console integration check accepted 602
+samples at 50 Hz with zero missing/invalid packets or gaps (sender delay p95
+0.280 ms). All 19 native socket/HUD checks and 164 Python tests passed. This is
+short-stream simulation evidence, not physical current tracking or completed
+Mac graphical full-course acceptance. Python verifies shared-clock agreement;
+the historical `sender_qpc_s` field name is retained for protocol compatibility.
+The monitored graphical launcher has opened; graph/HUD operation requires a
+Practice race to be started. Windows native regression checks remain due. Generated dependencies, installed assets and user
+configuration stay outside tracked source under `.local/torcs-macos/`.
+
 ### 1. Project objective
 
 Current mock-control extension: `instrument_interfaces.py`, `mock_instruments.py`
