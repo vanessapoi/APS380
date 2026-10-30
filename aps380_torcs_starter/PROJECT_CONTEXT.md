@@ -92,6 +92,29 @@ configuration stay outside tracked source under `.local/torcs-macos/`.
 
 ### 1. Project objective
 
+Separate live PSU-only bench controller (October 27, 2026):
+`../bench/bk8500/live_torcs.py` reuses the existing live telemetry/scaling and
+latest-demand mailbox, then directly maps discharge demand to an approved 0 to
+3 A eLoad range with a fixed gain, power cap and slew. Positive CELL regeneration
+requests zero load; this is not Positive-Only Shifting or net battery current.
+There is no `i_p - i_c` mapping in this mode. The original signed-current mock
+coordinator and vehicle physics remain unchanged.
+
+The user reports an adjustable GW Instek GPC-3030 output with verified 3.1 A
+current ceiling; the fixed 5 V output is NOT being used. This does not establish
+the rated channel envelope or stable CV operation. No PSU driver is supplied;
+PSU settings, wiring/protection and TA approval require human verification.
+The new tool defaults to a mock load. Real mode requires a completed approval
+profile, OFF/zero/CC/protection preflight and a typed supervised ARM. Link loss
+can make shutdown unverifiable; independent hardware protection remains required.
+See `../bench/bk8500/LIVE_TORCS.md`. Validation of this extension uses mock
+instruments only; physical dynamic 0 to 3 A tracking is pending lab authorization.
+
+October 29 integration with the Mac-support changes at `origin/main` `2ec4150`
+retained both documentation histories. Windows builds, Python/native regressions,
+both live mock pipelines and a full AI course passed; the Tk widget test remained
+skipped. See `../bench/bk8500/LIVE_TORCS.md` for results and unverified scenarios.
+
 Current mock-control extension: `instrument_interfaces.py`, `mock_instruments.py`
 and `instrument_control.py` connect validated live current demand to an optional
 independent mock-only PSU/eLoad worker. Explicit arming, readback-based signed

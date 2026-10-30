@@ -1,5 +1,11 @@
 # Original BK 8500 bench bring-up
 
+For the separate live TORCS PSU-to-eLoad controller, see [LIVE_TORCS.md](LIVE_TORCS.md).
+It defaults to mock operation, supports a separately approved 0 to 3 A envelope,
+and requires an explicit supervised hardware ARM. The legacy replay below keeps
+its original 0.10 A default and behavior. Live hardware operation requires its own
+electrical verification and approval; no battery or PSU bias mapping is involved.
+
 Standalone, opt-in physical instrument tests. These tools are separate from the
 live TORCS/mock controller and do not control the PSU, ESP32 or any battery.
 Use Python 3.9+ on Mac or Windows. No GUI or virtual machine is needed for these

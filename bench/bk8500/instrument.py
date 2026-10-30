@@ -22,9 +22,12 @@ def packet(command, data=b'', address=0):
 
 class BK8500:
     """Transport is an already-open pyserial-compatible object."""
-    def __init__(self, transport, address=0):
+    def __init__(self, transport, address=0, max_setpoint_A=.1):
+        if not math.isfinite(max_setpoint_A) or max_setpoint_A <= 0:
+            raise ValueError('Invalid current command ceiling')
         self.transport = transport
         self.address = address
+        self.max_setpoint_A = max_setpoint_A
         self.last_roundtrip_ms = None
 
     def query(self, command, data=b'', setter=False):
@@ -65,13 +68,21 @@ class BK8500:
             raise ProtocolError('FIXED/CC readback failed')
 
     def set_current(self, current_A):
-        # Deliberately restricted to the range exercised on this bench.
-        if not math.isfinite(current_A) or not 0 <= current_A <= .1:
-            raise ValueError('This bench tool permits only 0 to 0.10 A')
+        # Legacy replay retains its 0.10 A default. New callers must explicitly
+        # supply their separately verified ceiling; this does not enable input.
+        if not math.isfinite(current_A) or not 0 <= current_A <= self.max_setpoint_A:
+            raise ValueError('Current outside configured command ceiling')
         self.query(0x2A, round(current_A * 10000).to_bytes(4, 'little'), setter=True)
 
     def current_setting(self):
         return int.from_bytes(self.query(0x2B)[3:7], 'little') / 10000
+
+    def protection_limits(self):
+        """Read configured instrument maxima; never changes protection settings."""
+        return {name: int.from_bytes(self.query(command)[3:7], 'little') / units
+                for name, command, units in (('voltage_V', 0x23, 1000),
+                                             ('current_A', 0x25, 10000),
+                                             ('power_W', 0x27, 1000))}
 
     def measure(self):
         r = self.query(0x5F)
