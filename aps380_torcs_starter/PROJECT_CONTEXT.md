@@ -92,6 +92,16 @@ configuration stay outside tracked source under `.local/torcs-macos/`.
 
 ### 1. Project objective
 
+Separate keyboard input mode (October 29, 2026):
+`scripts/configure_keyboard.py` prepares `.local/tesla-keyboard-profile` from a
+copy, without writing `.local/tesla-profile` or the default TORCS settings.
+`profiles/keyboard_driving.json` supplies four keyboard-only pedal rise/fall
+rates. The human driver requires an explicit opt-in and keyboard input type;
+analog G29 controls bypass the new ramp. Existing steering, physics, signed
+scaling, telemetry and instrument-control policies are unchanged. See
+`../docs/keyboard-driving.md` for separate launch commands, automated mock-only
+evidence, profile-preservation checks and remaining manual validation.
+
 Separate live PSU-only bench controller (October 27, 2026):
 `../bench/bk8500/live_torcs.py` reuses the existing live telemetry/scaling and
 latest-demand mailbox, then directly maps discharge demand to an approved 0 to

@@ -25,7 +25,7 @@ def parse_args(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     defaults = LiveConfig()
     p.add_argument('--device', choices=('mock', 'hardware'), default='mock')
-    p.add_argument('--torcs', choices=('ai', 'g29', 'listen'), default='ai')
+    p.add_argument('--torcs', choices=('ai', 'g29', 'keyboard', 'listen'), default='ai')
     p.add_argument('--duration', type=float, default=30.)
     p.add_argument('--telemetry-port', type=int, default=50001)
     p.add_argument('--port', help='Hardware serial port; never automatically selected')
@@ -157,6 +157,9 @@ def main(argv=None):
         if args.torcs != 'listen':
             local = ROOT/'.local/tesla-bk8500-ai-profile'
             if args.torcs == 'ai': prepare_profile(local)
+            elif args.torcs == 'keyboard':
+                from configure_keyboard import prepare_keyboard
+                local = prepare_keyboard()
             else: local = configure()
             env = dict(os.environ, APS380_LIVE_PORT=str(receiver.port),
                 APS380_LIVE_REALTIME='1' if args.torcs=='ai' else '0',

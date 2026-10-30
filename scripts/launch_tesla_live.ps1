@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('g29', 'ai', 'listen')][string]$Mode = 'g29',
+    [ValidateSet('g29', 'keyboard', 'ai', 'listen')][string]$Mode = 'g29',
     [double]$Duration = 500,
     [switch]$SkipBuild,
     [switch]$NoDesktop,

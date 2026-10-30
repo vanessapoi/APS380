@@ -34,7 +34,7 @@ def audit_capture(output, receiver_rows, source):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--mode',choices=('ai','g29','listen'),default='ai')
+    parser.add_argument('--mode',choices=('ai','g29','keyboard','listen'),default='ai')
     parser.add_argument('--duration',type=float,default=500)
     parser.add_argument('--port',type=int,default=0,help='0 selects a free loopback port')
     parser.add_argument('--config',type=Path,default=ROOT/'aps380_torcs_starter/profiles/live_scaling_demo.json')
@@ -71,10 +71,14 @@ def main():
         build(TORCS/'src/modules/graphic/ssggraph/ssggraphlib.vcxproj',ROOT/'.local/live-graphics-build.log')
         build(TORCS/'src/libs/client/client.vcxproj',ROOT/'.local/live-client-build.log')
         if args.mode=='ai':build(TORCS/'src/drivers/aps380_ai/aps380_ai.vcxproj',ROOT/'.local/live-driver-build.log')
+        if args.mode=='keyboard':build(TORCS/'src/drivers/human/human.vcxproj',ROOT/'.local/live-keyboard-build.log')
     if args.mode=='ai':
         local=ROOT/'.local/tesla-live-ai-profile';prepare_profile(local)
     elif args.mode=='g29':
         local=configure()
+    elif args.mode=='keyboard':
+        from configure_keyboard import prepare_keyboard
+        local=prepare_keyboard()
     receiver=LiveReceiver(args.port,output,args.config,PROFILE,current_config=mock_config or PROTOTYPE)
     mock_service = None
     if mock_config is not None:
@@ -91,6 +95,13 @@ def main():
     if mock_service is not None:
         implementation += [ROOT/'aps380_torcs_starter'/name for name in
                            ('instrument_interfaces.py','mock_instruments.py','instrument_control.py')]
+    if args.mode=='keyboard':
+        keyboard_files=[ROOT/'scripts/configure_keyboard.py',
+            ROOT/'aps380_torcs_starter/profiles/keyboard_driving.json',
+            TORCS/'src/drivers/human/human.cpp', TORCS/'src/drivers/human/human.h',
+            TORCS/'src/drivers/human/aps380_keyboard.h', RUNTIME/'drivers/human/human.dll']
+        implementation += keyboard_files
+        shutil.copy2(local/'keyboard_driving.json',output/'keyboard_driving.json')
     (output/'implementation_manifest.json').write_text(json.dumps(
         {str(path.relative_to(ROOT)):hashlib.sha256(path.read_bytes()).hexdigest() for path in implementation},indent=2)+'\n')
     receiver.start()

@@ -42,6 +42,9 @@ typedef struct HumanContext
 	tdble	prevRightSteer;
 	tdble	paccel;
 	tdble	pbrake;
+	int keyboardPedalRamp;
+	double keyboardThrottleRise, keyboardThrottleFall;
+	double keyboardBrakeRise, keyboardBrakeFall;
 	int		manual;
 	int		Transmission;
 	int		NbPitStopProg;

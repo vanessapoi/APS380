@@ -44,6 +44,7 @@
 #include <playerpref.h>
 #include "pref.h"
 #include "human.h"
+#include "aps380_keyboard.h"
 
 #define DRWD 0
 #define DFWD 1
@@ -385,6 +386,18 @@ void newrace(int index, tCarElt* car, tSituation *s)
 {
 	int idx = index - 1;
 	aps380_start_telemetry(index);
+	// Only the separate, explicitly enabled keyboard profile reads these fields.
+	char keyboardSection[80];
+	snprintf(keyboardSection, sizeof(keyboardSection), "Preferences/Drivers/%d", index);
+	HCtx[idx]->keyboardPedalRamp = strcmp(GfParmGetStr(PrefHdle, keyboardSection,
+	    "aps380 keyboard pedal ramp", "no"), "yes") == 0;
+	if (HCtx[idx]->keyboardPedalRamp) {
+		HCtx[idx]->keyboardThrottleRise = GfParmGetNum(PrefHdle, keyboardSection, "aps380 throttle rise per s", NULL, .5);
+		HCtx[idx]->keyboardThrottleFall = GfParmGetNum(PrefHdle, keyboardSection, "aps380 throttle fall per s", NULL, 1.);
+		HCtx[idx]->keyboardBrakeRise = GfParmGetNum(PrefHdle, keyboardSection, "aps380 brake rise per s", NULL, 1.);
+		HCtx[idx]->keyboardBrakeFall = GfParmGetNum(PrefHdle, keyboardSection, "aps380 brake fall per s", NULL, 2.);
+		HCtx[idx]->paccel = HCtx[idx]->pbrake = 0.;
+	}
 
 	if (HCtx[idx]->MouseControlUsed) {
 		GfctrlMouseCenter();
@@ -857,14 +870,27 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 			break;
 	}
 
+	const bool keyboardBrake = aps380_keyboard::enabledFor(HCtx[idx]->keyboardPedalRamp != 0,
+	    cmd[CMD_BRAKE].type, GFCTRL_TYPE_KEYBOARD, GFCTRL_TYPE_SKEYBOARD);
+	const bool keyboardThrottle = aps380_keyboard::enabledFor(HCtx[idx]->keyboardPedalRamp != 0,
+	    cmd[CMD_THROTTLE].type, GFCTRL_TYPE_KEYBOARD, GFCTRL_TYPE_SKEYBOARD);
+	// Joystick axes/buttons and mouse controls never enter this path.
+	if (keyboardBrake) {
+		car->_brakeCmd = HCtx[idx]->pbrake = aps380_keyboard::step(HCtx[idx]->pbrake,
+		    car->_brakeCmd != 0., deltaTime, HCtx[idx]->keyboardBrakeRise, HCtx[idx]->keyboardBrakeFall);
+	}
+	if (keyboardThrottle) {
+		car->_accelCmd = HCtx[idx]->paccel = aps380_keyboard::step(HCtx[idx]->paccel,
+		    car->_accelCmd != 0., deltaTime, HCtx[idx]->keyboardThrottleRise, HCtx[idx]->keyboardThrottleFall);
+	}
 	if (s->currentTime > 1.0) {
 		// thanks Christos for the following: gradual accel/brake changes for on/off controls.
 		const tdble inc_rate = 10.0f * (tdble)deltaTime;
 		
-		if (cmd[CMD_BRAKE].type == GFCTRL_TYPE_JOY_BUT ||
+		if (!keyboardBrake && (cmd[CMD_BRAKE].type == GFCTRL_TYPE_JOY_BUT ||
 		    cmd[CMD_BRAKE].type == GFCTRL_TYPE_MOUSE_BUT ||
 		    cmd[CMD_BRAKE].type == GFCTRL_TYPE_KEYBOARD ||
-		    cmd[CMD_BRAKE].type == GFCTRL_TYPE_SKEYBOARD)
+		    cmd[CMD_BRAKE].type == GFCTRL_TYPE_SKEYBOARD))
 		{
 			tdble d_brake = car->_brakeCmd - HCtx[idx]->pbrake;
 			if (fabs(d_brake) > inc_rate && car->_brakeCmd > HCtx[idx]->pbrake) {
@@ -873,10 +899,10 @@ static void common_drive(int index, tCarElt* car, tSituation *s)
 			HCtx[idx]->pbrake = car->_brakeCmd;
 		}
 
-		if (cmd[CMD_THROTTLE].type == GFCTRL_TYPE_JOY_BUT ||
+		if (!keyboardThrottle && (cmd[CMD_THROTTLE].type == GFCTRL_TYPE_JOY_BUT ||
 			cmd[CMD_THROTTLE].type == GFCTRL_TYPE_MOUSE_BUT ||
 			cmd[CMD_THROTTLE].type == GFCTRL_TYPE_KEYBOARD ||
-			cmd[CMD_THROTTLE].type == GFCTRL_TYPE_SKEYBOARD)
+			cmd[CMD_THROTTLE].type == GFCTRL_TYPE_SKEYBOARD))
 		{
 			tdble d_accel = car->_accelCmd - HCtx[idx]->paccel;
 			if (fabs(d_accel) > inc_rate && car->_accelCmd > HCtx[idx]->paccel) {

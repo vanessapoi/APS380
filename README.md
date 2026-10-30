@@ -25,6 +25,9 @@ The main menu opens, a console Tesla-reference AI course passed its protocol gat
 
 ## Collaborating
 
+For separate keyboard pedal ramps and the unchanged G29 launch option, see
+[keyboard and G29 driving](docs/keyboard-driving.md).
+
 Create a feature branch, edit the Python project or `external/torcs-1.3.10/`, run the relevant checks, and push the branch for review. Keep generated build output and local environments out of commits. Preserve upstream license notices. Work in this repository's TORCS copy, rather than the separate copy in Downloads.
 
 ## Mock instrument integration
