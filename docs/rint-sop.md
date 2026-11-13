@@ -1,5 +1,9 @@
 # Rint discharge SOP: literature-motivated mock policy
 
+The separate opt-in [live mock Cell SOC mode](live-cell-state.md) now feeds this
+same estimator from Coulomb Counting of qualified prototype mock readbacks.
+The fixed-SOC Rint workflow described below remains available and unchanged.
+
 This extends the working vehicle feedback path. It does not authorize physical
 cell/instrument operation or establish validated battery safety limits. The
 original SOC-band and fixed-fraction policies remain selectable and unchanged.

@@ -394,8 +394,9 @@ class MockInstrumentService:
     LiveReceiver uses perf_counter, so both demand timestamps and mocks use that
     clock here. Deterministic tests may inject a different common clock directly.
     """
-    def __init__(self, output, config=ControlConfig()):
+    def __init__(self, output, config=ControlConfig(), measurement_sink=None):
         self.config = config
+        self.measurement_sink = measurement_sink
         self.demands = LatestDemand()
         self.psu = MockPSU(clock=time.perf_counter, max_current_A=config.psu_current_max_A)
         self.load = MockBK8500(clock=time.perf_counter, max_current_A=config.eload_current_max_A)
@@ -434,6 +435,8 @@ class MockInstrumentService:
     def _record(self, event='cycle'):
         self.latest = self.coordinator.snapshot()
         self.history.append(self.latest)
+        if self.measurement_sink is not None:
+            self.measurement_sink(self.latest)
         devices = {}
         for name, device in (('psu', self.psu), ('load', self.load)):
             devices[name] = list(device.log)

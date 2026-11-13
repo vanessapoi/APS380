@@ -1,6 +1,22 @@
 # APS380 — Updated Project Context for Codex
 ## Driver-in-the-Loop EV Battery Test Platform
 
+### Opt-in live mock Cell SOC integration - November 13, 2026
+
+`--policy rint-live-mock` in `scripts/run_vehicle_power_limit.py` composes the
+existing prototype mock coordinator with CoulombCounter and RintPolicy. It
+integrates qualified charging-positive branch readbacks, never demand, using
+measurement times and known mock isolation. V/T and initial SOC remain synthetic
+assertions. Session/sequence/freshness/skew checks and explicit reinitialization
+prevent silent gap filling. Default demo and fixed-SOC Rint modes are unchanged.
+The new mode starts disarmed; ARM/--mock-arm enable only in-memory devices.
+Observer faults latch, request existing mock emergency stop and preserve native
+propulsion expiry/reset. Dashboard/logs identify counted mock SOC and quality.
+This supersedes older notes that all Cell SOC workflows are offline or Rint
+always uses held SOC. Physical sensing, standalone BK8500/PSU composition,
+calibrated battery parameters and protection remain absent. See
+`../docs/live-cell-state.md` for architecture, commands, reset and validation.
+
 ### Opt-in unvalidated Rint SOP mock policy - November 12, 2026
 
 The existing mock vehicle-feedback launcher now selects `--policy demo` (the

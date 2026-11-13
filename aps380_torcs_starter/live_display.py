@@ -21,6 +21,8 @@ class LiveDisplay:
         self.root.report_callback_exception = callback_failed
         self.root.title('APS380 Live EV Telemetry')
         self.root.geometry('1050x800' if load_service or getattr(receiver,'power_feedback',None) is not None else '980x680')
+        if mock_service is not None and getattr(receiver,'power_feedback',None) is not None:
+            self.root.geometry('1050x980')
         self.root.protocol('WM_DELETE_WINDOW',self.root.quit)
         frame=ttk.Frame(self.root,padding=14);frame.pack(fill='both',expand=True)
         ttk.Label(frame,text='APS380 • LIVE NATIVE EV TELEMETRY',font=('Segoe UI',18,'bold')).pack(anchor='w')
@@ -133,7 +135,9 @@ class LiveDisplay:
                 if 'sop_model_valid' in s:
                     def number(key,fmt='.3f'):
                         return format(s[key],fmt) if s.get(key) is not None else 'UNAVAILABLE'
-                    text+=(f"\nCell SOC estimate [MOCK supplied]: {number('sop_cell_soc_fraction','.1%')}; "
+                    soc_label='MOCK Coulomb Counted' if 'cell_observer_state' in s else 'MOCK supplied'
+                    soc_format='.5%' if 'cell_observer_state' in s else '.1%'
+                    text+=(f"\nCell SOC estimate [{soc_label}]: {number('sop_cell_soc_fraction',soc_format)}; "
                            f"T [MOCK]: {number('sop_mock_temperature_C','.1f')} C; "
                            f"OCV [candidate]: {number('sop_ocv_candidate_V')} V\n"
                            f"R0 [ASSUMED]: {number('sop_r0_assumed_ohm')} ohm; "
@@ -142,6 +146,8 @@ class LiveDisplay:
                            f"Motor requested [SIM, unlimited]: {number('sop_motor_requested_unlimited_W','.1f')} W; "
                            f"allowable [MODEL]: {number('sop_motor_allowable_W','.1f')} W\n"
                            f"SOP model valid in assumed range: {s['sop_model_valid']} | {s['sop_reason']}")
+                    if 'cell_observer_state' in s:
+                        text+=f"\nCell stream [MOCK]: {s['cell_observer_state']} | {s['cell_observer_error']} | age {s['cell_measurement_age_s']} s"
                     if not s['sop_auxiliary_budget_satisfied']:
                         text+=' | SOP cannot cover native auxiliary draw; propulsion zero does not turn auxiliaries off'
                 else:text+=f" | simulated policy SOC {s['vehicle_limit_demo_soc']:.1%}"
