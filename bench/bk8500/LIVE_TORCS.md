@@ -5,7 +5,10 @@ for exact keyboard/G29 commands, readable ARM prompts and separate MOCK/REAL loa
 readbacks. Hardware ARM remains terminal-only; the driver and interlocks are unchanged.
 
 **Current first-live hardware procedure:** [0..0.10 A supervised lab test](LOW_CURRENT_LIVE_LAB.md).
-Physical live requests above 0.10 A are now rejected before serial access.
+Physical live requests above 0.10 A are rejected by default before serial access.
+The separate opt-in [up-to-1 A commissioning procedure](ONE_AMP_LIVE_LAB.md)
+retains supervised ARM and requires reviewed existing protection ceilings. It
+does not write MAX settings or alter the original replay's 0.10 A limit.
 The 0..3 A mock examples and historical validation below remain valid; the older
 3 A physical command below is superseded and will be rejected. Use the new
 procedure's blank local approval form for physical commissioning.

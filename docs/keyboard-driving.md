@@ -6,7 +6,7 @@ operate TORCS and optional in-memory instruments only.
 ## Keyboard: gradual pedals
 
 ```powershell
-& .\scripts\launch_tesla_keyboard.ps1 -NoDesktop
+& .\scripts\launch_tesla_keyboard.ps1 -KeyboardProfile 5s
 ```
 
 This builds the changed human driver and existing simulator components, prepares
@@ -61,10 +61,29 @@ editing the JSON during a race does not update active controls.
 
 | Setting | Default fraction/s | Full-range time |
 |---|---:|---:|
-| `throttle_rise_per_s` | 0.3333333333333333 | 3 s from 0 to 100% |
+| `throttle_rise_per_s` | 0.2 | 5 s from 0 to 100% |
 | `throttle_fall_per_s` | 0.6666666666666666 | 1.5 s from 100 to 0% |
 | `brake_rise_per_s` | 1.0 | 1 s from 0 to 100% |
 | `brake_fall_per_s` | 2.0 | 0.5 s from 100 to 0% |
+
+The original 3-second rise is preserved in `keyboard_driving_3s.json` with
+identical release and brake settings. Select it without editing either file:
+
+```powershell
+& .\scripts\launch_tesla_keyboard.ps1 -KeyboardProfile 3s
+```
+
+An additional 8-second rise is available in `keyboard_driving_8s.json` (0.125/s).
+It retains the same throttle release, brake and steering settings:
+
+```powershell
+& .\scripts\launch_tesla_keyboard.ps1 -SkipBuild -KeyboardProfile 8s
+```
+
+Both Python launchers also accept `--keyboard-profile 5s`, `3s` or `8s` only in
+keyboard mode. The default is now 5s. Selection is applied before a new race;
+do not run two launchers against the shared generated keyboard profile at once.
+Saved G29 calibration, axis mappings and analog behavior are unchanged.
 
 Rates use simulation time and must be finite, positive, at most 100. Larger
 values respond faster. Release ramps deliberately retain some throttle or brake
@@ -87,12 +106,16 @@ After building the human module with the keyboard launcher above, this optional
 runner also accepts the separate profile:
 
 ```powershell
-& .\.venv-bench\Scripts\python.exe -B bench/bk8500/live_torcs.py --device mock --torcs keyboard --duration 600 --reference-current-A 0.05
+& .\.venv-bench\Scripts\python.exe -B bench/bk8500/live_torcs.py --device mock --torcs keyboard --keyboard-profile 5s --dashboard --duration 300 --extended-psu-only --max-current-A 1 --reference-current-A 2 --max-power-W 5.5 --control-hz 1 --slew-A-per-s 0.02 --tracking-tolerance-A 0.01 --protection-voltage-ceiling-V 110 --protection-current-ceiling-A 12 --protection-power-ceiling-W 305
 ```
 
 Start the race and type `ARM` in its terminal once READY/RECEIVING. `DISARM` and
 `QUIT` stop mock current. This does not open a serial port. Its original G29 and
 AI options and instrument-control calculations are unchanged.
+The protection-envelope numbers in this MOCK command are simulated readbacks,
+not instrument writes. Replace only `--keyboard-profile 5s` with `3s` to compare
+the preserved keyboard baseline; slew remains 0.02 A/s in both cases. Hardware
+operation is not part of this keyboard-profile validation.
 
 The original launcher saves normal telemetry, profiles, manifest and mock logs
 under `.local/live-trials/`. Keyboard trials additionally save

@@ -1,5 +1,9 @@
 # First physical live TORCS-to-BK8500 test: PSU only, 0..0.10 A
 
+For the separate opt-in up-to-1 A extension with unchanged existing MAX settings,
+see [ONE_AMP_LIVE_LAB.md](ONE_AMP_LIVE_LAB.md). This original procedure retains
+its own exact protection matching and 0.10 A envelope.
+
 This procedure builds on the working original BK8500 driver and physical replay
 tests. It does not authorize a hardware run. Obtain the supervisor's approval
 and separately authorize the physical stage in the lab. No battery, ESP32,
@@ -153,6 +157,44 @@ Set the confirmations only after inspection/approval. The JSON is an attestation
 not authentication, remote PSU verification or independent protection.
 
 ## Separately authorized physical live stage
+
+### Step 4B: independent OFF-only preflight
+
+Set `$bkSerial` to the serial from verified identification.
+Use this one-shot check before the live stage. It does not launch TORCS, receive
+telemetry, offer ARM, or authorize current draw. Approval names/references and a
+numeric wiring rating are not required for this OFF-only check. An optional
+`--setup-record` preserves factual information and unknown fields without
+interpreting them as permission to enable the input. Full live operation retains
+the existing approval validator and supervised ARM requirements unchanged.
+
+```powershell
+& .\.venv-bench\Scripts\python.exe -B bench/bk8500/off_preflight.py --device hardware --port COM10 --baud 9600 --address 0 --confirm-ttl --expected-serial $bkSerial --setup-record .local/bk8500-live-low-approved.json
+```
+
+This is an active OFF-state check, not a query-only identification command:
+it identifies the instrument, selects remote FIXED/CC, commands input OFF and
+zero current, checks voltage/current/status and reads protections. The command
+contains today's explicitly verified port and serial; use the verified identity
+for any future setup. It never changes PSU settings or load protection settings.
+Its restricted device interface forbids input ON and nonzero current, including
+during the reused shutdown sequence. Its fixed envelope is 0.10 A, 4.5..5.5 V,
+0.6 W, 1 Hz and 0.02 A/s; no control loop or slew test is performed.
+
+Expect `result: PASS`, matching identity, verified protections of 5.5 V / 0.10 A /
+0.6 W, `input_on: false`, zero setting and `shutdown.verified: true`. Current-draw
+tracking is explicitly not assessed. Reports default to
+`.local/bk8500-off-preflight/<UTC timestamp>.json`. A failure exits nonzero; an
+unverified shutdown must be treated as unverified, with independent physical
+stopping available. Do not bypass mismatches or interpret PASS as ARM approval.
+
+Mock-only check, requiring no serial port or approval data:
+
+```powershell
+& .\.venv-bench\Scripts\python.exe -B bench/bk8500/off_preflight.py --device mock
+```
+
+### Live control (separate from OFF-only preflight)
 
 After approval and explicit authorization, from an interactive terminal:
 
