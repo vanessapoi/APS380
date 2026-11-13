@@ -1,4 +1,4 @@
-"""Loopback native EV telemetry, fixed scaling and audit reports. No actuation."""
+"""Native telemetry, fixed scaling, audit reports and opt-in MOCK vehicle feedback."""
 from collections import deque
 from dataclasses import asdict
 import csv
@@ -190,7 +190,7 @@ class LiveProcessor:
 class LiveReceiver:
     def __init__(self, port, output, config_path=BASE/'profiles/live_scaling_demo.json',
                  profile_path=BASE/'profiles/tesla_model3_rwd.json', demand_sink=None,
-                 current_config=PROTOTYPE, peer_exit_status=None):
+                 current_config=PROTOTYPE, peer_exit_status=None, power_feedback=None):
         self.output = Path(output)
         self.output.mkdir(parents=True, exist_ok=False)
         config_bytes, profile_bytes = Path(config_path).read_bytes(), Path(profile_path).read_bytes()
@@ -221,6 +221,7 @@ class LiveReceiver:
         # Optional latest-value mailbox only; never performs instrument I/O here.
         self.demand_sink = demand_sink
         self.peer_exit_status = peer_exit_status
+        self.power_feedback = power_feedback
         self.hud_stats = dict(registrations=0,sent=0,errors=0,rendered_acks=0,
                              normal_acks=0,near_limit_acks=0,discharge_alert_acks=0,
                              charge_alert_acks=0,unavailable_acks=0)
@@ -308,6 +309,8 @@ class LiveReceiver:
                 started = time.perf_counter()
                 try:
                     row = self.processor.accept(payload, received)
+                    if row is not None and self.power_feedback is not None:
+                        self.power_feedback.handle(row,payload,address,self.socket)
                     event = {'kind':'sample' if row is not None else 'ended','row':row,
                              'processing_ms':(time.perf_counter()-started)*1000}
                 except (ValueError,KeyError,TypeError,StopIteration,UnicodeError,OverflowError) as error:

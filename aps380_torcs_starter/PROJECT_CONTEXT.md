@@ -1,6 +1,41 @@
 # APS380 — Updated Project Context for Codex
 ## Driver-in-the-Loop EV Battery Test Platform
 
+### Opt-in unvalidated Rint SOP mock policy - November 12, 2026
+
+The existing mock vehicle-feedback launcher now selects `--policy demo` (the
+unchanged default) or `--policy rint --sop-config <explicit mock JSON>`. The Rint
+policy reuses the candidate EVE OCV reference in `cell_soc.py`; it does not invent
+a calibrated DC resistance or a measured cell state. Resistance, current/voltage
+choices, SOC reserve/charge-budget horizon and uncertainty margins are explicit
+unvalidated assumptions. Model-temperature qualification does not establish a
+physical operating envelope. The horizon constrains charge budget only, not RC
+polarization, finite-horizon voltage or thermal response. Cell power is inverted
+through actual receiver scaling, then configured auxiliary load and efficiency
+convert it to a conservative rated-motor availability fraction. No native
+protocol, timeout, fault latch, reset, instrument or pedal behavior is replaced.
+Invalid model state stops feedback and requires valid state plus explicit reset;
+native expiry still latches propulsion at zero. Cell SOC shown is a supplied MOCK
+estimate, separate from native pack SOC, not a live measured-cell observer.
+See `../docs/rint-sop.md` for equations, sources, limitations and lab identification.
+
+### Opt-in mock vehicle availability demo - November 12, 2026
+
+`scripts/run_vehicle_power_limit.py` enables a separate MOCK-only loopback command
+path. Existing HUD feedback remains visual-only; BK8500 workflows and baseline
+simulation do not enable derating. The PC computes a demonstration SOC band from
+native simulated pack SOC or an explicit simulated override; no OCV-SOC or
+measured battery SOP safety claim is made. Fixed fractions are test overrides.
+The native EV kernel scales positive propulsion availability before electrical
+work/energy integration, leaving regenerative and friction-braking branches,
+analog/key inputs and signed cell scaling unchanged. Missing/invalid feedback
+latches zero propulsion in the opt-in mode; fresh ordinary messages cannot clear
+the latch. Recovery requires an explicit reset; a new race changes the session.
+Native commanded/applied fractions are acknowledged in optional telemetry fields
+and displayed in the existing dashboard. No PSU/eLoad/ESP32 connection is made.
+See `../docs/vehicle-power-limiting.md` for protocol, launch commands, mock evidence
+and limitations. This is a separate demo, not a physical battery protection path.
+
 ### Standalone controller presentation - November 12, 2026
 
 `bench/bk8500/live_torcs.py --dashboard` reuses the existing `LiveDisplay`, with

@@ -339,6 +339,7 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
         && (s->_raceState & RM_RACE_PAUSED) == 0;
     if (aps380_live::sampleReady(s->currentTime, aps380ActiveRace))
         aps380_live::pace(s->currentTime);
+    aps380_live::pollPower();
 	for (ncar = 0; ncar < s->_ncars; ncar++) {
 		SimCarTable[ncar].collision = 0;
 		SimCarTable[ncar].blocked = 0;
@@ -385,7 +386,8 @@ SimUpdate(tSituation *s, double deltaTime, int telemetry)
 			const bool engaged = active && car->transmission.gearbox.gear != 0 &&
 				!(carElt->_state & (RM_CAR_STATE_BROKEN | RM_CAR_STATE_ELIMINATED));
 			aps380::EvStep step = aps380::electricStep(e.ev, e.evEnergyWh, e.rads,
-				fabs(car->DynGC.vel.x), car->ctrl->accelCmd, active ? SimDeltaTime : 0.0, engaged, car->ctrl->brakeCmd);
+				fabs(car->DynGC.vel.x), car->ctrl->accelCmd, active ? SimDeltaTime : 0.0, engaged, car->ctrl->brakeCmd,
+                aps380_live::propulsionLimit(ncar));
 			e.Tq = (tdble)step.torque;
 			e.evPackPower = step.packPower;
 			e.evShaftPower = step.shaftPower;

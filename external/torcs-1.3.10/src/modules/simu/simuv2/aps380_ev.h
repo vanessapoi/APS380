@@ -14,13 +14,19 @@ struct EvParameters {
 struct EvStep { double torque, shaftPower, packPower, energyWh; };
 inline EvStep electricStep(const EvParameters &p, double energyWh,
                           double omega, double speed, double throttle,
-                          double dt, bool engaged, double brake = 0.0)
+                          double dt, bool engaged, double brake = 0.0,
+                          double propulsionFraction = 1.0)
 {
     const double w = std::fabs(omega);
     double torque = 0.0;
     const double available = (std::min)(p.maxTorque, p.maxPower / (std::max)(w, 1.0));
     if (engaged && energyWh > 0.0 && throttle > p.neutralPedal && brake <= 0.05 && speed < p.maxSpeed) {
         torque = available * (throttle-p.neutralPedal)/(1.0-p.neutralPedal);
+        // Opt-in external availability scales propulsion, not pedal inputs or
+        // negative shaft work when rolling backwards. Regeneration is unchanged.
+        if (omega >= 0.0)
+            torque *= std::isfinite(propulsionFraction) ?
+                (std::max)(0.0,(std::min)(1.0,propulsionFraction)) : 0.0;
         // Prevent the last time step from drawing energy below zero.
         if (w > 0.0 && dt > 0.0)
             torque = (std::min)(torque, (std::max)(0.0, energyWh*3600.0/dt-p.auxiliaryPower)*p.driveEfficiency/w);

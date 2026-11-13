@@ -20,7 +20,7 @@ class LiveDisplay:
             self.root.quit()
         self.root.report_callback_exception = callback_failed
         self.root.title('APS380 Live EV Telemetry')
-        self.root.geometry('1050x800' if load_service else '980x680')
+        self.root.geometry('1050x800' if load_service or getattr(receiver,'power_feedback',None) is not None else '980x680')
         self.root.protocol('WM_DELETE_WINDOW',self.root.quit)
         frame=ttk.Frame(self.root,padding=14);frame.pack(fill='both',expand=True)
         ttk.Label(frame,text='APS380 • LIVE NATIVE EV TELEMETRY',font=('Segoe UI',18,'bold')).pack(anchor='w')
@@ -31,6 +31,12 @@ class LiveDisplay:
         ttk.Label(frame,text=banner).pack(anchor='w',pady=5)
         ttk.Label(frame,text='Cell current: negative = discharge; positive = charge. Native PACK power/current: positive = draw.').pack(anchor='w')
         self.state_label=ttk.Label(frame,font=('Segoe UI',13,'bold'));self.state_label.pack(anchor='w')
+        power=getattr(receiver,'power_feedback',None)
+        if power is not None:
+            controls=ttk.Frame(frame);controls.pack(fill='x')
+            ttk.Label(controls,text='MOCK vehicle power policy; no physical battery/SOP safety').pack(side='left')
+            ttk.Button(controls,text='Reset propulsion feedback',command=power.request_reset).pack(side='left')
+            ttk.Button(controls,text='Zero propulsion',command=power.request_stop).pack(side='left')
         if mock_service is not None:
             controls=ttk.Frame(frame);controls.pack(fill='x')
             self.mock_label=ttk.Label(controls,text='MOCK instruments: DISARMED')
@@ -114,6 +120,32 @@ class LiveDisplay:
             shutdown=s.get('shutdown',{})
             if s['state']!='RUNNING' and shutdown and shutdown.get('errors')!=['Not checked yet']:
                 text+=f"\nLast shutdown OFF/zero verified: {shutdown.get('verified',False)} (not a live readback)"
+        power=getattr(self.receiver,'power_feedback',None)
+        if power is not None:
+            s=power.latest
+            text+='\nMOCK propulsion: '+s.get('vehicle_limit_state','WAITING')
+            if 'vehicle_limit_applied_fraction' in s:
+                age=time.perf_counter()-s['received_qpc_s']
+                text+=(f" | Python requested {s['vehicle_limit_requested_fraction']:.0%} / "
+                       f"native commanded {s['vehicle_limit_native_commanded']:.0%} / "
+                       f"applied {s['vehicle_limit_applied_fraction']:.0%}; feedback age {age:.2f}s\n"
+                       f"{s['vehicle_limit_policy']}")
+                if 'sop_model_valid' in s:
+                    def number(key,fmt='.3f'):
+                        return format(s[key],fmt) if s.get(key) is not None else 'UNAVAILABLE'
+                    text+=(f"\nCell SOC estimate [MOCK supplied]: {number('sop_cell_soc_fraction','.1%')}; "
+                           f"T [MOCK]: {number('sop_mock_temperature_C','.1f')} C; "
+                           f"OCV [candidate]: {number('sop_ocv_candidate_V')} V\n"
+                           f"R0 [ASSUMED]: {number('sop_r0_assumed_ohm')} ohm; "
+                           f"max discharge [EST]: {number('sop_max_discharge_A')} A; "
+                           f"SOP [EST]: {number('sop_max_discharge_W')} W\n"
+                           f"Motor requested [SIM, unlimited]: {number('sop_motor_requested_unlimited_W','.1f')} W; "
+                           f"allowable [MODEL]: {number('sop_motor_allowable_W','.1f')} W\n"
+                           f"SOP model valid in assumed range: {s['sop_model_valid']} | {s['sop_reason']}")
+                    if not s['sop_auxiliary_budget_satisfied']:
+                        text+=' | SOP cannot cover native auxiliary draw; propulsion zero does not turn auxiliaries off'
+                else:text+=f" | simulated policy SOC {s['vehicle_limit_demo_soc']:.1%}"
+            if power.error:text+='\n'+power.error
         self.values.config(text=text)
         self.details.config(text=f"{p.profile['name']}\n{p.error or 'Chart: amber=target, blue=limited, purple=applied, green=mock measured. Pausing or losing telemetry shows STALE.'}\nLogs: {self.receiver.output}")
         self.draw_chart(history)
