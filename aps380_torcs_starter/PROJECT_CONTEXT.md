@@ -1,6 +1,28 @@
 # APS380 — Updated Project Context for Codex
 ## Driver-in-the-Loop EV Battery Test Platform
 
+### Standalone controller presentation - November 12, 2026
+
+`bench/bk8500/live_torcs.py --dashboard` reuses the existing `LiveDisplay`, with
+separate tabs for simulated signed battery demand and MOCK/REAL load branch
+readbacks. No measured battery SOC/current or PSU readback is implied. Existing
+prototype mock PSU/eLoad dashboard behavior is retained. Real hardware ARM still
+requires the exact approval phrase in a supervised terminal; the GUI has no real
+Arm button. Console output is readable and transition-based (periodic RUNNING
+summaries without GUI); full JSONL/CSV logging remains independent. Confirmed
+clean exit of this launcher's native child also qualifies Windows UDP reset
+10054 as expected shutdown; unknown/running/failed peers still fail. GUI behavior
+is validated only with mocks/fake hardware labels, not a connected instrument.
+See `../bench/bk8500/DASHBOARD.md` for launch commands and qualifications.
+
+The standalone controller now bounds setpoint slew by elapsed time from the last
+setting-write ACK (including unchanged writes), with conservative integer 0.1 mA
+steps and no delayed-cycle catch-up. ARM starts a fresh zero reference; rates
+below one quantum per nominal period require a lower control frequency.
+A hard-envelope conflict faults/OFF; fault/shutdown operations
+bypass slew. This does not change approved limits, driver encoding, prototype
+coordinator policy, vehicle controls or measured physical settling guarantees.
+
 ### Established architecture decision — October 20, 2026
 
 The PC connects directly to both the electronic load and the PSU. The Python host on the PC owns instrument communication, signed cell-current demand mapping, SOC/SOP calculations from measured cell data, and battery-dependent TORCS feedback. The ESP32 owns cell sensing, timestamped measurement/status reporting, local supervision and isolation coordination; it is not the instrument-command bridge. Independent PCB protection remains separate.
@@ -91,6 +113,16 @@ Practice race to be started. Windows native regression checks remain due. Genera
 configuration stay outside tracked source under `.local/torcs-macos/`.
 
 ### 1. Project objective
+
+November 12 physical-live preparation: the standalone BK8500 runner reuses the
+proven driver and limits initial physical-live current commands to 0..0.10 A.
+Selected maximum current now sets the proportional mapping's full scale as well
+as the clip; default 0..3 A mock behavior is unchanged. G29/AI launch reads the
+saved wheel profile without rewriting it. Low-current ACK/readback timestamps,
+report-failure preservation and fault handling are tested with mocks only;
+physical live streaming and the newer protection readbacks remain unverified.
+See `../bench/bk8500/LOW_CURRENT_LIVE_LAB.md`. No real PSU driver, battery mode,
+new physics/scaling, keyboard settings or prototype control limits are added.
 
 Separate keyboard input mode (October 29, 2026):
 `scripts/configure_keyboard.py` prepares `.local/tesla-keyboard-profile` from a

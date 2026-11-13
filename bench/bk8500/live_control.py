@@ -4,6 +4,8 @@ All instrument access belongs to one worker. Transport loss may prevent OFF;
 software is not an independent emergency stop or hardware protection system.
 """
 from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
+from decimal import Decimal, ROUND_FLOOR
 import json
 import math
 from pathlib import Path
@@ -15,6 +17,39 @@ from instrument import BK8500
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]/'aps380_torcs_starter'))
 from instrument_control import LatestDemand
 from prototype_current_config import PROTOTYPE
+
+# First physical LIVE commissioning stays within the proven replay range.
+# This does not change the prototype or mock-only 0..3 A capability.
+INITIAL_HARDWARE_CURRENT_MAX_A = .10
+CURRENT_SETTING_UNITS_PER_A = 10000  # Existing driver CC encoding: 0.1 mA.
+
+
+def slew_target(previous_A, target_A, ceiling_A, elapsed_s, config):
+    """Conservative integer setpoint envelope; no nearest-rounding overshoot.
+
+    Elapsed time starts at the ACK of the last setting write (or verified zero
+    at ARM), including unchanged writes. Cap delayed updates at one nominal
+    step. Fault/OFF operations intentionally bypass this.
+    """
+    if not math.isfinite(elapsed_s) or elapsed_s < 0:
+        raise RuntimeError('INVALID_SLEW_CLOCK')
+    units = CURRENT_SETTING_UNITS_PER_A
+    rate = Decimal(str(config.slew_A_per_s))
+    # Decimal preserves the exact observed float interval without an epsilon
+    # that could round an unaffordable quantum into the allowed envelope.
+    elapsed = Decimal.from_float(elapsed_s)
+    cap = Decimal(1)/Decimal(str(config.control_hz))
+    budget = rate * min(elapsed, cap)
+    step = int((budget*units).to_integral_value(rounding=ROUND_FLOOR))
+    previous = round(previous_A*units)  # Already an integer-unit command.
+    hard_max = int((Decimal(str(ceiling_A))*units).to_integral_value(rounding=ROUND_FLOOR))
+    low, high = max(0, previous-step), min(hard_max, previous+step)
+    if low > high:
+        # A new hard power/current ceiling cannot safely coexist with the ramp.
+        # Fail closed instead of exceeding either envelope during operation.
+        raise RuntimeError('SLEW_ENVELOPE_INFEASIBLE')
+    desired = int((Decimal(str(target_A))*units).to_integral_value(rounding=ROUND_FLOOR))
+    return min(high, max(low, desired))/units, float(budget)
 
 
 class OrderlyStop(RuntimeError):
@@ -54,12 +89,14 @@ class LiveConfig:
             raise ValueError('Rate must be <=2 Hz and cycle budget shorter than period')
         if self.io_timeout_s >= self.expiry_s:
             raise ValueError('Each I/O timeout must be shorter than demand expiry')
+        if Decimal(str(self.slew_A_per_s))*CURRENT_SETTING_UNITS_PER_A < Decimal(str(self.control_hz)):
+            raise ValueError('Slew per nominal period is below 0.1 mA setting resolution; lower control_hz')
 
     def map_current(self, signed_cell_A):
         if type(signed_cell_A) not in (int, float) or not math.isfinite(signed_cell_A):
             raise ValueError('Invalid original current')
         # Direct branch demand: negative CELL means propulsion; regen draws zero.
-        scaled = (-signed_cell_A / self.reference_current_A) * PROTOTYPE.eload_current_max_A
+        scaled = (-signed_cell_A / self.reference_current_A) * self.max_current_A
         if not math.isfinite(scaled):
             raise ValueError('Scaled current overflow')
         return scaled, max(0., min(self.max_current_A, scaled))
@@ -184,11 +221,13 @@ class LiveController:
         self.shutdown = dict(verified=False, errors=['Not checked yet'])
         self.last = {}
         self.applied = 0.
+        self.slew_reference_ack_s = None
         self.session = None
         self.rearm_after = float('-inf')
         self.bad_tracking_since = None
         self.stop_reason = ''
         self.identity_verified = False
+        self.input_on_acknowledgements = 0
         self.closing = False
         self.abort = threading.Event()
 
@@ -202,6 +241,7 @@ class LiveController:
         except Exception as exc:
             self.shutdown = dict(verified=False, errors=['Shutdown raised: '+str(exc)])
         self.applied = 0.
+        self.slew_reference_ack_s = None
         self.rearm_after = self.clock()
         if not self.shutdown.get('verified'):
             self.fault = self.fault or 'SHUTDOWN_UNVERIFIED'
@@ -248,11 +288,12 @@ class LiveController:
 
     def verify_limits(self):
         limits = self.device.protection_limits()
+        self.observed_limits = limits
         for key, ceiling in (('voltage_V', self.config.voltage_max_V),
                              ('current_A', self.config.max_current_A),
                              ('power_W', self.config.max_power_W)):
             if abs(positive(key, limits.get(key))-ceiling) > .0001:
-                raise RuntimeError('Configure and verify load protection: ' + key)
+                raise RuntimeError(f'Configure and verify load protection: {key}; read {limits.get(key)!r}, required {ceiling!r}')
         self.limits = limits
 
     def fresh(self, demand=None, revision=None):
@@ -299,11 +340,15 @@ class LiveController:
                 raise RuntimeError('DEMAND_INVALIDATED_OR_EXPIRED_DURING_IO')
             demand, revision = newest, newest_revision
             self.device.input(True)  # The only ON path; explicit arm() only.
+            self.input_on_acknowledgements += 1
             self.fresh(demand, revision)
             self.measurement(self.device.measure(), True)
             self.fresh(demand, revision)
             self.session = demand.session_id
             self.state, self.applied = 'RUNNING', 0.
+            # Zero has been ACKed/read back and ON verified. Do not bank idle
+            # READY time as permission for a large first current command.
+            self.slew_reference_ack_s = self.clock()
             return True
         except OrderlyStop:
             self.stop('SERVICE_STOP')
@@ -342,29 +387,38 @@ class LiveController:
             if raw is None: raw = demand.current_A
             scaled, limited = c.map_current(raw)
             allowed = min(limited, c.max_power_W / before['voltage_V'])
-            # One nominal step at most; no catch-up ramps after slow operations.
-            delta = c.slew_A_per_s / c.control_hz
-            target = max(0., self.applied + max(-delta, min(delta, allowed-self.applied)))
-            target = min(target, c.max_power_W / before['voltage_V'])
-            quantized = min(round(target*10000), math.floor(min(c.max_current_A,
-                            c.max_power_W/before['voltage_V'])*10000)) / 10000
+            if self.slew_reference_ack_s is None:
+                raise RuntimeError('MISSING_SLEW_REFERENCE')
+            reference = self.slew_reference_ack_s
+            elapsed_s = self.clock()-reference
+            previous_A = self.applied
+            quantized, budget_A = slew_target(previous_A, allowed,
+                min(c.max_current_A, c.max_power_W/before['voltage_V']), elapsed_s, c)
             self.last = dict(torcs_time_s=demand.sim_time_s, source_session=demand.session_id,
                 source_sequence=demand.sequence, source_received_s=demand.received_s,
                 original_cell_current_A=raw, limited_cell_current_A=demand.current_A,
                 scaled_load_demand_A=scaled, limited_load_target_A=limited,
                 power_limited_load_target_A=allowed, commanded_load_A=quantized,
                 regen_suppressed=raw > 0, saturated=scaled > limited,
-                pre_measurement_ms=pre_ms, last_operation='set_current',
+                pre_measurement_ms=pre_ms, last_operation='set_current', command_acknowledged=False,
                 mapping='direct_discharge_only_load; no battery or PSU bias')
+            self.last.update(previous_commanded_load_A=previous_A,
+                slew_reference_ack_host_s=reference, slew_elapsed_s=elapsed_s,
+                slew_budget_A=budget_A)
             self.fresh(demand, revision)
+            self.last['command_started_host_s'] = self.clock()
             self.device.set_current(quantized)
             write_ms = self.device.last_roundtrip_ms
-            self.last['command_roundtrip_ms'] = write_ms
+            self.last.update(command_roundtrip_ms=write_ms, command_acknowledged=True,
+                             command_ack_received_host_s=self.clock())
+            self.slew_reference_ack_s = self.last['command_ack_received_host_s']
+            self.applied = quantized
             self.fresh(demand, revision)
             self.last['last_operation'] = 'read_setting'
             setting = self.device.current_setting()
             read_ms = self.device.last_roundtrip_ms
-            self.last.update(readback_setting_A=setting, setting_read_roundtrip_ms=read_ms)
+            self.last.update(readback_setting_A=setting, setting_read_roundtrip_ms=read_ms,
+                             setpoint_read_received_host_s=self.clock())
             if not math.isfinite(setting) or abs(setting-quantized) > .00005:
                 raise RuntimeError('SETPOINT_READBACK_MISMATCH')
             end_wait = self.clock()+c.measurement_delay_s
@@ -375,7 +429,8 @@ class LiveController:
             self.last['last_operation'] = 'read_measurement'
             m = self.device.measure()
             measure_ms = self.device.last_roundtrip_ms
-            self.last.update(**m, measurement_roundtrip_ms=measure_ms)
+            self.last.update(**m, measurement_roundtrip_ms=measure_ms,
+                             measurement_received_host_s=self.clock())
             self.fresh(demand, revision)
             self.measurement(m, True)
             elapsed = self.clock()-start
@@ -425,12 +480,14 @@ class LiveService:
 
     def record(self, event):
         c = self.controller
-        row = dict(event=event, host_s=time.perf_counter(), state=c.state, fault=c.fault,
+        row = dict(event=event, host_s=time.perf_counter(),
+                   recorded_utc=datetime.now(timezone.utc).isoformat(), state=c.state, fault=c.fault,
                    **c.last, shutdown=c.shutdown, mock_only=bool(getattr(self.device, 'mock_only', False)))
         row['measurements_retained'] = bool(c.last) and c.state != 'RUNNING'
         row['measurement_context'] = 'retained_pre_fault_or_stop' if row['measurements_retained'] else 'live'
         row['startup_measurement'] = getattr(c, 'startup_measurement', None)
         row['verified_load_protection_limits'] = getattr(c, 'limits', None)
+        row['observed_load_protection_limits'] = getattr(c, 'observed_limits', None)
         row['shutdown_context'] = 'last_stop_evidence' if c.state in ('RUNNING', 'READY') else 'stop_evidence'
         self.events.append(row)
         self.log.write(json.dumps(row, allow_nan=False)+'\n'); self.log.flush()
@@ -490,6 +547,7 @@ class LiveService:
             report = dict(passed=bool(cycles) and not faults and self.worker_error is None and
                 self.controller.shutdown.get('verified') is True,
                 running_cycles=len(cycles), faults=faults, worker_error=self.worker_error,
+                input_on_acknowledgements=self.controller.input_on_acknowledgements,
                 shutdown_verified=self.controller.shutdown.get('verified') is True,
                 shutdown=self.controller.shutdown,
                 max_tracking_error_A=max((abs(e['tracking_error_A']) for e in cycles), default=None),

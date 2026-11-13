@@ -1,5 +1,18 @@
 # Live TORCS to BK8500: PSU-only tracking experiment
 
+**Original APS380 graphs:** add `--dashboard`. See [dashboard and console guide](DASHBOARD.md)
+for exact keyboard/G29 commands, readable ARM prompts and separate MOCK/REAL load
+readbacks. Hardware ARM remains terminal-only; the driver and interlocks are unchanged.
+
+**Current first-live hardware procedure:** [0..0.10 A supervised lab test](LOW_CURRENT_LIVE_LAB.md).
+Physical live requests above 0.10 A are now rejected before serial access.
+The 0..3 A mock examples and historical validation below remain valid; the older
+3 A physical command below is superseded and will be rejected. Use the new
+procedure's blank local approval form for physical commissioning.
+Selected `--max-current-A` now sets both the fixed mapping's full scale and its
+cap, avoiding unnecessary clipping when selecting 0.10 A. Default 3 A mock
+behavior is unchanged. G29 and AI now reuse the saved G29 profile without writes.
+
 This is a separate load test, not battery current simulation. No cell, ESP32,
 PSU bias, SOC/SOP feedback or new vehicle derating is involved. Existing TORCS,
 mock battery coordinator and legacy 0.10 A replay remain separate.
@@ -15,7 +28,7 @@ Keep the original charging-positive cell demand and existing fixed scaling.
 Use its **unclamped** value as the input to a separate, fixed bench gain:
 
 ```text
-scaled_load_demand_A = -original_cell_current_A * 3 / reference_current_A
+scaled_load_demand_A = -original_cell_current_A * approved_max_current_A / reference_current_A
 limited_load_target_A = clamp(scaled_load_demand_A, 0, approved_max_current_A)
 power_limited_target_A = min(limited_load_target_A, approved_max_power_W / voltage_readback_V)
 command = slew_and_quantize(power_limited_target_A)
@@ -92,7 +105,7 @@ References: [GW Instek GPC series](https://www.gwinstek.com/en-US/products/detai
 
 ## VS Code setup and mock test
 
-Open `C:\Users\anhyo\Desktop\APS380-main\APS380` in VS Code. Use PowerShell in
+Open your APS380 repository root in VS Code. Use PowerShell in
 that repository root. Live control requires Python 3.10+; the old replay remains
 Python 3.9 compatible. The existing TORCS build must already be ready. To rebuild
 and check it without operating instruments, the original launcher can be used:
@@ -105,7 +118,7 @@ The separate bench environment can contain both the existing serial dependency
 and the plotting dependency used by the live receiver:
 
 ```powershell
-Set-Location 'C:\Users\anhyo\Desktop\APS380-main\APS380'
+Set-Location 'C:\path\to\APS380'  # Replace with your repository root.
 # The bench environment already exists on this computer.
 & .\.venv-bench\Scripts\python.exe -m pip install -r bench/bk8500/live-requirements.txt
 & .\.venv-bench\Scripts\python.exe -B -m unittest discover -s bench/bk8500 -p 'test_*.py' -v

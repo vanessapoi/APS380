@@ -190,7 +190,7 @@ class LiveProcessor:
 class LiveReceiver:
     def __init__(self, port, output, config_path=BASE/'profiles/live_scaling_demo.json',
                  profile_path=BASE/'profiles/tesla_model3_rwd.json', demand_sink=None,
-                 current_config=PROTOTYPE):
+                 current_config=PROTOTYPE, peer_exit_status=None):
         self.output = Path(output)
         self.output.mkdir(parents=True, exist_ok=False)
         config_bytes, profile_bytes = Path(config_path).read_bytes(), Path(profile_path).read_bytes()
@@ -220,6 +220,7 @@ class LiveReceiver:
         self.feedback = DriverFeedback()
         # Optional latest-value mailbox only; never performs instrument I/O here.
         self.demand_sink = demand_sink
+        self.peer_exit_status = peer_exit_status
         self.hud_stats = dict(registrations=0,sent=0,errors=0,rendered_acks=0,
                              normal_acks=0,near_limit_acks=0,discharge_alert_acks=0,
                              charge_alert_acks=0,unavailable_acks=0)
@@ -266,11 +267,20 @@ class LiveReceiver:
                 except OSError as error:
                     # Windows can deliver an ICMP response to an earlier HUD
                     # send as recvfrom WSAECONNRESET after the native peer exits.
-                    # Suppress only this code during an explicitly begun stop.
-                    if self.shutdown_event.is_set() and (getattr(error, 'winerror', None) == 10054 or error.errno == 10054):
+                    # Also recognize a confirmed clean exit of our own child:
+                    # the receiver thread may observe it before launcher polling.
+                    reset = getattr(error, 'winerror', None) == 10054 or error.errno == 10054
+                    peer_code = self.peer_exit_status() if reset and self.peer_exit_status else None
+                    if reset and (self.shutdown_event.is_set() or peer_code == 0):
+                        if not self.shutdown_event.is_set():
+                            self.begin_shutdown()
+                            self.processor.status, self.processor.current = 'ENDED', None
+                            if self.demand_sink is not None:
+                                self.demand_sink.publish(None, 'ENDED')
                         self.expected_shutdown_resets += 1
                         self.log.write(json.dumps(dict(kind='expected_shutdown_reset',
-                            error=repr(error), host_qpc_s=time.perf_counter()))+'\n')
+                            error=repr(error), peer_exit_code=peer_code,
+                            host_qpc_s=time.perf_counter()))+'\n')
                         self.log.flush()
                         break
                     raise

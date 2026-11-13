@@ -5,17 +5,30 @@ from tkinter import ttk
 
 
 class LiveDisplay:
-    def __init__(self, receiver, finished=lambda: False, duration=500, mock_service=None):
+    def __init__(self, receiver, finished=lambda: False, duration=500, mock_service=None, load_service=None):
+        if mock_service is not None and load_service is not None:
+            raise ValueError('Choose prototype mock instruments OR standalone BK8500 monitoring')
         self.receiver, self.finished = receiver, finished
         self.mock_service = mock_service
+        self.load_service = load_service
         self.deadline = time.perf_counter()+duration
         self.root = tk.Tk()
-        self.root.title('APS380 Live EV Telemetry — simulation only')
-        self.root.geometry('980x680')
+        self.callback_error = None
+        self.refresh_job = None
+        def callback_failed(error_type, error, traceback):
+            self.callback_error = error
+            self.root.quit()
+        self.root.report_callback_exception = callback_failed
+        self.root.title('APS380 Live EV Telemetry')
+        self.root.geometry('1050x800' if load_service else '980x680')
         self.root.protocol('WM_DELETE_WINDOW',self.root.quit)
         frame=ttk.Frame(self.root,padding=14);frame.pack(fill='both',expand=True)
         ttk.Label(frame,text='APS380 • LIVE NATIVE EV TELEMETRY',font=('Segoe UI',18,'bold')).pack(anchor='w')
-        ttk.Label(frame,text='SIMULATION ONLY  |  hardware control disabled  |  no measured cell connected').pack(anchor='w',pady=5)
+        banner = ('BK8500 REAL readbacks | PSU-to-eLoad test | NO BATTERY | ARM only in supervised terminal'
+                  if load_service and load_service.hardware else
+                  'BK8500 MOCK readbacks | no hardware access | NO BATTERY' if load_service else
+                  'SIMULATION ONLY  |  hardware control disabled  |  no measured cell connected')
+        ttk.Label(frame,text=banner).pack(anchor='w',pady=5)
         ttk.Label(frame,text='Cell current: negative = discharge; positive = charge. Native PACK power/current: positive = draw.').pack(anchor='w')
         self.state_label=ttk.Label(frame,font=('Segoe UI',13,'bold'));self.state_label.pack(anchor='w')
         if mock_service is not None:
@@ -24,8 +37,23 @@ class LiveDisplay:
             self.mock_label.pack(side='left')
             for label,action in [('Arm mock','arm'),('Disarm','disarm'),('Emergency stop','emergency_stop'),('Clear fault','recover')]:
                 ttk.Button(controls,text=label,command=lambda a=action: mock_service.request(a)).pack(side='left')
+        if load_service is not None:
+            controls=ttk.Frame(frame);controls.pack(fill='x')
+            self.load_label=ttk.Label(controls);self.load_label.pack(side='left')
+            actions=[('Disarm','disarm'),('Emergency stop','stop'),('Reset fault (does not arm)','reset')]
+            if not load_service.hardware: actions.insert(0,('Arm mock','arm'))
+            for label,action in actions:
+                ttk.Button(controls,text=label,command=lambda a=action: load_service.request(a)).pack(side='left')
         self.values=ttk.Label(frame,font=('Consolas',12),justify='left');self.values.pack(anchor='w',pady=10)
-        self.canvas=tk.Canvas(frame,height=260,background='#111827',highlightthickness=0)
+        chart_parent=frame
+        if load_service is not None:
+            notebook=ttk.Notebook(frame);notebook.pack(fill='both',expand=True)
+            chart_parent=ttk.Frame(notebook);load_frame=ttk.Frame(notebook)
+            notebook.add(chart_parent,text='Signed battery DEMAND (simulation)')
+            notebook.add(load_frame,text='BK8500 branch current (not battery current)')
+            self.load_canvas=tk.Canvas(load_frame,height=260,background='#111827',highlightthickness=0)
+            self.load_canvas.pack(fill='both',expand=True)
+        self.canvas=tk.Canvas(chart_parent,height=260,background='#111827',highlightthickness=0)
         self.canvas.pack(fill='both',expand=True)
         self.details=ttk.Label(frame,wraplength=930);self.details.pack(anchor='w',pady=8)
         ttk.Button(frame,text='Stop trial and save timing report',command=self.root.quit).pack(anchor='e')
@@ -63,12 +91,41 @@ class LiveDisplay:
                        f"applied {s['applied_target_A']:+.4f} / measured {s['mock_cell_current_A']:+.4f} A\n"
                        f"PSU set/read {s['psu']['setpoint_A']:.4f}/{s['psu']['current_A']:.4f} A; "
                        f"eLoad set/read {s['load']['setpoint_A']:.4f}/{s['load']['current_A']:.4f} A")
+        load=getattr(self,'load_service',None)
+        if load is not None:
+            s=load.latest
+            kind='REAL' if load.hardware else 'MOCK'
+            retained=' | RETAINED, NOT LIVE' if s.get('measurements_retained') else ''
+            self.load_label.config(text=f"BK8500 {kind}: {s['state']} {s['fault']}{retained}")
+            if s['state']=='READY':
+                text+='\nINPUT OFF; waiting for ARM '+('(supervised terminal only)' if load.hardware else '(button or terminal)')
+                preflight=s.get('startup_measurement')
+                if preflight:
+                    text+=(f"\n{kind} preflight snapshot (not continuously polled while READY): "
+                           f"{preflight['voltage_V']:.3f} V / {preflight['measured_A']:.4f} A; "
+                           f"input {'ON' if preflight['input_on'] else 'OFF'}")
+            if 'measured_A' in s:
+                age=time.perf_counter()-s['measurement_received_host_s']
+                text+=(f"\nBK8500 {kind}{retained}: mapped {s['scaled_load_demand_A']:.4f} / "
+                       f"limited {s['power_limited_load_target_A']:.4f} / applied {s['commanded_load_A']:.4f} A\n"
+                       f"Setting readback {s['readback_setting_A']:.4f} A; measured {s['measured_A']:.4f} A; "
+                       f"{s['voltage_V']:.3f} V / {s['power_W']:.3f} W; input {'ON' if s['input_on'] else 'OFF'}; "
+                       f"measurement age {age:.2f} s")
+            shutdown=s.get('shutdown',{})
+            if s['state']!='RUNNING' and shutdown and shutdown.get('errors')!=['Not checked yet']:
+                text+=f"\nLast shutdown OFF/zero verified: {shutdown.get('verified',False)} (not a live readback)"
         self.values.config(text=text)
         self.details.config(text=f"{p.profile['name']}\n{p.error or 'Chart: amber=target, blue=limited, purple=applied, green=mock measured. Pausing or losing telemetry shows STALE.'}\nLogs: {self.receiver.output}")
         self.draw_chart(history)
+        if load is not None:
+            legend=('Signed demand: amber=original, blue=limited. BK8500 tab: amber=limited load target, '
+                    'purple=applied, blue=setting readback, green='+('REAL' if load.hardware else 'MOCK')+' measured. '
+                    'PSU is manual/unmeasured; load current is NOT battery current.')
+            self.details.config(text=f"{p.profile['name']}\n{p.error or legend}\nLogs: {self.receiver.output}")
+            self.draw_load_chart(load)
         if self.finished() or time.perf_counter()>=self.deadline or self.receiver.failed:
             self.root.quit();return
-        self.root.after(max(20,int(p.config.get('display_refresh_ms',100))),self.refresh)
+        self.refresh_job = self.root.after(max(20,int(p.config.get('display_refresh_ms',100))),self.refresh)
 
     def draw_chart(self, history):
         c=self.canvas;c.delete('all')
@@ -97,8 +154,28 @@ class LiveDisplay:
                         points.extend((45+(t-(history[-1]['time_s']-30))/30*(w-60),y(s[key])))
                 if len(points)>=4:c.create_line(*points,fill=color,width=2)
 
+    def draw_load_chart(self, load):
+        c=self.load_canvas;c.delete('all')
+        w,h=max(c.winfo_width(),300),max(c.winfo_height(),200)
+        now=time.perf_counter();bound=load.config.max_current_A*1.1
+        def y(value):return h-25-value/bound*(h-50)
+        for value in (0,load.config.max_current_A):
+            c.create_line(60,y(value),w-12,y(value),fill='#475569',dash=(3,3))
+            c.create_text(5,y(value),anchor='w',text=f'{value:g} A',fill='white')
+        for key,color in [('power_limited_load_target_A','#f59e0b'),('commanded_load_A','#a78bfa'),
+                          ('readback_setting_A','#38bdf8'),('measured_A','#34d399')]:
+            points=[]
+            for row in load.history:
+                if now-30<=row['host_s']<=now:
+                    points.extend((60+(row['host_s']-(now-30))/30*(w-75),y(row[key])))
+            if len(points)>=4:c.create_line(*points,fill=color,width=2)
+
     def run(self):
         try:
             self.refresh();self.root.mainloop()
         finally:
+            if self.refresh_job is not None:
+                self.root.after_cancel(self.refresh_job)
             self.root.destroy()
+        if self.callback_error is not None:
+            raise RuntimeError('Dashboard callback failed') from self.callback_error

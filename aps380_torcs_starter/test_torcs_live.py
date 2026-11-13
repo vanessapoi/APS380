@@ -115,6 +115,22 @@ class LiveProcessorTest(unittest.TestCase):
 
 
 class LiveLoopbackTest(unittest.TestCase):
+    def test_udp_reset_requires_confirmed_clean_peer_exit(self):
+        for code in (0,None,1):
+            with self.subTest(code=code),tempfile.TemporaryDirectory() as folder:
+                sink=Mock()
+                r=LiveReceiver(0,Path(folder)/'trial',demand_sink=sink,peer_exit_status=lambda:code)
+                r.socket.close();r.socket=Mock()
+                r.socket.recvfrom.side_effect=ConnectionResetError(10054,'UDP peer reset')
+                r._receive()
+                with patch('torcs_live.write_report',return_value={}):r.close()
+                if code==0:
+                    self.assertIsNone(r.failed);self.assertEqual(r.processor.state(),'ENDED')
+                    self.assertEqual(r.expected_shutdown_resets,1)
+                    sink.publish.assert_any_call(None,'ENDED')
+                else:
+                    self.assertIn('10054',r.failed);self.assertEqual(r.expected_shutdown_resets,0)
+
     def test_windows_udp_reset_is_expected_only_after_explicit_shutdown(self):
         for expected in (False,True):
             with self.subTest(expected=expected), tempfile.TemporaryDirectory() as folder:

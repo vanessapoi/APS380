@@ -296,7 +296,7 @@ class ConfigurationAndProtocolTests(unittest.TestCase):
             with patch('sys.stdin.isatty', return_value=False), \
                  patch.dict(sys.modules, {'serial': None}), \
                  contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
-                main(['--device', 'hardware', '--port', 'COM10', '--approval', str(path)])
+                main(['--device', 'hardware', '--max-current-A', '.1', '--port', 'COM10', '--approval', str(path)])
 
 
 class WorkerTests(unittest.TestCase):

@@ -1,8 +1,11 @@
 # Original BK 8500 bench bring-up
 
 For the separate live TORCS PSU-to-eLoad controller, see [LIVE_TORCS.md](LIVE_TORCS.md).
-It defaults to mock operation, supports a separately approved 0 to 3 A envelope,
-and requires an explicit supervised hardware ARM. The legacy replay below keeps
+The next physical milestone is the [supervised 0..0.10 A live procedure](LOW_CURRENT_LIVE_LAB.md),
+which reuses this driver and keeps input OFF until an explicit interactive ARM.
+It defaults to mock operation with a 0 to 3 A simulation envelope; initial
+physical live commissioning is capped at 0.10 A and requires explicit supervised
+hardware ARM. The legacy replay below keeps
 its original 0.10 A default and behavior. Live hardware operation requires its own
 electrical verification and approval; no battery or PSU bias mapping is involved.
 
@@ -177,8 +180,12 @@ uses Python 3.10+ type syntax; it was not claimed to pass in this session.
 Tests use simulated transports/devices. They verify protocol units/checksums,
 current limits, sign conversion, malformed timestamps, reproduction of the actual
 recorded plan, and cleanup after measurement failure. They do not open ports.
-The portable replay is refactored from the executed lab script; its hardware path
-has not been rerun after this refactor.
+The portable replay is refactored from the executed lab script. A subsequent
+Windows test at commit `5423bee` physically exercised it on COM10 twice at
+0..0.10 A, with maximum reported error 1 mA and verified OFF/zero shutdown;
+local captures are `.local/bk8500-validation/physical-synthetic*` and
+`.local/bk8500-validation/validation.json`. This confirms replay hardware control,
+not physical validation of the separate newer live controller.
 
 `evidence/2026-10-27/` preserves the actual CSV/JSON captures and the original
 executed TORCS script (an archival snapshot with Mac-specific paths; use the
@@ -186,7 +193,12 @@ portable tool above for new work). Original metadata preserves original local
 paths. Early one-off identity and constant-current checks were visible in the
 session but had no saved CSV; we have not manufactured logs for them.
 
+For the standalone live controller's original APS380 graphs and supervised
+console commands, see [DASHBOARD.md](DASHBOARD.md). `--dashboard` is opt-in;
+mock readings, real load readbacks and simulated battery demand remain distinct.
+
 Manufacturer references:
+
 [8500 manual](https://bkpmedia.s3.amazonaws.com/downloads/manuals/en-us/85xx_manual.pdf)
 (pp. 10, 46, 53–56, 68–69) documents TTL, 26-byte packets, DTR/RTS and command units;
 [9115 series manual](https://bkpmedia.s3.us-west-1.amazonaws.com/downloads/manuals/en-us/9115_Series_manual.pdf)
