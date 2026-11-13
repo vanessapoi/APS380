@@ -384,10 +384,13 @@ class LiveDisplay:
                 context='STALE completed readbacks | '+context
             self.instrument_summary.configure(text=f'BK8500 {kind}: {context} | '+
                 ('PSU manual/unmeasured. Physical ARM: supervised terminal only.' if load.hardware else 'No hardware access; PSU manual/unmeasured in this standalone test.'))
-            values=(('Mapped load demand',s.get('scaled_load_demand_A'),'A'),('Limited load target',s.get('power_limited_load_target_A'),'A'),
+            values=(('Original signed cell demand',s.get('original_cell_current_A'),'A'),
+                ('Original 0-3 A load demand',s.get('original_eload_demand_A'),'A'),
+                ('Mapped load demand',s.get('scaled_load_demand_A'),'A'),('Limited load target',s.get('power_limited_load_target_A'),'A'),
                 ('Applied command',s.get('commanded_load_A'),'A'),('Setting query readback',s.get('readback_setting_A'),'A'),
                 ('Measured branch current',s.get('measured_A'),'A'),('Measured voltage',s.get('voltage_V'),'V'),
-                ('Measured power',s.get('power_W'),'W'),('Measurement age',age,'s'))
+                ('Measured power',s.get('power_W'),'W'),('Measured minus command',s.get('tracking_error_A'),'A'),
+                ('TORCS source time',s.get('torcs_time_s'),'s'),('Measurement age',age,'s'))
             rows=[(name,'NOT CONNECTED',display_number(value,unit)+' ['+kind+']') for name,value,unit in values]
             rows.append(('Input status','NOT CONNECTED',('ON' if s['input_on'] else 'OFF')+' ['+kind+']' if 'input_on' in s else 'Not reported'))
             startup=s.get('startup_measurement',{})

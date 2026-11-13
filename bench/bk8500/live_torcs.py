@@ -19,7 +19,8 @@ from torcs_live import LiveReceiver
 from configure_tesla import RUNTIME
 from run_tesla_ai import prepare_profile
 from live_control import (BK8500, LiveConfig, LiveService, MockLiveLoad,
-                          validate_approval, INITIAL_HARDWARE_CURRENT_MAX_A)
+                          validate_approval, INITIAL_HARDWARE_CURRENT_MAX_A,
+                          EXTENDED_PSU_ONLY_CURRENT_MAX_A)
 from live_presentation import LoadMonitor, ConsoleStatus
 
 
@@ -28,12 +29,19 @@ def parse_args(argv=None):
     defaults = LiveConfig()
     p.add_argument('--device', choices=('mock', 'hardware'), default='mock')
     p.add_argument('--torcs', choices=('ai', 'g29', 'keyboard', 'listen'), default='ai')
+    p.add_argument('--keyboard-profile', choices=('5s','3s','8s'),
+                   help='Keyboard-only accelerator rise preset; default 5s')
     p.add_argument('--duration', type=float, default=30.)
     p.add_argument('--telemetry-port', type=int, default=50001)
     p.add_argument('--port', help='Hardware serial port; never automatically selected')
     p.add_argument('--baud', type=int, choices=(4800, 9600, 19200, 38400), default=9600)
     p.add_argument('--address', type=int, choices=range(255), default=0)
     p.add_argument('--approval', type=Path, help='Verified setup and lab approval JSON')
+    p.add_argument('--extended-psu-only', action='store_true',
+                   help='Opt-in <=1 A commissioning; requires approved existing protection envelope')
+    p.add_argument('--protection-voltage-ceiling-V', type=float)
+    p.add_argument('--protection-current-ceiling-A', type=float)
+    p.add_argument('--protection-power-ceiling-W', type=float)
     p.add_argument('--max-current-A', type=float, default=defaults.max_current_A)
     p.add_argument('--max-power-W', type=float, default=defaults.max_power_W)
     p.add_argument('--voltage-min-V', type=float, default=defaults.voltage_min_V)
@@ -56,6 +64,8 @@ def parse_args(argv=None):
     p.add_argument('--inject-telemetry-loss-after', type=float, help='Mock-only: terminate own TORCS process')
     p.add_argument('--expect-telemetry-fault', action='store_true', help='Mock fault-response experiment only')
     args = p.parse_args(argv)
+    if args.keyboard_profile and args.torcs != 'keyboard':
+        p.error('--keyboard-profile requires --torcs keyboard')
     if not math.isfinite(args.status_interval_s) or args.status_interval_s < 1:
         p.error('Status interval must be finite and at least 1 second')
     if not 0 < args.duration <= 3600 or not 0 <= args.telemetry_port <= 65535:
@@ -63,14 +73,24 @@ def parse_args(argv=None):
     if not math.isfinite(args.mock_transaction_delay_s) or not 0 <= args.mock_transaction_delay_s <= .25:
         p.error('Mock transaction delay must be between 0 and 0.25 s')
     try:
+        envelope = (args.protection_voltage_ceiling_V, args.protection_current_ceiling_A,
+                    args.protection_power_ceiling_W)
+        if args.extended_psu_only:
+            if any(v is None for v in envelope):
+                p.error('Extended mode requires all three approved protection ceilings')
+            if args.max_current_A > EXTENDED_PSU_ONLY_CURRENT_MAX_A:
+                p.error('Extended PSU-only commissioning is capped at 1.0 A')
+        elif any(v is not None for v in envelope):
+            p.error('Protection ceilings require --extended-psu-only')
         args.config = LiveConfig(max_current_A=args.max_current_A,
             max_power_W=args.max_power_W, voltage_min_V=args.voltage_min_V,
             voltage_max_V=args.voltage_max_V, reference_current_A=args.reference_current_A,
             slew_A_per_s=args.slew_A_per_s, control_hz=args.control_hz, max_cycle_s=args.max_cycle_s,
-            tracking_tolerance_A=args.tracking_tolerance_A, tracking_timeout_s=args.tracking_timeout_s)
+            tracking_tolerance_A=args.tracking_tolerance_A, tracking_timeout_s=args.tracking_timeout_s,
+            protection_envelope=envelope if args.extended_psu_only else ())
         args.approval_data = json.loads(args.approval.read_text()) if args.approval else None
         if args.device == 'hardware':
-            if args.config.max_current_A > INITIAL_HARDWARE_CURRENT_MAX_A:
+            if not args.extended_psu_only and args.config.max_current_A > INITIAL_HARDWARE_CURRENT_MAX_A:
                 p.error('Initial physical live commissioning requires --max-current-A <= 0.10; higher currents remain mock-only')
             if args.auto_arm_mock or args.no_console or args.inject_telemetry_loss_after is not None or args.expect_telemetry_fault:
                 p.error('Hardware requires supervised console ARM; mock automation/injection forbidden')
@@ -89,7 +109,7 @@ def parse_args(argv=None):
     return args
 
 
-def prepare_launch_profile(mode):
+def prepare_launch_profile(mode, keyboard_profile=None):
     """Reuse saved G29 preferences without calling its mutating setup helper."""
     saved = ROOT/'.local/tesla-profile'
     for name in ('drivers/human/human.xml', 'drivers/human/preferences.xml', 'config/raceman/practice.xml'):
@@ -97,8 +117,9 @@ def prepare_launch_profile(mode):
             raise FileNotFoundError('Prepared G29 profile required; missing '+str(saved/name))
     if mode == 'g29': return saved
     if mode == 'keyboard':
-        from configure_keyboard import prepare_keyboard
-        return prepare_keyboard()
+        from configure_keyboard import prepare_keyboard, keyboard_config
+        return (prepare_keyboard(keyboard_config(keyboard_profile)) if keyboard_profile
+                else prepare_keyboard())
     if mode != 'ai': raise ValueError('No launch profile for '+mode)
     local = ROOT/'.local/tesla-bk8500-ai-profile'
     prepare_profile(local, manual_profile=saved)
@@ -146,6 +167,7 @@ def artifacts(output, service):
     if not rows: return
     keys = ('host_s', 'recorded_utc', 'torcs_time_s', 'source_session', 'source_sequence', 'source_received_s',
         'original_cell_current_A', 'limited_cell_current_A', 'scaled_load_demand_A',
+        'original_eload_demand_A', 'eload_range_scale',
         'limited_load_target_A', 'power_limited_load_target_A', 'commanded_load_A',
         'readback_setting_A', 'measured_A', 'voltage_V', 'power_W', 'input_on',
         'command_roundtrip_ms', 'setting_read_roundtrip_ms', 'measurement_roundtrip_ms',
@@ -179,8 +201,9 @@ def write_manifest(args, output):
     if args.torcs in ('g29', 'keyboard'):
         sources += [RUNTIME/'drivers/human/human.dll']
     if args.torcs == 'keyboard':
+        from configure_keyboard import keyboard_config
         sources += [ROOT/'scripts/configure_keyboard.py',
-                    ROOT/'aps380_torcs_starter/profiles/keyboard_driving.json']
+                    keyboard_config(args.keyboard_profile or '5s')]
     (output/'manifest.json').write_text(json.dumps({str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()
         for p in sources}, indent=2)+'\n')
 
@@ -194,14 +217,17 @@ def main(argv=None):
         mock_transaction_delay_s=args.mock_transaction_delay_s if args.device=='mock' else None,
         approval=args.approval_data, psu_readback_available=False,
         mapping='clamp(-original_charging_positive_cell_A * max_current_A / reference_current_A, 0, max_current_A)',
-        physical_live_current_ceiling_A=INITIAL_HARDWARE_CURRENT_MAX_A,
+        physical_live_current_ceiling_A=(EXTENDED_PSU_ONLY_CURRENT_MAX_A if args.extended_psu_only
+                                        else INITIAL_HARDWARE_CURRENT_MAX_A),
         dashboard=args.dashboard, torcs_mode=args.torcs, console_enabled=not args.no_console,
+        keyboard_profile=(args.keyboard_profile or '5s') if args.torcs=='keyboard' else None,
         scope='PSU to eLoad only; no battery, PSU bias or regenerative charging'), indent=2)+'\n')
     write_manifest(args, output)
     link = None; receiver = None; service = None; child = None; report = None
     quit_event = threading.Event()
     log = (output/'torcs.log').open('w')
     injected = False
+    injected_at = None
     stop_reason = 'startup_error'
     terminated_by_launcher = False
     receiver_report_error = None
@@ -221,7 +247,8 @@ def main(argv=None):
             peer_exit_status=lambda: child.poll() if child is not None and not injected else None)
         receiver.start(); service.start()
         if args.torcs != 'listen':
-            local = prepare_launch_profile(args.torcs)
+            local = (prepare_launch_profile(args.torcs, args.keyboard_profile) if args.keyboard_profile
+                     else prepare_launch_profile(args.torcs))
             if args.torcs == 'keyboard':
                 (output/'keyboard_driving.json').write_bytes((local/'keyboard_driving.json').read_bytes())
             env = dict(os.environ, APS380_LIVE_PORT=str(receiver.port),

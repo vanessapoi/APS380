@@ -9,10 +9,27 @@ import tempfile
 import unittest
 import xml.etree.ElementTree as ET
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from configure_keyboard import prepare_keyboard, G29_PROFILE, RATES
+from configure_keyboard import prepare_keyboard, G29_PROFILE, RATES, keyboard_config, KEYBOARD_CONFIG
 
 
 class KeyboardProfileTests(unittest.TestCase):
+    def test_named_presets_change_only_throttle_rise(self):
+        five=json.loads(keyboard_config('5s').read_text())
+        three=json.loads(keyboard_config('3s').read_text())
+        self.assertEqual(keyboard_config('5s'),KEYBOARD_CONFIG)
+        self.assertEqual(five['throttle_rise_per_s'],.2)
+        self.assertAlmostEqual(three['throttle_rise_per_s'],1/3)
+        for key,value in (('throttle_fall_per_s',2/3),('brake_rise_per_s',1.),('brake_fall_per_s',2.)):
+            self.assertEqual(five[key],value)
+            self.assertEqual(three[key],value)
+        self.assertEqual({k:v for k,v in five.items() if k!='throttle_rise_per_s'},
+                         {k:v for k,v in three.items() if k!='throttle_rise_per_s'})
+        eight=json.loads(keyboard_config('8s').read_text())
+        self.assertEqual(eight['throttle_rise_per_s'],.125)
+        self.assertEqual({k:v for k,v in eight.items() if k!='throttle_rise_per_s'},
+                         {k:v for k,v in five.items() if k!='throttle_rise_per_s'})
+        with self.assertRaises(ValueError):keyboard_config('g29')
+
     def test_independent_profiles_and_editable_rates(self):
         with tempfile.TemporaryDirectory() as folder, contextlib.redirect_stdout(io.StringIO()):
             root=Path(folder); source=root/'g29'; runtime=root/'runtime'; destination=root/'keyboard'
@@ -42,6 +59,9 @@ class KeyboardProfileTests(unittest.TestCase):
             rates['throttle_rise_per_s']=.2;config.write_text(json.dumps(rates))
             prepare_keyboard(config,destination,source,runtime)
             self.assertEqual(json.loads((destination/'keyboard_driving.json').read_text()),rates)
+            self.assertEqual(before,{str(p):p.read_bytes() for p in source.rglob('*') if p.is_file()})
+            prepare_keyboard(keyboard_config('8s'),destination,source,runtime)
+            self.assertEqual(json.loads((destination/'keyboard_driving.json').read_text())['throttle_rise_per_s'],.125)
             self.assertEqual(before,{str(p):p.read_bytes() for p in source.rglob('*') if p.is_file()})
 
     def test_protected_paths_and_invalid_configuration_rejected_before_writes(self):

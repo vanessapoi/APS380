@@ -35,6 +35,8 @@ def audit_capture(output, receiver_rows, source):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--mode',choices=('ai','g29','keyboard','listen'),default='ai')
+    parser.add_argument('--keyboard-profile', choices=('5s','3s','8s'),
+                        help='Keyboard-only accelerator rise preset; default 5s')
     parser.add_argument('--duration',type=float,default=500)
     parser.add_argument('--port',type=int,default=0,help='0 selects a free loopback port')
     parser.add_argument('--config',type=Path,default=ROOT/'aps380_torcs_starter/profiles/live_scaling_demo.json')
@@ -50,6 +52,8 @@ def main():
     parser.add_argument('--mock-control-hz',type=float,default=PROTOTYPE.control_hz)
     parser.add_argument('--mock-charge-limit',type=float,default=PROTOTYPE.battery_current_max_A)
     args=parser.parse_args()
+    if args.keyboard_profile and args.mode!='keyboard':
+        parser.error('--keyboard-profile requires --mode keyboard')
     policy=args.acceptance or ('full-course' if args.mode=='ai' and not args.visible_ai else 'smoke')
     if policy=='full-course' and (args.mode!='ai' or args.visible_ai):
         parser.error('full-course requires headless --mode ai')
@@ -77,8 +81,8 @@ def main():
     elif args.mode=='g29':
         local=configure()
     elif args.mode=='keyboard':
-        from configure_keyboard import prepare_keyboard
-        local=prepare_keyboard()
+        from configure_keyboard import prepare_keyboard, keyboard_config
+        local=prepare_keyboard(keyboard_config(args.keyboard_profile or '5s'))
     receiver=LiveReceiver(args.port,output,args.config,PROFILE,current_config=mock_config or PROTOTYPE)
     mock_service = None
     if mock_config is not None:
@@ -97,7 +101,7 @@ def main():
                            ('instrument_interfaces.py','mock_instruments.py','instrument_control.py')]
     if args.mode=='keyboard':
         keyboard_files=[ROOT/'scripts/configure_keyboard.py',
-            ROOT/'aps380_torcs_starter/profiles/keyboard_driving.json',
+            keyboard_config(args.keyboard_profile or '5s'),
             TORCS/'src/drivers/human/human.cpp', TORCS/'src/drivers/human/human.h',
             TORCS/'src/drivers/human/aps380_keyboard.h', RUNTIME/'drivers/human/human.dll']
         implementation += keyboard_files

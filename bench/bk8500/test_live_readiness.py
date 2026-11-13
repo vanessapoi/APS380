@@ -132,9 +132,48 @@ class LaunchAndReportingTests(unittest.TestCase):
             self.assertEqual(prepare_launch_profile('keyboard'),Path('keyboard-only'))
             prepare.assert_called_once_with()
 
+    def test_explicit_keyboard_presets_and_analog_mode_isolation(self):
+        from configure_keyboard import keyboard_config
+        for name in ('5s','3s','8s'):
+            with patch('configure_keyboard.prepare_keyboard',return_value=Path('keyboard-only')) as prepare:
+                self.assertEqual(prepare_launch_profile('keyboard',name),Path('keyboard-only'))
+                prepare.assert_called_once_with(keyboard_config(name))
+            args=parse_args(['--device','mock','--torcs','keyboard','--keyboard-profile',name,
+                             '--slew-A-per-s','.02'])
+            self.assertEqual(args.keyboard_profile,name)
+            self.assertEqual(args.config.slew_A_per_s,.02)
+        with contextlib.redirect_stderr(io.StringIO()),self.assertRaises(SystemExit):
+            parse_args(['--torcs','g29','--keyboard-profile','5s'])
+
     def test_hardware_higher_current_rejected_without_importing_serial(self):
         with patch.dict(sys.modules,{'serial':None}),contextlib.redirect_stderr(io.StringIO()),self.assertRaises(SystemExit):
             parse_args(['--device','hardware','--max-current-A','.1001'])
+
+    def test_hardware_8s_selection_preserves_limits_without_serial_access(self):
+        profile=approval()
+        profile.update(extended_psu_only_commissioning_approved=True,
+            approved_load_max_voltage_V=110., approved_load_max_current_A=12.,
+            approved_load_max_power_W=305.)
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'test-only-approval.json'
+            path.write_text(json.dumps(profile))
+            argv=['--device','hardware','--torcs','keyboard','--keyboard-profile','8s',
+                  '--port','TEST_ONLY','--approval',str(path),'--extended-psu-only',
+                  '--max-current-A','1','--reference-current-A','2','--max-power-W','5.5',
+                  '--slew-A-per-s','.02','--tracking-tolerance-A','.01','--control-hz','1',
+                  '--protection-voltage-ceiling-V','110','--protection-current-ceiling-A','12',
+                  '--protection-power-ceiling-W','305']
+            with patch.dict(sys.modules,{'serial':None}),patch('sys.stdin.isatty',return_value=True):
+                args=parse_args(argv)
+            self.assertEqual(args.keyboard_profile,'8s')
+            self.assertEqual(args.config.max_current_A,1.)
+            self.assertEqual(args.config.max_power_W,5.5)
+            self.assertEqual(args.config.slew_A_per_s,.02)
+            self.assertEqual(args.config.protection_envelope,(110.,12.,305.))
+            self.assertFalse(args.auto_arm_mock)
+            with patch.dict(sys.modules,{'serial':None}),patch('sys.stdin.isatty',return_value=False), \
+                    contextlib.redirect_stderr(io.StringIO()),self.assertRaises(SystemExit):
+                parse_args(argv)
 
     def test_low_hardware_profile_requires_interactive_supervision_and_no_automation(self):
         with tempfile.TemporaryDirectory() as folder:

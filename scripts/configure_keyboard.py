@@ -10,7 +10,17 @@ from configure_tesla import ROOT, RUNTIME, configure, section, attribute, write
 KEYBOARD_PROFILE = ROOT/'.local/tesla-keyboard-profile'
 G29_PROFILE = ROOT/'.local/tesla-profile'
 KEYBOARD_CONFIG = ROOT/'aps380_torcs_starter/profiles/keyboard_driving.json'
+KEYBOARD_CONFIGS = {'5s': KEYBOARD_CONFIG,
+                    '3s': KEYBOARD_CONFIG.with_name('keyboard_driving_3s.json'),
+                    '8s': KEYBOARD_CONFIG.with_name('keyboard_driving_8s.json')}
 RATES = ('throttle_rise_per_s', 'throttle_fall_per_s', 'brake_rise_per_s', 'brake_fall_per_s')
+
+
+def keyboard_config(profile):
+    """Named keyboard-only presets; neither path references G29 preferences."""
+    if profile not in KEYBOARD_CONFIGS:
+        raise ValueError('Unknown keyboard profile: '+str(profile))
+    return KEYBOARD_CONFIGS[profile]
 
 
 def prepare_keyboard(config=KEYBOARD_CONFIG, destination=KEYBOARD_PROFILE,

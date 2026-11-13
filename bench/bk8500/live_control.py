@@ -21,6 +21,7 @@ from prototype_current_config import PROTOTYPE
 # First physical LIVE commissioning stays within the proven replay range.
 # This does not change the prototype or mock-only 0..3 A capability.
 INITIAL_HARDWARE_CURRENT_MAX_A = .10
+EXTENDED_PSU_ONLY_CURRENT_MAX_A = 1.
 CURRENT_SETTING_UNITS_PER_A = 10000  # Existing driver CC encoding: 0.1 mA.
 
 
@@ -77,10 +78,21 @@ class LiveConfig:
     voltage_min_V: float = 4.5
     voltage_max_V: float = 5.5
     max_power_W: float = 18.
+    # Empty preserves legacy exact protection matching. Otherwise these are
+    # separately approved MAX-setting ceilings, not settings to write.
+    protection_envelope: tuple = ()
 
     def __post_init__(self):
         for name, value in asdict(self).items():
+            if name == 'protection_envelope': continue
             positive(name, value)
+        if self.protection_envelope:
+            if len(self.protection_envelope) != 3:
+                raise ValueError('Protection envelope requires voltage/current/power')
+            for value, needed in zip(self.protection_envelope,
+                    (self.voltage_max_V, self.max_current_A, self.max_power_W)):
+                if positive('protection envelope', value) < needed:
+                    raise ValueError('Protection envelope below software envelope')
         if self.max_current_A > PROTOTYPE.eload_current_max_A:
             raise ValueError('This live bench tool is restricted to 0..3 A')
         if self.voltage_min_V >= self.voltage_max_V:
@@ -134,6 +146,13 @@ def validate_approval(profile, config):
         raise ValueError('CH3 has a fixed output rating, not an adjustable current setting')
     if profile['psu_output'] != 'CH3_fixed' and profile.get('source_limit_kind') != 'adjustable_current_limit':
         raise ValueError('Verify the adjustable channel current limit')
+    if config.protection_envelope:
+        if profile.get('extended_psu_only_commissioning_approved') is not True:
+            raise ValueError('Extended PSU-only commissioning requires explicit scope approval')
+        for key, needed in zip(('approved_load_max_voltage_V', 'approved_load_max_current_A',
+                                'approved_load_max_power_W'), config.protection_envelope):
+            if positive(key, profile.get(key)) < needed:
+                raise ValueError('Protection envelope exceeds ' + key)
 
 
 class MockLiveLoad:
@@ -197,6 +216,8 @@ class MockLiveLoad:
 
     def protection_limits(self):
         self._exchange('protection_limits')
+        if self.config.protection_envelope:
+            return dict(zip(('voltage_V', 'current_A', 'power_W'), self.config.protection_envelope))
         return dict(voltage_V=self.config.voltage_max_V,
                     current_A=self.config.max_current_A, power_W=self.config.max_power_W)
 
@@ -289,10 +310,13 @@ class LiveController:
     def verify_limits(self):
         limits = self.device.protection_limits()
         self.observed_limits = limits
-        for key, ceiling in (('voltage_V', self.config.voltage_max_V),
-                             ('current_A', self.config.max_current_A),
-                             ('power_W', self.config.max_power_W)):
-            if abs(positive(key, limits.get(key))-ceiling) > .0001:
+        needed_limits = (self.config.voltage_max_V, self.config.max_current_A, self.config.max_power_W)
+        for index, (key, ceiling) in enumerate(zip(('voltage_V', 'current_A', 'power_W'), needed_limits)):
+            observed = positive(key, limits.get(key))
+            if self.config.protection_envelope:
+                if not ceiling <= observed <= self.config.protection_envelope[index]:
+                    raise RuntimeError(f'Load protection outside approved envelope: {key}; read {observed!r}, allowed {ceiling!r}..{self.config.protection_envelope[index]!r}')
+            elif abs(observed-ceiling) > .0001:
                 raise RuntimeError(f'Configure and verify load protection: {key}; read {limits.get(key)!r}, required {ceiling!r}')
         self.limits = limits
 
@@ -397,6 +421,8 @@ class LiveController:
             self.last = dict(torcs_time_s=demand.sim_time_s, source_session=demand.session_id,
                 source_sequence=demand.sequence, source_received_s=demand.received_s,
                 original_cell_current_A=raw, limited_cell_current_A=demand.current_A,
+                original_eload_demand_A=max(0., min(3., -raw / c.reference_current_A * 3.)),
+                eload_range_scale=c.max_current_A / 3.,
                 scaled_load_demand_A=scaled, limited_load_target_A=limited,
                 power_limited_load_target_A=allowed, commanded_load_A=quantized,
                 regen_suppressed=raw > 0, saturated=scaled > limited,

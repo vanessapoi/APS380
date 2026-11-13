@@ -34,7 +34,7 @@ def fingerprint(folder):
 def trial(output, enabled=True, analog=False, standalone=False, slow=False):
     config=ROOT/'aps380_torcs_starter/profiles/keyboard_driving.json'
     if slow:
-        rates=json.loads(config.read_text());rates['throttle_rise_per_s']=.25
+        rates=json.loads(config.read_text());rates['throttle_rise_per_s']*=.75
         config=output/'slow.json';config.write_text(json.dumps(rates))
     profile=prepare_keyboard(config,destination=output/'profile')
     prefs=profile/'drivers/human/preferences.xml'
@@ -125,7 +125,8 @@ def compare(output):
     assert abs(at(after,2.5)['ramp_throttle']-max(0.,expected_throttle-.5*rates['throttle_fall_per_s']))<.03
     assert abs(at(after,4.5)['ramp_brake']-min(1.,.5*rates['brake_rise_per_s']))<.03
     assert abs(at(after,5.25)['ramp_brake']-max(0.,min(1.,rates['brake_rise_per_s'])-.25*rates['brake_fall_per_s']))<.03
-    assert .20<at(slow,1.)['ramp_throttle']<.30
+    slow_rate=json.loads((output/'slow/slow.json').read_text())['throttle_rise_per_s']
+    assert abs(at(slow,1.)['ramp_throttle']-slow_rate)<.03
     assert at(before,.5)['applied_throttle']>at(after,.5)['applied_throttle']+.2
     assert at(before,2.1)['applied_throttle']==0
     assert abs(at(after,2.1)['ramp_throttle']-max(0.,expected_throttle-.1*rates['throttle_fall_per_s']))<.03
