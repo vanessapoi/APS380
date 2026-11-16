@@ -147,6 +147,7 @@ class InstrumentCoordinator:
     def _safe_stop(self):
         # The mock local interlock opens even if all communication is broken.
         self.shutdown_errors = []
+        self.shutdown_verified = False
         try:
             self.isolation.open()
         except Exception as error:
@@ -156,8 +157,11 @@ class InstrumentCoordinator:
                 device.set_output(False, self.config.io_timeout_s)
             except Exception as error:
                 self.shutdown_errors.append(str(error))
-        status = self.isolation.verify()
-        self.shutdown_verified = status.is_open and status.outputs_disabled
+        try:
+            status = self.isolation.verify()
+            self.shutdown_verified = status.is_open and status.outputs_disabled
+        except Exception as error:
+            self.shutdown_errors.append("ISOLATION_FEEDBACK_UNAVAILABLE: "+str(error))
 
     def trip(self, reason):
         if self.state != State.FAULT:
@@ -240,6 +244,25 @@ class InstrumentCoordinator:
         if self.session is not None and demand.session_id != self.session:
             raise InstrumentError('TELEMETRY_SESSION_CHANGED')
 
+    def _validate_source(self, psu):
+        if psu.status.mode != 'CC':
+            raise InstrumentError('PSU_NOT_CC')
+        if abs(psu.setpoint_A-self.config.psu_cc_setpoint_A) > self.config.numeric_tolerance_A:
+            raise InstrumentError('PSU_SETPOINT_CHANGED')
+
+    def _bias_settled(self, psu):
+        return abs(psu.current_A-psu.setpoint_A) <= self.config.neutral_tolerance_A
+
+    def _net_current(self, psu, load):
+        return psu.current_A-load.current_A
+
+    def _before_isolation_close(self):
+        pass
+
+    def _command_load(self, target):
+        self.load.set_current(target, self.config.io_timeout_s)
+        return target
+
     def step(self, demand, unavailable='', still_valid=lambda: True):
         if self.state not in (State.READY, State.RUNNING):
             return
@@ -263,10 +286,7 @@ class InstrumentCoordinator:
             psu = self._read(self.psu)
             if not psu.status.output_enabled:
                 raise InstrumentError('PSU_OUTPUT_DISABLED')
-            if psu.status.mode != 'CC':
-                raise InstrumentError('PSU_NOT_CC')
-            if abs(psu.setpoint_A-c.psu_cc_setpoint_A) > c.numeric_tolerance_A:
-                raise InstrumentError('PSU_SETPOINT_CHANGED')
+            self._validate_source(psu)
             psu_lower=0. if self.state == State.READY else c.psu_current_min_A
             if not psu_lower-c.tracking_tolerance_A <= psu.current_A <= c.psu_current_max_A+c.tracking_tolerance_A:
                 raise InstrumentError('PSU_MEASURED_LIMIT')
@@ -275,7 +295,7 @@ class InstrumentCoordinator:
                 raise InstrumentError('LOAD_OUTPUT_DISABLED')
             if before.status.mode != 'CC':
                 raise InstrumentError('LOAD_NOT_CC')
-            before_net = psu.current_A-before.current_A
+            before_net = self._net_current(psu, before)
             if self.state == State.RUNNING and not c.battery_current_min_A-c.tracking_tolerance_A <= before_net <= c.battery_current_max_A+c.tracking_tolerance_A:
                 self.last['pre_control_cell_current_A'] = before_net
                 raise InstrumentError('MEASURED_DIRECTIONAL_LIMIT')
@@ -312,7 +332,7 @@ class InstrumentCoordinator:
             sent_target = max(c.eload_current_min_A, min(c.eload_current_max_A, load_target))
             self.last['load_command_A'] = sent_target
             self.last['load_roundoff_adjustment_A'] = sent_target-load_target
-            self.load.set_current(sent_target, c.io_timeout_s)
+            self.last['load_command_A'] = self._command_load(sent_target)
             load = self._read(self.load)
             # Recheck all ages after blocking I/O; never act on a queued old command.
             if self.clock()-psu.acquired_s > c.measurement_expiry_s:
@@ -325,7 +345,7 @@ class InstrumentCoordinator:
                 raise InstrumentError('LOAD_OUTPUT_DISABLED')
             if load.status.mode != 'CC':
                 raise InstrumentError('LOAD_NOT_CC')
-            net = psu.current_A-load.current_A
+            net = self._net_current(psu, load)
             error = net-applied
             expected_direction = self.active_direction
             direction_ok = (abs(net) <= c.direction_tolerance_A or
@@ -341,11 +361,12 @@ class InstrumentCoordinator:
             if starting:
                 # A nearly stationary CC readback near zero is not evidence that
                 # the configured bias has settled. CV cannot qualify startup.
-                bias_settled = abs(psu.current_A-psu.setpoint_A) <= c.neutral_tolerance_A
+                bias_settled = self._bias_settled(psu)
                 if demand is not None and abs(net) <= c.neutral_tolerance_A and psu_stable and load_stable and bias_settled:
                     if self.ready_settled_since is None:
                         self.ready_settled_since = self.clock()
                     if self.clock()-self.ready_settled_since >= c.neutral_hold_s:
+                        self._before_isolation_close()
                         self.isolation.close()
                         if self.isolation.verify().is_open:
                             raise InstrumentError('ISOLATION_DID_NOT_CLOSE')
@@ -394,13 +415,13 @@ class MockInstrumentService:
     LiveReceiver uses perf_counter, so both demand timestamps and mocks use that
     clock here. Deterministic tests may inject a different common clock directly.
     """
-    def __init__(self, output, config=ControlConfig(), measurement_sink=None):
+    def __init__(self, output, config=ControlConfig(), measurement_sink=None, *, coordinator_factory=None):
         self.config = config
         self.measurement_sink = measurement_sink
         self.demands = LatestDemand()
         self.psu = MockPSU(clock=time.perf_counter, max_current_A=config.psu_current_max_A)
         self.load = MockBK8500(clock=time.perf_counter, max_current_A=config.eload_current_max_A)
-        self.coordinator = InstrumentCoordinator(self.psu, self.load,
+        self.coordinator = (coordinator_factory or InstrumentCoordinator)(self.psu, self.load,
             MockIsolation(self.psu, self.load), config)
         self.output = Path(output)
         self.output.mkdir(parents=True, exist_ok=False)
@@ -433,7 +454,7 @@ class MockInstrumentService:
         self.thread.start()
 
     def _record(self, event='cycle'):
-        self.latest = self.coordinator.snapshot()
+        self.latest = self._decorate_snapshot(self.coordinator.snapshot())
         self.history.append(self.latest)
         if self.measurement_sink is not None:
             self.measurement_sink(self.latest)
@@ -444,6 +465,12 @@ class MockInstrumentService:
         self.log.write(json.dumps(dict(event=event, host_s=time.perf_counter(), mock_only=True,
                                       **self.latest, transactions=devices), allow_nan=False)+'\n')
         self.log.flush()
+
+    def _decorate_snapshot(self, snapshot):
+        return snapshot
+
+    def _acceptance(self, events, final):
+        return instrument_acceptance(events,self.config,final,self.failed,self.arming_requested)
 
     def _run(self):
         try:
@@ -484,8 +511,7 @@ class MockInstrumentService:
         report = dict(mock_only=True, physical_commands_sent=False, cycles=self.cycles,
                       worker_error=self.failed, final=self.coordinator.snapshot())
         events = [json.loads(line) for line in (self.output/'instruments.jsonl').read_text().splitlines()]
-        report['acceptance'] = instrument_acceptance(events, self.config, report['final'],
-                                                    self.failed, self.arming_requested)
+        report['acceptance'] = self._acceptance(events,report['final'])
         (self.output/'summary.json').write_text(json.dumps(report, indent=2)+'\n')
         self.log.close()
         return report

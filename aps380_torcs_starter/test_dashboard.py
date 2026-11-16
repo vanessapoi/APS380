@@ -83,6 +83,26 @@ class DashboardTests(unittest.TestCase):
         self.assertIn('NOT CONNECTED',d.readouts['cell_voltage'].cget('text'))
         self.assertIn('held inputs',d.readouts['cell_quality'].cget('text'))
 
+    def test_bias_independent_sensor_model_and_no_invented_propulsion_feedback(self):
+        power=self.power(True);service=self.prototype()
+        self.receiver.power_feedback=None
+        model=dict(power.latest)
+        for key in list(model):
+            if key.startswith('vehicle_limit_'):del model[key]
+        service.latest.update(control_mode='battery_bias_mock',cell_model_state=model,
+            cell_sensor_frame=dict(acquired_s=self.now,session_id='cell'),
+            bias_safety=dict(source_isolated=False,protection_ready=True,estop_active=False))
+        service.cell_stream=SimpleNamespace(observer=power.policy.observer)
+        service.history=[dict(service.latest,cell_sensor_frame=dict(acquired_s=self.now-.1,session_id='cell')),service.latest]
+        d=self.display(mock_service=service)
+        self.assertIn('MOCK independent sensor model',d.readouts['cell_current'].cget('text'))
+        self.assertIn('80.00000%',d.readouts['cell_soc'].cget('text'))
+        self.assertIn('NOT CONNECTED',d.readouts['propulsion'].cget('text'))
+        self.assertIn('source isolated: False',d.safety_summary.cget('text'))
+        d.notebook.select(d.tabs['SOC & SOP']);d.refresh()
+        self.assertTrue(d.trend_canvases['soc'].find_withtag('trace'))
+        self.assertFalse(d.trend_canvases['fraction'].find_withtag('trace'))
+
     def test_live_mock_values_and_source_labels_without_estimator_or_device_calls(self):
         power=self.power(True);service=self.prototype();d=self.display(mock_service=service)
         self.assertIn('80.00000%',d.readouts['cell_soc'].cget('text'))

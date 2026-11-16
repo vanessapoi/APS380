@@ -13,6 +13,11 @@ from cell_soc import CellMeasurement, CoulombCounter, finite
 from cell_sop import RintPolicy
 
 SOURCE = 'prototype_mock_branch_readbacks'
+MOCK_QUALIFICATIONS = {
+    'prototype-mock': (SOURCE, 'mock_readbacks', 'imposed_mock_voltage', 'imposed_mock_temperature'),
+    'battery-bias-mock': ('battery_bias_mock_sensor', 'mock_independent_sensor',
+                          'mock_sensor_voltage', 'mock_sensor_temperature'),
+}
 
 
 @dataclass(frozen=True)
@@ -34,7 +39,10 @@ class LiveCellObserver:
     Reset discards the unknown interval and anchors at the next fresh sample.
     """
     def __init__(self, capacity_Ah, initial_soc, *, freshness_s=.2, max_gap_s=.5,
-                 clock=time.perf_counter):
+                 clock=time.perf_counter, source_profile='prototype-mock'):
+        if source_profile not in MOCK_QUALIFICATIONS:
+            raise ValueError('Only explicitly qualified mock sources are supported')
+        self.required_source, self.required_quality, self.voltage_source, self.temperature_source = MOCK_QUALIFICATIONS[source_profile]
         for name, value in (('capacity', capacity_Ah), ('freshness', freshness_s), ('gap', max_gap_s)):
             if finite(name, value) <= 0:
                 raise ValueError(name + ' must be positive')
@@ -75,10 +83,10 @@ class LiveCellObserver:
                 if not isinstance(m,CellMeasurement):
                     raise ValueError('INVALID_CELL_MEASUREMENT_TYPE')
                 now = self.clock()
-                if sample.source != SOURCE or sample.quality != 'mock_readbacks':
+                if sample.source != self.required_source or sample.quality != self.required_quality:
                     raise ValueError('UNQUALIFIED_MEASUREMENT_SOURCE')
-                if (sample.voltage_source != 'imposed_mock_voltage' or
-                        sample.temperature_source != 'imposed_mock_temperature'):
+                if (sample.voltage_source != self.voltage_source or
+                        sample.temperature_source != self.temperature_source):
                     raise ValueError('UNQUALIFIED_MOCK_STATE_SOURCE')
                 if type(sample.sequence) is not int or sample.sequence < 0:
                     raise ValueError('INVALID_MEASUREMENT_SEQUENCE')

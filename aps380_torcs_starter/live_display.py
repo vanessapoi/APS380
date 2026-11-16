@@ -283,7 +283,8 @@ class LiveDisplay:
         """Read cached records only. Never call instruments or observer.snapshot()."""
         now=time.perf_counter();p=self.receiver.processor
         row=row or {};power=getattr(self.receiver,'power_feedback',None)
-        s=power.latest if power else {}
+        bias=getattr(self.mock_service,'latest',{}).get('control_mode')=='battery_bias_mock'
+        s=power.latest if power else getattr(self.mock_service,'latest',{}).get('cell_model_state',{})
         fresh=state=='RECEIVING'
         tag='SIMULATED' if fresh else 'RETAINED / '+state
         def n(key,unit='',fmt='.3f',source=row):return display_number(source.get(key),unit,fmt)
@@ -298,7 +299,7 @@ class LiveDisplay:
         self._set('pack_power',scaled('pack_power_W',1000,'kW')+' | '+tag)
         self._set('pack_soc',display_number(row.get('soc')*100 if type(row.get('soc')) in (int,float) else None,'%')+' | '+tag)
         self._set('vehicle_age','TORCS native telemetry | '+display_number(age,'s')+' old')
-        if s:
+        if power is not None:
             self._set('propulsion','Applied '+display_number(s.get('vehicle_limit_applied_fraction'),fmt='.3%')+
                 ' | '+s.get('vehicle_limit_state','WAITING')+('' if fresh else ' | RETAINED'))
         else:self._set('propulsion','External feedback NOT CONNECTED')
@@ -316,13 +317,16 @@ class LiveDisplay:
         self._set('cell_age','No cell measurement stream')
         self._set('cell_quality',quality)
         observer=getattr(getattr(power,'policy',None),'observer',None)
+        if observer is None and bias:
+            observer=getattr(getattr(self.mock_service,'cell_stream',None),'observer',None)
         sample=getattr(observer,'sample',None)
         measurement=getattr(sample,'measurement',None)
         if live and measurement is not None:
             cell_age=now-measurement.time_s
             stale=cell_age<0 or cell_age>observer.freshness or bool(observer.error) or not fresh
             prefix='RETAINED / STALE | ' if stale else ''
-            self._set('cell_current',prefix+display_number(measurement.net_cell_current_A,'A','+.5f')+' | MOCK branch readbacks')
+            self._set('cell_current',prefix+display_number(measurement.net_cell_current_A,'A','+.5f')+
+                (' | MOCK independent sensor model' if bias else ' | MOCK branch readbacks'))
             self._set('cell_voltage',prefix+display_number(measurement.cell_voltage_V,'V')+' | MOCK imposed; not measured')
             self._set('cell_temperature',prefix+display_number(measurement.cell_temperature_C,'C','.1f')+' | MOCK imposed; not measured')
             self._set('cell_age',f'Seq {sample.sequence} | host {measurement.time_s:.3f} s | age {cell_age:.3f} s')
@@ -341,6 +345,9 @@ class LiveDisplay:
         self._render_instruments(m,now)
         isolation=m.get('isolation')
         isolation_text=('OPEN' if isolation['is_open'] else 'CLOSED')+' [MOCK]' if isolation else 'NOT CONNECTED / not reported'
+        if bias:
+            bs=m.get('bias_safety',{})
+            isolation_text+=f" | source isolated: {bs.get('source_isolated')} | protection ready: {bs.get('protection_ready')} | E-stop: {bs.get('estop_active')} [MOCK]"
         retained=' | RETAINED' if m.get('measurements_retained') else ''
         controller=m.get('state','NOT CONNECTED')
         fault=m.get('fault','')
@@ -401,7 +408,8 @@ class LiveDisplay:
             p,e=m['psu'],m['load'];context='RETAINED, NOT LIVE' if m.get('measurements_retained') else m['state']
             if now-min(p['acquired_s'],e['acquired_s'])>self.mock_service.config.measurement_expiry_s:
                 context='STALE readbacks | '+context
-            self.instrument_summary.configure(text='Prototype instruments: MOCK | '+context+' | Cell current = PSU readback - eLoad readback; no physical instrument access.')
+            bias=m.get('control_mode')=='battery_bias_mock'
+            self.instrument_summary.configure(text=('Battery Bias: MOCK independent cell sensor + PSU/load readbacks | ' if bias else 'Prototype instruments: MOCK | ')+context+' | Cell current = PSU - eLoad; no physical instrument access.')
             for name,pv,ev,unit in (('CC target',self.mock_service.config.psu_cc_setpoint_A,m.get('load_target_A'),'A'),
                 ('Applied command (if separately recorded)',None,m.get('load_command_A'),'A'),
                 ('Setting readback [mock state]',p.get('setpoint_A'),e.get('setpoint_A'),'A'),
@@ -429,6 +437,11 @@ class LiveDisplay:
         if selected=='Battery':self.draw_chart(history)
         elif selected=='BK8500 current':self.draw_load_chart(self.load_service)
         elif selected in ('Vehicle','SOC & SOP'):
+            if (selected=='SOC & SOP' and getattr(self.mock_service,'latest',{}).get('control_mode')=='battery_bias_mock'
+                    and getattr(self.receiver,'power_feedback',None) is None):
+                history=[dict(r.get('cell_model_state',{}),received_qpc_s=r['cell_sensor_frame']['acquired_s'],
+                              session_id=r['cell_sensor_frame']['session_id'])
+                         for r in list(self.mock_service.history) if 'cell_sensor_frame' in r]
             end=history[-1]['received_qpc_s'] if history else time.perf_counter()
             def series(key,scale=1.,model=False):
                 points=[]

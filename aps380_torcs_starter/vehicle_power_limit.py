@@ -67,7 +67,8 @@ class PowerFeedback:
         details={}
         if hasattr(self.policy,'evaluate_row'):
             soc,fraction,details=self.policy.evaluate_row(row)
-            if details.get('sop_model_valid') is False and not details.get('sop_waiting_for_measurement',False):
+            if (details.get('sop_model_valid') is False and not details.get('sop_waiting_for_measurement',False)
+                    and not self.stopping.is_set()):
                 self.error='SOP model unavailable: '+details['sop_reason']
                 self.reset.clear() # Require explicit recovery after the model becomes valid.
         else:soc,fraction=self.policy.evaluate(row['soc'])

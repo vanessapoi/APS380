@@ -209,7 +209,14 @@ def write_manifest(args, output):
 
 
 def main(argv=None):
-    args = parse_args(argv)
+    # Dispatch before PSU-only parsing/transport creation. Physical bias has no backend.
+    selector = argparse.ArgumentParser(add_help=False)
+    selector.add_argument('--control-mode', choices=('psu-only','battery-bias'), default='psu-only')
+    mode, remaining = selector.parse_known_args(argv)
+    if mode.control_mode == 'battery-bias':
+        from battery_bias_runner import main as bias_main
+        return bias_main(remaining)
+    args = parse_args(remaining)
     output = (args.output or ROOT/'.local/bk8500-live'/datetime.now().strftime('%Y%m%d_%H%M%S_%f')).resolve()
     output.mkdir(parents=True, exist_ok=False)
     os.environ.setdefault('MPLCONFIGDIR', str(ROOT/'.local/matplotlib'))
