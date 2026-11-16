@@ -1,6 +1,44 @@
 # APS380 — Updated Project Context for Codex
 ## Driver-in-the-Loop EV Battery Test Platform
 
+### Opt-in Battery Bias SOP propulsion composition
+
+`bench/bk8500/live_torcs.py --control-mode battery-bias --propulsion-feedback`
+shares the existing bias cell observer and Rint estimator through `BiasRintPolicy`,
+existing vehicle mapping, PowerFeedback and native limiter. Default bias behavior
+is unchanged. Propulsion stays zero until RUNNING; DISARM/STOP/invalid observer
+withhold availability and retain native expiry/reset behavior. Recovery requires
+explicit instrument recovery/ARM followed by RESET POWER once RUNNING. No second
+Coulomb Counter is created. Existing safety/ESP32 review findings below remain
+deferred and unresolved; this opt-in composition does not authorize physical use.
+
+### Battery Bias / ESP32 development deferred by user
+
+Preserve completed Battery Bias mock work, but defer further safety-state-machine,
+ESP32 sensing/transport, calibration, thresholds, isolation-feedback and alarm
+development until sensing hardware is available. Do not bypass mock-only guards,
+relax safety checks or alter the proven PSU-only BK8500 workflow. The adversarial
+review remains unresolved: High findings concern cached-frame startup neutrality
+and mutable fault-list protection bypass; Medium findings concern double sequence
+validation, mailbox recovery, exception-incomplete launcher cleanup and unchecked
+disconnect capability. See `../docs/battery-bias.md` for details. H2/H3/M3 remain
+PARTIAL despite passing regression tests. Deferral is not physical authorization.
+
+### Separate Battery Bias mock composition — November 16, 2026
+
+`bench/bk8500/live_torcs.py --control-mode battery-bias` selects a new mock-only
+composition of the existing current-bias coordinator/latest-demand mailbox with
+qualified independent mock cell/PSU sensing, source/cell isolation supervision,
+and the existing Coulomb Counter/Rint estimator. Charging-positive mapping is
+`I_cell = I_PSU - I_eLoad`; the configured PSU limit is never its readback.
+Physical bias/serial selection fails closed. The default PSU-only workflow,
+physical BK8500 driver, approved settings, input profiles and existing
+`rint-live-mock` propulsion workflow remain unchanged. Without the later opt-in
+`--propulsion-feedback` flag, the mode estimates SOC/SOP without native feedback.
+V/T, initial SOC and model parameters remain synthetic/unvalidated.
+PC Python still owns instrument commands; future ESP32 sensing/status and local
+isolation supervision are not implemented here. See `../docs/battery-bias.md`.
+
 ### Opt-in live mock Cell SOC integration - November 13, 2026
 
 `--policy rint-live-mock` in `scripts/run_vehicle_power_limit.py` composes the
