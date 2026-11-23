@@ -434,6 +434,7 @@ class MockInstrumentService:
         self.history = deque(maxlen=5000)
         self.failed = None
         self.cycles = 0
+        self.worker_timing={}
         self.arming_requested = False
         self.thread = threading.Thread(target=self._run, daemon=True, name='aps380-mock-instruments')
 
@@ -454,7 +455,10 @@ class MockInstrumentService:
         self.thread.start()
 
     def _record(self, event='cycle'):
+        publication_start=time.perf_counter()
         self.latest = self._decorate_snapshot(self.coordinator.snapshot())
+        self.latest['worker_timing']=dict(self.worker_timing,
+            publication_started_s=publication_start,publication_completed_s=time.perf_counter())
         self.history.append(self.latest)
         if self.measurement_sink is not None:
             self.measurement_sink(self.latest)
@@ -473,8 +477,14 @@ class MockInstrumentService:
         return instrument_acceptance(events,self.config,final,self.failed,self.arming_requested)
 
     def _run(self):
+        previous_start=None;due=time.perf_counter()
         try:
             while not self.stop_event.is_set():
+                cycle_start=time.perf_counter()
+                self.worker_timing=dict(cycle_started_s=cycle_start,
+                    cycle_interval_s=None if previous_start is None else cycle_start-previous_start,
+                    scheduling_delay_s=max(0.,cycle_start-due))
+                previous_start=cycle_start
                 with self.action_lock:
                     action, self.pending_action = self.pending_action, None
                 if action:
@@ -487,8 +497,11 @@ class MockInstrumentService:
                 self.coordinator.step(demand, reason,
                     lambda: self.demands.valid(demand, revision))
                 self.cycles += 1
+                self.worker_timing['control_completed_s']=time.perf_counter()
+                self.worker_timing['control_duration_s']=time.perf_counter()-cycle_start
                 self._record()
                 # No catch-up iterations after a slow transaction; no demand queue.
+                due=time.perf_counter()+1/self.config.control_hz
                 self.wake.wait(1/self.config.control_hz)
                 self.wake.clear()
         except Exception as error:

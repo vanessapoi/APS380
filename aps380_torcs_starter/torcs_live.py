@@ -190,10 +190,13 @@ class LiveProcessor:
 class LiveReceiver:
     def __init__(self, port, output, config_path=BASE/'profiles/live_scaling_demo.json',
                  profile_path=BASE/'profiles/tesla_model3_rwd.json', demand_sink=None,
-                 current_config=PROTOTYPE, peer_exit_status=None, power_feedback=None):
+                 current_config=PROTOTYPE, peer_exit_status=None, power_feedback=None,
+                 scaling_config=None):
         self.output = Path(output)
         self.output.mkdir(parents=True, exist_ok=False)
-        config_bytes, profile_bytes = Path(config_path).read_bytes(), Path(profile_path).read_bytes()
+        config_bytes = (Path(config_path).read_bytes() if scaling_config is None else
+                        json.dumps(scaling_config,allow_nan=False).encode('utf-8'))
+        profile_bytes = Path(profile_path).read_bytes()
         config = json.loads(config_bytes, parse_constant=reject_constant)
         self.processor = LiveProcessor(profile_bytes,config,qpc_clock_verified(),current_config)
         self.socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)

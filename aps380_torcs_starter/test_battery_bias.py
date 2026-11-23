@@ -81,6 +81,46 @@ class BiasTest(unittest.TestCase):
         self.c.recover();self.assertEqual(self.c.state,State.DISARMED);self.safe()
         self.ready()
 
+    def test_manual_one_amp_startup_is_neutral_and_isolated(self):
+        self.psu.cv_available_A=1.
+        self.c.arm()
+        for _ in range(650):
+            s=self.step(.2129400060102)
+            if s['state']=='RUNNING':break
+            self.assertEqual(s['state'],'READY',s)
+            self.assertTrue(s['bias_safety']['cell_isolated'])
+        self.assertEqual(s['state'],'RUNNING',s)
+        self.assertTrue(s['startup_balanced'])
+        self.assertAlmostEqual(s['psu']['current_A'],1.,places=3)
+        self.assertAlmostEqual(s['load']['current_A'],1.,delta=self.c.config.neutral_tolerance_A)
+        self.assertAlmostEqual(s['cell_sensor_frame']['cell_current_A'],0.,places=3)
+        self.c.disarm();self.safe()
+
+    def test_manual_repeated_acceleration_lift_off_and_full_range(self):
+        self.psu.cv_available_A=1.
+        self.c.arm();self.step(0.,650)
+        self.assertEqual(self.c.state,State.RUNNING,self.c.fault_reason)
+        # Previous real driving demand peaks, repeated; then the configured
+        # signed endpoints. Fake time advances normally: no slew is shortened.
+        for target in (-.4711756,.2129400060102,0.)*3+(-2.,1.,0.):
+            self.step(target,1600)
+            s=self.c.snapshot()
+            self.assertEqual(s['state'],'RUNNING',s)
+            self.assertAlmostEqual(s['cell_sensor_frame']['cell_current_A'],target,places=3)
+            self.assertAlmostEqual(self.load.setpoint_A,1.-target,places=3)
+            self.assertGreaterEqual(self.load.setpoint_A,0.)
+            self.assertLessEqual(self.load.setpoint_A,3.)
+        self.c.disarm();self.safe()
+
+    def test_manual_preset_still_faults_when_actual_source_cannot_supply_regen(self):
+        self.psu.cv_available_A=1.
+        self.c.arm();self.step(0.,650)
+        self.assertEqual(self.c.state,State.RUNNING,self.c.fault_reason)
+        self.psu.cv_available_A=.2
+        self.step(.2129400060102)
+        self.assertEqual(self.c.state,State.FAULT)
+        self.assertEqual(self.c.fault_reason,'INFEASIBLE_CURRENT');self.safe()
+
     def test_sensor_failures(self):
         for failure in ('missing','timeout','invalid','duplicate','nan'):
             with self.subTest(failure=failure):

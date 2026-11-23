@@ -39,7 +39,13 @@ class LiveCellObserver:
     Reset discards the unknown interval and anchors at the next fresh sample.
     """
     def __init__(self, capacity_Ah, initial_soc, *, freshness_s=.2, max_gap_s=.5,
-                 clock=time.perf_counter, source_profile='prototype-mock'):
+                 clock=time.perf_counter, source_profile='prototype-mock', mock_pause=False):
+        if mock_pause and source_profile!='battery-bias-mock':
+            raise ValueError('Scheduling pause policy is Battery Bias MOCK only')
+        self.mock_pause=mock_pause
+        self.excluded_intervals=0;self.excluded_time_s=0.
+        self.last_gap_s=0.;self.last_publication_s=None;self.last_publication_delay_s=None
+        self.update_interval_s=None;self.publication_interval_s=None
         if source_profile not in MOCK_QUALIFICATIONS:
             raise ValueError('Only explicitly qualified mock sources are supported')
         self.required_source, self.required_quality, self.voltage_source, self.temperature_source = MOCK_QUALIFICATIONS[source_profile]
@@ -106,12 +112,28 @@ class LiveCellObserver:
                         raise ValueError('MISSING_DUPLICATE_OR_REORDERED_CELL_SAMPLE')
                     if sample.received_s < self.sample.received_s:
                         raise ValueError('RECEIPT_CLOCK_REVERSED')
-                    estimate = self.counter.update(m)
+                    gap=m.time_s-self.sample.measurement.time_s
+                    self.update_interval_s=gap
+                    if self.mock_pause and gap>self.max_gap:
+                        raise ValueError('CELL_MEASUREMENT_GAP_EXCEEDED')
+                    if self.mock_pause and gap>self.freshness:
+                        # No fabricated samples or integration across an unknown
+                        # interval. Preserve SOC, expose incomplete charge history.
+                        known_discharge=self.counter.net_discharged_Ah
+                        self.counter=CoulombCounter(self.capacity,self.max_gap,self.estimate.soc,m)
+                        self.counter.net_discharged_Ah=known_discharge
+                        estimate=self.counter.initial_estimate()
+                        self.excluded_intervals+=1;self.excluded_time_s+=gap
+                        self.last_gap_s=gap
+                    else:estimate = self.counter.update(m)
                 else:
                     self.counter = CoulombCounter(self.capacity, self.max_gap, self.initial_soc, m)
                     estimate = self.counter.initial_estimate()
                 self.sample, self.estimate = sample, estimate
                 self.accepted += 1
+                self.publication_interval_s=None if self.last_publication_s is None else now-self.last_publication_s
+                self.last_publication_s=now
+                self.last_publication_delay_s=now-m.time_s
                 if estimate.boundary_clipped:
                     raise ValueError('SOC_BOUNDARY_CLIPPED_REINITIALIZE')
                 return True
@@ -122,14 +144,21 @@ class LiveCellObserver:
     def snapshot(self):
         with self.lock:
             age = self.clock()-self.sample.measurement.time_s if self.sample else None
-            if age is not None and (age < 0 or age > self.freshness):
+            expiry=self.max_gap if self.mock_pause else self.freshness
+            if age is not None and (age < 0 or age > expiry):
                 self.unavailable('CELL_MEASUREMENT_EXPIRED')
-            return dict(state='FAULT' if self.error else 'VALID' if self.sample else 'WAITING',
+            stale=age is not None and age>self.freshness
+            return dict(state='FAULT' if self.error else 'STALE' if stale else 'VALID' if self.sample else 'WAITING',
                 error=self.error, accepted=self.accepted, generation=self.generation,
                 age_s=age, sample=asdict(self.sample) if self.sample else None,
                 estimate=asdict(self.estimate) if self.estimate else None,
                 initial_soc_basis='Explicit MOCK assertion; no rested OCV initialization',
-                retained=bool(self.error and self.sample))
+                retained=bool((self.error or stale) and self.sample),
+                mock_pause_policy=self.mock_pause,excluded_intervals=self.excluded_intervals,
+                excluded_time_s=self.excluded_time_s,last_excluded_gap_s=self.last_gap_s,
+                publication_host_s=self.last_publication_s,publication_delay_s=self.last_publication_delay_s,
+                observer_update_interval_s=self.update_interval_s,publication_interval_s=self.publication_interval_s,
+                consumed_host_s=self.clock(),freshness_s=self.freshness,gap_fault_s=expiry)
 
 
 class MockCellStream:
@@ -227,6 +256,9 @@ class LiveRintPolicy(RintPolicy):
         self.mock_temperature_C = state['sample']['measurement']['cell_temperature_C'] if valid else 25.
         soc, fraction, details = super().evaluate_row(row)
         details.update(cell_observer_state=state['state'], cell_observer_error=state['error'],
+            cell_timing={k:state[k] for k in ('mock_pause_policy','excluded_intervals','excluded_time_s',
+                'publication_host_s','publication_delay_s','consumed_host_s','freshness_s','gap_fault_s',
+                'observer_update_interval_s','publication_interval_s')},
             cell_measurement_age_s=state['age_s'], cell_measurement_source=SOURCE,
             cell_measurement_sequence=state['sample']['sequence'] if state['sample'] else None,
             cell_measurement_session=state['sample']['measurement']['session_id'] if state['sample'] else None,

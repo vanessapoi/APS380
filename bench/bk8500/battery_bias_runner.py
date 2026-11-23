@@ -16,6 +16,9 @@ sys.path.insert(0,str(ROOT/'aps380_torcs_starter'))
 from battery_bias import BatteryBiasService
 from torcs_live import LiveReceiver
 
+# Imposed MOCK source contributions, not claims about a physical PSU in CV.
+MOCK_SOURCE_PRESETS={'baseline':.2,'manual-driving':1.}
+
 
 def parse_args(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
@@ -24,9 +27,13 @@ def parse_args(argv=None):
     p.add_argument('--keyboard-profile',choices=('3s','5s','8s'))
     p.add_argument('--duration',type=float,default=60.)
     p.add_argument('--telemetry-port',type=int,default=50001)
-    p.add_argument('--mock-psu-current-A',type=float,default=.2,
+    p.add_argument('--mock-preset',choices=tuple(MOCK_SOURCE_PRESETS),default=None,
+                   help='MOCK source: baseline 0.2 A; manual-driving 1.0 A. All safety checks unchanged')
+    p.add_argument('--mock-psu-current-A',type=float,default=None,
                    help='Imposed mock available source current, NOT its configured CC limit')
-    p.add_argument('--sop-config',type=Path,default=ROOT/'aps380_torcs_starter/profiles/rint_sop_live_mock_example.json')
+    p.add_argument('--sop-config',type=Path,default=None)
+    p.add_argument('--mock-test-config',type=Path,help='Optional session-local Battery Bias MOCK experiment JSON')
+    p.add_argument('--mock-setup',action='store_true',help='Open pre-run MOCK settings window, then the existing dashboard')
     p.add_argument('--output',type=Path)
     p.add_argument('--dashboard',action='store_true')
     p.add_argument('--propulsion-feedback',action='store_true',help='Opt-in MOCK bias SOC/Rint -> native TORCS availability')
@@ -34,7 +41,16 @@ def parse_args(argv=None):
     p.add_argument('--no-console',action='store_true')
     p.add_argument('--inject-telemetry-loss-after',type=float,help='MOCK only: stop own simulator and wait for freshness fault')
     p.add_argument('--expect-telemetry-fault',action='store_true')
-    a=p.parse_args(argv)
+    arguments=list(sys.argv[1:] if argv is None else argv)
+    a=p.parse_args(arguments)
+    if (a.mock_test_config or a.mock_setup) and (a.sop_config is not None or a.mock_preset is not None or a.mock_psu_current_A is not None):
+        p.error('--mock-test-config/--mock-setup cannot be combined with --sop-config, --mock-preset or --mock-psu-current-A')
+    if a.mock_setup and (a.auto_arm_mock or a.no_console):p.error('Mock setup requires explicit ARM and the controller console')
+    if a.mock_setup:a.dashboard=True
+    if a.mock_preset is None:a.mock_preset='baseline'
+    if a.sop_config is None:a.sop_config=ROOT/'aps380_torcs_starter/profiles/rint_sop_live_mock_example.json'
+    a.mock_source_overridden=a.mock_psu_current_A is not None
+    if not a.mock_source_overridden:a.mock_psu_current_A=MOCK_SOURCE_PRESETS[a.mock_preset]
     if not math.isfinite(a.duration) or not 1<=a.duration<=3600:p.error('Duration must be 1..3600 s')
     if not 0<=a.telemetry_port<=65535:p.error('Invalid UDP port')
     if not math.isfinite(a.mock_psu_current_A) or not 0<=a.mock_psu_current_A<=1:p.error('Mock source must be 0..1 A')
@@ -112,11 +128,27 @@ def artifacts(events,output):
 
 def main(argv=None):
     a=parse_args(argv)  # hardware is rejected BEFORE any service or process
-    model=json.loads(a.sop_config.read_text(encoding='utf-8'))
+    experiment=None
+    if a.mock_test_config:
+        from mock_test_config import load_mock_test_config
+        experiment=load_mock_test_config(a.mock_test_config)
+    if a.mock_setup:
+        from mock_test_config import load_mock_test_config
+        from live_display import MockExperimentSetup
+        seed=experiment or load_mock_test_config(ROOT/'aps380_torcs_starter/profiles/mock_test_20_percent_manual.json')
+        experiment=MockExperimentSetup(seed).run()
+        if experiment is None:
+            print('Mock setup cancelled; no controller, receiver or TORCS was started.',flush=True)
+            return 0
+    model=experiment.model if experiment else json.loads(a.sop_config.read_text(encoding='utf-8'))
     output=(a.output or ROOT/'.local/battery-bias'/datetime.now().strftime('%Y%m%d_%H%M%S_%f')).resolve()
     output.mkdir(parents=True,exist_ok=False)
-    service=BatteryBiasService(output/'instruments',sop_config=model)
-    service.psu.cv_available_A=a.mock_psu_current_A
+    service_options=dict(sop_config=model)
+    if experiment:service_options['config']=experiment.control
+    service=BatteryBiasService(output/'instruments',**service_options)
+    if experiment:service.experiment_config=experiment.audit
+    source_A=experiment.source_A if experiment else a.mock_psu_current_A
+    service.psu.cv_available_A=source_A
     feedback=None
     if a.propulsion_feedback:
         from battery_bias_feedback import BiasRintPolicy
@@ -124,7 +156,9 @@ def main(argv=None):
         feedback=PowerFeedback(BiasRintPolicy(service))
     (output/'mode.json').write_text(json.dumps(dict(mode='battery_bias_mock',physical_operation_enabled=False,
         config=asdict(service.config),qualification=asdict(service.coordinator.qualification),
-        imposed_mock_available_psu_current_A=a.mock_psu_current_A,model_assumptions=model),indent=2)+'\n')
+        mock_source_preset='custom-experiment' if experiment else a.mock_preset,mock_source_overridden=a.mock_source_overridden,
+        imposed_mock_available_psu_current_A=source_A,model_assumptions=model,
+        **({'mock_test_config':experiment.audit} if experiment else {})),indent=2)+'\n')
     receiver=None;child=None;timing=None;stop=threading.Event();status=None;error=None
     natural_exit=None;terminated_by_launcher=False;injected=False;injected_at=None
     report=None
@@ -132,7 +166,9 @@ def main(argv=None):
     from live_torcs import prepare_launch_profile,RUNTIME,close_receiver
     log=(output/'torcs.log').open('w')
     try:
+        receiver_options=dict(current_config=experiment.control,scaling_config=experiment.scaling) if experiment else {}
         receiver=LiveReceiver(a.telemetry_port,output/'telemetry',demand_sink=service.demands,
+            **receiver_options,
             peer_exit_status=lambda:child.poll() if child and not injected else None,power_feedback=feedback)
         if feedback:
             if not receiver.processor.shared_clock:raise RuntimeError('Feedback requires qualified shared clock')
@@ -147,6 +183,8 @@ def main(argv=None):
             if a.torcs=='ai':command+=['-r',str(profile/'race.xml')]
             child=subprocess.Popen(command,cwd=RUNTIME,env=env,stdout=log,stderr=subprocess.STDOUT)
         print(f'Battery Bias MOCK ONLY. Output: {output}\nUDP {receiver.port}. ARM explicitly; startup balances with cell isolated.',flush=True)
+        print(f'MOCK source preset: {"custom-experiment" if experiment else a.mock_preset}; imposed contribution {source_A:.3f} A'
+              + (' (explicit override)' if a.mock_source_overridden else ''),flush=True)
         if feedback:print('Propulsion feedback enabled (MOCK). After recovery/ARM, use RESET POWER explicitly.',flush=True)
         if not a.no_console:threading.Thread(target=console,args=(service,stop,feedback),daemon=True).start()
         started=time.perf_counter();deadline=started+a.duration;armed=False
@@ -206,11 +244,12 @@ def main(argv=None):
         and not report['worker_error'] and report['final']['shutdown_verified'] and
         any(token in report['final']['fault'] for token in ('TELEMETRY','STALE')))
     if feedback:
+        from battery_bias_feedback import propulsion_run_observed
         telemetry_path=output/'telemetry/received.jsonl'
         telemetry_rows=[e['row'] for e in map(json.loads,telemetry_path.read_text().splitlines()) if e['kind']=='sample'] if telemetry_path.exists() else []
         native_faults=sorted({r.get('vehicle_limit_state') for r in telemetry_rows if r.get('vehicle_limit_state','').startswith('FAULT')})
         passed=bool(passed and native_zero and not feedback.fatal.is_set() and not native_faults
-                    and any(r.get('vehicle_limit_applied_fraction',0)>0 for r in telemetry_rows))
+                    and propulsion_run_observed(telemetry_rows))
     result=dict(mock_only=True,physical_commands_sent=False,propulsion_feedback_connected=feedback is not None,
         native_zero_shutdown_verified=native_zero if feedback else None,
         propulsion_error=feedback.error if feedback else None,
@@ -221,6 +260,7 @@ def main(argv=None):
         acceptance=dict(telemetry='PASS' if telemetry_ok else 'FAIL',
                         instruments='PASS' if passed and analysis['running_cycles'] else 'FAIL' if service.arming_requested else 'NOT ASSESSED'),
         passed=passed,full_course_completion='NOT ASSESSED',keyboard_profile=a.keyboard_profile)
+    if experiment:result['mock_test_config']=experiment.audit
     (output/'trial.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(output=str(output),analysis=analysis,shutdown_verified=report['final']['shutdown_verified'],error=error),indent=2))
     return 0 if passed or fault_passed else 1

@@ -383,7 +383,7 @@ class BiasCellStream:
         self.parameters = RintParameters(**config['parameters'])
         self.initial_soc = config['mock_state']['soc_fraction']
         self.observer = LiveCellObserver(self.parameters.capacity_Ah,self.initial_soc,
-            clock=clock,source_profile='battery-bias-mock')
+            clock=clock,source_profile='battery-bias-mock',mock_pause=True)
         self.estimator = RintEstimator(self.parameters)
         self.clock = clock; self.sequence = 0; self.previous_frame = None
         self.paused = False
@@ -418,6 +418,9 @@ class BiasCellStream:
         if snapshot['state']=='FAULT':self.observer.unavailable('BIAS_CONTROLLER_FAULT')
         state = self.observer.snapshot()
         details = dict(cell_observer_state=state['state'],cell_observer_error=state['error'],
+            cell_timing={k:state[k] for k in ('mock_pause_policy','excluded_intervals','excluded_time_s',
+                'last_excluded_gap_s','publication_host_s','publication_delay_s','consumed_host_s','freshness_s','gap_fault_s',
+                'observer_update_interval_s','publication_interval_s')},
             cell_observer_generation=state['generation'],cell_measurement_source='battery_bias_mock_sensor',
             cell_measurement_age_s=state['age_s'],cell_measurements_retained=state['retained'],
             isolated_gap_excluded=self.paused,raw_sensor_current_A=data['cell_current_A'] if data else None,

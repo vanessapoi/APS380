@@ -1,6 +1,7 @@
 """Small desktop display; receiver thread and logs run independently of Tk."""
 from collections import deque
 import math
+import json
 import time
 import tkinter as tk
 from tkinter import ttk
@@ -26,6 +27,128 @@ def thin_trace(points, limit=600):
     return result
 
 
+class MockExperimentSetup:
+    """Pre-run form only. It cannot arm, reconfigure or access any controller."""
+    FIELDS=(('initial_soc_fraction','Initial cell SOC','%',100.),
+            ('maximum_charge_A','Maximum battery charge current','A',1.),
+            ('maximum_discharge_A','Maximum battery discharge magnitude','A',1.),
+            ('sop_discharge_ceiling_A','Rint SOP discharge ceiling','A',1.),
+            ('mock_psu_contribution_A','PSU bias (imposed MOCK contribution)','A',1.),
+            ('eload_min_A','Mock eLoad capability minimum','A',1.),
+            ('eload_max_A','Mock eLoad capability maximum','A',1.),
+            ('experiment_scale','TORCS-to-cell experiment scale','multiplier',1.))
+
+    def __init__(self, seed):
+        self.result=None;self.callback_error=None
+        self.seed=seed.audit['requested']
+        self.root=tk.Tk();self.root.title('APS380 Dashboard — Mock Experiment Setup')
+        self.root.protocol('WM_DELETE_WINDOW',self.cancel)
+        def failed(kind,error,traceback):
+            self.callback_error=error;self.root.quit()
+        self.root.report_callback_exception=failed
+        frame=ttk.Frame(self.root,padding=16);frame.pack(fill='both',expand=True)
+        ttk.Label(frame,text='MOCK ONLY — no hardware access',font=('Segoe UI',14,'bold')).grid(row=0,column=0,columnspan=3,sticky='w')
+        ttk.Label(frame,text='Configure before startup. Start leaves instruments DISARMED; settings then lock.').grid(row=1,column=0,columnspan=3,sticky='w',pady=(4,12))
+        self.values={};self.entries=[]
+        from mock_test_config import MOCK_CAPABILITIES
+        self.capability_names={v['label']:k for k,v in MOCK_CAPABILITIES.items()}
+        self.capability=tk.StringVar(value=MOCK_CAPABILITIES[self.seed.get('mock_capability','prototype')]['label'])
+        ttk.Label(frame,text='Selected mock capability').grid(row=2,column=0,sticky='w')
+        self.capability_picker=ttk.Combobox(frame,textvariable=self.capability,values=list(self.capability_names),state='readonly',width=40)
+        self.capability_picker.grid(row=2,column=1,columnspan=2,sticky='w',padx=10)
+        for row,(key,label,unit,factor) in enumerate(self.FIELDS,3):
+            ttk.Label(frame,text=label).grid(row=row,column=0,sticky='w',pady=3)
+            value=tk.StringVar(value=format(self.seed[key]*factor,'.12g'));self.values[key]=value
+            entry=ttk.Entry(frame,textvariable=value,width=18);entry.grid(row=row,column=1,padx=10)
+            self.entries.append(entry);ttk.Label(frame,text=unit).grid(row=row,column=2,sticky='w')
+        self.required_range=tk.StringVar();self.capability_range=tk.StringVar();self.range_status=tk.StringVar()
+        ttk.Label(frame,textvariable=self.required_range,wraplength=650).grid(row=11,column=0,columnspan=3,sticky='w',pady=(10,2))
+        ttk.Label(frame,textvariable=self.capability_range,wraplength=650).grid(row=12,column=0,columnspan=3,sticky='w',pady=2)
+        ttk.Label(frame,textvariable=self.range_status,wraplength=650).grid(row=13,column=0,columnspan=3,sticky='w',pady=2)
+        self.message=tk.StringVar();self.preview=tk.StringVar()
+        ttk.Label(frame,textvariable=self.message,wraplength=650,foreground='#b42318').grid(row=14,column=0,columnspan=3,sticky='w',pady=6)
+        ttk.Label(frame,textvariable=self.preview,wraplength=650).grid(row=15,column=0,columnspan=3,sticky='w',pady=6)
+        actions=ttk.Frame(frame);actions.grid(row=16,column=0,columnspan=3,sticky='e',pady=8)
+        self.validate_button=ttk.Button(actions,text='Validate settings',command=self.validate);self.validate_button.pack(side='left',padx=4)
+        self.start_button=ttk.Button(actions,text='Start mock session',command=self.start);self.start_button.pack(side='left',padx=4)
+        ttk.Button(actions,text='Cancel',command=self.cancel).pack(side='left',padx=4)
+        self.preview.set(self.describe(seed))
+        self.update_required_range()
+        for value in self.values.values():value.trace_add('write',self.edited)
+        self.capability.trace_add('write',self.edited)
+
+    @staticmethod
+    def describe(resolved):
+        r=resolved.audit['requested'];c=resolved.control
+        return (f"{resolved.audit['effective']['mock_capability_label']}: SOC {r['initial_soc_fraction']*100:g}%; cell targets "
+                f"-{r['maximum_discharge_A']:g} to +{r['maximum_charge_A']:g} A; SOP cap {r['sop_discharge_ceiling_A']:g} A; "
+                f"source contribution {resolved.source_A:g} A; eLoad {r['eload_min_A']:g}–{r['eload_max_A']:g} A; scale {r['experiment_scale']:g}.\n"
+                f"PSU CC limit remains {c.psu_cc_setpoint_A:g} A; actual current comes from mock readbacks. "
+                f"Slew {c.slew_rate_A_per_s:g} A/s; transition timeout {c.transition_timeout_s:g} s. "
+                'Allowed range does not force actual current; SOP, scaling and driving demand remain separate. Synthetic/unvalidated assumptions.')
+
+    def edited(self,*args):
+        self.update_required_range()
+        self.message.set('Edits are not yet validated.');self.preview.set('Use Validate settings or Start to check the current entries.')
+
+    def update_required_range(self):
+        from mock_test_config import required_eload_range
+        try:
+            current=lambda key:float(self.values[key].get())
+            span=required_eload_range(current('maximum_discharge_A'),current('maximum_charge_A'),current('mock_psu_contribution_A'))
+            low,high=span['minimum_A'],span['maximum_A']
+            self.required_range.set(f'Required steady-state eLoad range: {low:g} to {high:g} A (bias - charge, bias + discharge)')
+        except (ValueError,OverflowError):
+            self.required_range.set('Required eLoad range: unavailable; enter finite nonnegative battery currents and PSU bias.')
+            self.capability_range.set('Selected mock capability: pending valid range inputs.')
+            self.range_status.set('No settings applied.');return
+        try:
+            minimum,maximum=current('eload_min_A'),current('eload_max_A')
+            if not all(math.isfinite(v) for v in (minimum,maximum)) or not 0<=minimum<=maximum:raise ValueError()
+        except (ValueError,OverflowError):
+            self.capability_range.set('Selected mock eLoad capability: invalid minimum/maximum.')
+            self.range_status.set('No settings applied.');return
+        self.capability_range.set(f'{self.capability.get()}; configured eLoad capability: {minimum:g} to {maximum:g} A (full validation required)')
+        if low<0:self.range_status.set('INFEASIBLE: charging exceeds the imposed source contribution; an eLoad cannot supply negative current.')
+        elif low<minimum or high>maximum:self.range_status.set('INFEASIBLE: required range exceeds selected mock capability. Capability is not automatically enlarged.')
+        else:self.range_status.set('Steady-state range fits. Validate/Start still checks prototype, startup and timing restrictions.')
+
+    def validate(self):
+        from mock_test_config import resolve_mock_test_config
+        requested=dict(self.seed)
+        selected=self.capability_names.get(self.capability.get())
+        if selected!='prototype' or 'mock_capability' in requested:requested['mock_capability']=selected
+        requested['description']='Dashboard pre-run MOCK settings; synthetic initial SOC/V/T and unvalidated model assumptions.'
+        try:
+            for key,label,unit,factor in self.FIELDS:
+                try:requested[key]=float(self.values[key].get())/factor
+                except (ValueError,OverflowError):raise ValueError(label+' must be a number in '+unit)
+            resolved=resolve_mock_test_config(requested)
+        except (ValueError,TypeError,OverflowError) as error:
+            self.message.set('Cannot start: '+str(error));self.preview.set('No settings applied.');return None
+        self.message.set('Valid mock configuration. No hardware settings will be changed.')
+        self.preview.set(self.describe(resolved));return resolved
+
+    def start(self):
+        if self.result is not None:return
+        resolved=self.validate()
+        if resolved is None:return
+        self.result=resolved
+        self.capability_picker.state(['disabled'])
+        for entry in self.entries:entry.state(['disabled'])
+        self.start_button.state(['disabled']);self.validate_button.state(['disabled'])
+        self.root.quit()
+
+    def cancel(self):
+        self.result=None;self.root.quit()
+
+    def run(self):
+        try:self.root.mainloop()
+        finally:self.root.destroy()
+        if self.callback_error is not None:raise RuntimeError('Mock setup callback failed') from self.callback_error
+        return self.result
+
+
 class LiveDisplay:
     def __init__(self, receiver, finished=lambda: False, duration=500, mock_service=None, load_service=None):
         if mock_service is not None and load_service is not None:
@@ -36,6 +159,7 @@ class LiveDisplay:
         self.deadline = time.perf_counter()+duration
         self.root = tk.Tk()
         self.callback_error = None
+        self.timing_log=None;self.last_timing_log=0.;self.previous_refresh_s=None
         self.refresh_job = None
         def callback_failed(error_type, error, traceback):
             self.callback_error = error
@@ -63,6 +187,14 @@ class LiveDisplay:
         self.readouts={};self.window_s=30.;self.render_times=deque(maxlen=200)
         self._build_panels()
         control_parent=self.tabs['Safety & Logs']
+        experiment=getattr(mock_service,'experiment_config',None) if mock_service is not None else None
+        if isinstance(experiment,dict):
+            r=experiment['requested']
+            ttk.Label(control_parent,text=(f"MOCK experiment settings — locked for this session: {experiment['effective']['mock_capability_label']}; SOC initial {r['initial_soc_fraction']*100:g}%; "
+                f"cell targets -{r['maximum_discharge_A']:g}/+{r['maximum_charge_A']:g} A; SOP cap {r['sop_discharge_ceiling_A']:g} A; "
+                f"source {r['mock_psu_contribution_A']:g} A (CC limit {mock_service.config.psu_cc_setpoint_A:g} A); "
+                f"eLoad {r['eload_min_A']:g}–{r['eload_max_A']:g} A; scale {r['experiment_scale']:g}. "
+                'Synthetic/unvalidated assumptions.'),wraplength=1000).pack(anchor='w',pady=5)
         power=getattr(receiver,'power_feedback',None)
         if power is not None:
             controls=ttk.Frame(control_parent);controls.pack(fill='x',pady=3)
@@ -171,6 +303,9 @@ class LiveDisplay:
 
     def refresh(self):
         redraw_started=time.perf_counter()
+        previous_refresh=getattr(self,'previous_refresh_s',None)
+        refresh_interval=None if previous_refresh is None else redraw_started-previous_refresh
+        self.previous_refresh_s=redraw_started
         if self.mock_service is not None:
             status=self.mock_service.latest
             retained=' (readbacks retained; not live)' if status.get('measurements_retained') else ''
@@ -274,6 +409,14 @@ class LiveDisplay:
             if load is not None:self.draw_load_chart(load)
         if self.finished() or time.perf_counter()>=self.deadline or self.receiver.failed:
             self.root.quit();return
+        if getattr(self,'timing_log',None) is not None and (redraw_started-self.last_timing_log>=1 or time.perf_counter()-redraw_started>.1
+                or (refresh_interval is not None and refresh_interval>2*p.config.get('display_refresh_ms',100)/1000)):
+            self.last_timing_log=redraw_started
+            self.timing_log.write(json.dumps(dict(host_s=redraw_started,refresh_interval_s=refresh_interval,
+                refresh_duration_s=time.perf_counter()-redraw_started,telemetry=state,
+                mock_state=getattr(self.mock_service,'latest',{}).get('state'),
+                tab=self.notebook.tab(self.notebook.select(),'text')))+'\n')
+            self.timing_log.flush()
         self.refresh_job = self.root.after(max(20,int(p.config.get('display_refresh_ms',100))),self.refresh)
 
     def _set(self,key,value):
@@ -316,6 +459,8 @@ class LiveDisplay:
         self._set('cell_current','NOT CONNECTED (demand is not a measurement)')
         self._set('cell_age','No cell measurement stream')
         self._set('cell_quality',quality)
+        gaps=s.get('cell_timing',{}).get('excluded_intervals',0)
+        if gaps:self._set('cell_quality',quality+f' | MOCK SOC incomplete: {gaps} unmeasured timing gap(s) excluded')
         observer=getattr(getattr(power,'policy',None),'observer',None)
         if observer is None and bias:
             observer=getattr(getattr(self.mock_service,'cell_stream',None),'observer',None)
@@ -330,7 +475,8 @@ class LiveDisplay:
             self._set('cell_voltage',prefix+display_number(measurement.cell_voltage_V,'V')+' | MOCK imposed; not measured')
             self._set('cell_temperature',prefix+display_number(measurement.cell_temperature_C,'C','.1f')+' | MOCK imposed; not measured')
             self._set('cell_age',f'Seq {sample.sequence} | host {measurement.time_s:.3f} s | age {cell_age:.3f} s')
-            self._set('cell_quality',(observer.error or ('STALE' if stale else quality))+' | '+sample.source)
+            self._set('cell_quality',(observer.error or ('STALE' if stale else quality))+' | '+sample.source+
+                (f' | MOCK SOC incomplete: {gaps} timing gap(s) excluded' if gaps else ''))
         m=self.mock_service.latest if self.mock_service is not None else {}
         if m and not live and 'psu' in m and 'load' in m:
             stamps=[m[b]['acquired_s'] for b in ('psu','load')]
@@ -355,6 +501,7 @@ class LiveDisplay:
             ls=self.load_service.latest;controller=ls.get('state','WAITING');fault=ls.get('fault','')
             retained=' | RETAINED' if ls.get('measurements_retained') else ''
         alert=fault or s.get('cell_observer_error') or getattr(power,'error','') or p.error
+        if s.get('cell_observer_state')=='STALE':alert=alert or 'Cell measurement STALE; propulsion zero pending fresh mock acquisition'
         if s.get('vehicle_limit_state','').startswith('FAULT'):alert=alert or s['vehicle_limit_state']
         if not fresh:alert=alert or state
         self.health_label.configure(text=('ATTENTION: '+alert) if alert else
@@ -478,7 +625,12 @@ class LiveDisplay:
             traces.append((name,color,points));all_values.extend(v for _,v,_ in points if v is not None and math.isfinite(v))
         canvas.create_text(10,14,anchor='w',fill='white',text=title+' ['+unit+']')
         if not all_values:
-            canvas.create_text(w/2,h/2,fill='#cbd5e1',text='NOT CONNECTED / no valid history');return
+            m=getattr(self.mock_service,'latest',{})
+            power=getattr(self.receiver,'power_feedback',None)
+            model=power.latest if power else m.get('cell_model_state',{})
+            reason=m.get('fault') or model.get('cell_observer_error') or model.get('sop_reason')
+            message=(f"{m.get('state','UNKNOWN')} | Cell {model.get('cell_observer_state','UNAVAILABLE')}\n{reason}\nTelemetry: {self.receiver.processor.state()}" if reason else 'NOT CONNECTED / no valid history')
+            canvas.create_text(w/2,h/2,fill='#cbd5e1',text=message,width=max(100,w-40));return
         low,high=min(all_values),max(all_values);span=high-low
         pad=span*.12 if span>1e-12 else max(abs(high)*.001,.000001)
         low-=pad;high+=pad
@@ -548,8 +700,10 @@ class LiveDisplay:
 
     def run(self):
         try:
+            self.timing_log=(self.receiver.output/'dashboard_timing.jsonl').open('w',encoding='utf-8')
             self.refresh();self.root.mainloop()
         finally:
+            if self.timing_log is not None:self.timing_log.close();self.timing_log=None
             if self.refresh_job is not None:
                 self.root.after_cancel(self.refresh_job)
             self.root.destroy()

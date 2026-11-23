@@ -17,6 +17,15 @@ from torcs_live import LiveReceiver
 
 
 class DashboardTests(unittest.TestCase):
+    def test_custom_mock_effective_settings_are_read_only(self):
+        from mock_test_config import BASE,load_mock_test_config
+        service=self.prototype()
+        service.experiment_config=load_mock_test_config(BASE/'profiles/mock_test_20_percent_manual.json').audit
+        ui=self.display(mock_service=service)
+        labels=[str(w.cget('text')) for w in ui.tabs['Safety & Logs'].winfo_children() if 'text' in w.keys()]
+        self.assertTrue(any('locked for this session' in text and 'SOC initial 20%' in text for text in labels))
+        service.request.assert_not_called()
+
     @classmethod
     def setUpClass(cls):
         try:r=tk.Tk();r.withdraw();r.destroy()
@@ -82,6 +91,33 @@ class DashboardTests(unittest.TestCase):
         self.assertIn('4.074397',d.readouts['ocv'].cget('text'))
         self.assertIn('NOT CONNECTED',d.readouts['cell_voltage'].cget('text'))
         self.assertIn('held inputs',d.readouts['cell_quality'].cget('text'))
+
+    def test_empty_faulted_graph_identifies_cell_fault_with_live_telemetry(self):
+        power=self.power(True);service=self.prototype()
+        service.latest.update(state='FAULT',fault='BIAS_CELL_OBSERVER: CELL_MEASUREMENT_EXPIRED',measurements_retained=True)
+        power.latest.update(cell_observer_state='FAULT',cell_observer_error='CELL_MEASUREMENT_EXPIRED',sop_model_valid=False)
+        d=self.display(mock_service=service);canvas=d.trend_canvases['soc']
+        d._plot(canvas,[],self.now,'SOC','%')
+        text=' '.join(canvas.itemcget(i,'text') for i in canvas.find_all() if canvas.type(i)=='text')
+        self.assertIn('CELL_MEASUREMENT_EXPIRED',text)
+        self.assertIn('RECEIVING',text)
+        self.assertNotIn('NOT CONNECTED',text)
+        service.request.assert_not_called()
+
+    def test_excluded_mock_intervals_are_visible(self):
+        power=self.power(True);power.latest['cell_timing']=dict(excluded_intervals=2,excluded_time_s=.7)
+        d=self.display()
+        self.assertIn('SOC incomplete',d.readouts['cell_quality'].cget('text'))
+
+    def test_slow_refresh_interval_is_logged_even_when_redraw_is_fast(self):
+        self.power(True);d=self.display();d.finished=lambda:False
+        d.timing_log=Mock();d.last_timing_log=time.perf_counter()
+        d.previous_refresh_s=time.perf_counter()-.35
+        d.refresh()
+        import json
+        diagnostic=json.loads(d.timing_log.write.call_args.args[0])
+        self.assertGreater(diagnostic['refresh_interval_s'],.3)
+        self.assertEqual(diagnostic['telemetry'],'RECEIVING')
 
     def test_bias_independent_sensor_model_and_no_invented_propulsion_feedback(self):
         power=self.power(True);service=self.prototype()
