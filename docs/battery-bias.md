@@ -2,6 +2,66 @@
 
 ## Development deferred; unresolved adversarial review
 
+### Mock scheduling diagnostics and bounded integration pauses (November 20)
+
+The November 20 manual session `20261120_002614_556496` had a 321 ms host
+reception gap and approximately 345 ms between worker records. The telemetry
+reader latched the observer's 200 ms expiry before the worker published its fresh
+sample. The logs establish this ordering, not which OS/GUI task caused the stall.
+
+Only the Battery Bias mock observer now enables `mock_pause`. Measurement
+freshness remains 200 ms: stale values are not used for positive propulsion.
+At 200 ms the state becomes STALE, the policy sends zero availability without
+resetting the native latch, and plots exclude invalid model values. A newly
+acquired, fresh sample within the existing 500 ms maximum integration-gap bound
+may reanchor at the last counted SOC. The entire unknown interval is excluded,
+not interpolated, backfilled, or integrated as measured current. Counts and total
+excluded seconds are exposed as incomplete MOCK charge history in logs/dashboard.
+The resulting SOC/SOP is an incomplete demonstration estimate, not a continuously
+measured battery state or physical safety input.
+
+This changes the mock latching policy, not the freshness limit: a measurement
+age or acquisition gap beyond 500 ms latches FAULT even if the reader did not poll during
+the gap. Invalid/missing data still faults, and an old acquisition cannot become
+fresh merely by delayed publication. Faults still require explicit recovery.
+The original observer/source profile retains its strict 200 ms latch. Physical
+instrument limits, drivers, native expiry/reset and all hardware restrictions
+are unchanged. A whole-process pause beyond native heartbeat expiry still
+requires explicit native recovery; Python is not a real-time protection system.
+
+New diagnostics: raw sensor acquisition/receipt timestamps remain in instrument
+frames; `cell_timing` adds publication time/delay, observer update interval,
+consumption time/age and excluded intervals. `worker_timing` records cycle starts,
+intervals, scheduling lateness, control duration and publication completion.
+`telemetry/dashboard_timing.jsonl` records UI refresh intervals/durations once per
+second plus slow refreshes. No logging is performed from physical instruments.
+Empty faulted graphs identify the fault, cell validity and live telemetry state.
+
+Reproduce deterministic timing tests and actual native GUI stress with mocks:
+
+```powershell
+& .\.venv-bench\Scripts\python.exe -B -m unittest discover -s aps380_torcs_starter -p test_bias_timing.py
+& .\.venv-bench\Scripts\python.exe -B scripts/validate_bias_timing.py --output .local/bias-timing/my-stress
+& .\.venv-bench\Scripts\python.exe -B scripts/validate_bias_timing.py --soak-seconds 170 --output .local/bias-timing/my-extended-stress
+```
+
+The stress test injects 250/320 ms worker pauses, a 350 ms GUI delay, genuine
+publication loss and explicit recovery. Existing unrelated High/Medium findings
+below are not resolved by this timing correction. Do not treat short timing
+stress or excluded mock intervals as validated physical sensing behavior.
+
+Completed timing validation: 266 starter tests, 103 BK8500 fake-transport/mock
+tests, three keyboard-profile tests and 131 existing native checks passed. The
+final short TORCS/Tk test accepted 554 packets, recorded a 462 ms GUI refresh
+interval without losing acquisition, and passed publication-loss shutdown and
+explicit recovery. The extended run accepted 9,778 packets over approximately
+195.5 seconds with no missing/invalid/reordered packets; all timing/fault checks
+passed. Evidence is local under `.local/bias-timing/final-native-stress/` and
+`extended-native/`. `recorded-boundary.json` compares old and new policies against
+the original failure boundary: the next acquisition is accepted under the mock
+pause policy with 343 ms explicitly excluded and unchanged SOC. It does not
+invent post-fault samples or establish which Windows activity caused the pause.
+
 ### Opt-in SOC/SOP propulsion connection
 
 The later `--propulsion-feedback` option now connects the existing bias observer

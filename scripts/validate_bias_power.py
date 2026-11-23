@@ -19,15 +19,20 @@ import validate_keyboard as keyboard
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True)
-    output=p.parse_args().output.resolve();output.mkdir(parents=True,exist_ok=False)
+    p.add_argument('--soc-comparison',action='store_true',help='Keep 0.5 A model cap; compare initial SOC, not current caps')
+    args=p.parse_args();output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     config=json.loads((ROOT/'aps380_torcs_starter/profiles/rint_sop_live_mock_example.json').read_text())
     results={};traces={};inputs={}
     target=keyboard.RUNTIME/'drivers/aps380_keyboard_fixture/aps380_keyboard_fixture.dll'
     if target.exists():raise RuntimeError('Fixture already installed; stop rather than overwrite')
     try:
-        for name,cap in (('full',1.),('reduced',.5),('low',.2)):
+        cases=(('soc80',.5,.8),('soc40',.5,.4),('soc20',.5,.2),('near_reserve',.5,.1202),('soc10',.5,.1)) if args.soc_comparison else (
+            ('full',1.,.8),('reduced',.5,.8),('low',.2,.8))
+        for name,cap,soc in cases:
             folder=output/name;folder.mkdir();box={};model=copy.deepcopy(config)
             model['parameters']['maximum_discharge_A']=cap
+            model['mock_state']['soc_fraction']=soc
+            (folder/'mock_model.json').write_text(json.dumps(model,indent=2)+'\n')
             def service_factory(path):
                 service=BatteryBiasService(path,sop_config=model);service.psu.cv_available_A=.05
                 feedback=PowerFeedback(BiasRintPolicy(service));box.update(service=service,feedback=feedback)
@@ -59,7 +64,11 @@ def main():
             for e in events:
                 f=e['cell_sensor_frame'];current=0. if f['cell_isolated'] else f['cell_current_A']
                 if previous:
-                    integrated+=(previous[1]+current)/2*(f['acquired_s']-previous[0])/(3600*model['parameters']['capacity_Ah'])
+                    dt=f['acquired_s']-previous[0]
+                    diagnostics=e['cell_model_state'].get('cell_timing',{})
+                    if dt>diagnostics.get('freshness_s',.2) and diagnostics.get('mock_pause_policy'):
+                        assert dt<=diagnostics['gap_fault_s'] and diagnostics['excluded_intervals']>0
+                    else:integrated+=(previous[1]+current)/2*dt/(3600*model['parameters']['capacity_Ah'])
                 assert abs(integrated-e['cell_model_state']['sop_cell_soc_fraction'])<1e-12
                 previous=(f['acquired_s'],current)
             estimator=RintEstimator(RintParameters(**model['parameters']))
@@ -70,14 +79,17 @@ def main():
             results[name]=dict(cap_A=cap,matched_acks=len(ack),speed_at_8_mps=window[-1]['speed_mps'],
                 peak_motor_window_W=max(r['motor_power_W'] for r in window),
                 applied_fraction=valid[-1]['vehicle_limit_applied_fraction'],
-                initial_soc=config['mock_state']['soc_fraction'],final_soc=valid[-1]['sop_cell_soc_fraction'],
+                initial_soc=soc,final_soc=valid[-1]['sop_cell_soc_fraction'],
+                sop_range_W=[min(r['sop_max_discharge_W'] for r in valid),max(r['sop_max_discharge_W'] for r in valid)],
                 native_zero_shutdown=True,mock_shutdown=box['service'].coordinator.shutdown_verified)
             results[name]['measured_soc_sop_chain_verified']=True
             traces[name]=rows
         common=set.intersection(*(set(x) for x in inputs.values()))
-        assert len(common)>=40 and all(inputs[n][t]==inputs['full'][t] for n in inputs for t in common)
+        first=cases[0][0]
+        assert len(common)>=40 and all(inputs[n][t]==inputs[first][t] for n in inputs for t in common)
         for metric in ('speed_at_8_mps','peak_motor_window_W'):
-            assert results['full'][metric]>results['reduced'][metric]>results['low'][metric],results
+            ordered=[results[name][metric] for name,_,_ in cases]
+            assert all(a>b for a,b in zip(ordered,ordered[1:])),(metric,results)
         import matplotlib
         matplotlib.use('Agg')
         import matplotlib.pyplot as plt

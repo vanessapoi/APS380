@@ -1,6 +1,90 @@
 # APS380 — Updated Project Context for Codex
 ## Driver-in-the-Loop EV Battery Test Platform
 
+### Explicit Extended Mock capability - November 23, 2026
+
+The optional JSON/GUI capability `extended-5a` permits session-local discharge
+bounds up to 5 A and load capacity up to 6 A; charge and source remain independently
+bounded at 1 A. Omitted selection preserves all prototype presets/settings. Source
+readback feasibility and independent mock cell sensing remain authoritative.
+Slew stays 0.02 A/s. Only extended sessions derive transition timeout using the
+existing conservative budget formula (452 s for 5 A, never below baseline 182 s).
+No physical settings, timing, approvals, equations or safety checks change.
+SOP ceiling/scaling are not automatically increased. Full endpoints/reversals use
+virtual-clock plant tests; actual native driving/feedback validation is separate
+and must not be described as native driving reaching measured 5 A. See
+`../docs/extended-mock.md`. Deferred safety findings remain unresolved.
+
+### Mock setup required-load range preview - November 20, 2026
+
+The existing validator supplies the steady-state required eLoad range
+`[bias-charge_max, bias+discharge_max]`; GUI previews it separately from selected
+mock capability without overwriting capability inputs. Infeasible coverage and
+negative required current remain explicit errors. Accepted reports retain the
+derived range. At that phase, original commands/profiles and all operational
+math/checks were unchanged, and the 5 A extension was review-only. The later
+explicit extended capability above supersedes that phase-one limitation.
+See `../docs/mock-test-configuration.md` for the startup/slew/tracking review.
+
+### Optional dashboard pre-run mock setup - November 20, 2026
+
+`--mock-setup` opens a Tk form from the existing dashboard module before receiver,
+controller, session directory or TORCS initialization. It uses the same resolver
+as `--mock-test-config`; percent SOC is converted to fractional API input only.
+Start validates and locks a session snapshot; Cancel/close starts nothing. The
+existing live dashboard subsequently shows read-only effective settings under
+Safety & Logs. No mid-session reconfiguration or physical controls are added;
+hardware modes reject the option. Defaults and existing commands are unchanged.
+
+### Optional session-only mock test configuration - November 20, 2026
+
+Battery Bias accepts `--mock-test-config PATH` only in its mock CLI. A strict
+versioned allowlist resolves initial SOC, target charge/discharge bounds, SOP
+ceiling, imposed source contribution, load range and experiment scale into
+existing session-local control/model/scaling objects. The receiver and coordinator
+share current bounds; inverse SOP mapping uses the receiver's effective scaling.
+No global/profile mutation, hardware approval, model equations, safety timing or
+physical controller changes are made. Original commands remain unchanged without
+the option. The default capability permits only subsets of the prototype envelope;
+the explicit Extended Mock capability above uses its own bounded extension and
+derived transition budget. Both require complete coverage and startup validation.
+See `../docs/mock-test-configuration.md`; unresolved safety findings remain deferred.
+
+### Manual-driving Battery Bias mock source preset - November 20, 2026
+
+`--mock-preset manual-driving` selects 1.0 A imposed synthetic PSU contribution;
+the default `baseline` retains 0.2 A for source-limited/fault tests. With 0..3 A
+load range this covers configured -2..+1 A cell demand at steady state. Actual
+mock readback feasibility, isolated neutral startup, 0.02 A/s slew, freshness and
+fault checks remain unchanged. Explicit source overrides are recorded. The 20%
+SOC profile and all estimators/propulsion math remain unchanged; physical Battery
+Bias is unavailable. See `../docs/low-soc-demo.md` for the combined launch command.
+
+### Low-SOC mock demonstration - November 20, 2026
+
+The unchanged 0.5 A live Rint model is current-limited above about 12.04% SOC,
+then SOC-budget/reserve limited to zero at 12%; voltage does not bind under
+these assumptions. Separate 12.02% and 10% initial-SOC mock profiles preserve
+the default. Matched-input native comparisons verify lower motor output/speed,
+and a real-time mock AI run verifies evolving measured-current SOC -> SOP ->
+native availability without accelerated depletion. Healthy RUNNING zero-SOP
+acknowledgements now count as feedback operation in trial reporting; unavailable
+or startup-only zero does not. See `../docs/low-soc-demo.md`. No model equations,
+controls, physical driver, limits or approvals changed; all parameters remain
+unvalidated mock assumptions and deferred safety findings remain unresolved.
+
+### Battery Bias mock timing correction - November 20, 2026
+
+The mock-only bias observer separates 200 ms STALE/unavailable measurements from
+the existing 500 ms maximum-gap fault latch. STALE requests zero propulsion.
+A fresh acquisition within that bound can resume only by explicitly excluding
+the unobserved interval from SOC integration, preserving last counted SOC and
+reporting incomplete charge history. No timestamps are invented, no physical
+freshness limit or native timeout/reset is changed, and original strict observer
+workflows are unchanged. Longer/missing/invalid data still faults. Worker,
+publication/consumption and GUI timing diagnostics support future investigation.
+See `../docs/battery-bias.md`; unrelated deferred findings remain unresolved.
+
 ### Opt-in Battery Bias SOP propulsion composition
 
 `bench/bk8500/live_torcs.py --control-mode battery-bias --propulsion-feedback`

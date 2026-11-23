@@ -16,8 +16,11 @@ static int fixtureMouse(tCtrlMouseInfo *) {return 0;}
 static tfRbDrive fixtureOriginal[10];
 static void fixtureDrive(int index,tCarElt *car,tSituation *s) {
     const double t=s->currentTime;
-    const bool throttle=(t>=0. && t<2.) || (t>=6. && t<8.);
-    const bool brake=(t>=4. && t<5.) || (t>=10. && t<11.);
+    // Test-only delay allows unchanged mock neutral startup to complete.
+    const char *delay=getenv("APS380_FIXTURE_START_S");
+    const double inputTime=t-(delay ? atof(delay) : 0.);
+    const bool throttle=(inputTime>=0. && inputTime<2.) || (inputTime>=6. && inputTime<8.);
+    const bool brake=(inputTime>=4. && inputTime<5.) || (inputTime>=10. && inputTime<11.);
     tControlCmd *commands=HCtx[index-1]->CmdControl;
     if (getenv("APS380_FIXTURE_ANALOG")) {
         // Configured test-only calibration: axis +1 = released, -1 = pressed.

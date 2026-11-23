@@ -31,7 +31,7 @@ def fingerprint(folder):
             for p in Path(folder).rglob('*') if p.is_file()}
 
 
-def trial(output, enabled=True, analog=False, standalone=False, slow=False):
+def trial(output, enabled=True, analog=False, standalone=False, slow=False, duration_s=14.):
     config=ROOT/'aps380_torcs_starter/profiles/keyboard_driving.json'
     if slow:
         rates=json.loads(config.read_text());rates['throttle_rise_per_s']*=.75
@@ -85,14 +85,14 @@ def trial(output, enabled=True, analog=False, standalone=False, slow=False):
         with (output/'torcs.log').open('w') as log:
             proc=subprocess.Popen([str(RUNTIME/'wtorcs.exe'),'-r',str(profile/'race.xml')],
                 cwd=RUNTIME,env=env,stdout=log,stderr=subprocess.STDOUT)
-            deadline=time.perf_counter()+35
+            deadline=time.perf_counter()+max(35.,duration_s+20.)
             while time.perf_counter()<deadline:
                 row=receiver.processor.current
                 if row and not armed:service.request('arm');armed=True
-                if row and row['time_s']>=14:break
+                if row and row['time_s']>=duration_s:break
                 if receiver.failed or proc.poll() is not None:raise RuntimeError('Fixture/telemetry failed; inspect '+str(output))
                 time.sleep(.02)
-            else:raise RuntimeError('Fixture did not reach 14 simulation seconds')
+            else:raise RuntimeError(f'Fixture did not reach {duration_s:g} simulation seconds')
     finally:
         report=service.close();receiver.begin_shutdown()
         if proc and proc.poll() is None:proc.terminate();proc.wait(timeout=10)
